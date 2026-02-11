@@ -43,7 +43,7 @@
             if (returnUrl && returnUrl !== '/' && returnUrl !== '/index.html') {
                 try { sessionStorage.setItem('returnUrl', returnUrl); } catch (e) {}
             }
-            window.location.href = 'login.html';
+            window.location.href = '/login.html';
             return false;
         }
         return true;
