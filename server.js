@@ -18,25 +18,25 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// 健康检查：部署后可在浏览器打开 /api/health 确认接口是否正常
-app.get('/api/health', (req, res) => {
-  res.json({ ok: true, db: !!process.env.DATABASE_URL });
-});
-
-// 静态文件（HTML/CSS/JS）
-app.use(express.static(path.join(__dirname)));
-
-// API
+// API（先于静态，避免被误当文件）
 app.use('/api', authRoutes);
 app.use('/api/schools', schoolsRoutes);
 app.use('/api/plan', planRoutes);
 app.use('/api/admin', adminRoutes);
 
-// SPA 入口：根路径和 /index.html 返回 index.html
+// 首页：优先显式返回，避免部署后 404
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 app.get('/index.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// 静态文件（HTML/CSS/JS 等）
+app.use(express.static(path.join(__dirname)));
+
+// 未匹配到的路径（如前端路由）统一返回 index.html，避免出现 not found
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
