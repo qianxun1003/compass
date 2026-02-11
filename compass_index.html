@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大学コンパス | 日本留学申请综合管理平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // 樱花粉色系 - 主色调1
+                        sakura: { 
+                            50: '#fef6f9', 
+                            100: '#fee9f2', 
+                            200: '#fdd4e6', 
+                            300: '#fcb8d4', 
+                            400: '#fa8cbb', 
+                            500: '#f565a3', 
+                            600: '#e94689' 
+                        },
+                        // 天空蓝色系 - 主色调2
+                        sky: { 
+                            50: '#f0f9ff', 
+                            100: '#e0f2fe', 
+                            200: '#bae6fd', 
+                            300: '#7dd3fc', 
+                            400: '#38bdf8', 
+                            500: '#0ea5e9', 
+                            600: '#0284c7' 
+                        },
+                        // 薄荷绿 - 辅助色（仅用于成功提示）
+                        mint: { 
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a'
+                        },
+                        // 米白色 - 中性色
+                        cream: { 
+                            50: '#fefdfb', 
+                            100: '#fdfbf7', 
+                            200: '#faf7f2', 
+                            300: '#f5f0e8', 
+                            400: '#ebe3d5' 
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { 
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif; 
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+        
+        body { 
+            background: linear-gradient(135deg, 
+                #f8fbff 0%, 
+                #fef8fb 20%,
+                #f5faff 40%,
+                #fef8fb 60%,
+                #f5faff 80%,
+                #f8fbff 100%
+            );
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        @keyframes breathes {
+            0%, 100% { opacity: 0.88; }
+            50% { opacity: 1; }
+        }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-breathes { animation: breathes 5s ease-in-out infinite; }
+        .hero-title-animate {
+            animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+        }
+        .animate-slide-up { animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        
+        /* 粉蓝氧气感 - 极致透明磨砂玻璃 */
+        .glass { 
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px) saturate(130%);
+            -webkit-backdrop-filter: blur(15px) saturate(130%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 4px 24px rgba(245, 101, 163, 0.04),
+                0 2px 12px rgba(14, 165, 233, 0.03),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+        
+        .module-card {
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: visible;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px) saturate(130%);
+            -webkit-backdrop-filter: blur(15px) saturate(130%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            box-shadow: 
+                0 4px 20px rgba(245, 101, 163, 0.03),
+                0 2px 8px rgba(14, 165, 233, 0.02),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+        
+        .module-card:hover {
+            box-shadow: 
+                0 12px 40px rgba(245, 101, 163, 0.06),
+                0 8px 24px rgba(14, 165, 233, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
+        }
+        
+        .feature-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 14px;
+            font-size: 12px;
+            font-weight: 400;
+            color: #475569;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { 
+            background: rgba(254, 249, 242, 0.6); 
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(180deg, rgba(186, 230, 253, 0.6), rgba(254, 233, 242, 0.5)); 
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover { 
+            background: linear-gradient(180deg, rgba(125, 211, 252, 0.7), rgba(252, 184, 212, 0.6));
+        }
+
+        /* 磨砂玻璃按钮 - 跃然纸上 */
+        .btn-primary {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.5) 0%, 
+                rgba(255, 255, 255, 0.35) 50%,
+                rgba(255, 255, 255, 0.45) 100%
+            ) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: none;
+            color: #0284c7;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            transition: all 0.4s ease;
+            box-shadow: 
+                0 4px 24px rgba(99, 102, 241, 0.06),
+                0 2px 16px rgba(14, 165, 233, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 20px 48px rgba(99, 102, 241, 0.1),
+                0 12px 32px rgba(14, 165, 233, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        }
+        
+        .stat-number {
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: #0284c7;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+        }
+        
+        .title-backdrop {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        
+        .font-serif-title {
+            font-family: 'Noto Serif JP', 'Noto Sans JP', serif;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-sky-200/30">
+        <div class="max-w-7xl mx-auto px-8 py-5">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-[rgba(255,255,255,0.35)] backdrop-blur-sm border border-white/50 flex items-center justify-center" style="box-shadow: inset 0 1px 0 rgba(255,255,255,0.6)">
+                        <i class="fas fa-compass text-xl text-[#0284c7]"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-medium text-[#0284c7] font-serif-title" style="letter-spacing: 0.06em">大学コンパス</h1>
+                        <p class="text-xs text-slate-500 font-normal">Japanese University Compass</p>
+                    </div>
+                </div>
+                <button class="btn-primary px-6 py-2.5 rounded-2xl text-sm">
+                    ログイン
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main class="pt-32 pb-24 px-8">
+        <div class="max-w-6xl mx-auto">
+            
+            <!-- 欢迎横幅 -->
+            <div class="glass rounded-3xl p-16 mb-20 text-center relative overflow-visible">
+                <div class="relative inline-block mb-6">
+                    <div class="absolute inset-0 -m-6 rounded-2xl bg-white/20 animate-breathes title-backdrop"></div>
+                    <h2 class="relative text-4xl md:text-5xl font-medium text-[#0284c7] leading-tight px-6 py-3 font-serif-title hero-title-animate" style="letter-spacing: 0.08em">
+                        大学コンパスへようこそ <span class="inline-block ml-1">☁️</span>
+                    </h2>
+                </div>
+                <p class="text-base text-slate-500 font-medium mb-14 max-w-xl mx-auto animate-slide-up" style="animation-delay: 0.2s">
+                    日本大学申請管理プラットフォーム
+                </p>
+                
+                <!-- 数据统计 -->
+                <div class="grid grid-cols-2 gap-8 max-w-md mx-auto">
+                    <div class="glass rounded-2xl p-8 border border-white/50">
+                        <div class="stat-number text-4xl mb-1">160+</div>
+                        <div class="text-slate-500 font-normal text-sm">収録大学</div>
+                    </div>
+                    <div class="glass rounded-2xl p-8 border border-white/50">
+                        <div class="stat-number text-4xl mb-1">3031</div>
+                        <div class="text-slate-500 font-normal text-sm">学部データ</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 核心機能：新しいレイアウト -->
+            <div class="mb-20">
+                
+                <!-- 出願センター：最上部の長いボタン -->
+                <a href="compass_application.html" class="module-card glass p-12 block mb-8">
+                    <span class="block text-4xl mb-4 animate-float" style="animation-delay: 1s">📅</span>
+                    <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">出願センター</h3>
+                    <p class="text-slate-500 font-normal text-sm mb-6 leading-relaxed">
+                        タイムライン可視化で申請進捗を管理
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="feature-badge">タイムライン生成</span>
+                        <span class="feature-badge">書類リスト追跡</span>
+                    </div>
+                    <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">
+                        管理開始
+                    </span>
+                </a>
+
+                <!-- 三つの矢印：出願センターの下、検索ボタンの上 - 三つのボタンから出願センター底部に分散指向 -->
+                <div class="relative mb-6" style="height: 80px;">
+                    <svg class="absolute inset-0 w-full h-full" style="pointer-events: none; overflow: visible;">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto" markerUnits="strokeWidth">
+                                <polygon points="0 0, 8 4, 0 8" fill="rgba(14, 165, 233, 0.25)" />
+                            </marker>
+                        </defs>
+                        <!-- 左側の矢印：左ボタン中心から出願センター底部左側へ -->
+                        <line x1="16.66%" y1="100%" x2="35%" y2="0%" 
+                              stroke="rgba(14, 165, 233, 0.25)" 
+                              stroke-width="1.5" 
+                              marker-end="url(#arrowhead)"/>
+                        <!-- 中央の矢印：中央ボタン中心から出願センター底部中心へ -->
+                        <line x1="50%" y1="100%" x2="50%" y2="0%" 
+                              stroke="rgba(14, 165, 233, 0.25)" 
+                              stroke-width="1.5" 
+                              marker-end="url(#arrowhead)"/>
+                        <!-- 右側の矢印：右ボタン中心から出願センター底部右側へ -->
+                        <line x1="83.34%" y1="100%" x2="65%" y2="0%" 
+                              stroke="rgba(14, 165, 233, 0.25)" 
+                              stroke-width="1.5" 
+                              marker-end="url(#arrowhead)"/>
+                    </svg>
+                </div>
+
+                <!-- 三つの検索ボタン：横並び、各1/3幅 -->
+                <div class="grid grid-cols-3 gap-6 mb-12">
+                    <!-- 条件検索 -->
+                    <a href="compass_filter.html" class="module-card glass p-12 block">
+                        <span class="block text-4xl mb-4 animate-float">🔍</span>
+                        <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">条件検索</h3>
+                        <p class="text-slate-500 font-normal text-sm mb-6 leading-relaxed">
+                            地域・学費・入学条件で多次元フィルタリング
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="feature-badge">地域・都市選択</span>
+                            <span class="feature-badge">入学要件マッチング</span>
+                        </div>
+                        <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">
+                            検索を始める
+                        </span>
+                    </a>
+
+                    <!-- クイック検索 -->
+                    <a href="compass_search.html" class="module-card glass p-12 block">
+                        <span class="block text-4xl mb-4 animate-float" style="animation-delay: 1.5s">🔎</span>
+                        <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">クイック検索</h3>
+                        <p class="text-slate-500 font-normal text-sm mb-6 leading-relaxed">
+                            キーワードを入力して目標大学を瞬時に検索
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="feature-badge">キーワード検索</span>
+                            <span class="feature-badge">精密マッチング</span>
+                        </div>
+                        <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">
+                            検索開始
+                        </span>
+                    </a>
+
+                    <!-- 成績評価 -->
+                    <a href="compass_score.html" class="module-card glass p-12 block">
+                        <span class="block text-4xl mb-4 animate-float" style="animation-delay: 0.5s">📊</span>
+                        <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">成績評価</h3>
+                        <p class="text-slate-500 font-normal text-sm mb-6 leading-relaxed">
+                            成績を入力して最適な大学をマッチング
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="feature-badge">EJU成績分析</span>
+                            <span class="feature-badge">TOEFL・TOEIC評価</span>
+                            <span class="feature-badge">AI大学推薦</span>
+                        </div>
+                        <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">
+                            成績評価
+                        </span>
+                    </a>
+                </div>
+
+                <!-- データ分析とAI升学助理：各1/2幅 -->
+                <div class="grid grid-cols-2 gap-10">
+                    <!-- データ分析 -->
+                    <a href="compass_analytics.html" class="module-card glass p-12 block">
+                        <span class="block text-4xl mb-4 animate-float" style="animation-delay: 2s">📊</span>
+                        <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">データ分析</h3>
+                        <p class="text-slate-500 font-normal text-sm mb-6">
+                            可視化グラフで合格傾向を把握
+                        </p>
+                        <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">
+                            データ表示
+                        </span>
+                    </a>
+
+                    <!-- AI 升学助理 -->
+                    <a href="onboarding.html" class="module-card glass p-12 block">
+                        <span class="block text-4xl mb-4 animate-float">✨</span>
+                        <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">AI 升学助理</h3>
+                        <p class="text-slate-500 font-normal text-sm mb-6 leading-relaxed">
+                            回答几个问题，智能定制出愿计划
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="feature-badge">对话式引导</span>
+                            <span class="feature-badge">成績マッチング</span>
+                            <span class="feature-badge">推薦校追加</span>
+                        </div>
+                        <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">
+                            开始引导
+                        </span>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- 底部信息 -->
+            <div class="text-center text-slate-400 text-sm font-normal pt-8">
+                <p>データ更新: 2025年2月 | バージョン: v2.0</p>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

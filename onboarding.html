@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留学规划时间轴 | 大学コンパス</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { 
+            font-family: 'Noto Sans JP', -apple-system, sans-serif; 
+            font-weight: 400;
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            background: linear-gradient(135deg,
+                #f8fbff 0%, #fef8fb 20%, #f5faff 40%,
+                #fef8fb 60%, #f5faff 80%, #f8fbff 100%
+            );
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 12px 24px 24px;
+        }
+
+        /* 呼吸灯效果 - AI 角色 */
+        @keyframes breathe {
+            0%, 100% { opacity: 0.7; transform: scale(1); box-shadow: 0 0 40px rgba(245, 101, 163, 0.15), 0 0 80px rgba(14, 165, 233, 0.08); }
+            50% { opacity: 1; transform: scale(1.02); box-shadow: 0 0 60px rgba(245, 101, 163, 0.25), 0 0 120px rgba(14, 165, 233, 0.12); }
+        }
+        .ai-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(254, 233, 242, 0.6) 40%, rgba(186, 230, 253, 0.4) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-bottom: 12px;
+            animation: breathe 4s ease-in-out infinite;
+            position: relative;
+        }
+
+        /* 磨砂玻璃对话框 */
+        .dialog-glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(245, 101, 163, 0.06), 0 4px 16px rgba(14, 165, 233, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        /* 打字机效果 */
+        .typewriter-cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+            color: #0284c7;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* 输入框样式 */
+        .text-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            background: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+            font-weight: 400;
+            color: #334155;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .text-input:focus {
+            border-color: rgba(14, 165, 233, 0.5);
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+        .text-input::placeholder {
+            color: #94a3b8;
+        }
+
+        /* 选项按钮样式 */
+        .option-btn {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            background: rgba(255, 255, 255, 0.6);
+            font-size: 15px;
+            font-weight: 400;
+            color: #334155;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            outline: none;
+            text-align: center;
+            min-width: 120px;
+        }
+        .option-btn:hover {
+            background: rgba(14, 165, 233, 0.1);
+            border-color: rgba(14, 165, 233, 0.4);
+            transform: translateY(-1px);
+        }
+        .option-btn:active {
+            transform: translateY(0);
+        }
+        .option-btn.selected {
+            background: #0ea5e9 !important;
+            border-color: #0284c7 !important;
+            color: white !important;
+        }
+        .option-btn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        /* 数字输入组合 */
+        .number-input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .number-input {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 15px;
+            width: 100px;
+            text-align: center;
+            outline: none;
+        }
+        .number-input:focus {
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+        .day-input {
+            width: 52px;
+            padding: 6px 8px;
+            font-size: 13px;
+            opacity: 0.85;
+        }
+        .btn-with-input {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            background: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-with-input:hover {
+            background: rgba(14, 165, 233, 0.1);
+            border-color: rgba(14, 165, 233, 0.4);
+        }
+        .btn-with-input .input-placeholder {
+            min-width: 50px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px dashed rgba(14, 165, 233, 0.3);
+            color: #0284c7;
+            font-weight: 500;
+        }
+
+        /* 跳过按钮 */
+        .skip-btn {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-color: transparent;
+            transition: all 0.2s ease;
+        }
+        .skip-btn:hover {
+            color: #64748b;
+            text-decoration-color: #64748b;
+        }
+
+        /* 导航按钮 */
+        .nav-btn { 
+            cursor: pointer; 
+            pointer-events: auto;
+            user-select: none;
+            font-weight: 400;
+        }
+        .nav-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* 磨砂玻璃导航按钮 */
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .nav-glass:disabled, .nav-glass.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+            background: rgba(255, 255, 255, 0.2) !important;
+        }
+        .nav-glass.active {
+            background: rgba(14, 165, 233, 0.4);
+            border-color: rgba(14, 165, 233, 0.5);
+        }
+        .nav-glass:not(:disabled):not(.disabled) {
+            background: rgba(14, 165, 233, 0.35) !important;
+            border-color: rgba(14, 165, 233, 0.5) !important;
+            color: white !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+        .nav-glass:not(:disabled):not(.disabled):hover {
+            background: rgba(14, 165, 233, 0.5) !important;
+            border-color: rgba(14, 165, 233, 0.7) !important;
+        }
+
+        /* 时间轴表格 - 书卷风格 */
+        #timeline-section {
+            font-family: 'Noto Serif SC', 'Noto Sans JP', serif;
+            font-weight: 400;
+        }
+        .timeline-table {
+            font-size: 14px;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .timeline-cell {
+            min-width: 5.5rem;
+            width: 5.5rem;
+            max-width: 5.5rem;
+            border: 1px solid rgba(203, 213, 225, 0.7);
+            padding: 12px 10px;
+            font-size: 13px;
+            vertical-align: top;
+            text-align: center;
+            background: rgba(248, 250, 252, 0.6);
+            word-break: break-word;
+            line-height: 1.6;
+            position: relative;
+        }
+        .timeline-cell.editable {
+            cursor: pointer;
+        }
+        .timeline-cell.editable:hover {
+            background: rgba(14, 165, 233, 0.15) !important;
+            border-color: rgba(14, 165, 233, 0.5) !important;
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2);
+        }
+        .timeline-cell input {
+            width: 100%;
+            border: 2px solid rgba(14, 165, 233, 0.5);
+            background: white;
+            text-align: center;
+            font-size: 13px;
+            padding: 4px;
+            outline: none;
+            border-radius: 4px;
+        }
+        .timeline-cell.has-event {
+            background: rgba(241, 245, 249, 0.9);
+            color: #475569;
+            font-weight: 500;
+        }
+        .timeline-cell.has-event.arrival-highlight {
+            background: rgba(254, 243, 199, 0.7);
+            border-left: 3px solid #d97706;
+            color: #92400e;
+        }
+        .timeline-cell.has-event.exam-main {
+            background: rgba(224, 242, 254, 0.8);
+            border-left: 2px solid #0369a1;
+            color: #0c4a6e;
+        }
+        .timeline-cell.has-event.exam-prep {
+            background: rgba(224, 242, 254, 0.5);
+            color: #0369a1;
+            font-size: 11px;
+        }
+        .timeline-cell.has-event.prep-minor {
+            background: rgba(254, 243, 199, 0.5);
+            color: #92400e;
+            font-size: 11px;
+        }
+        .timeline-cell.has-event.life-node {
+            background: rgba(237, 233, 254, 0.7);
+            border-left: 2px solid #6d28d9;
+            color: #5b21b6;
+        }
+        .timeline-cell.has-event.application {
+            background: rgba(254, 226, 226, 0.6);
+            color: #991b1b;
+            border-left: 3px solid #dc2626;
+        }
+        .timeline-cell.application-sub-cell {
+            padding: 4px 6px;
+            font-size: 11px;
+            min-height: 24px;
+            line-height: 1.4;
+            border-top: 1px solid rgba(203, 213, 225, 0.5);
+        }
+        .timeline-cell.application-sub-cell.has-event {
+            background: rgba(254, 226, 226, 0.5);
+            color: #991b1b;
+            font-weight: 500;
+            border-left: 2px solid #dc2626;
+        }
+        .timeline-cell {
+            border-right: 1px dashed rgba(200, 200, 200, 0.4);
+        }
+        .timeline-table th.sticky {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            background: rgba(248, 250, 252, 0.98);
+            backdrop-filter: blur(10px);
+        }
+        .timeline-table td.sticky {
+            position: sticky;
+            left: 0;
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+        }
+        .timeline-row-label {
+            font-weight: 500;
+            color: #334155;
+        }
+
+        /* 确认气泡 */
+        .confirm-bubble {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 20px 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* 淡出转场 */
+        @keyframes fadeOut {
+            to { opacity: 0; transform: scale(0.98); }
+        }
+        .fade-out { animation: fadeOut 0.8s ease-out forwards; }
+
+        /* 打字中动画 */
+        @keyframes typingDots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        .typing-indicator::after {
+            content: '...';
+            animation: typingDots 1.4s steps(1) infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="onboarding-root" class="w-full max-w-6xl relative">
+        <a href="compass_index.html" class="absolute top-0 right-0 text-sm text-slate-400 hover:text-slate-600 transition-colors">
+            <i class="fas fa-home mr-1"></i>ホームへ
+        </a>
+        
+        <!-- AI 角色 -->
+        <div class="flex flex-col items-center mb-8">
+            <div class="ai-avatar">
+                <span role="img" aria-label="AI assistant">✨</span>
+            </div>
+        </div>
+
+        <!-- 主对话区 -->
+        <div class="dialog-glass p-5 mb-3" style="max-height: 55vh; overflow-y: auto; min-height: 220px;">
+            <div id="message-area" class="min-h-[60px] mb-3">
+                <p id="ai-message" class="text-slate-600 text-sm leading-relaxed"></p>
+            </div>
+            <div id="input-area"></div>
+            
+            <!-- 导航按钮 -->
+            <div class="flex gap-3 mt-6 pt-4 border-t border-slate-200/40 items-center justify-end">
+                <button type="button" id="btn-prev" class="nav-btn nav-glass px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-white/50 transition-all">
+                    <i class="fas fa-chevron-left mr-1.5"></i>← 戻る
+                </button>
+                <button type="button" id="btn-next" class="nav-btn nav-glass px-4 py-2 rounded-xl text-sm font-medium transition-all" disabled>
+                    <i class="fas fa-chevron-right mr-1.5"></i>次へ →
+                </button>
+            </div>
+        </div>
+
+        <!-- 动态时间轴表格 -->
+        <div class="dialog-glass p-6" id="timeline-section" style="display: none;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-medium text-slate-700 tracking-wide" style="font-family: 'Noto Serif SC', serif;">留学规划时间轴</h3>
+                <div class="flex gap-2">
+                    <button type="button" onclick="enableTimelineEdit()" class="px-4 py-2 rounded-lg text-sm bg-blue-500 hover:bg-blue-600 text-white transition-all" id="edit-timeline-btn">
+                        <i class="fas fa-edit mr-1.5"></i>编辑
+                    </button>
+                    <button type="button" onclick="saveTimelineData()" class="px-4 py-2 rounded-lg text-sm bg-emerald-500 hover:bg-emerald-600 text-white transition-all">
+                        <i class="fas fa-save mr-1.5"></i>保存数据
+                    </button>
+                </div>
+            </div>
+            <div class="overflow-x-auto -mx-2" style="max-height: 70vh; overflow-y: auto;">
+                <table class="w-full border-collapse timeline-table" id="timeline-table">
+                    <thead id="timeline-thead"></thead>
+                    <tbody id="timeline-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 确认气泡 -->
+    <div id="confirm-bubble" class="confirm-bubble" style="display: none;">
+        <p class="text-slate-700 mb-4">是否将已选大学的出愿时间也添加至此表？</p>
+        <div class="flex gap-3 justify-end">
+            <button id="btn-confirm-no" class="px-4 py-2 rounded-lg text-sm border border-slate-300 text-slate-600 hover:bg-slate-50 transition-all">
+                否
+            </button>
+            <button id="btn-confirm-yes" class="px-4 py-2 rounded-lg text-sm bg-sky-500 text-white hover:bg-sky-600 transition-all">
+                是
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'myApplicationPlan';
+        const ONBOARDING_KEY = 'onboardingTimelineData';
+
+        // 对话步骤定义
+        const STEPS = {
+            WELCOME: 0,
+            ENROLLMENT_TARGET: 1,      // 入学年月
+            JAPAN_STATUS: 2,           // 赴日时间/在日状态
+            LIFE_PREPARATION: 3,       // 生活准备（找房、签证等）
+            LIFE_PREPARATION_TIME: 4,  // 生活准备时间安排
+            EJU_PLANNING: 5,           // EJU规划
+            JLPT_PLANNING: 6,          // JLPT规划
+            TOEFL_PLANNING: 7,         // 托福规划
+            CONFIRM: 8                 // 确认并生成时间轴
+        };
+
+        // 状态管理
+        let state = {
+            stage: STEPS.WELCOME,
+            enrollmentYear: null,       // 入学年份
+            enrollmentMonth: null,      // 入学月份（4或10等）
+            timelineMonths: 0,          // 时间轴总月数
+            japanStatus: null,
+            arrivalDate: null,          // 赴日日期 {year, month, day?}
+            lifeEvents: [],             // [{type, year, month, day?, description}]
+            selectedLifeEvents: [],
+            ejuScores: [],
+            jlptScores: [],
+            toeflScores: [],
+            includeApplications: false
+        };
+
+        // 对话消息
+        const messages = {
+            [STEPS.WELCOME]: 'こんにちは！我是你的 AI 留学规划助理。让我帮你制定一份完整的留学规划时间轴吧！✨',
+            [STEPS.ENROLLMENT_TARGET]: '首先，请告诉我：你打算哪年哪月入学？（例如：2027年4月或2026年10月）',
+            [STEPS.JAPAN_STATUS]: getJapanStatusMessage,
+            [STEPS.LIFE_PREPARATION]: getLifePreparationMessage,
+            [STEPS.LIFE_PREPARATION_TIME]: getLifePreparationTimeMessage,
+            [STEPS.EJU_PLANNING]: getEJUPlanningMessage,
+            [STEPS.JLPT_PLANNING]: getJLPTPlanningMessage,
+            [STEPS.TOEFL_PLANNING]: '关于托福考试：你是否有成绩？如果没有，请告诉我计划参加考试的月份。（例如：已有成绩95分，或计划2025年3月考试）',
+            [STEPS.CONFIRM]: '太好了！我已经收集到所有信息。正在为你生成时间轴...'
+        };
+
+        // 动态消息生成函数
+        function getLifePreparationTimeMessage() {
+            if (state.selectedLifeEvents && state.selectedLifeEvents.length > 0) {
+                return '请为所选事项填写计划时间：';
+            }
+            return '请选择时间。';
+        }
+
+        function getJapanStatusMessage() {
+            if (state.enrollmentYear && state.enrollmentMonth) {
+                return `既然你计划${state.enrollmentYear}年${state.enrollmentMonth}月入学，请告诉我你的赴日时间或在日状态。（例如：计划2025年4月赴日，或已到日本）`;
+            }
+            return '请告诉我你的赴日时间或在日状态。（例如：计划2025年4月赴日，或已到日本）';
+        }
+
+        function getLifePreparationMessage() {
+            if (state.arrivalDate) {
+                const arrival = state.arrivalDate;
+                return `既然你计划${arrival.year}年${arrival.month}月赴日，在此之前你是否需要安排以下事项？可多选。`;
+            }
+            return '除了考试和学业，你是否需要安排以下事项？可多选。';
+        }
+
+        function getEJUPlanningMessage() {
+            if (state.enrollmentYear) {
+                return `关于 EJU 考试：你是否有成绩？如果没有，请告诉我计划参加哪几次考试（6月或11月）。（例如：已有成绩330分，或计划2025年6月和11月各考一次）`;
+            }
+            return '关于 EJU 考试：你是否有成绩？如果没有，请告诉我计划参加6月还是11月的考试。（例如：已有成绩330分，或计划2025年6月考试）';
+        }
+
+        function getJLPTPlanningMessage() {
+            return '关于 JLPT 考试：是否计划参加考试？如计划考试，请选择等级和考试时间；否则可选择「暂时没有这个想法」。';
+        }
+
+        // 解析入学年月
+        function parseEnrollmentTarget(text) {
+            const match = text.match(/(\d{4})\s*年?\s*(\d{1,2})\s*月/);
+            if (match) {
+                const month = parseInt(match[2]);
+                if (month >= 1 && month <= 12) {
+                    return { year: parseInt(match[1]), month };
+                }
+            }
+            const yearMatch = text.match(/(\d{4})\s*年/);
+            if (yearMatch) {
+                return { year: parseInt(yearMatch[1]), month: 4 };
+            }
+            return { year: null, month: 4 };
+        }
+
+        // 解析日期
+        function parseDate(text) {
+            if (!text) return null;
+            
+            // 匹配 YYYY年MM月 格式
+            const match = text.match(/(\d{4})\s*年?\s*(\d{1,2})\s*月/);
+            if (match) {
+                const month = parseInt(match[2]);
+                if (month >= 1 && month <= 12) {
+                    return {
+                        year: parseInt(match[1]),
+                        month: month
+                    };
+                }
+            }
+            
+            // 匹配 YYYY-MM 或 YYYY/MM 格式
+            const match2 = text.match(/(\d{4})\s*[-/]\s*(\d{1,2})/);
+            if (match2) {
+                const month = parseInt(match2[2]);
+                if (month >= 1 && month <= 12) {
+                    return {
+                        year: parseInt(match2[1]),
+                        month: month
+                    };
+                }
+            }
+            
+            // 匹配中文月份：2025年四月、2025年4月等
+            const chineseMonths = { '一': 1, '二': 2, '三': 3, '四': 4, '五': 5, '六': 6, 
+                                   '七': 7, '八': 8, '九': 9, '十': 10, '十一': 11, '十二': 12 };
+            const match3 = text.match(/(\d{4})\s*年\s*([一二三四五六七八九十]+)\s*月/);
+            if (match3) {
+                const chineseMonth = match3[2];
+                const month = chineseMonths[chineseMonth];
+                if (month) {
+                    return {
+                        year: parseInt(match3[1]),
+                        month: month
+                    };
+                }
+            }
+            
+            return null;
+        }
+
+        // 解析EJU信息
+        function parseEJU(text) {
+            if (!text) return null;
+            
+            const scoreMatch = text.match(/(\d{2,3})\s*分/);
+            const score = scoreMatch ? parseInt(scoreMatch[1]) : null;
+            const date = parseDate(text);
+            const isJune = /6\s*月|六月|6月/.test(text);
+            const isNov = /11\s*月|十一月|11月/.test(text);
+            
+            // 如果有日期，优先使用日期
+            if (date) {
+                return { type: score ? 'score' : 'plan', score, year: date.year, month: date.month };
+            }
+            
+            // 如果没有日期但有月份关键词
+            if (isJune || isNov) {
+                const currentYear = new Date().getFullYear();
+                const currentMonth = new Date().getMonth() + 1;
+                let targetYear = currentYear;
+                let targetMonth = isJune ? 6 : 11;
+                
+                // 如果目标月份已过，则推到来年
+                if (targetMonth < currentMonth) {
+                    targetYear = currentYear + 1;
+                }
+                
+                return { type: score ? 'score' : 'plan', score, year: targetYear, month: targetMonth };
+            }
+            
+            // 如果只有分数没有日期
+            if (score && score >= 100 && score <= 450) {
+                return { type: 'score', score, year: null, month: null };
+            }
+            
+            return null;
+        }
+
+        // 解析JLPT信息
+        function parseJLPT(text) {
+            if (!text) return null;
+            
+            const levelMatch = text.match(/[Nn]?([12])/);
+            const level = levelMatch ? 'N' + levelMatch[1] : null;
+            const date = parseDate(text);
+            const isJuly = /7\s*月|七月|7月/.test(text);
+            const isDec = /12\s*月|十二月|12月/.test(text);
+            
+            // 如果有日期，优先使用日期
+            if (date) {
+                return { type: level ? 'score' : 'plan', level, year: date.year, month: date.month };
+            }
+            
+            // 如果没有日期但有月份关键词
+            if (isJuly || isDec) {
+                const currentYear = new Date().getFullYear();
+                const currentMonth = new Date().getMonth() + 1;
+                let targetYear = currentYear;
+                let targetMonth = isJuly ? 7 : 12;
+                
+                // 如果目标月份已过，则推到来年
+                if (targetMonth < currentMonth) {
+                    targetYear = currentYear + 1;
+                }
+                
+                return { type: level ? 'score' : 'plan', level, year: targetYear, month: targetMonth };
+            }
+            
+            // 如果只有级别没有日期
+            if (level) {
+                return { type: 'score', level, year: null, month: null };
+            }
+            
+            return null;
+        }
+
+        // 解析托福信息
+        function parseTOEFL(text) {
+            if (!text) return null;
+            
+            const scoreMatch = text.match(/(\d{2,3})\s*分/);
+            const score = scoreMatch ? parseInt(scoreMatch[1]) : null;
+            const date = parseDate(text);
+            
+            // 如果有日期，优先使用日期
+            if (date) {
+                return { type: score ? 'score' : 'plan', score, year: date.year, month: date.month };
+            }
+            
+            // 如果只有分数没有日期
+            if (score && score >= 40 && score <= 120) {
+                return { type: 'score', score, year: null, month: null };
+            }
+            
+            return null;
+        }
+
+        // 计算时间轴月数（根据入学年月自动推算）
+        function calculateTimelineMonths(enrollmentYear, enrollmentMonth) {
+            if (!enrollmentYear || !enrollmentMonth) return 12;
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth() + 1;
+            const monthsUntilEnrollment = (enrollmentYear - currentYear) * 12 + (enrollmentMonth - currentMonth);
+            return Math.max(monthsUntilEnrollment + 12, 12); // 入学后保留12个月
+        }
+
+        // 生成时间轴表格
+        function generateTimelineTable() {
+            const thead = document.getElementById('timeline-thead');
+            const tbody = document.getElementById('timeline-tbody');
+            if (!thead || !tbody) return;
+
+            const months = state.timelineMonths;
+            if (months === 0) return;
+
+            // 计算起始年月
+            const now = new Date();
+            const startYear = now.getFullYear();
+            const startMonth = now.getMonth() + 1;
+
+            // 生成表头
+            let headerHTML = '<tr><th class="border border-slate-200/60 px-2 py-1.5 bg-slate-50/80 text-left font-medium text-slate-600 w-20 sticky left-0 z-10">类别</th><th class="border border-slate-200/60 px-2 py-1.5 bg-slate-50/80 text-left font-medium text-slate-600 sticky left-[150px] z-10" style="min-width: 80px; max-width: 80px;">子类别</th>';
+            let yearRowHTML = '<tr><th class="border border-slate-200/60 px-2 py-1 bg-slate-50/80 text-left font-medium text-slate-500 sticky left-0 z-10"></th><th class="border border-slate-200/60 px-2 py-1 bg-slate-50/80 text-left font-medium text-slate-500 sticky left-[150px] z-10"></th>';
+            
+            let currentYear = startYear;
+            let currentMonth = startMonth;
+            const yearSpans = {};
+            let yearStartCol = 2; // 从2开始，因为前面有2列（类别、子类别）
+
+            for (let i = 0; i < months; i++) {
+                headerHTML += `<th class="border border-slate-200/60 px-3 py-3 bg-slate-50/80 text-center font-semibold text-slate-700 min-w-[5.5rem]">${currentMonth}</th>`;
+                
+                if (!yearSpans[currentYear]) {
+                    yearSpans[currentYear] = { start: yearStartCol, count: 0 };
+                }
+                yearSpans[currentYear].count++;
+                
+                currentMonth++;
+                if (currentMonth > 12) {
+                    currentMonth = 1;
+                    currentYear++;
+                }
+            }
+
+            headerHTML += '</tr>';
+            
+            // 生成年份行
+            Object.keys(yearSpans).forEach(year => {
+                const span = yearSpans[year];
+                yearRowHTML += `<th colspan="${span.count}" class="border border-slate-200/60 px-2 py-1.5 bg-slate-100/80 text-center text-slate-600 font-medium">${year}</th>`;
+            });
+            yearRowHTML += '</tr>';
+
+            thead.innerHTML = headerHTML + yearRowHTML;
+
+            // 生成表体
+            const rows = [
+                { id: 'education', label: '校内/学历衔接' },
+                { id: 'standard-exams', label: 'EJU/JLPT/托福' },
+                { id: 'life-events', label: '生活/手续' },
+                { id: 'applications', label: '出愿时间轴', subRows: [
+                    { id: 'application-mail-start', label: '出愿开始' },
+                    { id: 'application-mail-end', label: '出愿截止' },
+                    { id: 'application-post-start', label: '邮寄开始' },
+                    { id: 'application-post-end', label: '邮寄截止' },
+                    { id: 'application-exam1', label: '校内考一' },
+                    { id: 'application-exam2', label: '校内考二' },
+                    { id: 'application-result', label: '放榜' }
+                ]}
+            ];
+
+            let tbodyHTML = '';
+            rows.forEach(row => {
+                if (row.subRows && row.subRows.length > 0) {
+                    // 出愿行：生成多个子行，每个子行有自己的标签
+                    row.subRows.forEach((subRow, subIndex) => {
+                        tbodyHTML += `<tr data-row="${subRow.id}" data-parent-row="${row.id}">`;
+                        if (subIndex === 0) {
+                            // 第一行显示主标签，并设置rowspan
+                            tbodyHTML += `<td class="border border-slate-200/40 px-4 py-3 timeline-row-label bg-white/80 sticky left-0 z-10 min-w-[150px] text-base" rowspan="${row.subRows.length}" style="vertical-align: top;">${row.label}</td>`;
+                        }
+                        // 为每个子行添加标签列
+                        tbodyHTML += `<td class="border border-slate-200/40 px-2 py-1.5 bg-white/60 sticky left-[150px] z-9 text-xs text-slate-500 font-medium" style="min-width: 80px; max-width: 80px;">${subRow.label}</td>`;
+                        for (let i = 0; i < months; i++) {
+                            tbodyHTML += `<td class="timeline-cell application-sub-cell" data-month="${i}" data-row-id="${subRow.id}" data-col-index="${i}" data-sub-label="${subRow.label}" style="padding: 4px 6px; font-size: 11px; min-height: 24px;"></td>`;
+                        }
+                        tbodyHTML += '</tr>';
+                    });
+                } else {
+                    // 普通行：单行显示
+                    tbodyHTML += `<tr data-row="${row.id}">`;
+                    tbodyHTML += `<td class="border border-slate-200/40 px-4 py-3 timeline-row-label bg-white/80 sticky left-0 z-10 min-w-[150px] text-base">${row.label}</td>`;
+                    // 普通行也需要一个空列来对齐
+                    tbodyHTML += `<td class="border border-slate-200/40 px-2 py-1.5 bg-white/60 sticky left-[150px] z-9" style="min-width: 80px; max-width: 80px;"></td>`;
+                    for (let i = 0; i < months; i++) {
+                        tbodyHTML += `<td class="timeline-cell" data-month="${i}" data-row-id="${row.id}" data-col-index="${i}"></td>`;
+                    }
+                    tbodyHTML += '</tr>';
+                }
+            });
+
+            tbody.innerHTML = tbodyHTML;
+
+            // 填充数据
+            fillTimelineData();
+        }
+
+        // 填充时间轴数据（增强版，支持智能推断）
+        function fillTimelineData() {
+            const now = new Date();
+            const startYear = now.getFullYear();
+            const startMonth = now.getMonth() + 1;
+
+            // 计算列索引：从起始年月到目标年月的月数差
+            const getColIndex = (year, month) => {
+                if (year < startYear || (year === startYear && month < startMonth)) {
+                    return -1; // 早于起始时间
+                }
+                
+                let col = 0;
+                let y = startYear;
+                let m = startMonth;
+                
+                while (y < year || (y === year && m < month)) {
+                    col++;
+                    m++;
+                    if (m > 12) {
+                        m = 1;
+                        y++;
+                    }
+                    if (col >= state.timelineMonths) return -1;
+                }
+                
+                if (y === year && m === month) {
+                    return col;
+                }
+                return -1;
+            };
+
+            // 收集事件：{rowId, col, text, day, className}，同单元格按日排序
+            const cellEvents = new Map();
+            const DELIM = '::'; // 不能用 - 因为 rowId 如 standard-exams 含连字符
+            const addEvent = (rowId, col, text, day, className = '') => {
+                if (col < 0 || col >= state.timelineMonths) return;
+                const key = `${rowId}${DELIM}${col}`;
+                if (!cellEvents.has(key)) cellEvents.set(key, []);
+                cellEvents.get(key).push({ text, day: day || 0, className });
+            };
+            const flushCellEvents = () => {
+                cellEvents.forEach((events, key) => {
+                    const [rowId, col] = key.split(DELIM);
+                    events.sort((a, b) => a.day - b.day);
+                    const texts = events.map(e => e.text);
+                    const cell = document.querySelector(`tr[data-row="${rowId}"] td[data-month="${col}"]`);
+                    if (cell && texts.length) {
+                        cell.textContent = texts.join(' / ');
+                        cell.classList.add('has-event');
+                        if (events[0].className) cell.classList.add(events[0].className);
+                        cell.setAttribute('data-content', texts.join(' / '));
+                        cell.setAttribute('data-row-id', rowId);
+                        cell.setAttribute('data-col-index', col);
+                    }
+                });
+            };
+            const markCell = (rowId, col, text, className = '', day) => {
+                addEvent(rowId, col, text, day, className);
+            };
+
+            // 1. 填充学历衔接线
+            // 1.1 毕业时间
+            if (state.graduationDate && state.graduationDate.year && state.graduationDate.month) {
+                const col = getColIndex(state.graduationDate.year, state.graduationDate.month);
+                markCell('education', col, '毕业', 'exam-main');
+            }
+
+            // 1.2 入学时间
+            if (state.enrollmentYear && state.enrollmentMonth) {
+                const col = getColIndex(state.enrollmentYear, state.enrollmentMonth);
+                markCell('education', col, '⭐ 入学', 'arrival-highlight');
+            } else if (state.enrollmentYear) {
+                const col = getColIndex(state.enrollmentYear, 4);
+                markCell('education', col, '⭐ 入学', 'arrival-highlight');
+            }
+
+            // 1.3 赴日时间
+            if (state.arrivalDate && state.arrivalDate.year && state.arrivalDate.month) {
+                const col = getColIndex(state.arrivalDate.year, state.arrivalDate.month);
+                const day = state.arrivalDate.day || 0;
+                markCell('education', col, state.arrivalDate.day ? `✈️ 赴日 ${state.arrivalDate.day}日` : '✈️ 赴日', 'arrival-highlight', day);
+            } else if (state.japanStatus && /已到|在日本|来了/.test(state.japanStatus)) {
+                markCell('education', 0, '已到日本', 'arrival-highlight');
+            }
+
+            // 2. 填充标准考试线（EJU/JLPT/托福）- 仅显示用户明确填写的内容
+            // 2.1 EJU考试
+            state.ejuScores.forEach(eju => {
+                if (eju.year && eju.month) {
+                    const col = getColIndex(eju.year, eju.month);
+                    if (col >= 0) {
+                        let scoreText = '';
+                        if (eju.type === 'score' && (eju.japanese || eju.math || eju.science)) {
+                            const parts = [];
+                            if (eju.japanese) parts.push(`日${eju.japanese}`);
+                            if (eju.math) parts.push(`数${eju.math}`);
+                            if (eju.science) parts.push(`综${eju.science}`);
+                            scoreText = ` ${parts.join('/')}`;
+                        }
+                        markCell('standard-exams', col, `⭐ EJU${scoreText}`, 'exam-main');
+                    }
+                }
+            });
+
+            // 2.2 JLPT考试
+            state.jlptScores.forEach(jlpt => {
+                if (jlpt.year && jlpt.month) {
+                    const col = getColIndex(jlpt.year, jlpt.month);
+                    if (col >= 0) {
+                        const levelText = jlpt.type === 'score' ? ` ${jlpt.level}` : '';
+                        markCell('standard-exams', col, `⭐ JLPT${levelText}`, 'exam-main');
+                    }
+                }
+            });
+
+            // 2.3 托福考试
+            state.toeflScores.forEach(toefl => {
+                if (toefl.year && toefl.month) {
+                    const col = getColIndex(toefl.year, toefl.month);
+                    if (col >= 0) {
+                        const scoreText = toefl.type === 'score' ? ` ${toefl.score}分` : '';
+                        markCell('standard-exams', col, `⭐ TOEFL${scoreText}`, 'exam-main');
+                    }
+                }
+            });
+
+            // 5. 生活/手续 - 按日期排序
+            state.lifeEvents.forEach(event => {
+                if (event.year && event.month) {
+                    const col = getColIndex(event.year, event.month);
+                    if (col >= 0) {
+                        const desc = event.description || event.type || '生活事项';
+                        const displayText = event.day ? `${desc} ${event.day}日` : desc;
+                        markCell('life-events', col, displayText, 'life-node', event.day || 0);
+                    }
+                }
+            });
+
+            // 3. 填充出愿时间轴（异步，需要等待学校总览数据加载）
+            if (state.includeApplications) {
+                fillApplicationTimeline(getColIndex).then(() => {
+                    // 所有数据填充完成后，统一刷新单元格事件
+                    flushCellEvents();
+                }).catch(e => {
+                    console.error('填充出愿时间轴失败:', e);
+                    // 即使失败也要刷新已填充的数据
+                    flushCellEvents();
+                });
+            } else {
+                // 如果没有出愿数据，直接刷新已填充的数据
+                flushCellEvents();
+            }
+        }
+
+        // 生成计划项的唯一ID（用于匹配学校总览数据）
+        function planId(name, department, major) {
+            const parts = [name || '', department || '', major || ''].map(s => String(s).trim());
+            return parts.join('_').replace(/_+/g, '_').replace(/^_|_$/g, '') || 'unknown';
+        }
+
+        // 学校总览数据索引（用于补充完整的时间节点）
+        let fullDataIndex = null;
+
+        // 加载学校总览JSON数据
+        async function loadFullData() {
+            try {
+                const res = await fetch('学校总览.json');
+                if (!res.ok) return;
+                const json = await res.json();
+                const rows = json.data || [];
+                const idx = {};
+                rows.forEach(r => {
+                    const n = (r.name || '').trim();
+                    const d = (r.department || '').trim();
+                    const m = (r.major || '').trim();
+                    idx[planId(n, d, m)] = r;
+                    if (m && !idx[planId(n, d, '')]) idx[planId(n, d, '')] = r;
+                });
+                fullDataIndex = idx;
+                console.log('✅ 已加载学校总览数据，共', Object.keys(idx).length, '条记录');
+            } catch (e) {
+                console.warn('⚠️ 加载学校总览数据失败:', e);
+            }
+        }
+
+        // 用完整数据补全计划项中缺失的日期字段
+        function enrichPlanItem(item) {
+            if (!fullDataIndex) return item;
+            const full = fullDataIndex[item.id] || fullDataIndex[planId(item.name, item.department, item.major || '')];
+            if (!full) return item;
+            const merged = { ...item };
+            const dateFields = ['mailStart', 'mailEnd', 'mailStartDate', 'mailEndDate', 'examDate', 'examDate2', 'announcementDate'];
+            dateFields.forEach(f => {
+                if ((!merged[f] || String(merged[f]).trim() === '') && full[f]) {
+                    merged[f] = full[f];
+                }
+            });
+            return merged;
+        }
+
+        // 填充出愿时间轴（支持多个子行显示不同时间点，并从学校总览补充完整数据）
+        async function fillApplicationTimeline(getColIndex) {
+            try {
+                // 确保已加载学校总览数据
+                if (!fullDataIndex) {
+                    await loadFullData();
+                }
+
+                const planData = localStorage.getItem(STORAGE_KEY);
+                if (!planData) return;
+
+                const plan = JSON.parse(planData);
+                if (!Array.isArray(plan) || plan.length === 0) return;
+
+                // 解析日期字符串（支持多种格式，包括 YYYY-MM-DD HH:mm:ss）
+                const parseDateStr = (str) => {
+                    if (!str) return null;
+                    const strVal = String(str).trim();
+                    if (!strVal || strVal === 'null' || strVal === 'undefined') return null;
+                    
+                    // 移除常见后缀（必着、消印等）
+                    const cleaned = strVal.replace(/(必着|必达|必達|消印).*$/i, '').trim();
+                    
+                    // 优先处理 YYYY-MM-DD HH:mm:ss 格式（学校总览JSON的标准格式）
+                    const match1 = cleaned.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})(?:\s+\d{1,2}:\d{1,2}:\d{1,2})?/);
+                    if (match1) {
+                        const year = parseInt(match1[1]);
+                        const month = parseInt(match1[2]);
+                        if (year && month >= 1 && month <= 12) {
+                            return { year, month };
+                        }
+                    }
+                    
+                    // 处理 YYYY-MM-DD 格式
+                    const match2 = cleaned.match(/^(\d{4})[-\/](\d{1,2})(?:[-\/](\d{1,2}))?/);
+                    if (match2) {
+                        const year = parseInt(match2[1]);
+                        const month = parseInt(match2[2]);
+                        if (year && month >= 1 && month <= 12) {
+                            return { year, month };
+                        }
+                    }
+                    
+                    // 尝试使用已有的parseDate函数（处理 YYYY年MM月 格式）
+                    const date = parseDate(cleaned);
+                    if (date && date.year && date.month) return date;
+                    
+                    // 尝试匹配 YYYY年MM月DD日
+                    const match3 = cleaned.match(/(\d{4})\s*年\s*(\d{1,2})\s*月/);
+                    if (match3) {
+                        const year = parseInt(match3[1]);
+                        const month = parseInt(match3[2]);
+                        if (year && month >= 1 && month <= 12) {
+                            return { year, month };
+                        }
+                    }
+                    
+                    return null;
+                };
+
+                // 合并计划数据与学校总览数据，补充缺失的时间节点
+                const enrichedPlan = plan.map(item => enrichPlanItem(item));
+
+                enrichedPlan.forEach(item => {
+                    const schoolName = (item.name || '').slice(0, 3);
+                    const deptName = (item.department || '').slice(0, 2);
+                    const displayName = schoolName + (deptName ? deptName : '');
+                    
+                    // 定义时间点映射：字段名 -> 子行ID -> 显示文本
+                    const timePoints = [
+                        { field: 'mailStart', rowId: 'application-mail-start', label: '出愿开始' },
+                        { field: 'mailEnd', rowId: 'application-mail-end', label: '出愿截止' },
+                        { field: 'mailStartDate', rowId: 'application-post-start', label: '邮寄开始' },
+                        { field: 'mailEndDate', rowId: 'application-post-end', label: '邮寄截止' },
+                        { field: 'examDate', rowId: 'application-exam1', label: '校内考一' },
+                        { field: 'examDate2', rowId: 'application-exam2', label: '校内考二' },
+                        { field: 'announcementDate', rowId: 'application-result', label: '放榜' }
+                    ];
+
+                    timePoints.forEach(({ field, rowId, label }) => {
+                        const dateValue = item[field];
+                        if (!dateValue) return;
+
+                        const date = parseDateStr(dateValue);
+                        if (!date || !date.year || !date.month) {
+                            // 如果解析失败，记录日志以便调试
+                            console.debug(`⚠️ 无法解析日期: ${field}=${dateValue} (${item.name} ${item.department})`);
+                            return;
+                        }
+
+                        const col = getColIndex(date.year, date.month);
+                        if (col < 0) {
+                            console.debug(`⚠️ 日期超出时间轴范围: ${date.year}年${date.month}月 (${item.name} ${item.department})`);
+                            return;
+                        }
+
+                        const cell = document.querySelector(`tr[data-row="${rowId}"] td[data-month="${col}"]`);
+                        if (!cell) {
+                            console.debug(`⚠️ 找不到单元格: rowId=${rowId}, col=${col}`);
+                            return;
+                        }
+
+                        const existing = cell.textContent.trim();
+                        // 显示格式：学校名+学部名
+                        const displayText = displayName || label;
+                        cell.textContent = existing ? `${existing} / ${displayText}` : displayText;
+                        cell.classList.add('has-event', 'application');
+                        cell.setAttribute('data-content', cell.textContent);
+                        cell.setAttribute('title', `${label}: ${item.name || ''} ${item.department || ''}`);
+                    });
+                });
+            } catch (e) {
+                console.error('❌ Error filling application timeline:', e);
+            }
+        }
+
+        // 显示确认气泡
+        function showConfirmBubble() {
+            const bubble = document.getElementById('confirm-bubble');
+            if (!bubble) return;
+
+            // 检查是否有出愿数据
+            try {
+                const planData = localStorage.getItem(STORAGE_KEY);
+                if (planData) {
+                    const plan = JSON.parse(planData);
+                    if (Array.isArray(plan) && plan.length > 0) {
+                        bubble.style.display = 'block';
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.error('Error checking application plan:', e);
+            }
+
+            // 没有出愿数据，直接继续
+            state.includeApplications = false;
+            proceedToTimeline();
+        }
+
+        // 继续生成时间轴
+        function proceedToTimeline() {
+            generateTimelineTable();
+            document.getElementById('timeline-section').style.display = 'block';
+            state.stage = STEPS.CONFIRM;
+            renderStage();
+            
+            // 加载保存的编辑数据
+            loadSavedEdits();
+        }
+
+        // 加载保存的编辑数据
+        function loadSavedEdits() {
+            try {
+                const savedData = localStorage.getItem(ONBOARDING_KEY);
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    if (data.editedCells) {
+                        Object.keys(data.editedCells).forEach(key => {
+                            const [rowId, colIndex] = key.split('-');
+                            const cell = document.querySelector(`tr[data-row="${rowId}"] td[data-month="${colIndex}"]`);
+                            if (cell && data.editedCells[key]) {
+                                cell.textContent = data.editedCells[key];
+                                cell.setAttribute('data-content', data.editedCells[key]);
+                            }
+                        });
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading saved edits:', e);
+            }
+        }
+
+        // 渲染当前步骤（按钮化版本）
+        function renderStage() {
+            const msgEl = document.getElementById('ai-message');
+            const inputArea = document.getElementById('input-area');
+            
+            if (!msgEl || !inputArea) return;
+
+            // 动态获取消息（支持函数）
+            const message = typeof messages[state.stage] === 'function' 
+                ? messages[state.stage]() 
+                : messages[state.stage] || '';
+            
+            // 打字机效果
+            typewriter(msgEl, message);
+
+            inputArea.innerHTML = '';
+
+            if (state.stage === STEPS.WELCOME) {
+                inputArea.innerHTML = `
+                    <div class="text-center">
+                        <button type="button" onclick="handleStart()" class="px-6 py-3 rounded-2xl font-medium bg-sky-500 hover:bg-sky-600 text-white transition-all">
+                            开始规划
+                        </button>
+                    </div>
+                `;
+            } else if (state.stage === STEPS.CONFIRM) {
+                inputArea.innerHTML = `
+                    <div class="text-center py-4">
+                        <p class="text-slate-500 mb-4">时间轴已生成完成！</p>
+                        <button type="button" onclick="finishOnboarding()" class="px-8 py-3 rounded-2xl font-medium bg-sky-500 hover:bg-sky-600 text-white transition-all">
+                            完成
+                        </button>
+                    </div>
+                `;
+            } else {
+                // 根据步骤渲染不同的按钮选项
+                renderStepOptions(inputArea);
+            }
+
+            updateNavButtons();
+        }
+
+        // 渲染步骤选项
+        function renderStepOptions(container) {
+            switch (state.stage) {
+                case STEPS.ENROLLMENT_TARGET:
+                    renderEnrollmentTargetOptions(container);
+                    break;
+                case STEPS.JAPAN_STATUS:
+                    renderJapanStatusOptions(container);
+                    break;
+                case STEPS.LIFE_PREPARATION:
+                    renderLifePreparationOptions(container);
+                    break;
+                case STEPS.LIFE_PREPARATION_TIME:
+                    renderLifePreparationTimeOptions(container);
+                    break;
+                case STEPS.EJU_PLANNING:
+                    renderEJUPlanningOptions(container);
+                    break;
+                case STEPS.JLPT_PLANNING:
+                    renderJLPTPlanningOptions(container);
+                    break;
+                case STEPS.TOEFL_PLANNING:
+                    renderTOEFLPlanningOptions(container);
+                    break;
+                default:
+                    // 默认文本输入（保留兼容性）
+                    container.innerHTML = `
+                        <input type="text" id="text-input" class="text-input" placeholder="请输入信息..." autofocus />
+                        <p class="text-xs text-slate-500 mt-2">按 Enter 键提交</p>
+                        <button type="button" onclick="handleSkip()" class="skip-btn">跳过此问题</button>
+                    `;
+                    const input = document.getElementById('text-input');
+                    if (input) {
+                        input.addEventListener('keydown', (e) => {
+                            if (e.key === 'Enter') {
+                                handleInput();
+                            }
+                        });
+                        input.focus();
+                    }
+            }
+        }
+
+        // 入学目标选项（只问年月，提示四月/十月）
+        function renderEnrollmentTargetOptions(container) {
+            const currentYear = new Date().getFullYear();
+            container.innerHTML = `
+                <div class="number-input-group">
+                    <span class="text-slate-600">我计划</span>
+                    <input type="number" id="enrollment-year" class="number-input" placeholder="${currentYear + 1}" min="${currentYear}" max="${currentYear + 10}" />
+                    <span class="text-slate-600">年</span>
+                    <input type="number" id="enrollment-month" class="number-input" placeholder="4" min="1" max="12" title="常见：4月或10月" />
+                    <span class="text-slate-600">月入学</span>
+                    <span class="text-slate-400 text-sm">（如4月、10月）</span>
+                    <button type="button" onclick="handleEnrollmentTarget()" class="option-btn bg-sky-500 text-white hover:bg-sky-600">
+                        确认
+                    </button>
+                </div>
+                <button type="button" onclick="handleSkip()" class="skip-btn">跳过此问题</button>
+            `;
+            
+            // 自动聚焦第一个输入框
+            setTimeout(() => {
+                const yearInput = document.getElementById('enrollment-year');
+                if (yearInput) yearInput.focus();
+            }, 100);
+        }
+
+        // 赴日状态选项
+        function renderJapanStatusOptions(container) {
+            const currentYear = new Date().getFullYear();
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="option-btn-grid">
+                        <button type="button" onclick="handleJapanStatus('已到日本')" class="option-btn">已到日本</button>
+                        <button type="button" onclick="handleJapanStatus('计划赴日')" class="option-btn">计划赴日</button>
+                    </div>
+                    <div class="number-input-group" id="arrival-date-group" style="display: none;">
+                        <span class="text-slate-600">计划</span>
+                        <input type="number" id="arrival-year" class="number-input" placeholder="${currentYear + 1}" min="${currentYear}" max="${currentYear + 5}" />
+                        <span class="text-slate-600">年</span>
+                        <input type="number" id="arrival-month" class="number-input" placeholder="4" min="1" max="12" />
+                        <span class="text-slate-600">月</span>
+                        <input type="number" id="arrival-day" class="number-input day-input" placeholder="日" min="1" max="31" title="选填" />
+                        <span class="text-slate-600">赴日</span>
+                        <button type="button" onclick="handleJapanStatusConfirm()" class="option-btn bg-sky-500 text-white hover:bg-sky-600">
+                            确认
+                        </button>
+                    </div>
+                </div>
+                <button type="button" onclick="handleSkip()" class="skip-btn">跳过此问题</button>
+            `;
+        }
+
+        // 生活准备选项（多选）
+        const LIFE_EVENT_OPTIONS = [
+            { id: '找房', label: '找房' },
+            { id: '签证', label: '办理签证' },
+            { id: '材料', label: '准备材料' },
+            { id: '保险', label: '办理保险' }
+        ];
+        function renderLifePreparationOptions(container) {
+            const selected = state.selectedLifeEvents || [];
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex flex-wrap gap-4">
+                        ${LIFE_EVENT_OPTIONS.map(opt => `
+                            <label class="flex items-center gap-2 cursor-pointer p-3 rounded-xl border border-slate-200/60 hover:border-sky-300/50 transition-colors bg-white/50">
+                                <input type="checkbox" class="life-event-checkbox rounded" data-id="${opt.id}" ${selected.includes(opt.id) ? 'checked' : ''} />
+                                <span class="text-slate-600">${opt.label}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div class="flex gap-3 mt-4">
+                        <button type="button" onclick="handleLifeEventsConfirm()" class="option-btn bg-sky-500 text-white hover:bg-sky-600">
+                            确认选择
+                        </button>
+                        <button type="button" onclick="handleLifeEventSelect('无')" class="option-btn">暂无安排</button>
+                    </div>
+                </div>
+                <button type="button" onclick="handleSkip()" class="skip-btn">跳过此问题</button>
+            `;
+        }
+
+        // 生活准备时间表（纵轴为所选事项，横轴填时间）
+        function renderLifePreparationTimeOptions(container) {
+            const currentYear = new Date().getFullYear();
+            const events = state.selectedLifeEvents || [];
+            container.innerHTML = `
+                <div class="space-y-4 overflow-x-auto">
+                    <table class="w-full border-collapse border border-slate-200/60 rounded-xl overflow-hidden" style="min-width: 280px;">
+                        <thead>
+                            <tr class="bg-slate-50/80">
+                                <th class="border border-slate-200/60 px-4 py-3 text-left text-slate-600 font-medium">事项</th>
+                                <th class="border border-slate-200/60 px-3 py-3 text-center text-slate-600 font-medium">年</th>
+                                <th class="border border-slate-200/60 px-3 py-3 text-center text-slate-600 font-medium">月</th>
+                                <th class="border border-slate-200/60 px-2 py-3 text-center text-slate-500 font-normal text-xs">日（选填）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${events.map((ev) => `
+                                <tr class="bg-white/50">
+                                    <td class="border border-slate-200/60 px-4 py-2 text-slate-600">${ev}</td>
+                                    <td class="border border-slate-200/60 px-2 py-2">
+                                        <input type="number" class="life-time-year number-input w-full" data-event="${ev}" placeholder="${currentYear}" min="${currentYear}" max="${currentYear + 5}" />
+                                    </td>
+                                    <td class="border border-slate-200/60 px-2 py-2">
+                                        <input type="number" class="life-time-month number-input w-full" data-event="${ev}" placeholder="4" min="1" max="12" />
+                                    </td>
+                                    <td class="border border-slate-200/60 px-1 py-2">
+                                        <input type="number" class="life-time-day day-input w-full" data-event="${ev}" placeholder="—" min="1" max="31" />
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    <button type="button" onclick="handleLifePreparationTimeConfirm()" class="option-btn bg-sky-500 text-white hover:bg-sky-600">
+                        确认
+                    </button>
+                </div>
+                <button type="button" onclick="handleSkip()" class="skip-btn">跳过此问题</button>
+            `;
+        }
+
+        // EJU规划选项（重新设计）
+        function renderEJUPlanningOptions(container) {
+            const currentYear = new Date().getFullYear();
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="option-btn-grid">
+                        <button type="button" onclick="handleEJUOption('有成绩计划下一次考')" class="option-btn">有成绩，计划下一次考</button>
+                        <button type="button" onclick="handleEJUOption('第一次考计划下一次考')" class="option-btn">第一次考，计划下一次考</button>
+                        <button type="button" onclick="handleEJUOption('暂无计划')" class="option-btn">暂时不太有考试的想法</button>
+                    </div>
+                    <div id="eju-detail-group" style="display: none;" class="space-y-3">
+                        <div id="eju-plan-group" class="space-y-3">
+                            <p class="text-slate-600 text-sm">请选择下一次考试时间：</p>
+                            <div class="number-input-group">
+                                <span class="text-slate-600">计划</span>
+                                <input type="number" id="eju-year" class="number-input" placeholder="${currentYear + 1}" />
+                                <span class="text-slate-600">年</span>
+                                <button type="button" onclick="handleEJUDate('6')" class="option-btn" id="eju-month-6">6月</button>
+                                <button type="button" onclick="handleEJUDate('11')" class="option-btn" id="eju-month-11">11月</button>
+                            </div>
+                        </div>
+                        <button type="button" onclick="handleEJUConfirm()" class="option-btn bg-sky-500 text-white hover:bg-sky-600 w-full">
+                            添加
+                        </button>
+                    </div>
+                    <div id="eju-list" class="text-sm text-slate-600 mt-2"></div>
+                    <button type="button" onclick="handleEJUContinue()" class="option-btn bg-emerald-500 text-white hover:bg-emerald-600 w-full mt-4" style="display: none;" id="eju-continue-btn">
+                        继续下一步
+                    </button>
+                </div>
+                <button type="button" onclick="handleSkip()" class="skip-btn">跳过此问题</button>
+            `;
+        }
+
+        // JLPT规划选项（只问是否计划考试）
+        function renderJLPTPlanningOptions(container) {
+            const currentYear = new Date().getFullYear();
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="option-btn-grid">
+                        <button type="button" onclick="handleJLPTOption('计划考试')" class="option-btn">计划考试</button>
+                        <button type="button" onclick="handleJLPTOption('暂无计划')" class="option-btn">暂时没有这个想法</button>
+                    </div>
+                    <div id="jlpt-detail-group" style="display: none;" class="space-y-3">
+                        <div class="option-btn-grid" style="grid-template-columns: repeat(5, 1fr);">
+                            <button type="button" onclick="handleJLPTLevel('N1')" class="option-btn" id="jlpt-level-n1">N1</button>
+                            <button type="button" onclick="handleJLPTLevel('N2')" class="option-btn" id="jlpt-level-n2">N2</button>
+                            <button type="button" onclick="handleJLPTLevel('N3')" class="option-btn" id="jlpt-level-n3">N3</button>
+                            <button type="button" onclick="handleJLPTLevel('N4')" class="option-btn" id="jlpt-level-n4">N4</button>
+                            <button type="button" onclick="handleJLPTLevel('N5')" class="option-btn" id="jlpt-level-n5">N5</button>
+                        </div>
+                        <div class="number-input-group">
+                            <span class="text-slate-600">计划</span>
+                            <input type="number" id="jlpt-year" class="number-input" placeholder="${currentYear + 1}" />
+                            <span class="text-slate-600">年</span>
+                            <button type="button" onclick="handleJLPTDate('7')" class="option-btn" id="jlpt-month-7">7月</button>
+                            <button type="button" onclick="handleJLPTDate('12')" class="option-btn" id="jlpt-month-12">12月</button>
+                        </div>
+                        <button type="button" onclick="handleJLPTConfirm()" class="option-btn bg-sky-500 text-white hover:bg-sky-600 w-full">
+                            添加
+                        </button>
+                    </div>
+                    <div id="jlpt-list" class="text-sm text-slate-600 mt-2"></div>
+                    <button type="button" onclick="handleJLPTContinue()" class="option-btn bg-emerald-500 text-white hover:bg-emerald-600 w-full mt-4" style="display: none;" id="jlpt-continue-btn">
+                        继续下一步
+                    </button>
+                </div>
+                <button type="button" onclick="handleSkip()" class="skip-btn">跳过此问题</button>
+            `;
+        }
+
+        // 托福规划选项
+        function renderTOEFLPlanningOptions(container) {
+            const currentYear = new Date().getFullYear();
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="option-btn-grid">
+                        <button type="button" onclick="handleTOEFLOption('已有成绩')" class="option-btn">已有成绩</button>
+                        <button type="button" onclick="handleTOEFLOption('计划考试')" class="option-btn">计划考试</button>
+                        <button type="button" onclick="handleTOEFLOption('暂无计划')" class="option-btn">暂无计划</button>
+                    </div>
+                    <div id="toefl-detail-group" style="display: none;" class="space-y-3">
+                        <div class="number-input-group">
+                            <span class="text-slate-600">已有成绩：</span>
+                            <input type="number" id="toefl-score" class="number-input" placeholder="95" min="0" max="120" />
+                            <span class="text-slate-600">分</span>
+                        </div>
+                        <div class="number-input-group">
+                            <span class="text-slate-600">计划</span>
+                            <input type="number" id="toefl-year" class="number-input" placeholder="${currentYear + 1}" />
+                            <span class="text-slate-600">年</span>
+                            <input type="number" id="toefl-month" class="number-input" placeholder="3" min="1" max="12" />
+                            <span class="text-slate-600">月考试</span>
+                        </div>
+                        <button type="button" onclick="handleTOEFLConfirm()" class="option-btn bg-sky-500 text-white hover:bg-sky-600 w-full">
+                            添加
+                        </button>
+                    </div>
+                    <div id="toefl-list" class="text-sm text-slate-600 mt-2"></div>
+                    <button type="button" onclick="handleTOEFLContinue()" class="option-btn bg-emerald-500 text-white hover:bg-emerald-600 w-full mt-4" style="display: none;" id="toefl-continue-btn">
+                        继续下一步
+                    </button>
+                </div>
+                <button type="button" onclick="handleSkip()" class="skip-btn">跳过此问题</button>
+            `;
+        }
+
+
+        // ========== 按钮处理函数 ==========
+        
+        // 入学目标处理
+        function handleEnrollmentTarget() {
+            const yearInput = document.getElementById('enrollment-year');
+            const monthInput = document.getElementById('enrollment-month');
+            const year = yearInput ? parseInt(yearInput.value) || parseInt(yearInput.placeholder) : null;
+            const month = monthInput ? parseInt(monthInput.value) || parseInt(monthInput.placeholder) || 4 : 4;
+            
+            if (year && year >= new Date().getFullYear() && month >= 1 && month <= 12) {
+                state.enrollmentYear = year;
+                state.enrollmentMonth = month;
+                state.timelineMonths = calculateTimelineMonths(year, month);
+                nextStep();
+            } else {
+                alert('请输入有效的入学年月');
+            }
+        }
+
+
+        // 赴日状态处理
+        function handleJapanStatus(status) {
+            if (status === '已到日本') {
+                const now = new Date();
+                state.japanStatus = '已到日本';
+                state.arrivalDate = { year: now.getFullYear(), month: now.getMonth() + 1 };
+                nextStep();
+            } else if (status === '计划赴日') {
+                // 显示日期输入
+                const dateGroup = document.getElementById('arrival-date-group');
+                if (dateGroup) {
+                    dateGroup.style.display = 'flex';
+                    setTimeout(() => {
+                        const yearInput = document.getElementById('arrival-year');
+                        if (yearInput) yearInput.focus();
+                    }, 100);
+                }
+            }
+        }
+        function handleJapanStatusConfirm() {
+            const yearInput = document.getElementById('arrival-year');
+            const monthInput = document.getElementById('arrival-month');
+            const dayInput = document.getElementById('arrival-day');
+            const year = yearInput ? parseInt(yearInput.value) || parseInt(yearInput.placeholder) : null;
+            const month = monthInput ? parseInt(monthInput.value) || parseInt(monthInput.placeholder) : null;
+            const day = dayInput && dayInput.value ? parseInt(dayInput.value) : null;
+            
+            if (year && month >= 1 && month <= 12) {
+                state.arrivalDate = { year, month };
+                if (day && day >= 1 && day <= 31) state.arrivalDate.day = day;
+                state.japanStatus = `计划${year}年${month}月赴日`;
+                nextStep();
+            } else {
+                alert('请输入有效的日期');
+            }
+        }
+
+        // 生活准备处理（多选 + 时间表）
+        function handleLifeEventSelect(event) {
+            if (event === '无') {
+                state.selectedLifeEvents = [];
+                nextStep();
+                return;
+            }
+        }
+        function handleLifeEventsConfirm() {
+            const checkboxes = document.querySelectorAll('.life-event-checkbox:checked');
+            state.selectedLifeEvents = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+            if (state.selectedLifeEvents.length === 0) {
+                alert('请至少选择一项，或点击「暂无安排」');
+                return;
+            }
+            state.stage = STEPS.LIFE_PREPARATION_TIME;
+            renderStage();
+        }
+        function handleLifePreparationTimeConfirm() {
+            const events = state.selectedLifeEvents || [];
+            const currentYear = new Date().getFullYear();
+            state.lifeEvents = [];
+            let hasInvalid = false;
+            events.forEach(ev => {
+                const yearInput = document.querySelector(`.life-time-year[data-event="${ev}"]`);
+                const monthInput = document.querySelector(`.life-time-month[data-event="${ev}"]`);
+                const dayInput = document.querySelector(`.life-time-day[data-event="${ev}"]`);
+                const year = yearInput ? parseInt(yearInput.value) || parseInt(yearInput.placeholder) || currentYear : null;
+                const month = monthInput ? parseInt(monthInput.value) || parseInt(monthInput.placeholder) || 4 : null;
+                const day = dayInput && dayInput.value ? parseInt(dayInput.value) : null;
+                if (year && month >= 1 && month <= 12) {
+                    const evt = { type: ev, year, month, description: ev };
+                    if (day && day >= 1 && day <= 31) evt.day = day;
+                    state.lifeEvents.push(evt);
+                } else {
+                    hasInvalid = true;
+                }
+            });
+            if (hasInvalid && state.lifeEvents.length === 0) {
+                alert('请填写有效的日期');
+                return;
+            }
+            state.selectedLifeEvents = [];
+            nextStep();
+        }
+
+        // EJU规划处理（重新设计）
+        let ejuOptionType = null;
+        let ejuSelectedMonth = null;
+        function handleEJUOption(type) {
+            ejuOptionType = type;
+            const detailGroup = document.getElementById('eju-detail-group');
+            const planGroup = document.getElementById('eju-plan-group');
+            
+            if (type === '暂无计划') {
+                if (detailGroup) detailGroup.style.display = 'none';
+                nextStep();
+            } else {
+                // 有成绩计划下一次考 或 第一次考计划下一次考，都显示时间选择
+                if (detailGroup) detailGroup.style.display = 'block';
+                if (planGroup) planGroup.style.display = 'block';
+            }
+        }
+        function handleEJUDate(month) {
+            ejuSelectedMonth = parseInt(month);
+            document.querySelectorAll('#eju-plan-group button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            const selectedBtn = document.getElementById(`eju-month-${month}`);
+            if (selectedBtn) selectedBtn.classList.add('selected');
+        }
+        function handleEJUConfirm() {
+            const yearInput = document.getElementById('eju-year');
+            const year = yearInput ? parseInt(yearInput.value) || parseInt(yearInput.placeholder) : null;
+            
+            if (!year || !ejuSelectedMonth) {
+                alert('请选择考试时间（年份和月份）');
+                return;
+            }
+            
+            // 根据选项类型添加记录
+            if (ejuOptionType === '有成绩计划下一次考') {
+                // 有成绩，只记录下一次考试计划
+                state.ejuScores.push({ 
+                    type: 'plan', 
+                    hasPreviousScore: true,
+                    japanese: null, 
+                    math: null, 
+                    science: null,
+                    year, 
+                    month: ejuSelectedMonth 
+                });
+            } else if (ejuOptionType === '第一次考计划下一次考') {
+                // 第一次考，记录下一次考试计划
+                state.ejuScores.push({ 
+                    type: 'plan', 
+                    hasPreviousScore: false,
+                    japanese: null, 
+                    math: null, 
+                    science: null,
+                    year, 
+                    month: ejuSelectedMonth 
+                });
+            }
+            
+            // 更新列表显示
+            updateEJUList();
+            
+            // 清空输入
+            if (yearInput) yearInput.value = '';
+            ejuSelectedMonth = null;
+            
+            // 重置月份按钮样式
+            document.querySelectorAll('#eju-plan-group button').forEach(btn => btn.classList.remove('selected'));
+        }
+        function updateEJUList() {
+            const list = document.getElementById('eju-list');
+            const continueBtn = document.getElementById('eju-continue-btn');
+            if (list && state.ejuScores.length > 0) {
+                list.innerHTML = '已添加：' + state.ejuScores.map(e => {
+                    const prefix = e.hasPreviousScore ? 'EJU（有成绩）' : 'EJU（第一次考）';
+                    return `${prefix} ${e.year}年${e.month}月`;
+                }).join('、');
+                if (continueBtn) continueBtn.style.display = 'block';
+            } else {
+                if (continueBtn) continueBtn.style.display = 'none';
+            }
+        }
+        function handleEJUContinue() {
+            nextStep();
+        }
+
+        // JLPT规划处理
+        let jlptOptionType = null;
+        let jlptSelectedLevel = null;
+        let jlptSelectedMonth = null;
+        function handleJLPTOption(type) {
+            jlptOptionType = type;
+            const detailGroup = document.getElementById('jlpt-detail-group');
+            if (detailGroup) {
+                if (type === '暂无计划') {
+                    detailGroup.style.display = 'none';
+                    nextStep();
+                } else {
+                    detailGroup.style.display = 'block';
+                }
+            }
+        }
+        function handleJLPTLevel(level) {
+            jlptSelectedLevel = level;
+            ['n1', 'n2', 'n3', 'n4', 'n5'].forEach(n => {
+                const btn = document.getElementById(`jlpt-level-${n}`);
+                if (btn) btn.classList.toggle('selected', level === n.toUpperCase());
+            });
+        }
+        function handleJLPTDate(month) {
+            jlptSelectedMonth = parseInt(month);
+            const month7Btn = document.getElementById('jlpt-month-7');
+            const month12Btn = document.getElementById('jlpt-month-12');
+            if (month7Btn) month7Btn.classList.toggle('selected', month === '7');
+            if (month12Btn) month12Btn.classList.toggle('selected', month === '12');
+        }
+        function handleJLPTConfirm() {
+            const yearInput = document.getElementById('jlpt-year');
+            const year = yearInput ? parseInt(yearInput.value) || parseInt(yearInput.placeholder) : null;
+            
+            if (jlptOptionType === '计划考试' && year && jlptSelectedMonth && jlptSelectedLevel) {
+                state.jlptScores.push({ type: 'plan', level: jlptSelectedLevel, year, month: jlptSelectedMonth });
+            } else {
+                alert('请选择考试等级和时间');
+                return;
+            }
+            
+            updateJLPTList();
+            
+            if (yearInput) yearInput.value = '';
+            jlptSelectedLevel = null;
+            jlptSelectedMonth = null;
+        }
+        function updateJLPTList() {
+            const list = document.getElementById('jlpt-list');
+            const continueBtn = document.getElementById('jlpt-continue-btn');
+            if (list && state.jlptScores.length > 0) {
+                list.innerHTML = '已添加：' + state.jlptScores.map(j => {
+                    if (j.type === 'score') return `JLPT ${j.level}`;
+                    return `JLPT ${j.level} ${j.year}年${j.month}月`;
+                }).join('、');
+                if (continueBtn) continueBtn.style.display = 'block';
+            } else {
+                if (continueBtn) continueBtn.style.display = 'none';
+            }
+        }
+        function handleJLPTContinue() {
+            nextStep();
+        }
+
+        // 托福规划处理
+        let toeflOptionType = null;
+        function handleTOEFLOption(type) {
+            toeflOptionType = type;
+            const detailGroup = document.getElementById('toefl-detail-group');
+            if (detailGroup) {
+                if (type === '暂无计划') {
+                    detailGroup.style.display = 'none';
+                    nextStep();
+                } else {
+                    detailGroup.style.display = 'block';
+                    // 根据类型显示/隐藏相应输入
+                    const scoreGroup = detailGroup.querySelector('div:first-child');
+                    const planGroup = detailGroup.querySelector('div:nth-child(2)');
+                    if (scoreGroup && planGroup) {
+                        scoreGroup.style.display = type === '已有成绩' ? 'flex' : 'none';
+                        planGroup.style.display = type === '计划考试' ? 'flex' : 'none';
+                    }
+                }
+            }
+        }
+        function handleTOEFLConfirm() {
+            const scoreInput = document.getElementById('toefl-score');
+            const yearInput = document.getElementById('toefl-year');
+            const monthInput = document.getElementById('toefl-month');
+            const score = scoreInput ? parseInt(scoreInput.value) : null;
+            const year = yearInput ? parseInt(yearInput.value) || parseInt(yearInput.placeholder) : null;
+            const month = monthInput ? parseInt(monthInput.value) : null;
+            
+            if (toeflOptionType === '已有成绩' && score) {
+                state.toeflScores.push({ type: 'score', score, year: null, month: null });
+            } else if (toeflOptionType === '计划考试' && year && month) {
+                state.toeflScores.push({ type: 'plan', score: null, year, month });
+            } else {
+                alert('请完整填写信息');
+                return;
+            }
+            
+            updateTOEFLList();
+            
+            if (scoreInput) scoreInput.value = '';
+            if (yearInput) yearInput.value = '';
+            if (monthInput) monthInput.value = '';
+        }
+        function updateTOEFLList() {
+            const list = document.getElementById('toefl-list');
+            const continueBtn = document.getElementById('toefl-continue-btn');
+            if (list && state.toeflScores.length > 0) {
+                list.innerHTML = '已添加：' + state.toeflScores.map(t => {
+                    if (t.type === 'score') return `TOEFL ${t.score}分`;
+                    return `TOEFL ${t.year}年${t.month}月`;
+                }).join('、');
+                if (continueBtn) continueBtn.style.display = 'block';
+            } else {
+                if (continueBtn) continueBtn.style.display = 'none';
+            }
+        }
+        function handleTOEFLContinue() {
+            nextStep();
+        }
+
+
+        // 跳过功能
+        function handleSkip() {
+            nextStep();
+        }
+
+        // 处理输入（增强版，支持更智能的解析）
+        function handleInput() {
+            const input = document.getElementById('text-input');
+            if (!input) return;
+
+            const text = input.value.trim();
+            if (!text) return;
+
+            // 根据当前步骤处理输入
+            switch (state.stage) {
+                case STEPS.ENROLLMENT_TARGET:
+                    const target = parseEnrollmentTarget(text);
+                    if (target.year) {
+                        state.enrollmentYear = target.year;
+                        state.enrollmentMonth = target.month || 4;
+                        state.timelineMonths = calculateTimelineMonths(target.year, state.enrollmentMonth);
+                        nextStep();
+                    } else {
+                        alert('请正确输入入学年月，例如：2027年4月');
+                    }
+                    break;
+
+                case STEPS.EDUCATION_DETAIL:
+                    state.educationDetail = text;
+                    // 解析毕业时间
+                    const gradDate = parseDate(text);
+                    if (gradDate) {
+                        state.graduationDate = gradDate;
+                    }
+                    // 检查是否需要校内考
+                    if (/校内考|作品集|面试/.test(text)) {
+                        state.needsSchoolExam = true;
+                    }
+                    nextStep();
+                    break;
+
+                case STEPS.JAPAN_STATUS:
+                    state.japanStatus = text;
+                    const japanDate = parseDate(text);
+                    if (japanDate) {
+                        state.arrivalDate = japanDate;
+                    } else if (/已到|在日本|来了/.test(text)) {
+                        // 如果已到日本，设置当前日期
+                        const now = new Date();
+                        state.arrivalDate = { year: now.getFullYear(), month: now.getMonth() + 1 };
+                    }
+                    nextStep();
+                    break;
+
+                case STEPS.LIFE_PREPARATION:
+                    // 解析生活准备事项
+                    const lifeText = text.toLowerCase();
+                    const arrivalDate = state.arrivalDate;
+                    
+                    if (arrivalDate && arrivalDate.year && arrivalDate.month) {
+                        // 根据赴日时间自动推断生活事件
+                        if (/找房|租房|住房/.test(lifeText)) {
+                            // 赴日前2个月找房
+                            let findHouseMonth = arrivalDate.month - 2;
+                            let findHouseYear = arrivalDate.year;
+                            if (findHouseMonth <= 0) {
+                                findHouseMonth += 12;
+                                findHouseYear--;
+                            }
+                            state.lifeEvents.push({
+                                type: '找房',
+                                year: findHouseYear,
+                                month: findHouseMonth,
+                                description: '找房/租房'
+                            });
+                        }
+                        
+                        if (/签证|visa/.test(lifeText)) {
+                            // 赴日前1个月办理签证
+                            let visaMonth = arrivalDate.month - 1;
+                            let visaYear = arrivalDate.year;
+                            if (visaMonth <= 0) {
+                                visaMonth += 12;
+                                visaYear--;
+                            }
+                            state.lifeEvents.push({
+                                type: '签证',
+                                year: visaYear,
+                                month: visaMonth,
+                                description: '签证办理'
+                            });
+                        }
+                        
+                        if (/材料|准备/.test(lifeText)) {
+                            // 赴日前3个月准备材料
+                            let prepMonth = arrivalDate.month - 3;
+                            let prepYear = arrivalDate.year;
+                            if (prepMonth <= 0) {
+                                prepMonth += 12;
+                                prepYear--;
+                            }
+                            state.lifeEvents.push({
+                                type: '材料',
+                                year: prepYear,
+                                month: prepMonth,
+                                description: '材料准备'
+                            });
+                        }
+                    }
+                    
+                    // 也尝试从文本中直接解析日期
+                    const lifeDate = parseDate(text);
+                    if (lifeDate && !arrivalDate) {
+                        state.lifeEvents.push({
+                            type: '生活事项',
+                            year: lifeDate.year,
+                            month: lifeDate.month,
+                            description: text.slice(0, 10)
+                        });
+                    }
+                    
+                    nextStep();
+                    break;
+
+                case STEPS.EJU_PLANNING:
+                    // 支持多轮EJU考试（解析多个日期）
+                    const ejuMatches = text.match(/(\d{4})\s*年?\s*(\d{1,2})\s*月/g);
+                    if (ejuMatches) {
+                        ejuMatches.forEach(match => {
+                            const eju = parseEJU(match);
+                            if (eju) state.ejuScores.push(eju);
+                        });
+                    } else {
+                        const eju = parseEJU(text);
+                        if (eju) state.ejuScores.push(eju);
+                    }
+                    
+                    if (state.ejuScores.length > 0 || /没有|无|跳过/.test(text)) {
+                        const msgEl = document.getElementById('ai-message');
+                        if (msgEl) {
+                            msgEl.textContent = `已记录${state.ejuScores.length}次EJU考试。是否还有其他EJU考试计划？（如果没有，请点击"次へ"按钮）`;
+                        }
+                        const inputEl = document.getElementById('text-input');
+                        if (inputEl) {
+                            inputEl.value = '';
+                            inputEl.placeholder = '继续输入其他EJU信息，或点击"次へ"继续';
+                        }
+                    } else {
+                        alert('请正确输入EJU信息，例如：已有成绩330分，或计划2025年6月和11月各考一次');
+                    }
+                    break;
+
+                case STEPS.JLPT_PLANNING:
+                    // 支持多轮JLPT考试
+                    const jlptMatches = text.match(/(\d{4})\s*年?\s*(\d{1,2})\s*月/g);
+                    if (jlptMatches) {
+                        jlptMatches.forEach(match => {
+                            const jlpt = parseJLPT(match + ' ' + text);
+                            if (jlpt) state.jlptScores.push(jlpt);
+                        });
+                    } else {
+                        const jlpt = parseJLPT(text);
+                        if (jlpt) state.jlptScores.push(jlpt);
+                    }
+                    
+                    if (state.jlptScores.length > 0 || /没有|无|跳过/.test(text)) {
+                        const msgEl = document.getElementById('ai-message');
+                        if (msgEl) {
+                            msgEl.textContent = `已记录${state.jlptScores.length}次JLPT考试。是否还有其他JLPT考试计划？（如果没有，请点击"次へ"按钮）`;
+                        }
+                        const inputEl = document.getElementById('text-input');
+                        if (inputEl) {
+                            inputEl.value = '';
+                            inputEl.placeholder = '继续输入其他JLPT信息，或点击"次へ"继续';
+                        }
+                    } else {
+                        alert('请正确输入JLPT信息，例如：已有N1成绩，或计划2025年7月和12月各考一次');
+                    }
+                    break;
+
+                case STEPS.TOEFL_PLANNING:
+                    const toefl = parseTOEFL(text);
+                    if (toefl) {
+                        state.toeflScores.push(toefl);
+                        const msgEl = document.getElementById('ai-message');
+                        if (msgEl) {
+                            msgEl.textContent = '已记录。是否还有其他托福考试计划？（如果没有，请点击"次へ"按钮）';
+                        }
+                        const inputEl = document.getElementById('text-input');
+                        if (inputEl) {
+                            inputEl.value = '';
+                            inputEl.placeholder = '继续输入其他托福信息，或点击"次へ"继续';
+                        }
+                    } else if (/没有|无|跳过/.test(text)) {
+                        nextStep();
+                    } else {
+                        alert('请正确输入托福信息，例如：2025年3月考试，或已有成绩95分');
+                    }
+                    break;
+
+            }
+        }
+
+        // 打字机效果
+        function typewriter(el, text, speed = 30) {
+            return new Promise(resolve => {
+                el.textContent = '';
+                let i = 0;
+                function tick() {
+                    if (i < text.length) {
+                        el.textContent += text[i];
+                        i++;
+                        setTimeout(tick, speed);
+                    } else {
+                        el.classList.remove('typewriter-cursor');
+                        resolve();
+                    }
+                }
+                el.classList.add('typewriter-cursor');
+                tick();
+            });
+        }
+
+        // 下一步
+        async function nextStep() {
+            const msgEl = document.getElementById('ai-message');
+            if (msgEl) {
+                msgEl.textContent = '正在输入中';
+                msgEl.classList.add('typing-indicator');
+            }
+
+            await new Promise(r => setTimeout(r, 1000));
+
+            if (msgEl) {
+                msgEl.classList.remove('typing-indicator');
+            }
+
+            state.stage++;
+            
+            if (state.stage > STEPS.TOEFL_PLANNING) {
+                showConfirmBubble();
+            } else {
+                renderStage();
+            }
+        }
+
+        // 上一步
+        function prevStep() {
+            if (state.stage > STEPS.WELCOME) {
+                state.stage--;
+                renderStage();
+            }
+        }
+
+        // 更新导航按钮
+        function updateNavButtons() {
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+
+            if (btnPrev) {
+                const shouldDisable = state.stage === STEPS.WELCOME || state.stage === STEPS.CONFIRM;
+                btnPrev.disabled = shouldDisable;
+                btnPrev.classList.toggle('disabled', shouldDisable);
+            }
+
+            if (btnNext) {
+                // 在欢迎页面和确认页面禁用，其他页面启用
+                const shouldDisable = state.stage === STEPS.WELCOME || state.stage === STEPS.CONFIRM;
+                btnNext.disabled = shouldDisable;
+                btnNext.classList.toggle('disabled', shouldDisable);
+                
+                // 确保按钮可见
+                if (!shouldDisable) {
+                    btnNext.style.opacity = '1';
+                    btnNext.style.visibility = 'visible';
+                }
+            }
+        }
+
+        // 开始
+        function handleStart() {
+            state.stage = STEPS.ENROLLMENT_TARGET;
+            renderStage();
+        }
+
+        // 启用时间轴编辑
+        let isEditingTimeline = false;
+        function enableTimelineEdit() {
+            isEditingTimeline = !isEditingTimeline;
+            const editBtn = document.getElementById('edit-timeline-btn');
+            // 选择所有单元格，包括空的
+            const cells = document.querySelectorAll('.timeline-cell');
+            
+            if (isEditingTimeline) {
+                // 启用编辑模式
+                cells.forEach(cell => {
+                    cell.classList.add('editable');
+                    // 移除旧的监听器（如果存在）
+                    cell.removeEventListener('click', handleCellEdit);
+                    // 添加新的监听器
+                    cell.addEventListener('click', handleCellEdit);
+                });
+                if (editBtn) {
+                    editBtn.innerHTML = '<i class="fas fa-check mr-1.5"></i>完成编辑';
+                    editBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                    editBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                }
+            } else {
+                // 禁用编辑模式
+                cells.forEach(cell => {
+                    cell.classList.remove('editable');
+                    cell.removeEventListener('click', handleCellEdit);
+                    // 如果有输入框，保存并恢复为文本
+                    const input = cell.querySelector('input');
+                    if (input) {
+                        const newValue = input.value.trim();
+                        cell.textContent = newValue || cell.getAttribute('data-content') || '';
+                        if (newValue) {
+                            cell.setAttribute('data-content', newValue);
+                            cell.classList.add('has-event');
+                        }
+                        input.remove();
+                    }
+                });
+                if (editBtn) {
+                    editBtn.innerHTML = '<i class="fas fa-edit mr-1.5"></i>编辑';
+                    editBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                    editBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                }
+            }
+        }
+
+        // 处理单元格编辑
+        function handleCellEdit(event) {
+            if (!isEditingTimeline) return; // 如果不在编辑模式，不处理
+            
+            const cell = event.currentTarget;
+            if (cell.querySelector('input')) return; // 如果已经有输入框，不重复添加
+            
+            const currentText = cell.textContent.trim();
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentText;
+            input.style.width = '100%';
+            input.style.minWidth = '80px';
+            input.style.maxWidth = '100%';
+            
+            // 保存原始内容
+            const originalText = currentText || cell.getAttribute('data-content') || '';
+            
+            cell.textContent = '';
+            cell.appendChild(input);
+            input.focus();
+            input.select();
+            
+            // 保存编辑
+            const saveEdit = () => {
+                const newText = input.value.trim();
+                if (newText) {
+                    cell.textContent = newText;
+                    cell.setAttribute('data-content', newText);
+                    cell.classList.add('has-event');
+                } else {
+                    cell.textContent = '';
+                    cell.removeAttribute('data-content');
+                    cell.classList.remove('has-event');
+                }
+                input.remove();
+            };
+            
+            // 取消编辑
+            const cancelEdit = () => {
+                cell.textContent = originalText;
+                if (originalText) {
+                    cell.setAttribute('data-content', originalText);
+                    cell.classList.add('has-event');
+                }
+                input.remove();
+            };
+            
+            // 按Enter保存，Esc取消
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    saveEdit();
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    cancelEdit();
+                }
+            });
+            
+            // 失去焦点时保存
+            input.addEventListener('blur', () => {
+                setTimeout(() => {
+                    if (input.parentNode === cell) {
+                        saveEdit();
+                    }
+                }, 200);
+            });
+            
+            // 阻止事件冒泡
+            event.stopPropagation();
+        }
+
+        // 保存时间轴数据
+        function saveTimelineData() {
+            // 收集编辑后的单元格内容
+            const editedCells = {};
+            document.querySelectorAll('.timeline-cell.has-event').forEach(cell => {
+                const rowId = cell.getAttribute('data-row-id');
+                const colIndex = cell.getAttribute('data-col-index');
+                if (rowId && colIndex !== null) {
+                    const key = `${rowId}-${colIndex}`;
+                    editedCells[key] = cell.textContent.trim();
+                }
+            });
+            
+            const data = {
+                enrollmentYear: state.enrollmentYear,
+                enrollmentMonth: state.enrollmentMonth,
+                japanStatus: state.japanStatus,
+                arrivalDate: state.arrivalDate,
+                lifeEvents: state.lifeEvents,
+                ejuScores: state.ejuScores,
+                jlptScores: state.jlptScores,
+                toeflScores: state.toeflScores,
+                includeApplications: state.includeApplications,
+                timelineMonths: state.timelineMonths,
+                editedCells: editedCells,
+                savedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem(ONBOARDING_KEY, JSON.stringify(data));
+            
+            // 显示保存成功提示
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check mr-1.5"></i>已保存';
+            btn.classList.add('bg-emerald-600');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-emerald-600');
+            }, 2000);
+        }
+
+        // 完成（不再跳转）
+        function finishOnboarding() {
+            // 保存数据
+            saveTimelineData();
+            
+            // 显示完成消息
+            const msgEl = document.getElementById('ai-message');
+            if (msgEl) {
+                msgEl.textContent = '时间轴已生成并保存完成！你可以随时返回查看或修改。';
+            }
+            
+            // 不跳转，停留在当前页面
+        }
+
+        // 确认气泡事件
+        document.getElementById('btn-confirm-yes')?.addEventListener('click', () => {
+            state.includeApplications = true;
+            document.getElementById('confirm-bubble').style.display = 'none';
+            proceedToTimeline();
+        });
+
+        document.getElementById('btn-confirm-no')?.addEventListener('click', () => {
+            state.includeApplications = false;
+            document.getElementById('confirm-bubble').style.display = 'none';
+            proceedToTimeline();
+        });
+
+        // 导航按钮事件
+        document.getElementById('btn-prev')?.addEventListener('click', prevStep);
+        document.getElementById('btn-next')?.addEventListener('click', () => {
+            if (state.stage < STEPS.CONFIRM) {
+                const input = document.getElementById('text-input');
+                if (input && input.value.trim()) {
+                    handleInput();
+                } else {
+                    // 如果没有输入，直接进入下一步（允许跳过）
+                    // 现在大部分步骤都使用按钮，所以这里主要用于兼容
+                    nextStep();
+                }
+            }
+        });
+
+        // 初始化
+        function init() {
+            renderStage();
+            // 确保导航按钮在初始化时正确显示
+            updateNavButtons();
+            // 预加载学校总览数据（提前准备，提升性能）
+            loadFullData().catch(e => {
+                console.warn('预加载学校总览数据失败，将在需要时重试:', e);
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>

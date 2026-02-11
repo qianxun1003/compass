@@ -1,0 +1,2989 @@
+<!DOCTYPE html>
+<html lang="zh-JP">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出願センター | 大学コンパス</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { 
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif; 
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+        }
+        
+        /* 只针对工具箱内容区域设置中文字体和统一粗细 */
+        .toolbox-content-body,
+        .toolbox-content-body * {
+            font-family: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', 'WenQuanYi Micro Hei', sans-serif !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        
+        /* 工具箱内容区域统一字体粗细 */
+        .toolbox-content-body p,
+        .toolbox-content-body div,
+        .toolbox-content-body span,
+        .toolbox-content-body li,
+        .toolbox-content-body td,
+        .toolbox-content-body th {
+            font-weight: 400 !important;
+        }
+        
+        .toolbox-content-body h1,
+        .toolbox-content-body h2,
+        .toolbox-content-body h3,
+        .toolbox-content-body h4,
+        .toolbox-content-body h5,
+        .toolbox-content-body h6 {
+            font-weight: 600 !important;
+        }
+        
+        .toolbox-content-body strong,
+        .toolbox-content-body b {
+            font-weight: 600 !important;
+        }
+        
+        /* code 标签保持等宽字体 */
+        .toolbox-content-body code {
+            font-family: 'Courier New', 'Consolas', 'Monaco', monospace !important;
+        }
+        
+        body { 
+            background: #fff0f5;
+            min-height: 100vh;
+            position: relative;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+        
+        .glass { 
+            background: rgba(255, 250, 240, 0.9);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255, 240, 200, 0.5);
+            box-shadow: 
+                0 12px 40px rgba(255, 230, 180, 0.18), 
+                inset 0 2px 4px rgba(255, 255, 255, 0.95),
+                0 4px 16px rgba(255, 240, 200, 0.12),
+                inset 0 -2px 4px rgba(255, 245, 220, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+        }
+        
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .animate-slide-up { animation: slideUp 0.8s ease-out forwards; }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 50px;
+            padding-bottom: 30px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 0;
+            bottom: -30px;
+            width: 3px;
+            background: linear-gradient(180deg, rgba(180, 150, 130, 0.5) 0%, rgba(180, 150, 130, 0.15) 100%);
+        }
+        .timeline-item:last-child::before { display: none; }
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px dashed rgba(180, 150, 130, 0.4);
+            box-shadow: 0 4px 16px rgba(139, 115, 95, 0.12);
+        }
+        .card-diary {
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.85) 0%,
+                rgba(255, 245, 250, 0.8) 50%,
+                rgba(255, 250, 245, 0.85) 100%
+            );
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid rgba(255, 200, 220, 0.35);
+            border-radius: 0.875rem;
+            box-shadow: 
+                0 4px 16px rgba(255, 180, 200, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                0 2px 8px rgba(255, 200, 220, 0.06),
+                inset 0 -1px 0 rgba(255, 220, 240, 0.2);
+        }
+        /* 时间表区域的卡片 - 使用稍微不同的背景色以区分 */
+        .timeline-section-wrapper .card-diary {
+            background: linear-gradient(135deg, 
+                rgba(255, 240, 248, 0.75) 0%,
+                rgba(255, 245, 240, 0.7) 50%,
+                rgba(255, 242, 248, 0.75) 100%
+            );
+            border-color: rgba(255, 190, 210, 0.4);
+        }
+        /* 全体タイムライン：左側縦線 + 過去/未来分区 */
+        .timeline-flow {
+            position: relative;
+            padding-left: 2rem;
+            min-height: 100px;
+            width: 100%;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        .timeline-flow::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, 
+                rgba(255, 200, 220, 0.3) 0%, 
+                rgba(255, 220, 200, 0.5) 15%, 
+                rgba(255, 200, 220, 0.6) 50%, 
+                rgba(255, 220, 200, 0.4) 100%
+            );
+            border-radius: 2px;
+            z-index: 0;
+            box-shadow: 0 0 8px rgba(255, 180, 200, 0.2);
+        }
+        .timeline-past {
+            opacity: 0.75;
+        }
+        .timeline-past-toggle {
+            cursor: pointer;
+            padding: 0.35rem 0.5rem;
+            font-size: 0.78rem;
+            color: #8b6b5b;
+            border-radius: 0.5rem;
+            margin: 0.3rem 0;
+        }
+        .timeline-past-toggle:hover { background: rgba(180,150,130,0.08); }
+        .timeline-past-middle {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease-out;
+        }
+        .timeline-past-middle.expanded { max-height: 1200px; }
+        .timeline-past .timeline-day-group .card-diary { padding: 0.4rem 0.6rem; }
+        .timeline-past .timeline-day-group .timeline-node { padding-left: 2rem; padding-bottom: 0.8rem; }
+        .timeline-past .timeline-day-group span { font-size: 0.78rem; }
+        .timeline-future-header {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #5c4033;
+            padding: 0.5rem 0 0.75rem 0;
+            margin-top: 0.5rem;
+            letter-spacing: 0.02em;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+        .timeline-flow .timeline-global .timeline-node-dot.upcoming {
+            background: linear-gradient(135deg, rgba(180, 150, 130, 0.85), rgba(139, 115, 95, 0.75));
+            box-shadow: 0 0 0 2px rgba(180, 150, 130, 0.3);
+        }
+        .timeline-global {
+            position: relative;
+            padding-left: 0;
+            margin-left: 0;
+            width: 100%;
+            display: block !important;
+            min-height: 50px;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        .timeline-global .timeline-day-group {
+            position: relative;
+            margin-left: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+            width: 100%;
+        }
+        .timeline-global .timeline-day-group .timeline-node {
+            flex: 1 1 200px;
+            min-width: 180px;
+            position: relative;
+            padding-left: 2.5rem;
+            padding-bottom: 1.5rem;
+            min-height: 40px;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-global .timeline-day-group .timeline-node::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 0;
+            bottom: -1.5rem;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(180, 150, 130, 0.4) 0%, rgba(180, 150, 130, 0.1) 100%);
+            z-index: 0;
+        }
+        .timeline-global .timeline-day-group .timeline-node:last-child::before { display: none; }
+        .timeline-global .timeline-day-group .timeline-node::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 0;
+            bottom: -1.5rem;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(180, 150, 130, 0.4) 0%, rgba(180, 150, 130, 0.1) 100%);
+            z-index: 0;
+        }
+        .timeline-global .timeline-day-group .timeline-node:last-child::before { display: none; }
+        .timeline-global .timeline-node {
+            position: relative;
+            padding-left: 2.5rem;
+            padding-bottom: 1.5rem;
+            min-height: 40px;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-global .timeline-node::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 0;
+            bottom: -1.5rem;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(180, 150, 130, 0.4) 0%, rgba(180, 150, 130, 0.1) 100%);
+            z-index: 0;
+        }
+        .timeline-global .timeline-node:last-child::before { display: none; }
+        .timeline-global .timeline-day-group .timeline-node-dot {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(180, 150, 130, 0.6), rgba(139, 115, 95, 0.5));
+            border: 1px dashed rgba(180, 150, 130, 0.4);
+            z-index: 1;
+            box-shadow: 0 2px 8px rgba(139, 115, 95, 0.15);
+        }
+        .timeline-global .timeline-day-group .timeline-node-dot.upcoming {
+            background: linear-gradient(135deg, rgba(180, 150, 130, 0.85), rgba(139, 115, 95, 0.75));
+            box-shadow: 0 0 0 2px rgba(180, 150, 130, 0.3);
+        }
+        .timeline-global .timeline-node-dot {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(180, 150, 130, 0.6), rgba(139, 115, 95, 0.5));
+            border: 1px dashed rgba(180, 150, 130, 0.4);
+            z-index: 1;
+            box-shadow: 0 2px 8px rgba(139, 115, 95, 0.15);
+        }
+        .timeline-global .timeline-node-dot.upcoming {
+            background: linear-gradient(135deg, rgba(180, 150, 130, 0.85), rgba(139, 115, 95, 0.75));
+            box-shadow: 0 0 0 2px rgba(180, 150, 130, 0.3);
+        }
+        .school-progress-bar {
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(255, 200, 220, 0.25);
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(255, 180, 200, 0.2);
+        }
+        .school-progress-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, 
+                rgba(255, 200, 220, 0.7), 
+                rgba(255, 220, 200, 0.8),
+                rgba(255, 200, 220, 0.7)
+            );
+            transition: width 0.5s ease-out;
+            box-shadow: 0 0 8px rgba(255, 180, 200, 0.4);
+        }
+        /* 日系手帳風・ラベル（旗・丸角バブル） */
+        .timeline-label-flag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 0 12px 12px 0;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            border: 1px dashed rgba(180, 150, 130, 0.4);
+            box-shadow: 0 2px 8px rgba(139, 115, 95, 0.08);
+            position: relative;
+        }
+        .timeline-label-flag::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-right: 6px solid rgba(180, 150, 130, 0.5);
+        }
+        .timeline-label-bubble {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px dashed rgba(180, 150, 130, 0.35);
+            box-shadow: 0 2px 10px rgba(139, 115, 95, 0.06);
+        }
+        .label-start { 
+            background: linear-gradient(135deg, rgba(255, 240, 250, 0.6), rgba(255, 250, 240, 0.55)); 
+            color: #7a5a4a; 
+            backdrop-filter: blur(8px) saturate(140%);
+            -webkit-backdrop-filter: blur(8px) saturate(140%);
+        }
+        .label-deadline { 
+            background: linear-gradient(135deg, rgba(255, 200, 220, 0.6), rgba(255, 220, 200, 0.55)); 
+            color: #7a5a4a; 
+            backdrop-filter: blur(8px) saturate(140%);
+            -webkit-backdrop-filter: blur(8px) saturate(140%);
+        }
+        .label-deadline.required { 
+            border-color: rgba(255, 150, 150, 0.6); 
+            background: linear-gradient(135deg, rgba(255, 230, 240, 0.8), rgba(255, 210, 220, 0.75)); 
+            color: #8b4a4a; 
+            backdrop-filter: blur(8px) saturate(140%);
+            -webkit-backdrop-filter: blur(8px) saturate(140%);
+        }
+        .label-exam { 
+            background: linear-gradient(135deg, rgba(255, 240, 220, 0.6), rgba(255, 250, 230, 0.55)); 
+            color: #6a5a4a; 
+            backdrop-filter: blur(8px) saturate(140%);
+            -webkit-backdrop-filter: blur(8px) saturate(140%);
+        }
+        .label-announce { 
+            background: linear-gradient(135deg, rgba(255, 218, 240, 0.7), rgba(255, 200, 220, 0.65)); 
+            color: #8b5a6a; 
+            backdrop-filter: blur(8px) saturate(140%);
+            -webkit-backdrop-filter: blur(8px) saturate(140%);
+        }
+        /* 同日の分岐配置 */
+        .timeline-day-group {
+            display: flex !important;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+            position: relative;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        .timeline-day-group .timeline-node {
+            flex: 1 1 200px;
+            min-width: 180px;
+            position: relative;
+        }
+        .timeline-day-group .timeline-node::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 0;
+            bottom: -1.5rem;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(180, 150, 130, 0.4) 0%, rgba(180, 150, 130, 0.1) 100%);
+            z-index: 0;
+        }
+        .timeline-day-group .timeline-node:last-child::before { display: none; }
+        .timeline-day-group         .timeline-node-dot {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 200, 220, 0.7), rgba(255, 220, 200, 0.6));
+            border: 1px solid rgba(255, 180, 200, 0.5);
+            z-index: 1;
+            box-shadow: 
+                0 3px 10px rgba(255, 180, 200, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+        .timeline-day-group .timeline-node-dot.upcoming {
+            background: linear-gradient(135deg, rgba(255, 200, 220, 0.9), rgba(255, 220, 200, 0.8));
+            box-shadow: 
+                0 0 0 3px rgba(255, 200, 220, 0.4),
+                0 3px 12px rgba(255, 180, 200, 0.25);
+        }
+        /* ユーザーメモ（便箋・テープ風） */
+        .memo-sticker {
+            position: relative;
+            padding: 10px 14px;
+            margin-top: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            border-radius: 6px;
+            border-left: 4px solid rgba(255, 180, 200, 0.7);
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.95) 0%,
+                rgba(255, 250, 248, 0.92) 50%,
+                rgba(255, 252, 250, 0.95) 100%
+            );
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            border-right: 1px solid rgba(255, 200, 220, 0.4);
+            border-top: 1px solid rgba(255, 200, 220, 0.4);
+            border-bottom: 1px solid rgba(255, 200, 220, 0.4);
+            box-shadow: 
+                0 4px 16px rgba(255, 180, 200, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            transform: rotate(-0.5deg);
+        }
+        .memo-sticker::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, rgba(255, 220, 240, 0.6), transparent);
+            border-radius: 0 6px 0 12px;
+        }
+        .memo-add-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 200, 220, 0.5);
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.9) 0%,
+                rgba(255, 250, 248, 0.85) 100%
+            );
+            backdrop-filter: blur(12px) saturate(140%);
+            -webkit-backdrop-filter: blur(12px) saturate(140%);
+            color: #8b6b5b;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 8px rgba(255, 180, 200, 0.1);
+        }
+        .memo-add-btn:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 250, 255, 0.95) 0%,
+                rgba(255, 252, 250, 0.9) 100%
+            );
+            border-color: rgba(255, 180, 200, 0.7);
+            box-shadow: 0 4px 12px rgba(255, 180, 200, 0.2);
+            transform: translateY(-1px);
+        }
+        .memo-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(255, 180, 200, 0.25);
+            backdrop-filter: blur(12px) saturate(150%);
+            -webkit-backdrop-filter: blur(12px) saturate(150%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .memo-modal-overlay.hidden { display: none !important; }
+        .memo-modal {
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.98) 0%,
+                rgba(255, 250, 248, 0.96) 100%
+            );
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 200, 220, 0.5);
+            border-radius: 1.25rem;
+            padding: 24px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 
+                0 20px 60px rgba(255, 180, 200, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+        /* 折りたたみドロワー */
+        .drawer-header {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .drawer-header:hover {
+            border-radius: 0.75rem;
+        }
+        .drawer-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease-out;
+        }
+        .drawer-body.expanded {
+            max-height: 1200px;
+        }
+        .drawer-chevron {
+            transition: transform 0.3s ease;
+        }
+        .drawer-group:has(> .drawer-body.expanded) > .drawer-header .drawer-chevron {
+            transform: rotate(180deg);
+        }
+        /* 大抽屉 - 最深的颜色 */
+        .drawer-main .drawer-header { 
+            background: linear-gradient(135deg, 
+                rgba(255, 200, 220, 0.25), 
+                rgba(255, 220, 200, 0.2)
+            ); 
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            border: 1px solid rgba(255, 180, 200, 0.4);
+            border-radius: 1rem; 
+            padding: 1rem 1.25rem;
+            box-shadow: 
+                0 4px 12px rgba(255, 180, 200, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+        .drawer-main .drawer-header:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 200, 220, 0.3), 
+                rgba(255, 220, 200, 0.25)
+            );
+            box-shadow: 
+                0 6px 16px rgba(255, 180, 200, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        /* 中抽屉 - 中等颜色 */
+        .drawer-univ .drawer-header { 
+            padding-left: 1.5rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 210, 230, 0.2), 
+                rgba(255, 230, 210, 0.15)
+            );
+            backdrop-filter: blur(14px) saturate(140%);
+            -webkit-backdrop-filter: blur(14px) saturate(140%);
+            border: 1px solid rgba(255, 190, 210, 0.35);
+            box-shadow: 
+                0 3px 10px rgba(255, 180, 200, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+        .drawer-univ .drawer-header:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 210, 230, 0.25), 
+                rgba(255, 230, 210, 0.2)
+            );
+            box-shadow: 
+                0 4px 14px rgba(255, 180, 200, 0.18),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+        /* 小抽屉 - 最浅的颜色 */
+        .drawer-dept .drawer-header { 
+            padding-left: 2.5rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 220, 240, 0.15), 
+                rgba(255, 240, 220, 0.12)
+            );
+            backdrop-filter: blur(12px) saturate(130%);
+            -webkit-backdrop-filter: blur(12px) saturate(130%);
+            border: 1px solid rgba(255, 200, 220, 0.3);
+            box-shadow: 
+                0 2px 8px rgba(255, 180, 200, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+        .drawer-dept .drawer-header:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 220, 240, 0.2), 
+                rgba(255, 240, 220, 0.17)
+            );
+            box-shadow: 
+                0 3px 12px rgba(255, 180, 200, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+        /* 志望校マインドマップ：大学左揃え、右に展開 学部→学科 */
+        .mindmap-box {
+            background: #faf8f5;
+            border-radius: 1rem;
+            padding: 0.75rem 1rem;
+            border: 1px dashed rgba(180,150,130,0.3);
+        }
+        .mindmap-root {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.6rem;
+        }
+        .mindmap-row {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .mindmap-univ {
+            flex-shrink: 0;
+            min-width: 100px;
+            padding: 0.35rem 0.6rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #5c4033;
+        }
+        .mindmap-branches {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            flex: 1;
+            min-width: 0;
+        }
+        .mindmap-dept {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.78rem;
+            color: #7a5a4a;
+            border-left: 2px solid rgba(180,150,130,0.4);
+        }
+        .mindmap-major {
+            padding-left: 0.5rem;
+            font-size: 0.72rem;
+            color: #8b6b5b;
+        }
+        .mindmap-node {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.25rem;
+        }
+        .mindmap-node .remove-plan-btn {
+            opacity: 0.6;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .mindmap-node .remove-plan-btn:hover { opacity: 1; }
+        /* 時間ノード行（学部専属軸） */
+        .node-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .node-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 0.5rem;
+            border: 1px dashed rgba(180, 150, 130, 0.35);
+            background: rgba(255, 252, 250, 0.6);
+            min-width: 140px;
+        }
+        .node-cell .node-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            color: #8b6b5b;
+            opacity: 0.85;
+        }
+        .node-cell .node-label { font-size: 11px; color: #a08070; }
+        .node-cell .node-value { font-size: 13px; font-weight: 500; color: #7a5a4a; }
+        /* 今週Todo区域：米黄色/米白色系 */
+        .week-todo-box {
+            background: linear-gradient(135deg, 
+                rgba(255, 250, 245, 0.9) 0%, 
+                rgba(255, 248, 242, 0.85) 30%,
+                rgba(255, 252, 248, 0.9) 60%,
+                rgba(255, 250, 245, 0.85) 100%
+            );
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border: 1px solid rgba(220, 200, 180, 0.5);
+            box-shadow: 
+                0 12px 40px rgba(220, 200, 180, 0.12),
+                0 6px 20px rgba(230, 210, 190, 0.1),
+                inset 0 2px 4px rgba(255, 255, 255, 0.9),
+                inset 0 -2px 6px rgba(240, 230, 220, 0.15);
+            border-radius: 1rem;
+            padding: 0.75rem 1rem !important;
+        }
+        .week-todo-title { 
+            color: #6c4033; 
+            letter-spacing: 0.05em; 
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            opacity: 1;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+        .week-todo-body .week-todo-today { 
+            color: #7a4a4a; 
+            font-size: 1rem; 
+            font-weight: 600;
+        }
+        .week-todo-body .week-todo-today-list { 
+            color: #8b6a6a; 
+            font-size: 0.9rem;
+        }
+        .week-todo-body .week-todo-future { 
+            color: #9b7a7a; 
+            font-size: 0.9rem; 
+        }
+        /* 周表格样式 - 超扁平顶部提示条 */
+        .week-todo-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 0.25rem;
+            font-size: 0.75rem;
+        }
+        .week-todo-table th {
+            padding: 0.3rem 0.4rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.72rem;
+            color: #7a5a4a;
+            border-bottom: 1px solid rgba(220, 200, 180, 0.3);
+            letter-spacing: 0.02em;
+            background: rgba(255, 250, 245, 0.5);
+        }
+        .week-todo-table td {
+            padding: 0.3rem 0.4rem;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(230, 220, 200, 0.2);
+            line-height: 1.25;
+            background: rgba(255, 252, 250, 0.3);
+        }
+        .week-todo-table tr:last-child td {
+            border-bottom: none;
+        }
+        .week-todo-table .day-name {
+            font-weight: 600;
+            color: #6c4a3a;
+            min-width: 45px;
+            font-size: 0.72rem;
+            white-space: nowrap;
+            letter-spacing: 0.01em;
+        }
+        .week-todo-table .day-date {
+            font-size: 0.67rem;
+            color: #8b6a6a;
+            margin-top: 0.05rem;
+            opacity: 0.85;
+            font-weight: 500;
+        }
+        .week-todo-table .day-content {
+            font-size: 0.72rem;
+            color: #7a5a4a;
+            font-weight: 500;
+        }
+        .week-todo-table .day-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .week-todo-table .day-content li {
+            padding: 0.1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            line-height: 1.15;
+        }
+        .week-todo-table .day-content .no-items {
+            color: #b5a5a5;
+            font-style: italic;
+            font-size: 0.65rem;
+            opacity: 0.7;
+        }
+        /* 编辑输入框样式 */
+        .week-todo-table .day-content .custom-todo-input {
+            width: 100%;
+            padding: 0.25rem 0.4rem;
+            font-size: 0.7rem;
+            color: #7a5a4a;
+            background: rgba(255, 252, 248, 0.7);
+            border: 1px dashed rgba(220, 200, 180, 0.4);
+            border-radius: 0.375rem;
+            outline: none;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            margin-top: 0.2rem;
+        }
+        .week-todo-table .day-content .custom-todo-input:focus {
+            background: rgba(255, 252, 248, 0.9);
+            border-color: rgba(220, 200, 180, 0.6);
+            box-shadow: 0 0 0 2px rgba(220, 200, 180, 0.2);
+        }
+        .week-todo-table .day-content .custom-todo-input::placeholder {
+            color: #b5a5a5;
+            opacity: 0.6;
+            font-style: italic;
+        }
+        .week-todo-table tr.today-row .day-content .custom-todo-input {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.5rem;
+        }
+        /* 编辑按钮 */
+        .week-todo-edit-btn {
+            margin-top: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #7a5a4a;
+            background: rgba(255, 252, 248, 0.7);
+            border: 1px dashed rgba(220, 200, 180, 0.4);
+            border-radius: 0.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .week-todo-edit-btn:hover {
+            background: rgba(255, 252, 248, 0.9);
+            border-color: rgba(220, 200, 180, 0.6);
+            transform: translateY(-1px);
+        }
+        /* 保存/取消按钮 */
+        .week-todo-action-btn {
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #7a5a4a;
+            background: rgba(255, 252, 248, 0.8);
+            border: 1px dashed rgba(220, 200, 180, 0.4);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-left: 0.5rem;
+        }
+        .week-todo-action-btn:hover {
+            background: rgba(255, 252, 248, 0.95);
+            border-color: rgba(220, 200, 180, 0.6);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(220, 200, 180, 0.15);
+        }
+        .week-todo-action-btn.save-btn {
+            color: #7a9a7a;
+        }
+        .week-todo-action-btn.cancel-btn {
+            color: #9b7a7a;
+        }
+        .week-todo-action-btn.saved {
+            color: #7a9a7a;
+            border-color: rgba(120, 160, 140, 0.4);
+            background: rgba(240, 255, 248, 0.7);
+        }
+        /* 用户自定义事项显示 */
+        .week-todo-table .day-content .custom-todo-item {
+            padding: 0.1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            line-height: 1.15;
+            color: #8b6a6a;
+            font-size: 0.7rem;
+            margin-top: 0.15rem;
+        }
+        .week-todo-table tr.today-row .day-content .custom-todo-item {
+            font-size: 0.75rem;
+        }
+        /* 今天那一行突出显示 - 精致活力感 */
+        .week-todo-table tr.today-row {
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 240, 0.95) 0%,
+                rgba(255, 245, 238, 0.9) 100%
+            );
+            border: 2px solid rgba(220, 200, 180, 0.6);
+            border-radius: 0.5rem;
+            box-shadow: 
+                0 4px 16px rgba(220, 200, 180, 0.2),
+                0 2px 6px rgba(230, 210, 190, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.9);
+        }
+        .week-todo-table tr.today-row td {
+            padding: 0.4rem 0.5rem;
+            border-bottom: none;
+        }
+        .week-todo-table tr.today-row .day-name {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #6c3a3a;
+            letter-spacing: 0.02em;
+        }
+        .week-todo-table tr.today-row .day-date {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #7a5a5a;
+            opacity: 1;
+        }
+        .week-todo-table tr.today-row .day-content {
+            font-size: 0.77rem;
+            font-weight: 600;
+            color: #6c4a3a;
+        }
+        /* 多階層ドロワー：expanded時のみ有効、それ以外はmax-height:0で折りたたみ */
+        .drawer-body.dept-level.expanded { max-height: 800px; }
+        .drawer-body.univ-level.expanded { max-height: 2000px; }
+        .drawer-body.main-level.expanded { max-height: 4000px; }
+        /* ボタン式展開区域 - 精致活力感 */
+        .section-button {
+            width: 100%;
+            padding: 1.15rem 1.4rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.95) 0%,
+                rgba(255, 250, 248, 0.92) 50%,
+                rgba(255, 252, 250, 0.95) 100%
+            );
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1.5px solid rgba(255, 200, 220, 0.4);
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 
+                0 6px 20px rgba(255, 180, 200, 0.12),
+                0 3px 10px rgba(255, 200, 220, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -1px 0 rgba(255, 220, 240, 0.2);
+        }
+        .section-button:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 250, 255, 0.98) 0%,
+                rgba(255, 252, 250, 0.95) 50%,
+                rgba(255, 250, 255, 0.98) 100%
+            );
+            border-color: rgba(255, 180, 200, 0.6);
+            box-shadow: 
+                0 8px 28px rgba(255, 180, 200, 0.18),
+                0 4px 14px rgba(255, 200, 220, 0.12),
+                inset 0 2px 2px rgba(255, 255, 255, 0.9),
+                inset 0 -2px 2px rgba(255, 220, 240, 0.25);
+            transform: translateY(-2px);
+        }
+        .section-button.expanded {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom: none;
+        }
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.8) 0%,
+                rgba(255, 250, 248, 0.75) 100%
+            );
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1.5px solid rgba(255, 200, 220, 0.35);
+            border-top: none;
+            border-radius: 0 0 1rem 1rem;
+            box-shadow: 
+                inset 0 2px 4px rgba(255, 255, 255, 0.6),
+                inset 0 -2px 4px rgba(255, 220, 240, 0.15);
+        }
+        .section-content.expanded {
+            max-height: 5000px !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        /* 确保内联样式也能正确应用 */
+        .section-content[style*="max-height"] {
+            transition: max-height 0.4s ease-out;
+        }
+        /* 强制确保时间线section展开时可见 */
+        #timeline-section-content.expanded {
+            max-height: 5000px !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            overflow: visible !important;
+        }
+        .section-chevron {
+            transition: transform 0.3s ease;
+            color: #8b6b5b;
+            font-size: 1.2rem;
+        }
+        .section-button.expanded .section-chevron {
+            transform: rotate(180deg);
+        }
+        /* 今後出願可能な大学機能 */
+        .future-applications-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(255, 180, 200, 0.3);
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .future-applications-modal.hidden { display: none !important; }
+        .future-applications-content {
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.98) 0%,
+                rgba(255, 250, 248, 0.96) 100%
+            );
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 2px solid rgba(255, 200, 220, 0.5);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 
+                0 24px 72px rgba(255, 180, 200, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+        .future-applications-item {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.9) 0%,
+                rgba(255, 250, 248, 0.85) 100%
+            );
+            backdrop-filter: blur(12px) saturate(140%);
+            -webkit-backdrop-filter: blur(12px) saturate(140%);
+            border: 1px solid rgba(255, 200, 220, 0.4);
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(255, 180, 200, 0.08);
+        }
+        .future-applications-item:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 250, 255, 0.95) 0%,
+                rgba(255, 252, 250, 0.9) 100%
+            );
+            border-color: rgba(255, 180, 200, 0.6);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(255, 180, 200, 0.15);
+        }
+        /* 工具箱模态框样式 */
+        .toolbox-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(255, 180, 200, 0.3);
+            backdrop-filter: blur(16px) saturate(150%);
+            -webkit-backdrop-filter: blur(16px) saturate(150%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .toolbox-modal-overlay.hidden { display: none !important; }
+        .toolbox-modal {
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.98) 0%,
+                rgba(255, 250, 248, 0.96) 100%
+            );
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border: 2px solid rgba(255, 200, 220, 0.5);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 900px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 
+                0 24px 72px rgba(255, 180, 200, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            position: relative;
+        }
+        .toolbox-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px dashed rgba(180, 150, 130, 0.3);
+        }
+        .toolbox-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #5c4033;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .toolbox-close-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, 
+                rgba(255, 240, 250, 0.9) 0%,
+                rgba(255, 250, 240, 0.85) 100%
+            );
+            backdrop-filter: blur(12px) saturate(140%);
+            -webkit-backdrop-filter: blur(12px) saturate(140%);
+            border: 1px solid rgba(255, 200, 220, 0.4);
+            color: #8b6b5b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(255, 180, 200, 0.1);
+        }
+        .toolbox-close-btn:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 250, 255, 0.95) 0%,
+                rgba(255, 252, 250, 0.9) 100%
+            );
+            border-color: rgba(255, 180, 200, 0.6);
+            transform: rotate(90deg);
+            box-shadow: 0 4px 12px rgba(255, 180, 200, 0.2);
+        }
+        .toolbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .toolbox-item {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.98) 0%,
+                rgba(255, 250, 248, 0.95) 50%,
+                rgba(255, 252, 250, 0.98) 100%
+            );
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 2px solid rgba(255, 200, 220, 0.6);
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            box-shadow: 
+                0 8px 20px rgba(255, 180, 200, 0.2),
+                0 4px 12px rgba(255, 200, 220, 0.15),
+                inset 0 2px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -2px 0 rgba(255, 220, 240, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .toolbox-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(255, 255, 255, 0.7) 50%,
+                transparent 100%
+            );
+            transition: left 0.6s ease;
+        }
+        .toolbox-item:hover::before {
+            left: 100%;
+        }
+        .toolbox-item:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 250, 255, 1) 0%,
+                rgba(255, 252, 250, 0.98) 50%,
+                rgba(255, 250, 255, 1) 100%
+            );
+            border-color: rgba(255, 180, 200, 0.85);
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 
+                0 16px 40px rgba(255, 180, 200, 0.3),
+                0 10px 24px rgba(255, 200, 220, 0.25),
+                inset 0 3px 6px rgba(255, 255, 255, 1),
+                inset 0 -3px 6px rgba(255, 220, 240, 0.25);
+        }
+        .toolbox-item:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+        .toolbox-item-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            display: inline-block;
+            filter: drop-shadow(0 2px 4px rgba(139, 115, 95, 0.2));
+            transition: transform 0.3s ease;
+        }
+        .toolbox-item:hover .toolbox-item-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        .toolbox-item-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #5c4033;
+            margin-bottom: 0.4rem;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.02em;
+        }
+        .toolbox-item:hover .toolbox-item-title {
+            color: #4c3023;
+        }
+        .toolbox-item-desc {
+            font-size: 0.8rem;
+            color: #8b6b5b;
+            font-weight: 400;
+            opacity: 0.85;
+        }
+        .toolbox-item:hover .toolbox-item-desc {
+            opacity: 1;
+            color: #7a5a4a;
+        }
+        .toolbox-content-area {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 248, 252, 0.85) 0%,
+                rgba(255, 250, 248, 0.8) 100%
+            );
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid rgba(255, 200, 220, 0.4);
+            border-radius: 1rem;
+            box-shadow: 
+                inset 0 2px 4px rgba(255, 255, 255, 0.7),
+                inset 0 -2px 4px rgba(255, 220, 240, 0.2);
+        }
+        .toolbox-content-area.active {
+            display: block;
+        }
+        .toolbox-content-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed rgba(180, 150, 130, 0.3);
+        }
+        .toolbox-content-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #5c4033;
+        }
+        .toolbox-content-body {
+            color: #5c4033;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+        .toolbox-content-body h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #5c4033;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px dashed rgba(180, 150, 130, 0.2);
+        }
+        .toolbox-content-body h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #6c5040;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .toolbox-content-body h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #7a5a4a;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .toolbox-content-body p {
+            margin-bottom: 0.75rem;
+        }
+        .toolbox-content-body ul, .toolbox-content-body ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .toolbox-content-body li {
+            margin-bottom: 0.5rem;
+        }
+        .toolbox-content-body strong {
+            color: #5c4033;
+            font-weight: 600;
+        }
+        .toolbox-content-body code {
+            background: rgba(180, 150, 130, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #6c5040;
+        }
+        .toolbox-content-body .highlight-box {
+            background: rgba(255, 248, 240, 0.8);
+            border-left: 3px solid rgba(180, 150, 130, 0.5);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+        }
+        .toolbox-content-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .toolbox-content-body table th,
+        .toolbox-content-body table td {
+            padding: 0.75rem;
+            border: 1px dashed rgba(180, 150, 130, 0.3);
+            text-align: left;
+        }
+        .toolbox-content-body table th {
+            background: rgba(180, 150, 130, 0.1);
+            font-weight: 600;
+            color: #5c4033;
+        }
+        /* 顶部工具箱按钮样式 - 有质感有光泽 */
+        #toolbox-btn {
+            padding: 0.875rem 1.5rem !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 250, 240, 0.98) 0%,
+                rgba(255, 252, 245, 0.95) 50%,
+                rgba(255, 250, 240, 0.98) 100%
+            ) !important;
+            backdrop-filter: blur(20px) saturate(160%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+            border: 2px solid rgba(255, 240, 200, 0.6) !important;
+            border-radius: 1rem !important;
+            color: #5c4033 !important;
+            font-weight: 600 !important;
+            font-size: 0.95rem !important;
+            box-shadow: 
+                0 6px 20px rgba(255, 230, 180, 0.2),
+                0 3px 10px rgba(255, 240, 200, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9),
+                inset 0 -1px 0 rgba(255, 245, 220, 0.3) !important;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        #toolbox-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                rgba(255, 255, 255, 0.6) 50%,
+                transparent 100%
+            );
+            transition: left 0.6s ease;
+        }
+        #toolbox-btn:hover::before {
+            left: 100%;
+        }
+        #toolbox-btn:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 252, 245, 1) 0%,
+                rgba(255, 250, 240, 0.98) 50%,
+                rgba(255, 252, 245, 1) 100%
+            ) !important;
+            border-color: rgba(255, 230, 180, 0.8) !important;
+            transform: translateY(-2px) scale(1.05) !important;
+            box-shadow: 
+                0 10px 30px rgba(255, 230, 180, 0.3),
+                0 6px 18px rgba(255, 240, 200, 0.25),
+                inset 0 2px 4px rgba(255, 255, 255, 1),
+                inset 0 -2px 4px rgba(255, 245, 220, 0.25) !important;
+            color: #4c3023 !important;
+        }
+        #toolbox-btn:active {
+            transform: translateY(0) scale(1.02) !important;
+        }
+        #toolbox-btn i {
+            filter: drop-shadow(0 1px 2px rgba(255, 230, 180, 0.3));
+            transition: transform 0.3s ease;
+        }
+        #toolbox-btn:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+    </style>
+</head>
+<body>
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/30">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="compass_index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
+                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white nav-icon-box" style="background:linear-gradient(135deg,rgba(255,220,120,0.95),rgba(255,235,140,0.9));border:1px solid rgba(255,255,255,0.5);box-shadow:0 8px 24px rgba(255,210,100,0.3),inset 0 2px 4px rgba(255,255,255,0.5),inset 0 -2px 4px rgba(255,200,120,0.2);backdrop-filter:blur(12px) saturate(180%);-webkit-backdrop-filter:blur(12px) saturate(180%);">
+                        <i class="fas fa-calendar-check text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl" style="color:#5c4033">出願センター</h1>
+                        <p class="text-xs" style="color:#a08070">Application Center</p>
+                    </div>
+                </a>
+                <div class="flex items-center gap-3">
+                    <button id="toolbox-btn">
+                        <i class="fas fa-toolbox mr-2 text-lg"></i>出願工具箱
+                    </button>
+                    <a href="compass_index.html" class="px-4 py-2 rounded-2xl text-sm font-medium transition-all" style="background:linear-gradient(135deg,rgba(255,250,240,0.85),rgba(255,252,245,0.8));backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid rgba(255,240,200,0.4);color:#8b6b5b;box-shadow:0 2px 8px rgba(255,230,180,0.1)">
+                        <i class="fas fa-home mr-2"></i>ホーム
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-24 px-6 max-w-7xl mx-auto" style="position:relative;z-index:1;">
+        <!-- 当週出願Todo：当日 + その後数日 -->
+        <div id="week-todo-section" class="rounded-2xl p-7 mb-6 week-todo-box">
+            <h3 class="text-base font-bold mb-4 flex items-center gap-2 week-todo-title">
+                <span>📋</span>今週やること
+            </h3>
+            <div id="week-todo-content" class="week-todo-body"></div>
+        </div>
+
+        <!-- 今後出願可能な大学ボタン -->
+        <div class="mb-6">
+            <button id="future-applications-btn" class="section-button">
+                <div class="flex items-center gap-3">
+                    <span class="text-xl">📅</span>
+                    <div class="text-left">
+                        <h3 class="text-lg font-bold" style="color:#5c4033">今後出願可能な大学</h3>
+                        <p class="text-xs" style="color:#a08070">今から受験終了までに出願できる大学を確認</p>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-down section-chevron"></i>
+            </button>
+            <div id="future-applications-content" class="section-content">
+                <div class="p-6">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2" style="color:#8b6b5b">日付を選択（デフォルトは今日）</label>
+                        <input type="date" id="future-applications-date" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b;background:rgba(255,252,250,0.8)">
+                        <p class="text-xs mt-2" style="color:#a08070">選択した日付から翌年4月1日までに出願可能な大学を表示します</p>
+                    </div>
+                    <button id="search-future-applications" class="w-full px-4 py-3 rounded-xl text-white font-medium transition-all" style="background:linear-gradient(135deg,rgba(180,150,130,0.9),rgba(139,115,95,0.85));border:1px dashed rgba(255,255,255,0.35);box-shadow:0 4px 16px rgba(139,115,95,0.15)">
+                        <i class="fas fa-search mr-2"></i>出願可能な大学を検索
+                    </button>
+                    <div id="future-applications-results" class="mt-6"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-1">
+                <button class="section-button mb-0" id="schools-section-btn">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl">🏫</span>
+                        <div class="text-left">
+                            <h3 class="text-lg font-bold" style="color:#5c4033">志望校リスト</h3>
+                            <p class="text-xs" style="color:#a08070">追加済みの学校リスト</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down section-chevron"></i>
+                </button>
+                <div id="schools-section-content" class="section-content">
+                    <div class="glass rounded-b-2xl p-6">
+                        <div id="selected-schools" class="space-y-3">
+                            <p class="text-sm text-center py-8" style="color:#a08070">検索モジュールから大学を追加してください</p>
+                        </div>
+                        <div class="mt-4 space-y-2">
+                            <a href="compass_filter.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b">
+                                <i class="fas fa-plus mr-2"></i>条件筛选で追加
+                            </a>
+                            <a href="compass_score.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b">
+                                <i class="fas fa-plus mr-2"></i>成績matchで追加
+                            </a>
+                            <a href="compass_search.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b">
+                                <i class="fas fa-plus mr-2"></i>検索で追加
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-2">
+                <button class="section-button mb-0" id="timeline-section-btn">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl">📊</span>
+                        <div class="text-left">
+                            <h3 class="text-lg font-bold" style="color:#5c4033">出願タイムライン</h3>
+                            <p class="text-xs" style="color:#a08070">スケジュールと重要なポイント</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-down section-chevron"></i>
+                </button>
+                <div id="timeline-section-content" class="section-content">
+                    <div class="glass rounded-b-2xl p-6">
+                        <div id="timeline-content">
+                            <p class="text-center py-12" style="color:#a08070">志望校を追加するとタイムラインが表示されます</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- メモ入力モーダル -->
+    <div id="memo-modal-overlay" class="memo-modal-overlay hidden">
+        <div class="memo-modal" style="max-width: 500px;">
+            <h4 class="font-bold mb-3" style="color:#8b6b5b">📝 出願メモ</h4>
+            <p class="text-xs mb-3" style="color:#a08070" id="memo-modal-school-name"></p>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2" style="color:#8b6b5b">日付を選択</label>
+                <input type="date" id="memo-modal-date" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b;background:rgba(255,252,250,0.8)">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2" style="color:#8b6b5b">時間を選択（オプション）</label>
+                <input type="time" id="memo-modal-time" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b;background:rgba(255,252,250,0.8)">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2" style="color:#8b6b5b">メモ内容</label>
+                <textarea id="memo-modal-input" rows="4" class="w-full px-4 py-3 rounded-xl border border-dashed resize-none focus:outline-none focus:ring-2" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b;background:rgba(255,252,250,0.8)" placeholder="例：志望理由書を準備、面接はスーツ必須..."></textarea>
+            </div>
+            
+            <div class="flex gap-3 mt-4">
+                <button id="memo-modal-cancel" class="px-4 py-2 rounded-xl text-sm" style="color:#a08070;border:1px dashed rgba(180,150,130,0.4);background:rgba(255,252,250,0.6)">キャンセル</button>
+                <button id="memo-modal-save" class="px-4 py-2 rounded-xl text-sm text-white" style="background:linear-gradient(135deg,rgba(180,150,130,0.9),rgba(139,115,95,0.85));border:1px dashed rgba(255,255,255,0.35)">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 工具箱模态框 -->
+    <div id="toolbox-modal-overlay" class="toolbox-modal-overlay hidden">
+        <div class="toolbox-modal">
+            <div class="toolbox-header">
+                <div class="toolbox-title">
+                    <i class="fas fa-toolbox"></i>
+                    <span>出願工具箱</span>
+                </div>
+                <button class="toolbox-close-btn" id="toolbox-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="toolbox-grid">
+                <div class="toolbox-item" data-content="guide">
+                    <div class="toolbox-item-icon">🔍</div>
+                    <div class="toolbox-item-title">出願流程指南</div>
+                    <div class="toolbox-item-desc">基本流程与说明</div>
+                </div>
+                <div class="toolbox-item" data-content="coming-soon">
+                    <div class="toolbox-item-icon">📎</div>
+                    <div class="toolbox-item-title">材料模板</div>
+                    <div class="toolbox-item-desc">即将推出</div>
+                </div>
+                <div class="toolbox-item" data-content="coming-soon">
+                    <div class="toolbox-item-icon">✂️</div>
+                    <div class="toolbox-item-title">文书范例</div>
+                    <div class="toolbox-item-desc">即将推出</div>
+                </div>
+                <div class="toolbox-item" data-content="coming-soon">
+                    <div class="toolbox-item-icon">⚙️</div>
+                    <div class="toolbox-item-title">时间规划</div>
+                    <div class="toolbox-item-desc">即将推出</div>
+                </div>
+            </div>
+
+            <!-- 出願流程指南内容 -->
+            <div id="toolbox-content-guide" class="toolbox-content-area">
+                <div class="toolbox-content-header">
+                    <div class="toolbox-content-title">🎓 日本大学出愿（申请）信息检索与材料准备万能指南</div>
+                </div>
+                <div class="toolbox-content-body">
+                    <p>亲爱的同学，申请日本大学的第一步不是填表，而是<strong>"获取正确的信息"</strong>。本手册将手把手教你如何在大学官网像专业人士一样通过关键词定位关键信息。</p>
+
+                    <h2>第一阶段：精准定位——去官网哪里找？</h2>
+                    <p>日本大学官网的信息架构非常统一。进入学校官网（通常是 .ac.jp 结尾）后，请盯准以下一级菜单：</p>
+                    <ul>
+                        <li><strong>「入試情報 / 入学案内」</strong>：这是大门，所有招生信息都在这里。</li>
+                        <li><strong>「学部入試」</strong>（如果你是考本科）或 <strong>「大学院入試」</strong>（如果你是考硕士/博士）。</li>
+                        <li><strong>「外国人留学生入試」</strong>：专门针对国际学生的选拔通道。</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <strong>💡 核心目标：</strong> 找到名为 <strong>「募集要項」（ぼしゅうようこう）</strong> 的 PDF 文件。这是申请的"圣经"，包含了所有的截止日期和材料要求。
+                    </div>
+
+                    <h2>第二阶段：搜索关键词——搜什么词能找到？</h2>
+                    <p>如果你在官网上迷路了，直接在搜索框（サイト内検索）输入以下关键词组合：</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>目标信息</th>
+                                <th>推荐搜索关键词（中日对照）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>整体简章</td>
+                                <td>202X年度 + 外国人留学生 + 募集要項</td>
+                            </tr>
+                            <tr>
+                                <td>出愿时间</td>
+                                <td>出願期間（しゅつがんきかん） / 入試日程</td>
+                            </tr>
+                            <tr>
+                                <td>下载表格</td>
+                                <td>出願書類（しゅつがんしょるい） / 様式（ようしき）</td>
+                            </tr>
+                            <tr>
+                                <td>往年题</td>
+                                <td>過去問（かこもん） / 入試問題公開</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h2>第三阶段：核心词汇表——这些词是什么意思？</h2>
+                    <p>在阅读《募集要項》时，你会遇到一些"硬核"词汇，理解错误可能导致申请失败：</p>
+                    <ul>
+                        <li><strong>出願（しゅつがん）</strong>： 提交正式申请（不仅仅是报名，而是包含寄送材料）。</li>
+                        <li><strong>消印有効（けしいんゆうこう）</strong>： 以邮戳时间为准。只要在截止日期当天寄出即可。</li>
+                        <li><strong>必着（ひっちゃく）</strong>： 必须在截止日期前寄送到学校，晚一秒都不行。</li>
+                        <li><strong>併願（へいがん）</strong>： 同时报考多所学校或同一学校的多个专业。</li>
+                        <li><strong>専願（せんがん）</strong>： 录取了必须去，不能拒绝。</li>
+                        <li><strong>検定料（けんていりょう）</strong>： 报名费（通常 30,000 ~ 35,000 日元）。</li>
+                    </ul>
+
+                    <h2>第四阶段：保姆级材料准备清单</h2>
+                    <p>虽然各校要求略有不同，但以下材料是 "通用标配"，请引导学生提前准备：</p>
+
+                    <h3>1. 基础证明类</h3>
+                    <ul>
+                        <li><strong>毕业证明书（卒業証明書）</strong>： 不是毕业证原件，而是学校开具的带有公章的证明。</li>
+                        <li><strong>成绩单（成績証明書）</strong>： 需密封在学校信封里或加盖骑缝章。</li>
+                    </ul>
+
+                    <h3>2. 核心资格类</h3>
+                    <ul>
+                        <li><strong>EJU成绩通知书</strong>： 日本留学试验的成绩。</li>
+                        <li><strong>JLPT证书</strong>： 日语能力考证书。</li>
+                        <li><strong>英语成绩</strong>： 托福 (TOEFL) 或 托业 (TOEIC) 原件（注意：通常需要由 ETS 直接邮寄给学校，需提前一个月操作）。</li>
+                    </ul>
+
+                    <h3>3. 主观文书类</h3>
+                    <ul>
+                        <li><strong>志望理由書（しぼうりゆうしょ）</strong>： 为什么要报这个学校？进去想学什么？</li>
+                        <li><strong>研究計画書（けんきゅうけいかくしょ）</strong>： （主要针对研究生/大学院）你的研究课题是什么？</li>
+                    </ul>
+
+                    <h3>4. 其他</h3>
+                    <ul>
+                        <li><strong>住民票</strong>： （如果你已在日本境内）或 <strong>护照复印件</strong>（在海外）。</li>
+                    </ul>
+
+                    <h2>🛠 给同学们的"检索小贴士"</h2>
+                    <ul>
+                        <li><strong>活用 Google 搜索语法</strong>：如果在官网找不到 PDF，可以在 Google 搜索：<code>site:学校官网域名 2026 外国人留学生 募集要項</code>。</li>
+                        <li><strong>确认"年度"</strong>：日本学年从 4 月开始。如果你要参加 2026 年 4 月入学的考试，请务必寻找 "2026年度" 的简章。</li>
+                        <li><strong>打印出来</strong>：《募集要項》通常有几十页，建议打印出来，用荧光笔勾勒出出愿期间、邮寄地址和必须提交的材料清单。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 即将推出提示 -->
+            <div id="toolbox-content-coming-soon" class="toolbox-content-area">
+                <div class="toolbox-content-body">
+                    <p style="text-align: center; padding: 2rem; color: #a08070;">
+                        <i class="fas fa-hourglass-half" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+                        此功能即将推出，敬请期待！
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'myApplicationPlan';
+        const MEMO_STORAGE_KEY = 'myApplicationMemos';
+        const WEEK_TODO_STORAGE_KEY = 'weekTodoCustom';
+        const FULL_DATA_URL = '学校总览.json';
+        let fullDataIndex = null;
+
+        /** 解析日期字符串 */
+        function parseDate(str) {
+            if (str == null || str === '') return null;
+            let raw = String(str).trim();
+            if (!raw) return null;
+            // 移除常见后缀（必着、消印等）后再解析
+            raw = raw.replace(/(必着|必达|必達|消印).*$/i, '').trim();
+            // 支持 YYYY/MM/DD、YYYY-MM-DD、带时分秒的格式；斜杠统一为横线
+            const datePart = raw.split(/[\sT]/)[0].replace(/\//g, '-');
+            if (!datePart) return null;
+            const d = new Date(datePart);
+            return isNaN(d.getTime()) ? null : d;
+        }
+
+        /** 生成唯一键：大学名_学部名_学科名 */
+        function planId(name, department, major) {
+            const parts = [name || '', department || '', major || ''].map(s => String(s).trim());
+            return parts.join('_').replace(/_+/g, '_').replace(/^_|_$/g, '') || 'unknown';
+        }
+
+        function getPlan() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                let arr = raw ? JSON.parse(raw) : [];
+                arr = migratePlanToDeptLevel(arr);
+                return arr;
+            } catch (e) { return []; }
+        }
+
+        /** 将旧格式(大学+departments数组)迁移为每学部一行 */
+        function migratePlanToDeptLevel(arr) {
+            if (!Array.isArray(arr) || arr.length === 0) return arr;
+            const migrated = [];
+            for (const item of arr) {
+                if (item.id) {
+                    migrated.push(item);
+                    continue;
+                }
+                const depts = item.departments || [];
+                if (depts.length === 0) {
+                    migrated.push({
+                        id: planId(item.name, '', ''),
+                        name: item.name,
+                        department: '',
+                        major: '',
+                        region: item.region,
+                        source: item.source || '',
+                        mailStart: '',
+                        mailEnd: '',
+                        examDate: '',
+                        examFormat: '',
+                        announcementDate: ''
+                    });
+                } else {
+                    depts.forEach(d => {
+                        migrated.push({
+                            id: planId(item.name, d.department, d.major),
+                            name: item.name,
+                            department: d.department || '',
+                            major: d.major || '',
+                            region: item.region,
+                            source: item.source || '',
+                            mailStart: d.mailStart,
+                            mailEnd: d.mailEnd,
+                            mailStartDate: d.mailStartDate,
+                            mailEndDate: d.mailEndDate,
+                            examDate: d.examDate || d.examStart,
+                            examDate2: d.examDate2,
+                            examFormat: d.examFormat,
+                            announcementDate: d.announcementDate || d.announcement
+                        });
+                    });
+                }
+            }
+            return migrated;
+        }
+
+        function savePlan(arr) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+        }
+
+        function getMemos() {
+            try {
+                const raw = localStorage.getItem(MEMO_STORAGE_KEY);
+                const parsed = raw ? JSON.parse(raw) : {};
+                // 兼容旧格式：如果是字符串，转换为新格式
+                const result = {};
+                Object.keys(parsed).forEach(key => {
+                    if (typeof parsed[key] === 'string') {
+                        // 旧格式：只有文本，没有日期时间
+                        result[key] = {
+                            text: parsed[key],
+                            date: null,
+                            time: null,
+                            planId: key
+                        };
+                    } else {
+                        // 新格式：包含 text, date, time
+                        result[key] = parsed[key];
+                    }
+                });
+                return result;
+            } catch (e) { return {}; }
+        }
+
+        function saveMemo(planId, text, date, time) {
+            const memos = getMemos();
+            if (text && text.trim()) {
+                memos[planId] = {
+                    text: text.trim(),
+                    date: date || null,
+                    time: time || null,
+                    planId: planId
+                };
+            } else {
+                delete memos[planId];
+            }
+            localStorage.setItem(MEMO_STORAGE_KEY, JSON.stringify(memos));
+        }
+
+        function escapeAttr(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function removeFromPlan(planId) {
+            const plan = getPlan().filter(s => s.id !== planId);
+            savePlan(plan);
+            updateDisplay();
+        }
+
+        let memoEditingPlanId = null;
+
+        function openMemoModal(planId, displayLabel) {
+            memoEditingPlanId = planId;
+            const overlay = document.getElementById('memo-modal-overlay');
+            const input = document.getElementById('memo-modal-input');
+            const dateInput = document.getElementById('memo-modal-date');
+            const timeInput = document.getElementById('memo-modal-time');
+            const schoolLabel = document.getElementById('memo-modal-school-name');
+            
+            schoolLabel.textContent = (displayLabel || planId) + ' のメモ';
+            
+            const memo = getMemos()[planId];
+            if (memo) {
+                input.value = memo.text || '';
+                dateInput.value = memo.date || '';
+                timeInput.value = memo.time || '';
+            } else {
+                input.value = '';
+                // 默认日期为今天
+                const today = new Date();
+                dateInput.value = today.toISOString().slice(0, 10);
+                timeInput.value = '';
+            }
+            
+            overlay.classList.remove('hidden');
+            input.focus();
+        }
+
+        function closeMemoModal() {
+            memoEditingPlanId = null;
+            document.getElementById('memo-modal-overlay').classList.add('hidden');
+        }
+
+        document.getElementById('memo-modal-cancel').addEventListener('click', closeMemoModal);
+        document.getElementById('memo-modal-save').addEventListener('click', () => {
+            if (memoEditingPlanId) {
+                const text = document.getElementById('memo-modal-input').value;
+                const date = document.getElementById('memo-modal-date').value;
+                const time = document.getElementById('memo-modal-time').value;
+                
+                if (!date) {
+                    alert('日付を選択してください');
+                    return;
+                }
+                
+                saveMemo(memoEditingPlanId, text, date, time);
+                updateDisplay();
+            }
+            closeMemoModal();
+        });
+        document.getElementById('memo-modal-overlay').addEventListener('click', (e) => {
+            if (e.target.id === 'memo-modal-overlay') closeMemoModal();
+        });
+
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.memo-add-btn[data-plan-id]');
+            if (btn) openMemoModal(btn.dataset.planId, btn.dataset.displayLabel);
+            const rmBtn = e.target.closest('.remove-plan-btn[data-plan-id]');
+            if (rmBtn) {
+                e.stopPropagation();
+                if (confirm('削除してもよろしいですか？')) removeFromPlan(rmBtn.dataset.planId);
+            }
+        });
+
+        /** 从 学校总览.json 抓取完整数据并建索引，用于补全 plan 中缺失的日期字段 */
+        async function loadFullData() {
+            try {
+                const res = await fetch(FULL_DATA_URL);
+                if (!res.ok) return;
+                const json = await res.json();
+                const rows = json.data || [];
+                const idx = {};
+                rows.forEach(r => {
+                    const n = (r.name || '').trim();
+                    const d = (r.department || '').trim();
+                    const m = (r.major || '').trim();
+                    idx[planId(n, d, m)] = r;
+                    if (m && !idx[planId(n, d, '')]) idx[planId(n, d, '')] = r;
+                });
+                fullDataIndex = idx;
+                updateDisplay();
+            } catch (_) {
+                updateDisplay();
+            }
+        }
+
+        /** 用完整数据补全 plan 项中空的日期字段 */
+        function enrichPlanItem(item) {
+            if (!fullDataIndex) return item;
+            const full = fullDataIndex[item.id] || fullDataIndex[planId(item.name, item.department, '')];
+            if (!full) return item;
+            const merged = { ...item };
+            const dateFields = ['mailStart', 'mailEnd', 'mailStartDate', 'mailEndDate', 'examDate', 'examDate2', 'announcementDate'];
+            dateFields.forEach(f => {
+                if ((!merged[f] || String(merged[f]).trim() === '') && full[f]) merged[f] = full[f];
+            });
+            if ((!merged.examFormat || String(merged.examFormat).trim() === '') && full.examFormat) merged.examFormat = full.examFormat;
+            if ((!merged.mailEndNote || String(merged.mailEndNote).trim() === '') && full.mailEndNote) merged.mailEndNote = full.mailEndNote;
+            if ((!merged.region || String(merged.region).trim() === '') && full.region) merged.region = full.region;
+            return merged;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateDisplay();
+            loadFullData();
+            
+            // 设置默认日期为今天
+            const todayInput = document.getElementById('future-applications-date');
+            if (todayInput) {
+                const today = new Date();
+                todayInput.value = today.toISOString().slice(0, 10);
+            }
+            
+            // 按钮展开/收起功能
+            const setupSectionToggle = (btnId, contentId, defaultExpanded = false) => {
+                const btn = document.getElementById(btnId);
+                const content = document.getElementById(contentId);
+                if (!btn || !content) return;
+                
+                const storageKey = `section_${btnId}_expanded`;
+                const savedState = localStorage.getItem(storageKey);
+                // 如果localStorage中没有保存状态，使用默认值；否则使用保存的状态
+                const wasExpanded = savedState !== null ? savedState === '1' : defaultExpanded;
+                if (wasExpanded) {
+                    btn.classList.add('expanded');
+                    content.classList.add('expanded');
+                    // 强制设置样式确保内容可见
+                    content.style.maxHeight = '5000px';
+                    content.style.display = 'block';
+                    content.style.visibility = 'visible';
+                    content.style.opacity = '1';
+                    content.style.overflow = 'visible';
+                } else {
+                    content.style.maxHeight = '0px';
+                }
+                
+                btn.addEventListener('click', () => {
+                    const isExpanded = content.classList.contains('expanded');
+                    const willBeExpanded = !isExpanded;
+                    btn.classList.toggle('expanded', willBeExpanded);
+                    content.classList.toggle('expanded', willBeExpanded);
+                    // 强制设置max-height确保切换生效
+                    if (willBeExpanded) {
+                        content.style.maxHeight = '5000px';
+                        content.style.display = 'block';
+                        content.style.visibility = 'visible';
+                        content.style.opacity = '1';
+                    } else {
+                        content.style.maxHeight = '0px';
+                    }
+                    localStorage.setItem(storageKey, willBeExpanded ? '1' : '0');
+                });
+                
+                return { btn, content, wasExpanded };
+            };
+            
+            const schoolsSection = setupSectionToggle('schools-section-btn', 'schools-section-content', true);
+            // 时间线section：默认展开，如果有内容则强制展开
+            const plan = getPlan();
+            const timelineDefaultExpanded = plan.length > 0;
+            const timelineSection = setupSectionToggle('timeline-section-btn', 'timeline-section-content', timelineDefaultExpanded);
+            // 如果有内容，强制展开时间线section
+            if (plan.length > 0 && timelineSection) {
+                timelineSection.btn.classList.add('expanded');
+                timelineSection.content.classList.add('expanded');
+                // 强制设置样式确保内容可见
+                timelineSection.content.style.maxHeight = '5000px';
+                timelineSection.content.style.display = 'block';
+                timelineSection.content.style.visibility = 'visible';
+                timelineSection.content.style.opacity = '1';
+                timelineSection.content.style.overflow = 'visible';
+                localStorage.setItem('section_timeline-section-btn_expanded', '1');
+            }
+            setupSectionToggle('future-applications-btn', 'future-applications-content', false);
+            
+            // 工具箱功能
+            const toolboxBtn = document.getElementById('toolbox-btn');
+            const toolboxOverlay = document.getElementById('toolbox-modal-overlay');
+            const toolboxCloseBtn = document.getElementById('toolbox-close-btn');
+            const toolboxItems = document.querySelectorAll('.toolbox-item');
+            
+            function openToolbox() {
+                if (toolboxOverlay) {
+                    toolboxOverlay.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+            
+            function closeToolbox() {
+                if (toolboxOverlay) {
+                    toolboxOverlay.classList.add('hidden');
+                    document.body.style.overflow = '';
+                    // 隐藏所有内容区域
+                    document.querySelectorAll('.toolbox-content-area').forEach(area => {
+                        area.classList.remove('active');
+                    });
+                }
+            }
+            
+            if (toolboxBtn) {
+                toolboxBtn.addEventListener('click', openToolbox);
+            }
+            
+            if (toolboxCloseBtn) {
+                toolboxCloseBtn.addEventListener('click', closeToolbox);
+            }
+            
+            if (toolboxOverlay) {
+                toolboxOverlay.addEventListener('click', (e) => {
+                    if (e.target.id === 'toolbox-modal-overlay') {
+                        closeToolbox();
+                    }
+                });
+            }
+            
+            // 工具箱项目点击事件
+            toolboxItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const contentId = item.dataset.content;
+                    if (!contentId) return;
+                    
+                    // 隐藏所有内容区域
+                    document.querySelectorAll('.toolbox-content-area').forEach(area => {
+                        area.classList.remove('active');
+                    });
+                    
+                    // 显示对应的内容区域
+                    if (contentId === 'coming-soon') {
+                        const comingSoonArea = document.getElementById('toolbox-content-coming-soon');
+                        if (comingSoonArea) {
+                            comingSoonArea.classList.add('active');
+                            comingSoonArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    } else {
+                        const contentArea = document.getElementById(`toolbox-content-${contentId}`);
+                        if (contentArea) {
+                            contentArea.classList.add('active');
+                            contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+            
+            // 确保时间线在有内容时自动展开
+            const checkAndExpandTimeline = () => {
+                const timelineContent = document.getElementById('timeline-content');
+                if (timelineContent && timelineContent.innerHTML.trim() !== '' && 
+                    timelineContent.innerHTML.indexOf('志望校を追加すると') === -1) {
+                    const btn = document.getElementById('timeline-section-btn');
+                    const content = document.getElementById('timeline-section-content');
+                    if (btn && content && !content.classList.contains('expanded')) {
+                        btn.classList.add('expanded');
+                        content.classList.add('expanded');
+                        // 强制设置样式确保内容可见
+                        content.style.maxHeight = '5000px';
+                        content.style.display = 'block';
+                        content.style.visibility = 'visible';
+                        content.style.opacity = '1';
+                        content.style.overflow = 'visible';
+                        localStorage.setItem('section_timeline-section-btn_expanded', '1');
+                    }
+                }
+            };
+            
+            // 之后还能出愿的大学功能
+            document.getElementById('search-future-applications')?.addEventListener('click', async () => {
+                const dateInput = document.getElementById('future-applications-date');
+                const resultsDiv = document.getElementById('future-applications-results');
+                if (!dateInput || !resultsDiv) return;
+                
+                const selectedDate = new Date(dateInput.value);
+                if (isNaN(selectedDate.getTime())) {
+                    alert('有効な日付を選択してください');
+                    return;
+                }
+                
+                // 计算第二年4月1日
+                const nextYear = selectedDate.getFullYear() + 1;
+                const endDate = new Date(nextYear, 3, 1); // 4月1日（月份从0开始）
+                
+                resultsDiv.innerHTML = '<p class="text-center py-4" style="color:#a08070">検索中...</p>';
+                
+                try {
+                    const res = await fetch(FULL_DATA_URL);
+                    if (!res.ok) throw new Error('无法加载数据');
+                    const json = await res.json();
+                    const rows = json.data || [];
+                    
+                    // 筛选出愿开始时间在选定日期到第二年4月1日之间的大学
+                    const eligible = rows.filter(row => {
+                        const mailStart = parseDate(row.mailStart);
+                        if (!mailStart) return false;
+                        return mailStart >= selectedDate && mailStart < endDate;
+                    });
+                    
+                    // 去重（按大学名+学部）
+                    const uniqueMap = new Map();
+                    eligible.forEach(row => {
+                        const key = `${row.name || ''}_${row.department || ''}`;
+                        if (!uniqueMap.has(key)) {
+                            uniqueMap.set(key, row);
+                        }
+                    });
+                    const uniqueList = Array.from(uniqueMap.values());
+                    
+                    // 按出愿开始时间排序
+                    uniqueList.sort((a, b) => {
+                        const dateA = parseDate(a.mailStart);
+                        const dateB = parseDate(b.mailStart);
+                        if (!dateA && !dateB) return 0;
+                        if (!dateA) return 1;
+                        if (!dateB) return -1;
+                        return dateA - dateB;
+                    });
+                    
+                    if (uniqueList.length === 0) {
+                        resultsDiv.innerHTML = `<p class="text-center py-8" style="color:#a08070">${selectedDate.toISOString().slice(0, 10)} から ${endDate.toISOString().slice(0, 10)} までの期間に出願可能な大学はありません</p>`;
+                    } else {
+                        const dateStr = (d) => d ? d.toISOString().slice(0, 10) : '―';
+                        const escapeHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                        
+                        // 按大学分组
+                        const univMap = new Map();
+                        uniqueList.forEach(row => {
+                            const univName = (row.name || '').trim();
+                            if (!univMap.has(univName)) {
+                                univMap.set(univName, []);
+                            }
+                            univMap.get(univName).push(row);
+                        });
+                        
+                        const univList = Array.from(univMap.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+                        
+                        let html = `<div class="mb-4"><p class="text-sm font-medium" style="color:#8b6b5b"><strong style="color:#5c4033">${univList.length}</strong> 校の大学が出願可能です：</p></div>`;
+                        html += '<div class="space-y-2">';
+                        
+                        univList.forEach(([univName, depts], idx) => {
+                            const univKey = 'future_univ_' + idx;
+                            const univExpanded = localStorage.getItem('drawer_' + univKey) === '1';
+                            
+                            html += `
+                                <div class="drawer-group drawer-univ mb-2">
+                                    <div class="drawer-header card-diary p-3 flex items-center justify-between cursor-pointer" data-drawer-toggle="${univKey}" style="background:rgba(255,252,250,0.8);border:1px dashed rgba(180,150,130,0.3);border-radius:0.75rem;">
+                                        <div class="flex items-center gap-2">
+                                            <span class="drawer-chevron text-sm" style="color:#8b6b5b;transition:transform 0.3s ease;transform:rotate(${univExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
+                                            <span class="font-semibold" style="color:#5c4033">🏫 ${escapeHtml(univName)}</span>
+                                            <span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(180,150,130,0.25);color:#7a5a4a">${depts.length} 学部</span>
+                                        </div>
+                                    </div>
+                                    <div class="drawer-body univ-level ${univExpanded ? 'expanded' : ''}" id="drawer-${univKey}" style="${univExpanded ? 'max-height:800px;' : 'max-height:0;'}overflow:hidden;transition:max-height 0.35s ease-out;">
+                                        <div class="pt-2 pb-1 space-y-2 pl-6">
+                            `;
+                            
+                            depts.forEach(dept => {
+                                const mailStart = parseDate(dept.mailStart);
+                                const mailEnd = parseDate(dept.mailEnd);
+                                html += `
+                                    <div class="future-applications-item" style="margin-left:0.5rem;">
+                                        <div class="flex items-start justify-between gap-3">
+                                            <div class="flex-1">
+                                                <div class="font-medium mb-1" style="color:#7a5a4a">📖 ${escapeHtml(dept.department || '全学')}${dept.major ? ' - ' + escapeHtml(dept.major) : ''}</div>
+                                                <div class="text-xs space-y-1" style="color:#a08070">
+                                                    <div>出願開始：${dateStr(mailStart)}</div>
+                                                    ${mailEnd ? `<div>出願締切：${dateStr(mailEnd)}</div>` : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            });
+                            
+                            html += `
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        
+                        html += '</div>';
+                        resultsDiv.innerHTML = html;
+                    }
+                } catch (error) {
+                    resultsDiv.innerHTML = `<p class="text-center py-4 text-red-600">検索に失敗しました：${error.message}</p>`;
+                }
+            });
+            
+            // 使用事件委托处理drawer展开/收起，确保动态生成的元素也能响应
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('[data-drawer-toggle]');
+                if (!btn) return;
+                // 如果点击的是删除按钮或备忘录按钮，不处理drawer展开
+                if (e.target.closest('.remove-plan-btn, .memo-add-btn')) return;
+                e.stopPropagation();
+                const id = btn.getAttribute('data-drawer-toggle');
+                if (!id) return;
+                const body = document.getElementById('drawer-' + id);
+                if (!body) return;
+                const isExpanded = body.classList.contains('expanded');
+                const willBeExpanded = !isExpanded;
+                body.classList.toggle('expanded', willBeExpanded);
+                // 根据drawer类型设置max-height
+                let maxHeight = '0';
+                if (willBeExpanded) {
+                    if (body.classList.contains('univ-level')) {
+                        maxHeight = '800px';
+                    } else if (body.classList.contains('dept-level')) {
+                        maxHeight = '800px';
+                    } else if (body.classList.contains('main-level')) {
+                        maxHeight = '4000px';
+                    } else {
+                        maxHeight = '1200px';
+                    }
+                }
+                body.style.maxHeight = maxHeight;
+                // 更新chevron图标旋转
+                const chevron = btn.querySelector('.drawer-chevron');
+                if (chevron) {
+                    chevron.style.transform = willBeExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+                }
+                localStorage.setItem('drawer_' + id, willBeExpanded ? '1' : '0');
+            });
+        });
+        window.addEventListener('storage', (e) => {
+            if (e.key === STORAGE_KEY || e.key === MEMO_STORAGE_KEY) updateDisplay();
+        });
+
+        function updateDisplay() {
+            const plan = getPlan();
+            const enrichedPlan = plan.map(enrichPlanItem);
+            const container = document.getElementById('selected-schools');
+            const timelineEl = document.getElementById('timeline-content');
+
+            if (plan.length === 0) {
+                container.innerHTML = '<p class="text-sm text-center py-8" style="color:#a08070">検索モジュールから大学・学部を追加してください</p>';
+                timelineEl.innerHTML = '<p class="text-center py-12" style="color:#a08070">志望校を追加するとタイムラインが表示されます</p>';
+                return;
+            }
+
+            const sourceLabel = (s) => s.source === 'filter' ? '条件筛选' : s.source === 'score' ? '成績match' : s.source === 'search' ? '検索' : '';
+            const displayLabel = (item) => item.department ? `${item.name} - ${item.department}` : item.name;
+            const escapeHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+            const tree = {};
+            enrichedPlan.forEach(item => {
+                const univ = (item.name || 'その他').trim();
+                const dept = (item.department || '全学').trim();
+                if (!tree[univ]) tree[univ] = {};
+                if (!tree[univ][dept]) tree[univ][dept] = [];
+                tree[univ][dept].push(item);
+            });
+            const univNames = Object.keys(tree).sort();
+
+            const renderMindmap = () => univNames.map(univName => {
+                const depts = tree[univName];
+                const deptKeys = Object.keys(depts);
+                return `
+                <div class="mindmap-row">
+                    <div class="mindmap-univ">${escapeHtml(univName)}</div>
+                    <div class="mindmap-branches">
+                        ${deptKeys.map(deptName => {
+                            const items = depts[deptName];
+                            return `
+                            <div class="mindmap-dept">
+                                <span class="mindmap-node">${escapeHtml(deptName)}</span>
+                                ${items.map(item => {
+                                    const major = (item.major || '').trim();
+                                    const label = major ? escapeHtml(major) : '—';
+                                    return `
+                                    <div class="mindmap-major mindmap-node">
+                                        <span>${label}</span>
+                                        <button type="button" class="remove-plan-btn w-6 h-6 rounded-full flex items-center justify-center text-xs" data-plan-id="${escapeAttr(item.id)}" style="color:#a08070;border:1px dashed rgba(180,150,130,0.4)" title="削除"><i class="fas fa-times"></i></button>
+                                    </div>`;
+                                }).join('')}
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>`;
+            }).join('');
+
+            container.innerHTML = `<div class="mindmap-box"><div class="mindmap-root">${renderMindmap()}</div></div>`;
+            const addDays = (d, days) => d ? new Date(d.getTime() + days * 24 * 60 * 60 * 1000) : null;
+            const has必着 = (str) => str && /必着|必达|必達/i.test(String(str));
+            const has消印 = (str) => str && /消印/i.test(String(str));
+            const dateStr = (d) => d ? d.toISOString().slice(0, 10) : '―';
+
+            /** 学部简称（用于全局轴标注） */
+            const deptShort = (name, dept) => {
+                const abbr = { '東京大学': '东大', '早稲田大学': '早大', '慶應義塾大学': '庆应', '京都大学': '京大', '大阪大学': '阪大', '一橋大学': '一桥', '名古屋大学': '名大' };
+                const s = abbr[name] || (name ? name.slice(0, 2) : '');
+                const d = (dept || '').replace(/科.*$/, '').slice(0, 4);
+                return d ? `${s}-${d}` : s || '―';
+            };
+
+            /** 统一时间节点解析：8个关键数据点（网上出愿开始/截止、邮寄开始/截止、校内考形式、校内考1/2、发榜） */
+            const parseTimeNodes = (item) => {
+                const onlineStart = parseDate(item.mailStart);
+                const onlineEnd = parseDate(item.mailEnd);
+                const rawEnd = onlineEnd || (onlineStart ? addDays(onlineStart, 30) : null);
+                const exam1 = parseDate(item.examDate || item.examStart || item.exam) || (rawEnd ? addDays(rawEnd, 14) : null);
+                const exam2 = parseDate(item.examDate2) || null;
+                const announce = parseDate(item.announcementDate || item.announcement || item['合格発表'] || item['发榜时间']) || (exam1 ? addDays(exam1, 21) : null);
+                const mailEndNote = String(item.mailEnd || '') + String(item.mailEndNote || '');
+                const mailEndRequired = has必着(mailEndNote) ? '必着' : has消印(mailEndNote) ? '消印' : '';
+
+                return [
+                    { key: 'onlineStart', label: '网上出愿开始', date: onlineStart, type: 'onlineStart', required: false },
+                    { key: 'onlineEnd', label: '网上出愿截止', date: onlineEnd, type: 'deadline', required: !!mailEndRequired, extra: mailEndRequired },
+                    { key: 'mailStart', label: '邮寄开始', date: parseDate(item.mailStartDate) || null, type: 'mailStart', required: false },
+                    { key: 'mailEnd', label: '邮寄截止', date: parseDate(item.mailEndDate) || null, type: 'mailDeadline', required: !!mailEndRequired, extra: mailEndRequired },
+                    { key: 'examFormat', label: '校内考形式', date: null, type: 'format', value: (item.examFormat || '').trim() || '―' },
+                    { key: 'exam1', label: '校内考1', date: exam1, type: 'exam', required: false },
+                    { key: 'exam2', label: '校内考2', date: exam2, type: 'exam', required: false },
+                    { key: 'announce', label: '发榜时间', date: announce, type: 'announce', required: false }
+                ];
+            };
+
+            const ICONS = {
+                onlineStart: '<svg class="node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
+                onlineEnd: '<svg class="node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
+                mailStart: '<svg class="node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+                mailEnd: '<svg class="node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+                format: '<svg class="node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+                exam: '<svg class="node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/></svg>',
+                announce: '<svg class="node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>'
+            };
+            const NODE_EMOJI = { onlineStart: '💻', onlineEnd: '📤', mailStart: '📬', mailDeadline: '📮', exam: '✏️', announce: '🎉', format: '📋' };
+
+            const globalNodes = [];
+            enrichedPlan.forEach(item => {
+                const nodes = parseTimeNodes(item);
+                const deptLabel = item.department || '';
+                const shortLabel = deptShort(item.name, deptLabel);
+
+                nodes.forEach(n => {
+                    if (n.type === 'format') return;
+                    if (!n.date) return;
+                    const typeLabel = n.key === 'onlineStart' ? '网上出愿开始' : n.key === 'onlineEnd' ? '网上出愿截止' : n.key === 'mailStart' ? '邮寄开始' : n.key === 'mailEnd' ? '邮寄截止' : n.key === 'exam1' ? '校内考1' : n.key === 'exam2' ? '校内考2' : '发榜时间';
+                    globalNodes.push({
+                        date: n.date,
+                        label: `[${shortLabel}] ${typeLabel}`,
+                        type: n.type,
+                        school: item.name,
+                        dept: deptLabel,
+                        dateStr: dateStr(n.date),
+                        required: n.required,
+                        extra: n.extra
+                    });
+                });
+
+                const dates = nodes.filter(n => n.date).map(n => n.date);
+                item._earliest = dates.length ? dates.reduce((a, b) => !a || b < a ? b : a, null) : null;
+                item._latest = dates.length ? dates.reduce((a, b) => !a || b > a ? b : a, null) : null;
+            });
+
+            globalNodes.sort((a, b) => {
+                if (!a.date || !b.date) return 0;
+                return a.date.getTime() - b.date.getTime();
+            });
+
+            /** 当周Todo：当日 + 之后几天，列表上方展示 */
+            // 使用本地日期，避免时区问题
+            // 获取本地日期字符串 YYYY-MM-DD 的统一函数
+            const getLocalDateStr = (d) => {
+                if (!d) return null;
+                const year = d.getFullYear();
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const date = String(d.getDate()).padStart(2, '0');
+                return `${year}-${month}-${date}`;
+            };
+            
+            const today = new Date();
+            const todayLocalYear = today.getFullYear();
+            const todayLocalMonth = today.getMonth();
+            const todayLocalDate = today.getDate();
+            const todayLocal = new Date(todayLocalYear, todayLocalMonth, todayLocalDate, 0, 0, 0, 0);
+            
+            const todayKey = getLocalDateStr(todayLocal);
+            const weekEnd = new Date(todayLocal);
+            weekEnd.setDate(weekEnd.getDate() + 7);
+            const weekEndKey = getLocalDateStr(weekEnd);
+            
+            // 筛选本周的节点，使用本地日期字符串匹配
+            const weekNodes = globalNodes.filter(n => {
+                if (!n.date) return false;
+                const nodeDateStr = getLocalDateStr(n.date);
+                return nodeDateStr && nodeDateStr >= todayKey && nodeDateStr < weekEndKey;
+            });
+            
+            const weekByDate = {};
+            weekNodes.forEach(n => {
+                const key = getLocalDateStr(n.date);
+                if (!key) return;
+                if (!weekByDate[key]) weekByDate[key] = [];
+                weekByDate[key].push(n);
+            });
+            
+            // 获取用户自定义的周待办事项
+            function getWeekTodoCustom() {
+                try {
+                    const raw = localStorage.getItem(WEEK_TODO_STORAGE_KEY);
+                    return raw ? JSON.parse(raw) : {};
+                } catch (e) { return {}; }
+            }
+            
+            // 保存用户自定义的周待办事项
+            function saveWeekTodoCustom(customTodos) {
+                localStorage.setItem(WEEK_TODO_STORAGE_KEY, JSON.stringify(customTodos));
+            }
+            
+            // 渲染周待办表格（显示模式或编辑模式）
+            function renderWeekTodoTable(isEditMode = false) {
+                const weekTodoContent = document.getElementById('week-todo-content');
+                if (!weekTodoContent) return;
+                
+                // 计算本周的周一到周日
+                const dayOfWeek = today.getDay(); // 0=周日, 1=周一, ..., 6=周六
+                const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // 计算到周一的偏移
+                const monday = new Date(todayLocal);
+                monday.setDate(todayLocalDate + mondayOffset);
+                
+                // 获取本周的周一开始日期字符串（用于存储key）
+                const weekStartKey = getLocalDateStr(monday);
+                
+                // 获取用户自定义的待办事项
+                const customTodos = getWeekTodoCustom();
+                const weekCustomTodos = customTodos[weekStartKey] || {};
+                
+                // 生成周一到周日的日期数组
+                const weekDays = [];
+                const dayNames = ['月', '火', '水', '木', '金', '土', '日'];
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(monday);
+                    date.setDate(monday.getDate() + i);
+                    const dateStr = getLocalDateStr(date);
+                    const items = weekByDate[dateStr] || [];
+                    const isToday = dateStr === todayKey;
+                    const customText = weekCustomTodos[dateStr] || '';
+                    weekDays.push({
+                        date: date,
+                        dateStr: dateStr,
+                        dayName: dayNames[i],
+                        items: items,
+                        isToday: isToday,
+                        customText: customText
+                    });
+                }
+                
+                let html = '<table class="week-todo-table">';
+                html += '<thead><tr><th style="width:80px">曜日</th><th>予定</th></tr></thead>';
+                html += '<tbody>';
+                
+                weekDays.forEach(day => {
+                    const month = day.date.getMonth() + 1;
+                    const date = day.date.getDate();
+                    const rowClass = day.isToday ? 'today-row' : '';
+                    html += `<tr class="${rowClass}">`;
+                    html += `<td class="day-name">${day.dayName}曜日<div class="day-date">${month}/${date}</div></td>`;
+                    html += '<td class="day-content">';
+                    
+                    if (isEditMode) {
+                        // 编辑模式：显示输入框
+                        html += `<input type="text" class="custom-todo-input" data-date="${day.dateStr}" placeholder="${day.items.length === 0 ? '予定を追加...' : '追加の予定...'}" value="${escapeHtml(day.customText)}">`;
+                    } else {
+                        // 显示模式：显示系统事项 + 用户自定义事项
+                        if (day.items.length > 0) {
+                            html += '<ul>';
+                            day.items.forEach(n => {
+                                const extra = n.required && n.extra ? ` (${n.extra})` : '';
+                                html += `<li>${n.required ? '<span style="color:#c44">⚠️</span>' : ''}<span>${escapeHtml(n.label)}${extra}</span></li>`;
+                            });
+                            html += '</ul>';
+                        }
+                        // 显示用户自定义事项
+                        if (day.customText) {
+                            html += `<div class="custom-todo-item">📝 ${escapeHtml(day.customText)}</div>`;
+                        }
+                        if (day.items.length === 0 && !day.customText) {
+                            html += '<span class="no-items">予定なし ✓</span>';
+                        }
+                    }
+                    html += '</td>';
+                    html += '</tr>';
+                });
+                
+                html += '</tbody></table>';
+                
+                // 添加按钮
+                if (isEditMode) {
+                    html += `<div style="text-align:center;margin-top:0.75rem;">
+                        <button type="button" class="week-todo-action-btn save-btn" id="week-todo-save-btn"><i class="fas fa-save"></i>保存</button>
+                        <button type="button" class="week-todo-action-btn cancel-btn" id="week-todo-cancel-btn"><i class="fas fa-times"></i>キャンセル</button>
+                    </div>`;
+                } else {
+                    html += `<div style="text-align:center;margin-top:0.5rem;">
+                        <button type="button" class="week-todo-edit-btn" id="week-todo-edit-btn"><i class="fas fa-edit"></i>編集</button>
+                    </div>`;
+                }
+                
+                weekTodoContent.innerHTML = html;
+                
+                // 绑定事件
+                if (isEditMode) {
+                    const saveBtn = document.getElementById('week-todo-save-btn');
+                    const cancelBtn = document.getElementById('week-todo-cancel-btn');
+                    
+                    if (saveBtn) {
+                        saveBtn.addEventListener('click', () => {
+                            const inputs = weekTodoContent.querySelectorAll('.custom-todo-input');
+                            const newCustomTodos = {};
+                            inputs.forEach(input => {
+                                const dateStr = input.dataset.date;
+                                const value = input.value.trim();
+                                if (value) {
+                                    newCustomTodos[dateStr] = value;
+                                }
+                            });
+                            
+                            // 更新存储
+                            const allCustomTodos = getWeekTodoCustom();
+                            allCustomTodos[weekStartKey] = newCustomTodos;
+                            saveWeekTodoCustom(allCustomTodos);
+                            
+                            // 返回显示模式
+                            renderWeekTodoTable(false);
+                        });
+                    }
+                    
+                    if (cancelBtn) {
+                        cancelBtn.addEventListener('click', () => {
+                            // 返回显示模式（不保存）
+                            renderWeekTodoTable(false);
+                        });
+                    }
+                    
+                    // 输入框回车键保存
+                    weekTodoContent.querySelectorAll('.custom-todo-input').forEach(input => {
+                        input.addEventListener('keydown', (e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                saveBtn?.click();
+                            }
+                        });
+                    });
+                } else {
+                    const editBtn = document.getElementById('week-todo-edit-btn');
+                    if (editBtn) {
+                        editBtn.addEventListener('click', () => {
+                            // 切换到编辑模式
+                            renderWeekTodoTable(true);
+                        });
+                    }
+                }
+            }
+            
+            const weekTodoEl = document.getElementById('week-todo-section');
+            if (weekTodoEl) {
+                // 初始渲染（显示模式）
+                renderWeekTodoTable(false);
+            }
+
+            const dateRange = (earliest, latest) => {
+                if (!earliest && !latest) return { min: 0, max: 1, pct: 0 };
+                const min = earliest ? earliest.getTime() : latest.getTime();
+                const max = latest ? latest.getTime() : earliest.getTime();
+                const span = max - min || 1;
+                const now = Date.now();
+                const pct = Math.min(100, Math.max(0, ((now - min) / span) * 100));
+                return { min, max, span, pct };
+            };
+
+            const memos = getMemos();
+
+            const renderLabel = (n) => {
+                const classMap = { onlineStart: 'label-start', deadline: n.required ? 'label-deadline required' : 'label-deadline', mailStart: 'label-start', mailDeadline: n.required ? 'label-deadline required' : 'label-deadline', exam: 'label-exam', announce: 'label-announce' };
+                const cls = classMap[n.type] || 'label-start';
+                const warnIcon = n.type && n.required ? ' <span style="color:#c44;font-size:14px">⚠️</span>' : '';
+                const extra = (n.extra ? ` ${n.extra}` : '');
+                return `<span class="timeline-label-bubble ${cls}">${n.dateStr || '―'} ${(n.label || '').replace(/^\[.*?\]\s*/, '')}${extra}${warnIcon}</span>`;
+            };
+
+            const renderDeptContent = (item) => {
+                const nodes = parseTimeNodes(item);
+                const r = dateRange(item._earliest, item._latest);
+                const itemMemo = memos[item.id];
+                const dl = displayLabel(item);
+                const nodeCells = nodes.map(n => {
+                    const icon = ICONS[n.type] || ICONS.exam;
+                    const emoji = NODE_EMOJI[n.type] || '📌';
+                    const val = n.type === 'format' ? n.value : (n.date ? dateStr(n.date) : '―');
+                    const extra = (n.extra ? ` (${n.extra})` : '');
+                    const cellColor = n.type === 'deadline' || n.type === 'mailDeadline' ? 'border-color:rgba(200,100,90,0.4);background:rgba(255,240,235,0.7)' : n.type === 'exam' ? 'border-color:rgba(120,160,140,0.4);background:rgba(235,248,240,0.7)' : n.type === 'announce' ? 'border-color:rgba(200,150,180,0.4);background:rgba(255,240,250,0.7)' : '';
+                    return `<div class="node-cell" style="${cellColor}"><span class="node-icon">${icon}</span><div><div class="node-label">${emoji} ${n.label}</div><div class="node-value">${val}${extra}</div></div></div>`;
+                }).join('');
+                
+                // 如果有笔记且有日期，在时间节点中添加笔记显示
+                let memoNodeCell = '';
+                if (itemMemo && itemMemo.date && itemMemo.text) {
+                    const memoDateStr = itemMemo.date + (itemMemo.time ? ` ${itemMemo.time}` : '');
+                    memoNodeCell = `<div class="node-cell" style="border-color:rgba(180,150,130,0.4);background:rgba(255,252,250,0.8)"><span class="node-icon">📝</span><div><div class="node-label">📝 メモ</div><div class="node-value">${escapeHtml(memoDateStr)}</div></div></div>`;
+                }
+                
+                const memoTextDisplay = itemMemo && typeof itemMemo === 'object' && itemMemo.text ? itemMemo.text : (typeof itemMemo === 'string' ? itemMemo : '');
+                return `<div class="pl-4 pr-4 pb-4 pt-2 border-l-2 border-b border-r ml-4" style="border-color:rgba(180,150,130,0.25);margin-left:1.5rem;border-radius:0 0 0.5rem 0;background:rgba(255,252,250,0.3)">
+                    <div class="school-progress-bar mb-4">
+                        <div class="school-progress-fill" style="width:${r.pct}%"></div>
+                    </div>
+                    <div class="node-row mb-4" style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;">${nodeCells || '<p class="text-sm" style="color:#a08070">時間データがありません</p>'}${memoNodeCell}</div>
+                    <div class="mt-4 pt-4 border-t" style="border-color:rgba(180,150,130,0.2)">
+                        <button type="button" class="memo-add-btn" data-plan-id="${escapeAttr(item.id)}" data-display-label="${escapeAttr(dl)}">📝 ${itemMemo ? 'メモを編集' : 'メモを追加'}</button>
+                        ${memoTextDisplay ? `<div class="memo-sticker mt-2">${escapeHtml(memoTextDisplay).replace(/\n/g, '<br>')}</div>` : ''}
+                    </div>
+                </div>`;
+            };
+
+            const byUniv = {};
+            enrichedPlan.forEach(item => {
+                const k = (item.name || 'その他').trim();
+                if (!byUniv[k]) byUniv[k] = [];
+                byUniv[k].push(item);
+            });
+            const drawerUnivNames = Object.keys(byUniv).sort();
+            const mainExpanded = localStorage.getItem('drawer_main') === '1';
+
+            let track1 = `
+            <div class="drawer-group drawer-main mb-4" data-drawer-id="main">
+                <div class="drawer-header card-diary flex items-center justify-between" data-drawer-toggle="main">
+                    <div class="flex items-center gap-3">
+                        <span class="drawer-chevron text-sm" style="color:#5c4033;transition:transform 0.3s ease;transform:rotate(${mainExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
+                        <span class="text-lg font-bold" style="color:#5c4033">📚 各学部出願タイムライン</span>
+                        <span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(180,150,130,0.25);color:#7a5a4a">${enrichedPlan.length} 学部</span>
+                    </div>
+                </div>
+                <div class="drawer-body main-level ${mainExpanded ? 'expanded' : ''}" id="drawer-main">
+                    <div class="pt-3 pb-2 space-y-1">`;
+
+            drawerUnivNames.forEach((univName, uidx) => {
+                const depts = byUniv[univName];
+                const univKey = 'univ_' + uidx;
+                const univExpanded = localStorage.getItem('drawer_' + univKey) === '1';
+
+                track1 += `
+                <div class="drawer-group drawer-univ" data-drawer-id="${univKey}">
+                    <div class="drawer-header card-diary p-3 flex items-center justify-between" data-drawer-toggle="${univKey}">
+                        <div class="flex items-center gap-2">
+                            <span class="drawer-chevron text-sm" style="color:#8b6b5b;transition:transform 0.3s ease;transform:rotate(${univExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
+                            <span class="font-semibold" style="color:#7a5a4a">🏫 ${escapeHtml(univName)}</span>
+                            <span class="text-xs" style="color:#a08070">${depts.length} 学部</span>
+                        </div>
+                    </div>
+                    <div class="drawer-body univ-level ${univExpanded ? 'expanded' : ''}" id="drawer-${univKey}">
+                        <div class="pt-2 pb-1 space-y-1">`;
+
+                depts.forEach(item => {
+                    const dl = displayLabel(item);
+                    const startStr = item._earliest ? item._earliest.toISOString().slice(0, 10) : null;
+                    const endStr = item._latest ? item._latest.toISOString().slice(0, 10) : null;
+                    const deptExpanded = localStorage.getItem('drawer_' + escapeAttr(item.id)) === '1';
+
+                    track1 += `
+                    <div class="drawer-group drawer-dept" data-plan-id="${escapeAttr(item.id)}">
+                        <div class="drawer-header card-diary p-3 flex items-center justify-between" data-drawer-toggle="${escapeAttr(item.id)}">
+                            <div class="flex items-center gap-2">
+                                <span class="drawer-chevron text-sm" style="color:#8b6b5b;transition:transform 0.3s ease;transform:rotate(${deptExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
+                                <span class="font-medium" style="color:#8b6b5b">📖 ${escapeHtml(item.department || '全学')}</span>
+                                <span class="text-xs" style="color:#a08070">${startStr || '―'} ～ ${endStr || '未定'}</span>
+                            </div>
+                            <button type="button" class="remove-plan-btn w-7 h-7 rounded-full flex items-center justify-center" data-plan-id="${escapeAttr(item.id)}" style="color:#a08070;border:1px dashed rgba(180,150,130,0.4)" title="削除"><i class="fas fa-times text-xs"></i></button>
+                        </div>
+                        <div class="drawer-body dept-level ${deptExpanded ? 'expanded' : ''}" id="drawer-${escapeAttr(item.id)}">
+                            ${renderDeptContent(item)}
+                        </div>
+                    </div>`;
+                });
+
+                track1 += `
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            track1 += `
+                    </div>
+                </div>
+            </div>`;
+
+            // 使用本地日期字符串进行分组，避免时区问题
+            const getLocalDateStrForGroup = (d) => {
+                if (!d) return 'unknown';
+                const year = d.getFullYear();
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const date = String(d.getDate()).padStart(2, '0');
+                return `${year}-${month}-${date}`;
+            };
+            
+            const groupedByDate = {};
+            globalNodes.forEach(n => {
+                const key = getLocalDateStrForGroup(n.date);
+                if (!groupedByDate[key]) groupedByDate[key] = [];
+                groupedByDate[key].push(n);
+            });
+            
+            // 添加笔记到时间轴
+            Object.keys(memos).forEach(planId => {
+                const memo = memos[planId];
+                if (memo && memo.date && memo.text) {
+                    const dateKey = memo.date;
+                    if (!groupedByDate[dateKey]) groupedByDate[dateKey] = [];
+                    // 找到对应的计划项
+                    const planItem = enrichedPlan.find(p => p.id === planId);
+                    const displayLabel = planItem ? (planItem.department ? `${planItem.name} - ${planItem.department}` : planItem.name) : planId;
+                    const timeStr = memo.time ? ` ${memo.time}` : '';
+                    groupedByDate[dateKey].push({
+                        date: new Date(memo.date + (memo.time ? 'T' + memo.time : '')),
+                        dateStr: memo.date + timeStr,
+                        label: `📝 ${displayLabel} のメモ`,
+                        type: 'memo',
+                        planId: planId,
+                        memoText: memo.text,
+                        isMemo: true
+                    });
+                }
+            });
+
+            // 使用本地日期字符串进行比较（复用上面的getLocalDateStr函数）
+            const todayForCompare = new Date();
+            const todayCompareYear = todayForCompare.getFullYear();
+            const todayCompareMonth = todayForCompare.getMonth();
+            const todayCompareDate = todayForCompare.getDate();
+            const todayStr = `${todayCompareYear}-${String(todayCompareMonth + 1).padStart(2, '0')}-${String(todayCompareDate).padStart(2, '0')}`;
+            const sortedDates = Object.keys(groupedByDate).sort();
+            const pastDates = sortedDates.filter(d => d < todayStr);
+            const futureDates = sortedDates.filter(d => d >= todayStr);
+            const PAST_HEAD = 2, PAST_TAIL = 2;
+            const hasPastMiddle = pastDates.length > PAST_HEAD + PAST_TAIL;
+            const pastHead = hasPastMiddle ? pastDates.slice(0, PAST_HEAD) : [];
+            const pastMiddle = hasPastMiddle ? pastDates.slice(PAST_HEAD, -PAST_TAIL) : [];
+            const pastTail = hasPastMiddle ? pastDates.slice(-PAST_TAIL) : [];
+            const pastMiddleExpanded = localStorage.getItem('timeline_past_middle_expanded') === '1';
+
+            const typeEmoji = (t) => ({ deadline: '📤', mailDeadline: '📮', exam: '✏️', announce: '🎉', onlineStart: '💻', mailStart: '📬', memo: '📝' }[t] || '📌');
+            const renderDayGroup = (dateKey, isPast) => {
+                const nodes = groupedByDate[dateKey];
+                if (!nodes || nodes.length === 0) return '';
+                // 对节点排序：笔记排在最后
+                const sortedNodes = [...nodes].sort((a, b) => {
+                    if (a.isMemo && !b.isMemo) return 1;
+                    if (!a.isMemo && b.isMemo) return -1;
+                    return 0;
+                });
+                const cardPad = isPast ? '0.4rem 0.6rem' : '0.75rem 1rem';
+                const fontSize = isPast ? '0.78rem' : '0.9rem';
+                const dotClass = isPast ? '' : ' upcoming';
+                return sortedNodes.map((n, i) => {
+                    const em = typeEmoji(n.type);
+                    let cardStyle = n.required ? 'border-color:rgba(200,100,90,0.35);background:rgba(255,248,246,0.8)' : '';
+                    if (n.isMemo) {
+                        cardStyle = 'border-color:rgba(180,150,130,0.4);background:rgba(255,252,250,0.9)';
+                    }
+                    const memoContent = n.isMemo && n.memoText ? `<div class="mt-2 pt-2 border-t" style="border-color:rgba(180,150,130,0.2);color:#8b6b5b;font-size:0.85em;line-height:1.6">${escapeHtml(n.memoText).replace(/\n/g, '<br>')}</div>` : '';
+                    return `<div class="timeline-node animate-slide-up" style="animation-delay:${i * 0.05}s;position:relative;padding-left:2.5rem;padding-bottom:1.5rem;min-height:40px;margin-bottom:0.5rem;">
+                        <div class="timeline-node-dot${dotClass}" style="position:absolute;left:0;top:4px;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg, rgba(180, 150, 130, 0.6), rgba(139, 115, 95, 0.5));border:1px dashed rgba(180, 150, 130, 0.4);z-index:1;box-shadow:0 2px 8px rgba(139, 115, 95, 0.15);"></div>
+                        <div class="card-diary p-3" style="${cardStyle};padding:${cardPad};position:relative;z-index:0;">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <span class="font-semibold" style="color:#5c4033;font-size:${fontSize}">${em} [${n.dateStr || '―'}] ${escapeHtml(n.label)}</span>
+                                ${n.isMemo ? '' : renderLabel(n)}
+                            </div>
+                            ${memoContent}
+                        </div>
+                    </div>`;
+                }).join('');
+            };
+            const renderDatesSection = (dates, isPast) => {
+                if (!dates || dates.length === 0) return '';
+                return dates.map(dk => {
+                    const dayGroup = renderDayGroup(dk, isPast);
+                    if (!dayGroup) return '';
+                    return `<div class="timeline-day-group" data-date="${dk}" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;position:relative;">${dayGroup}</div>`;
+                }).join('');
+            };
+
+            let track2 = '';
+            if (globalNodes.length === 0) {
+                track2 = '<p class="text-sm py-4" style="color:#a08070">出願日データがありません</p>';
+            } else {
+                const pastSection = pastDates.length > 0 ? `
+                    <div class="timeline-past">
+                        ${hasPastMiddle ? `
+                        <div class="timeline-global">${renderDatesSection(pastHead, true)}</div>
+                        <div class="timeline-past-toggle" data-toggle-past-middle title="クリックで展開">
+                            <span class="drawer-chevron" style="display:inline-block;transform:rotate(${pastMiddleExpanded ? 90 : 0}deg);margin-right:4px">▶</span>
+                            省略（${pastMiddle.length}日分）
+                        </div>
+                        <div class="timeline-past-middle ${pastMiddleExpanded ? 'expanded' : ''}">
+                            <div class="timeline-global">${renderDatesSection(pastMiddle, true)}</div>
+                        </div>
+                        <div class="timeline-global">${renderDatesSection(pastTail, true)}</div>
+                        ` : `<div class="timeline-global">${renderDatesSection(pastDates, true)}</div>`}
+                    </div>
+                ` : '';
+                const futureSection = futureDates.length > 0 ? `<div class="timeline-global">${renderDatesSection(futureDates, false)}</div>` : '<p class="text-sm py-3 pl-4" style="color:#a08070">今後の予定はありません</p>';
+                track2 = `<div class="timeline-flow">
+                    ${pastSection}
+                    <div class="timeline-future-header">これからやること</div>
+                    ${futureSection}
+                </div>`;
+            }
+
+            // 确保时间线内容正确显示
+            const timelineHTML = `
+                <div class="space-y-6">
+                    <section>
+                        <div class="space-y-0">${track1}</div>
+                    </section>
+                    <section class="pt-4 border-t timeline-section-wrapper" style="border-color:rgba(255,200,220,0.3);background:linear-gradient(135deg, rgba(255,245,250,0.4) 0%, rgba(255,250,245,0.35) 100%);backdrop-filter:blur(8px) saturate(120%);-webkit-backdrop-filter:blur(8px) saturate(120%);border-radius:0.75rem;padding:1rem;margin-top:1rem;">
+                        <h4 class="text-sm font-bold mb-3 timeline-section-title" style="color:#6c4033;letter-spacing:0.04em;font-weight:700;font-size:0.95rem;">全体スケジュール（時系列）</h4>
+                        ${track2}
+                    </section>
+                </div>
+            `;
+            
+            // 调试信息：检查是否有数据
+            console.log('=== 时间线调试信息 ===');
+            console.log('计划数量:', enrichedPlan.length);
+            console.log('时间线节点数量:', globalNodes.length);
+            console.log('过去日期数量:', pastDates.length);
+            console.log('未来日期数量:', futureDates.length);
+            console.log('track1 长度:', track1.length);
+            console.log('track2 长度:', track2.length);
+            console.log('track1 前500字符:', track1.substring(0, 500));
+            console.log('时间线HTML长度:', timelineHTML.length);
+            console.log('时间线元素存在:', !!timelineEl);
+            
+            // 确保时间线内容被正确设置
+            if (timelineEl) {
+                timelineEl.innerHTML = timelineHTML;
+                console.log('时间线内容已设置，内容长度:', timelineEl.innerHTML.length);
+                
+                // 确保时间线section在有内容时自动展开（使用requestAnimationFrame确保DOM更新完成）
+                if (plan.length > 0) {
+                    requestAnimationFrame(() => {
+                        const btn = document.getElementById('timeline-section-btn');
+                        const content = document.getElementById('timeline-section-content');
+                        console.log('时间线section按钮存在:', !!btn);
+                        console.log('时间线section内容存在:', !!content);
+                        if (btn && content) {
+                            btn.classList.add('expanded');
+                            content.classList.add('expanded');
+                            // 强制设置样式，确保内容可见
+                            content.style.maxHeight = '5000px';
+                            content.style.display = 'block';
+                            content.style.visibility = 'visible';
+                            content.style.opacity = '1';
+                            content.style.overflow = 'visible';
+                            localStorage.setItem('section_timeline-section-btn_expanded', '1');
+                            console.log('时间线section已展开');
+                            console.log('按钮expanded类:', btn.classList.contains('expanded'));
+                            console.log('内容expanded类:', content.classList.contains('expanded'));
+                            console.log('内容max-height (计算后):', window.getComputedStyle(content).maxHeight);
+                            console.log('内容max-height (内联):', content.style.maxHeight);
+                        }
+                    });
+                }
+            } else {
+                console.error('时间线元素不存在！');
+            }
+            if (globalNodes.length > 0) {
+                console.log('前5个时间线节点:', globalNodes.slice(0, 5).map(n => ({
+                    date: n.dateStr,
+                    label: n.label,
+                    type: n.type
+                })));
+            }
+            if (enrichedPlan.length > 0) {
+                console.log('前3个计划项:', enrichedPlan.slice(0, 3).map(item => ({
+                    name: item.name,
+                    department: item.department,
+                    mailStart: item.mailStart,
+                    mailEnd: item.mailEnd,
+                    examDate: item.examDate,
+                    _earliest: item._earliest ? item._earliest.toISOString().slice(0, 10) : null,
+                    _latest: item._latest ? item._latest.toISOString().slice(0, 10) : null
+                })));
+            }
+            console.log('时间线HTML长度:', timelineHTML.length);
+            console.log('时间线元素:', timelineEl);
+            console.log('时间线元素内容长度:', timelineEl.innerHTML.length);
+            
+            // 检查时间线元素是否在DOM中
+            setTimeout(() => {
+                const timelineNodes = document.querySelectorAll('.timeline-node');
+                const timelineDayGroups = document.querySelectorAll('.timeline-day-group');
+                const timelineFlow = document.querySelector('.timeline-flow');
+                console.log('时间线节点数量 (DOM):', timelineNodes.length);
+                console.log('时间线日期分组数量 (DOM):', timelineDayGroups.length);
+                console.log('时间线流元素 (DOM):', timelineFlow);
+                if (timelineFlow) {
+                    console.log('时间线流元素样式:', window.getComputedStyle(timelineFlow));
+                }
+            }, 100);
+            console.log('==================');
+
+            document.querySelector('[data-toggle-past-middle]')?.addEventListener('click', () => {
+                const body = document.querySelector('.timeline-past-middle');
+                const chevron = document.querySelector('[data-toggle-past-middle] .drawer-chevron');
+                if (!body) return;
+                const isExpanded = body.classList.contains('expanded');
+                body.classList.toggle('expanded', !isExpanded);
+                if (chevron) chevron.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(90deg)';
+                localStorage.setItem('timeline_past_middle_expanded', isExpanded ? '0' : '1');
+            });
+
+            // 确保时间线在有内容时自动展开（延迟执行以确保DOM更新完成）
+            setTimeout(() => {
+                const timelineContent = document.getElementById('timeline-content');
+                const btn = document.getElementById('timeline-section-btn');
+                const content = document.getElementById('timeline-section-content');
+                
+                if (timelineContent && btn && content) {
+                    const hasContent = timelineContent.innerHTML.trim() !== '' && 
+                        timelineContent.innerHTML.indexOf('志望校を追加すると') === -1 &&
+                        timelineContent.innerHTML.indexOf('志望校を追加すると') === -1;
+                    
+                    if (hasContent && !content.classList.contains('expanded')) {
+                        btn.classList.add('expanded');
+                        content.classList.add('expanded');
+                        // 强制设置样式确保内容可见
+                        content.style.maxHeight = '5000px';
+                        content.style.display = 'block';
+                        content.style.visibility = 'visible';
+                        content.style.opacity = '1';
+                        content.style.overflow = 'visible';
+                        localStorage.setItem('section_timeline-section-btn_expanded', '1');
+                    }
+                }
+            }, 100);
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データ分析 | 大学コンパス</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-cream: #fdfdfb;
+            --border-slate: #e2e8f0;
+            --border-glass: rgba(255, 255, 255, 0.5);
+            --text-primary: #475569;
+            --text-secondary: #64748b;
+            --chart-1: #94a3b8;
+            --chart-2: #b8c5d6;
+            --chart-3: #cbd5e1;
+            --chart-4: #94a3b8;
+            --chart-5: #a8b8c8;
+        }
+        * {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-weight: 300;
+            letter-spacing: 0.06em;
+        }
+        body {
+            background: var(--bg-cream);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--border-slate);
+            box-shadow: 0 2px 16px rgba(100, 116, 139, 0.06);
+            border-radius: 14px;
+        }
+        .accordion-trigger {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--border-slate);
+            border-radius: 14px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .accordion-trigger:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: #cbd5e1;
+        }
+        .accordion-trigger .trigger-icon {
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+        }
+        .accordion-trigger.open .trigger-icon {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .accordion-trigger .trigger-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 0.04em;
+            padding-right: 2rem;
+        }
+        .accordion-trigger-wrapper { position: relative; width: 100%; }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .accordion-content-inner {
+            padding: 1.5rem 1.75rem;
+            border: 1px solid var(--border-slate);
+            border-top: none;
+            border-radius: 0 0 14px 14px;
+            margin-top: -1px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            min-height: 240px;
+            padding: 12px 8px 20px;
+        }
+        @media (max-width: 768px) {
+            .chart-container { height: 260px; min-height: 220px; padding: 16px 12px 24px; }
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .chart-card { animation: fadeIn 0.4s ease-out forwards; }
+    </style>
+</head>
+<body>
+    <nav class="sticky top-0 z-50 card border-b border-l-0 border-r-0 border-t-0 rounded-none">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <a href="compass_index.html" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100/80 hover:text-slate-700 transition-all" title="戻る">
+                        <i class="fas fa-arrow-left text-base"></i>
+                    </a>
+                    <div>
+                        <h1 class="font-normal text-lg" style="color: var(--text-primary); letter-spacing: 0.06em">データ分析</h1>
+                        <p class="text-xs" style="color: var(--text-secondary)">Analytics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 pb-16">
+        <div class="mb-8">
+            <h2 class="font-normal text-2xl sm:text-3xl mb-1" style="color: var(--text-primary); letter-spacing: 0.06em">データ可視化</h2>
+            <p class="text-sm" style="color: var(--text-secondary)">学校データに基づく留学トレンド</p>
+        </div>
+
+        <div id="loading" class="text-center py-16 opacity-70">
+            <i class="fas fa-spinner fa-spin text-2xl mb-3" style="color: var(--text-secondary)"></i>
+            <p class="text-sm" style="color: var(--text-secondary)">データを読み込み中…</p>
+        </div>
+
+        <div id="accordions" class="space-y-3 hidden">
+            <!-- 学科・出願資格 -->
+            <div class="accordion-item">
+                <button type="button" class="accordion-trigger" data-target="panel-1" aria-expanded="false">
+                    <div class="accordion-trigger-wrapper">
+                        <span>📚 学科と出願資格</span>
+                        <p class="trigger-desc mt-1">文理・JLPT・英語などの基準</p>
+                        <i class="fas fa-chevron-down text-sm trigger-icon" style="color: var(--text-secondary)"></i>
+                    </div>
+                </button>
+                <div class="accordion-content" id="panel-1">
+                    <div class="accordion-content-inner space-y-6">
+                        <div class="chart-card card p-5 sm:p-6">
+                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">文理比率</h4>
+                            <div class="chart-container"><canvas id="chart-bunri"></canvas></div>
+                        </div>
+                        <div class="chart-card card p-5 sm:p-6">
+                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">英語要件</h4>
+                            <div class="chart-container"><canvas id="chart-english"></canvas></div>
+                        </div>
+                        <div class="chart-card card p-5 sm:p-6">
+                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">JLPT要件</h4>
+                            <div class="chart-container"><canvas id="chart-jlpt"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 選抜方法 -->
+            <div class="accordion-item">
+                <button type="button" class="accordion-trigger" data-target="panel-2" aria-expanded="false">
+                    <div class="accordion-trigger-wrapper">
+                        <span>📝 選抜方法</span>
+                        <p class="trigger-desc mt-1">校内考の形式や併願可否</p>
+                        <i class="fas fa-chevron-down text-sm trigger-icon" style="color: var(--text-secondary)"></i>
+                    </div>
+                </button>
+                <div class="accordion-content" id="panel-2">
+                    <div class="accordion-content-inner space-y-6">
+                        <div class="chart-card card p-5 sm:p-6">
+                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">校内考形式の割合</h4>
+                            <div class="chart-container"><canvas id="chart-exam-format"></canvas></div>
+                        </div>
+                        <div class="chart-card card p-5 sm:p-6">
+                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">併願可否</h4>
+                            <div class="chart-container"><canvas id="chart-combined"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 立地・スケジュール -->
+            <div class="accordion-item">
+                <button type="button" class="accordion-trigger" data-target="panel-3" aria-expanded="false">
+                    <div class="accordion-trigger-wrapper">
+                        <span>📍 立地・スケジュール</span>
+                        <p class="trigger-desc mt-1">キャンパスの場所や出願時期</p>
+                        <i class="fas fa-chevron-down text-sm trigger-icon" style="color: var(--text-secondary)"></i>
+                    </div>
+                </button>
+                <div class="accordion-content" id="panel-3">
+                    <div class="accordion-content-inner space-y-6">
+                        <div class="chart-card card p-5 sm:p-6">
+                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">位置分布</h4>
+                            <div class="chart-container"><canvas id="chart-region"></canvas></div>
+                        </div>
+                        <div class="chart-card card p-5 sm:p-6">
+                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">出願期数分布</h4>
+                            <div class="chart-container"><canvas id="chart-period"></canvas></div>
+                        </div>
+                        <div class="chart-card card p-5 sm:p-6">
+                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">出願締切月分布</h4>
+                            <div class="chart-container"><canvas id="chart-deadline"></canvas></div>
+                        </div>
+                        <div class="chart-card card p-5 sm:p-6">
+                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">EJUスコア互換性</h4>
+                            <div class="chart-container"><canvas id="chart-eju"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const PALETTE = ['#94a3b8', '#b8c5d6', '#cbd5e1', '#94a3b8', '#a8b8c8', '#7c8fa5', '#64748b'];
+        const defaultFont = { family: "'Noto Sans JP', sans-serif", size: 12, weight: 300, color: '#475569' };
+        const isMobile = () => window.innerWidth <= 768;
+
+        function parseCSV(text) {
+            const lines = text.split(/\r?\n/).filter(Boolean);
+            if (!lines.length) return [];
+            const parseRow = (line) => {
+                const out = [];
+                let cur = '', inQ = false;
+                for (let i = 0; i < line.length; i++) {
+                    const c = line[i];
+                    if (c === '"') inQ = !inQ;
+                    else if (c === ',' && !inQ) { out.push(cur.trim()); cur = ''; }
+                    else cur += c;
+                }
+                out.push(cur.trim());
+                return out.map(s => s.replace(/^"|"$/g, ''));
+            };
+            const header = parseRow(lines[0]);
+            const rows = [];
+            for (let i = 1; i < lines.length; i++) {
+                const vals = parseRow(lines[i]);
+                const row = {};
+                header.forEach((h, idx) => { row[h] = vals[idx] || ''; });
+                rows.push(row);
+            }
+            return rows;
+        }
+
+        function countBy(arr, key, normalizer) {
+            const map = {};
+            arr.forEach(r => {
+                let v = r[key];
+                if (v === undefined || v === null || String(v).trim() === '') v = '未填写';
+                const k = normalizer ? normalizer(String(v)) : String(v).trim();
+                map[k] = (map[k] || 0) + 1;
+            });
+            return map;
+        }
+
+        function extractRegion(loc) {
+            if (!loc) return '未填写';
+            const m = loc.match(/^([^\s]+[都道府県])/);
+            return m ? m[1] : loc.split(/[市町村]/)[0] || loc;
+        }
+
+        function extractExamFormats(str) {
+            if (!str) return ['未填写'];
+            return str.split(/[,，、]/).map(s => s.trim()).filter(Boolean);
+        }
+
+        function extractEjuLabel(str) {
+            if (!str) return '未填写';
+            const s = String(str).toLowerCase();
+            if (/当年|6月|11月|都可|両方/i.test(s)) return '当年6月/11月均可';
+            if (/6月|第1回/i.test(s)) return '仅6月';
+            if (/11月|第2回/i.test(s)) return '仅11月';
+            if (/2年|两年/i.test(s)) return '2年内有效';
+            return str.length > 12 ? str.slice(0, 12) + '…' : str;
+        }
+
+        function extractPeriod(str) {
+            if (!str) return '未填写';
+            const s = String(str);
+            if (/前期|Ⅰ|1期|A|第1/i.test(s)) return '前期';
+            if (/后期|Ⅱ|2期|B|第2/i.test(s)) return '后期';
+            if (/只有一期|一期のみ|单一/i.test(s)) return '仅一期';
+            return s.length > 8 ? s.slice(0, 8) + '…' : s;
+        }
+
+        function createChart(id, config) {
+            const ctx = document.getElementById(id);
+            if (!ctx) return null;
+            const font = { ...defaultFont, size: isMobile() ? 11 : 12 };
+            return new Chart(ctx.getContext('2d'), {
+                ...config,
+                options: {
+                    ...config.options,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: { top: 8, right: 12, bottom: 20, left: 12 } },
+                    plugins: {
+                        ...config.options?.plugins,
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: font, color: font.color, padding: 16, boxWidth: 14 }
+                        },
+                        tooltip: { enabled: true, bodyFont: font, titleFont: font, padding: 10 }
+                    },
+                    scales: config.options?.scales ? {
+                        ...config.options.scales,
+                        x: { ...config.options.scales?.x, ticks: { ...config.options.scales?.x?.ticks, font: font, color: font.color, maxRotation: 45 } },
+                        y: { ...config.options.scales?.y, ticks: { ...config.options.scales?.y?.ticks, font: font, color: font.color } }
+                    } : undefined
+                }
+            });
+        }
+
+        function buildCharts(rows) {
+            const n = rows.length;
+            const colors = (arr) => arr.map((_, i) => PALETTE[i % PALETTE.length]);
+
+            const bunriMap = countBy(rows, '文理');
+            const bunriOrder = ['理', '文', '文理不限'];
+            const bunriLabels = bunriOrder.filter(l => bunriMap[l]).length ? bunriOrder.filter(l => bunriMap[l]) : Object.keys(bunriMap);
+            const bunriData = bunriLabels.map(l => bunriMap[l] || 0);
+            createChart('chart-bunri', {
+                type: 'doughnut',
+                data: { labels: bunriLabels, datasets: [{ data: bunriData, backgroundColor: colors(bunriLabels) }] },
+                options: { plugins: { legend: { position: 'bottom' } } }
+            });
+
+            const engMap = countBy(rows, '英语');
+            const engLabels = Object.keys(engMap).filter(k => k !== '未填写').sort();
+            if (engMap['未填写']) engLabels.push('未填写');
+            createChart('chart-english', {
+                type: 'pie',
+                data: { labels: engLabels, datasets: [{ data: engLabels.map(l => engMap[l]), backgroundColor: colors(engLabels) }] },
+                options: { plugins: { legend: { position: 'bottom' } } }
+            });
+
+            const jlptMap = countBy(rows, 'JLPT');
+            const jlptLabels = Object.keys(jlptMap).filter(k => k !== '未填写').sort();
+            if (jlptMap['未填写']) jlptLabels.push('未填写');
+            createChart('chart-jlpt', {
+                type: 'doughnut',
+                data: { labels: jlptLabels.length ? jlptLabels : ['不要', '要'], datasets: [{ data: jlptLabels.length ? jlptLabels.map(l => jlptMap[l]) : [n, 0], backgroundColor: colors(jlptLabels.length ? jlptLabels : ['不要', '要']) }] },
+                options: { plugins: { legend: { position: 'bottom' } } }
+            });
+
+            const examFlat = rows.flatMap(r => extractExamFormats(r['校内考形式']));
+            const examMap = {};
+            examFlat.forEach(k => { examMap[k] = (examMap[k] || 0) + 1; });
+            const examSorted = Object.entries(examMap).sort((a, b) => b[1] - a[1]).slice(0, 8);
+            createChart('chart-exam-format', {
+                type: 'bar',
+                data: {
+                    labels: examSorted.map(([k]) => k.length > 10 ? k.slice(0, 10) + '…' : k),
+                    datasets: [{ label: '数量', data: examSorted.map(([, v]) => v), backgroundColor: PALETTE[0] }]
+                },
+                options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: {}, y: {} } }
+            });
+
+            const combinedMap = countBy(rows, '併願');
+            const combinedLabels = Object.keys(combinedMap).filter(k => k !== '未填写').sort();
+            if (combinedMap['未填写']) combinedLabels.push('未填写');
+            createChart('chart-combined', {
+                type: 'doughnut',
+                data: { labels: combinedLabels.length ? combinedLabels : ['可', '不可'], datasets: [{ data: combinedLabels.length ? combinedLabels.map(l => combinedMap[l]) : [0, n], backgroundColor: colors(combinedLabels.length ? combinedLabels : ['可', '不可']) }] },
+                options: { plugins: { legend: { position: 'bottom' } } }
+            });
+
+            const regionMap = countBy(rows, '位置', extractRegion);
+            const regionSorted = Object.entries(regionMap).sort((a, b) => b[1] - a[1]).slice(0, 10);
+            const regionCtx = document.getElementById('chart-region')?.getContext('2d');
+            const regionGrad = regionCtx ? (() => {
+                const g = regionCtx.createLinearGradient(0, 0, 400, 0);
+                g.addColorStop(0, '#cbd5e1');
+                g.addColorStop(0.6, '#94a3b8');
+                g.addColorStop(1, '#64748b');
+                return g;
+            })() : PALETTE[1];
+            createChart('chart-region', {
+                type: 'bar',
+                data: {
+                    labels: regionSorted.map(([k]) => k),
+                    datasets: [{ label: '学校数', data: regionSorted.map(([, v]) => v), backgroundColor: regionGrad }]
+                },
+                options: { plugins: { legend: { display: false } }, scales: { x: {}, y: {} } }
+            });
+
+            const periodMap = countBy(rows, '第几期', extractPeriod);
+            const periodLabels = Object.keys(periodMap).filter(k => k !== '未填写').sort();
+            if (periodMap['未填写']) periodLabels.push('未填写');
+            createChart('chart-period', {
+                type: 'doughnut',
+                data: { labels: periodLabels.length ? periodLabels : ['前期', '后期', '仅一期'], datasets: [{ data: periodLabels.length ? periodLabels.map(l => periodMap[l]) : [0, 0, n], backgroundColor: colors(periodLabels.length ? periodLabels : ['前期', '后期', '仅一期']) }] },
+                options: { plugins: { legend: { position: 'bottom' } } }
+            });
+
+            const deadlineMap = {};
+            rows.forEach(r => {
+                const d = r['网上出愿截止时间'];
+                if (!d) return;
+                const m = d.match(/\d{4}-(\d{2})/);
+                if (m) { const month = parseInt(m[1], 10); deadlineMap[month + '月'] = (deadlineMap[month + '月'] || 0) + 1; }
+            });
+            const months = ['9月', '10月', '11月', '12月', '1月', '2月', '3月'].filter(m => deadlineMap[m]);
+            createChart('chart-deadline', {
+                type: 'line',
+                data: {
+                    labels: months.length ? months : ['9月', '10月', '11月', '12月', '1月', '2月'],
+                    datasets: [{ label: '学校数', data: (months.length ? months : ['9月', '10月', '11月', '12月', '1月', '2月']).map(m => deadlineMap[m] || 0), borderColor: PALETTE[2], backgroundColor: 'rgba(148, 163, 184, 0.15)', fill: true, tension: 0.3 }]
+                },
+                options: { plugins: { legend: { display: false } }, scales: { x: {}, y: {} } }
+            });
+
+            const ejuMap = countBy(rows, '能使用EJU', extractEjuLabel);
+            const ejuSorted = Object.entries(ejuMap).sort((a, b) => b[1] - a[1]).slice(0, 6);
+            createChart('chart-eju', {
+                type: 'bar',
+                data: {
+                    labels: ejuSorted.map(([k]) => k),
+                    datasets: [{ label: '数量', data: ejuSorted.map(([, v]) => v), backgroundColor: PALETTE[3] }]
+                },
+                options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: {}, y: {} } }
+            });
+        }
+
+        document.querySelectorAll('.accordion-trigger').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = document.getElementById(btn.dataset.target);
+                const isOpen = btn.classList.toggle('open');
+                target.style.maxHeight = isOpen ? target.scrollHeight + 'px' : '0';
+                btn.setAttribute('aria-expanded', isOpen);
+            });
+        });
+
+        fetch('学校总览.csv')
+            .then(r => r.text())
+            .then(text => {
+                const rows = parseCSV(text);
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('accordions').classList.remove('hidden');
+                buildCharts(rows);
+            })
+            .catch(() => {
+                document.getElementById('loading').innerHTML = '<p class="text-sm opacity-70" style="color: var(--text-secondary)">データの読み込みに失敗しました。学校总览.csv を同階層に置いてください。</p>';
+            });
+    </script>
+</body>
+</html>
