@@ -1,4 +1,4 @@
-# Render Blueprint: 大学コンパス - 日本留学申请综合管理平台
+# Render Blueprint: JI-日本留学ナビ - 日本留学申请综合管理平台
 # 部署前请在 Dashboard 中为 Web Service 设置 JWT_SECRET（或使用下方 env 的 generateValue）
 
 databases:

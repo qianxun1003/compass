@@ -1,7 +1,7 @@
 {
   "name": "ichikawaryuugaku",
   "version": "1.0.0",
-  "description": "日本留学申请综合管理平台 - 大学コンパス",
+  "description": "日本留学申请综合管理平台 - JI-日本留学ナビ",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

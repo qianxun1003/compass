@@ -6,6 +6,11 @@ const { JWT_SECRET } = require('../middleware/auth.js');
 
 const router = express.Router();
 
+// GET /api/health 健康检查（部署后打开此地址可确认接口与数据库配置）
+router.get('/health', (req, res) => {
+  res.json({ ok: true, db: !!process.env.DATABASE_URL });
+});
+
 // POST /api/register
 router.post('/register', async (req, res) => {
   try {
