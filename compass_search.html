@@ -203,6 +203,7 @@
     </style>
 </head>
 <body>
+    <script src="js/auth.js"></script><script>Auth.requireAuth();</script>
 
     <!-- 顶部导航 -->
     <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/30">
@@ -511,6 +512,13 @@
         }
         function getPlan() { try { const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : []; } catch (e) { return []; } }
         function savePlan(arr) { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+        if (typeof Auth !== 'undefined' && Auth.getToken()) {
+            fetch(Auth.getApiBase() + '/api/plan', { headers: Auth.authHeaders() })
+                .then(r => r.ok ? r.json() : []).then(data => {
+                    const plan = Array.isArray(data) ? data.map(({ id, payload }) => ({ _serverId: id, ...(payload || {}) })) : [];
+                    savePlan(plan);
+                }).catch(() => {});
+        }
         function isDeptInPlan(name, department, major) {
             const pid = planId(name, department, major);
             return getPlan().some(s => {
@@ -556,6 +564,11 @@
                 announcement: dept.announcement
             });
             savePlan(plan);
+            const newItem = plan[plan.length - 1];
+            if (typeof Auth !== 'undefined' && Auth.getToken()) {
+                fetch(Auth.getApiBase() + '/api/plan', { method: 'POST', headers: Auth.authHeaders(), body: JSON.stringify({ payload: newItem }) })
+                    .then(r => r.json()).then(res => { if (res && res.id) { newItem._serverId = res.id; savePlan(plan); } }).catch(() => {});
+            }
             showToast((school.name + (dept.department ? ' - ' + dept.department : '') + ' 已加入出愿计划'));
             const btn = document.querySelector(`.add-to-plan-btn[data-school-idx="${schoolIdx}"][data-dept-idx="${deptIdx}"]`);
             if (btn) { btn.classList.add('added'); btn.innerHTML = '<i class="fas fa-check"></i><span>已添加</span>'; btn.disabled = true; }

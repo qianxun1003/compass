@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン | 大学コンパス</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sakura: { 50: '#fef6f9', 100: '#fee9f2', 200: '#fdd4e6', 300: '#fcb8d4', 400: '#fa8cbb', 500: '#f565a3', 600: '#e94689' },
+                        sky: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7' },
+                        mint: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a' },
+                        cream: { 50: '#fefdfb', 100: '#fdfbf7', 200: '#faf7f2', 300: '#f5f0e8', 400: '#ebe3d5' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; font-weight: 500; letter-spacing: 0.04em; }
+        body {
+            background: linear-gradient(135deg, #f8fbff 0%, #fef8fb 20%, #f5faff 40%, #fef8fb 60%, #f5faff 80%, #f8fbff 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px) saturate(130%);
+            -webkit-backdrop-filter: blur(15px) saturate(130%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 24px rgba(245, 101, 163, 0.04), 0 2px 12px rgba(14, 165, 233, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0.45) 100%) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: none;
+            color: #0284c7;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 24px rgba(99, 102, 241, 0.06), 0 2px 16px rgba(14, 165, 233, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 48px rgba(99, 102, 241, 0.1), 0 12px 32px rgba(14, 165, 233, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        }
+        .font-serif-title { font-family: 'Noto Serif JP', 'Noto Sans JP', serif; }
+        .input-glass {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 12px 16px;
+        }
+        .input-glass:focus {
+            outline: none;
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+        .text-error { color: #e94689; font-size: 13px; font-weight: 400; }
+    </style>
+</head>
+<body>
+    <div class="w-full max-w-md">
+        <div class="glass rounded-3xl p-10">
+            <a href="index.html" class="flex items-center gap-3 mb-8 text-[#0284c7] no-underline">
+                <div class="w-12 h-12 rounded-2xl bg-[rgba(255,255,255,0.35)] backdrop-blur-sm border border-white/50 flex items-center justify-center">
+                    <i class="fas fa-compass text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-medium font-serif-title" style="letter-spacing: 0.06em">大学コンパス</h1>
+                    <p class="text-xs text-slate-500 font-normal">Japanese University Compass</p>
+                </div>
+            </a>
+            <h2 class="text-2xl font-medium text-[#0284c7] font-serif-title mb-2" style="letter-spacing: 0.05em">ログイン</h2>
+            <p class="text-slate-500 text-sm font-normal mb-6">アカウントにログインしてください</p>
+
+            <div id="message" class="hidden mb-4 p-3 rounded-xl text-sm"></div>
+
+            <form id="loginForm" class="space-y-5">
+                <div>
+                    <label class="block text-slate-600 text-sm font-normal mb-2">ユーザー名</label>
+                    <input type="text" id="username" name="username" class="input-glass w-full" placeholder="ユーザー名を入力" required autocomplete="username">
+                    <p id="usernameError" class="text-error mt-1 hidden"></p>
+                </div>
+                <div>
+                    <label class="block text-slate-600 text-sm font-normal mb-2">パスワード</label>
+                    <input type="password" id="password" name="password" class="input-glass w-full" placeholder="パスワードを入力" required autocomplete="current-password">
+                    <p id="passwordError" class="text-error mt-1 hidden"></p>
+                </div>
+                <button type="submit" id="submitBtn" class="btn-primary w-full py-3.5 rounded-2xl text-sm">
+                    ログイン
+                </button>
+            </form>
+
+            <p class="text-center text-slate-500 text-sm font-normal mt-6">
+                アカウントをお持ちでない方は
+                <a href="register.html" class="text-[#0284c7] font-medium hover:underline">新規登録</a>
+            </p>
+            <p class="text-center text-slate-400 text-xs font-normal mt-3">
+                首次使用？请先 <a href="register.html" class="text-[#0284c7] font-medium hover:underline">注册</a> 账号后再登录。
+            </p>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        if (Auth && Auth.getToken()) {
+            window.location.href = 'index.html';
+        }
+        var apiBase = (typeof Auth !== 'undefined' && Auth.getApiBase) ? Auth.getApiBase() : '';
+
+        const form = document.getElementById('loginForm');
+        const messageEl = document.getElementById('message');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function showMessage(text, isError) {
+            messageEl.textContent = text;
+            messageEl.className = 'mb-4 p-3 rounded-xl text-sm ' + (isError ? 'bg-sakura-100 text-sakura-600' : 'bg-mint-100 text-mint-600');
+            messageEl.classList.remove('hidden');
+        }
+        function hideMessage() {
+            messageEl.classList.add('hidden');
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            hideMessage();
+            document.getElementById('usernameError').classList.add('hidden');
+            document.getElementById('passwordError').classList.add('hidden');
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!username) {
+                document.getElementById('usernameError').textContent = 'ユーザー名を入力してください';
+                document.getElementById('usernameError').classList.remove('hidden');
+                return;
+            }
+            if (!password) {
+                document.getElementById('passwordError').textContent = 'パスワードを入力してください';
+                document.getElementById('passwordError').classList.remove('hidden');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'ログイン中...';
+            try {
+                const res = await fetch(apiBase + '/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json().catch(function() { return {}; });
+                if (!res.ok) {
+                    showMessage(data.message || data.error || 'ログインに失敗しました', true);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'ログイン';
+                    return;
+                }
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                    if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = 'index.html';
+                    return;
+                }
+                showMessage('ログインに失敗しました', true);
+            } catch (err) {
+                showMessage('无法连接服务器。请确认：1) 在项目目录已运行 npm start；2) 在浏览器地址栏输入 http://localhost:3000 打开本页（不要直接双击 HTML 文件）。', true);
+            }
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'ログイン';
+        });
+    </script>
+</body>
+</html>

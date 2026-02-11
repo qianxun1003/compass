@@ -5,14 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>出願センター | 大学コンパス</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700;800&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * { 
             font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif; 
             margin: 0; padding: 0; box-sizing: border-box;
-            font-weight: 400;
-            letter-spacing: 0.03em;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+        
+        /* 与主界面一致：标题使用 Noto Serif JP */
+        .font-serif-title,
+        .week-todo-title,
+        .timeline-section-title,
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif JP', 'Noto Sans JP', serif;
         }
         
         /* 只针对工具箱内容区域设置中文字体和统一粗细 */
@@ -54,7 +62,7 @@
         }
         
         body { 
-            background: #fff0f5;
+            background: linear-gradient(135deg, #f5eef8 0%, #f2ebf6 20%, #f0e8f5 40%, #f2ebf6 60%, #f0e8f5 80%, #f5eef8 100%);
             min-height: 100vh;
             position: relative;
             background-attachment: fixed;
@@ -62,15 +70,15 @@
         }
         
         .glass { 
-            background: rgba(255, 250, 240, 0.9);
-            backdrop-filter: blur(30px) saturate(200%);
-            -webkit-backdrop-filter: blur(30px) saturate(200%);
-            border: 1px solid rgba(255, 240, 200, 0.5);
+            background: rgba(246, 238, 252, 0.9);
+            backdrop-filter: blur(30px) saturate(160%);
+            -webkit-backdrop-filter: blur(30px) saturate(160%);
+            border: 1px solid rgba(228, 215, 242, 0.5);
             box-shadow: 
-                0 12px 40px rgba(255, 230, 180, 0.18), 
+                0 12px 40px rgba(212, 198, 235, 0.14), 
                 inset 0 2px 4px rgba(255, 255, 255, 0.95),
-                0 4px 16px rgba(255, 240, 200, 0.12),
-                inset 0 -2px 4px rgba(255, 245, 220, 0.4),
+                0 4px 16px rgba(222, 208, 238, 0.12),
+                inset 0 -2px 4px rgba(235, 222, 250, 0.35),
                 0 0 0 1px rgba(255, 255, 255, 0.3) inset;
         }
         
@@ -91,7 +99,7 @@
             top: 0;
             bottom: -30px;
             width: 3px;
-            background: linear-gradient(180deg, rgba(180, 150, 130, 0.5) 0%, rgba(180, 150, 130, 0.15) 100%);
+            background: linear-gradient(180deg, rgba(202, 188, 222, 0.5) 0%, rgba(202, 188, 222, 0.15) 100%);
         }
         .timeline-item:last-child::before { display: none; }
         .timeline-dot {
@@ -106,33 +114,33 @@
             justify-content: center;
             font-size: 14px;
             font-weight: 600;
-            border: 1px dashed rgba(180, 150, 130, 0.4);
-            box-shadow: 0 4px 16px rgba(139, 115, 95, 0.12);
+            border: 1px dashed rgba(202, 188, 222, 0.4);
+            box-shadow: 0 4px 16px rgba(165, 152, 198, 0.12);
         }
         .card-diary {
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.85) 0%,
-                rgba(255, 245, 250, 0.8) 50%,
-                rgba(255, 250, 245, 0.85) 100%
+                rgba(244, 234, 250, 0.85) 0%,
+                rgba(240, 228, 248, 0.8) 50%,
+                rgba(248, 246, 252, 0.85) 100%
             );
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1px solid rgba(255, 200, 220, 0.35);
+            border: 1px solid rgba(236, 220, 248, 0.35);
             border-radius: 0.875rem;
             box-shadow: 
-                0 4px 16px rgba(255, 180, 200, 0.1),
+                0 4px 16px rgba(218, 205, 238, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                0 2px 8px rgba(255, 200, 220, 0.06),
-                inset 0 -1px 0 rgba(255, 220, 240, 0.2);
+                0 2px 8px rgba(236, 220, 248, 0.06),
+                inset 0 -1px 0 rgba(230, 218, 248, 0.2);
         }
         /* 时间表区域的卡片 - 使用稍微不同的背景色以区分 */
         .timeline-section-wrapper .card-diary {
             background: linear-gradient(135deg, 
-                rgba(255, 240, 248, 0.75) 0%,
-                rgba(255, 245, 240, 0.7) 50%,
-                rgba(255, 242, 248, 0.75) 100%
+                rgba(238, 224, 248, 0.75) 0%,
+                rgba(246, 242, 248, 0.7) 50%,
+                rgba(246, 240, 250, 0.75) 100%
             );
-            border-color: rgba(255, 190, 210, 0.4);
+            border-color: rgba(224, 210, 238, 0.4);
         }
         /* 全体タイムライン：左側縦線 + 過去/未来分区 */
         .timeline-flow {
@@ -152,14 +160,14 @@
             bottom: 0;
             width: 3px;
             background: linear-gradient(180deg, 
-                rgba(255, 200, 220, 0.3) 0%, 
-                rgba(255, 220, 200, 0.5) 15%, 
-                rgba(255, 200, 220, 0.6) 50%, 
-                rgba(255, 220, 200, 0.4) 100%
+                rgba(236, 220, 248, 0.3) 0%, 
+                rgba(230, 218, 246, 0.5) 15%, 
+                rgba(236, 220, 248, 0.6) 50%, 
+                rgba(230, 218, 246, 0.4) 100%
             );
             border-radius: 2px;
             z-index: 0;
-            box-shadow: 0 0 8px rgba(255, 180, 200, 0.2);
+            box-shadow: 0 0 8px rgba(218, 205, 238, 0.2);
         }
         .timeline-past {
             opacity: 0.75;
@@ -168,11 +176,11 @@
             cursor: pointer;
             padding: 0.35rem 0.5rem;
             font-size: 0.78rem;
-            color: #8b6b5b;
+            color: #6e697d;
             border-radius: 0.5rem;
             margin: 0.3rem 0;
         }
-        .timeline-past-toggle:hover { background: rgba(180,150,130,0.08); }
+        .timeline-past-toggle:hover { background: rgba(202,188,222,0.08); }
         .timeline-past-middle {
             max-height: 0;
             overflow: hidden;
@@ -185,15 +193,15 @@
         .timeline-future-header {
             font-weight: 700;
             font-size: 0.95rem;
-            color: #5c4033;
+            color: #5a5569;
             padding: 0.5rem 0 0.75rem 0;
             margin-top: 0.5rem;
             letter-spacing: 0.02em;
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
         .timeline-flow .timeline-global .timeline-node-dot.upcoming {
-            background: linear-gradient(135deg, rgba(180, 150, 130, 0.85), rgba(139, 115, 95, 0.75));
-            box-shadow: 0 0 0 2px rgba(180, 150, 130, 0.3);
+            background: linear-gradient(135deg, rgba(202, 188, 222, 0.85), rgba(165, 152, 198, 0.75));
+            box-shadow: 0 0 0 2px rgba(202, 188, 222, 0.3);
         }
         .timeline-global {
             position: relative;
@@ -230,7 +238,7 @@
             top: 0;
             bottom: -1.5rem;
             width: 2px;
-            background: linear-gradient(180deg, rgba(180, 150, 130, 0.4) 0%, rgba(180, 150, 130, 0.1) 100%);
+            background: linear-gradient(180deg, rgba(202, 188, 222, 0.4) 0%, rgba(202, 188, 222, 0.1) 100%);
             z-index: 0;
         }
         .timeline-global .timeline-day-group .timeline-node:last-child::before { display: none; }
@@ -241,7 +249,7 @@
             top: 0;
             bottom: -1.5rem;
             width: 2px;
-            background: linear-gradient(180deg, rgba(180, 150, 130, 0.4) 0%, rgba(180, 150, 130, 0.1) 100%);
+            background: linear-gradient(180deg, rgba(202, 188, 222, 0.4) 0%, rgba(202, 188, 222, 0.1) 100%);
             z-index: 0;
         }
         .timeline-global .timeline-day-group .timeline-node:last-child::before { display: none; }
@@ -259,7 +267,7 @@
             top: 0;
             bottom: -1.5rem;
             width: 2px;
-            background: linear-gradient(180deg, rgba(180, 150, 130, 0.4) 0%, rgba(180, 150, 130, 0.1) 100%);
+            background: linear-gradient(180deg, rgba(202, 188, 222, 0.4) 0%, rgba(202, 188, 222, 0.1) 100%);
             z-index: 0;
         }
         .timeline-global .timeline-node:last-child::before { display: none; }
@@ -270,14 +278,14 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(180, 150, 130, 0.6), rgba(139, 115, 95, 0.5));
-            border: 1px dashed rgba(180, 150, 130, 0.4);
+            background: linear-gradient(135deg, rgba(202, 188, 222, 0.6), rgba(165, 152, 198, 0.5));
+            border: 1px dashed rgba(202, 188, 222, 0.4);
             z-index: 1;
-            box-shadow: 0 2px 8px rgba(139, 115, 95, 0.15);
+            box-shadow: 0 2px 8px rgba(165, 152, 198, 0.15);
         }
         .timeline-global .timeline-day-group .timeline-node-dot.upcoming {
-            background: linear-gradient(135deg, rgba(180, 150, 130, 0.85), rgba(139, 115, 95, 0.75));
-            box-shadow: 0 0 0 2px rgba(180, 150, 130, 0.3);
+            background: linear-gradient(135deg, rgba(202, 188, 222, 0.85), rgba(165, 152, 198, 0.75));
+            box-shadow: 0 0 0 2px rgba(202, 188, 222, 0.3);
         }
         .timeline-global .timeline-node-dot {
             position: absolute;
@@ -286,32 +294,32 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(180, 150, 130, 0.6), rgba(139, 115, 95, 0.5));
-            border: 1px dashed rgba(180, 150, 130, 0.4);
+            background: linear-gradient(135deg, rgba(202, 188, 222, 0.6), rgba(165, 152, 198, 0.5));
+            border: 1px dashed rgba(202, 188, 222, 0.4);
             z-index: 1;
-            box-shadow: 0 2px 8px rgba(139, 115, 95, 0.15);
+            box-shadow: 0 2px 8px rgba(165, 152, 198, 0.15);
         }
         .timeline-global .timeline-node-dot.upcoming {
-            background: linear-gradient(135deg, rgba(180, 150, 130, 0.85), rgba(139, 115, 95, 0.75));
-            box-shadow: 0 0 0 2px rgba(180, 150, 130, 0.3);
+            background: linear-gradient(135deg, rgba(202, 188, 222, 0.85), rgba(165, 152, 198, 0.75));
+            box-shadow: 0 0 0 2px rgba(202, 188, 222, 0.3);
         }
         .school-progress-bar {
             height: 8px;
             border-radius: 999px;
-            background: rgba(255, 200, 220, 0.25);
+            background: rgba(236, 220, 248, 0.25);
             overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(255, 180, 200, 0.2);
+            box-shadow: inset 0 1px 3px rgba(218, 205, 238, 0.2);
         }
         .school-progress-fill {
             height: 100%;
             border-radius: 999px;
             background: linear-gradient(90deg, 
-                rgba(255, 200, 220, 0.7), 
-                rgba(255, 220, 200, 0.8),
-                rgba(255, 200, 220, 0.7)
+                rgba(236, 220, 248, 0.7), 
+                rgba(230, 218, 246, 0.8),
+                rgba(236, 220, 248, 0.7)
             );
             transition: width 0.5s ease-out;
-            box-shadow: 0 0 8px rgba(255, 180, 200, 0.4);
+            box-shadow: 0 0 8px rgba(218, 205, 238, 0.4);
         }
         /* 日系手帳風・ラベル（旗・丸角バブル） */
         .timeline-label-flag {
@@ -323,8 +331,8 @@
             font-size: 12px;
             font-weight: 500;
             letter-spacing: 0.02em;
-            border: 1px dashed rgba(180, 150, 130, 0.4);
-            box-shadow: 0 2px 8px rgba(139, 115, 95, 0.08);
+            border: 1px dashed rgba(202, 188, 222, 0.4);
+            box-shadow: 0 2px 8px rgba(165, 152, 198, 0.08);
             position: relative;
         }
         .timeline-label-flag::before {
@@ -337,7 +345,7 @@
             height: 0;
             border-top: 6px solid transparent;
             border-bottom: 6px solid transparent;
-            border-right: 6px solid rgba(180, 150, 130, 0.5);
+            border-right: 6px solid rgba(202, 188, 222, 0.5);
         }
         .timeline-label-bubble {
             display: inline-flex;
@@ -347,37 +355,37 @@
             border-radius: 999px;
             font-size: 12px;
             font-weight: 500;
-            border: 1px dashed rgba(180, 150, 130, 0.35);
-            box-shadow: 0 2px 10px rgba(139, 115, 95, 0.06);
+            border: 1px dashed rgba(202, 188, 222, 0.35);
+            box-shadow: 0 2px 10px rgba(165, 152, 198, 0.06);
         }
         .label-start { 
-            background: linear-gradient(135deg, rgba(255, 240, 250, 0.6), rgba(255, 250, 240, 0.55)); 
-            color: #7a5a4a; 
+            background: linear-gradient(135deg, rgba(238, 224, 248, 0.6), rgba(248, 245, 252, 0.55)); 
+            color: #6a6578; 
             backdrop-filter: blur(8px) saturate(140%);
             -webkit-backdrop-filter: blur(8px) saturate(140%);
         }
         .label-deadline { 
-            background: linear-gradient(135deg, rgba(255, 200, 220, 0.6), rgba(255, 220, 200, 0.55)); 
-            color: #7a5a4a; 
+            background: linear-gradient(135deg, rgba(236, 220, 248, 0.6), rgba(230, 218, 246, 0.55)); 
+            color: #6a6578; 
             backdrop-filter: blur(8px) saturate(140%);
             -webkit-backdrop-filter: blur(8px) saturate(140%);
         }
         .label-deadline.required { 
-            border-color: rgba(255, 150, 150, 0.6); 
-            background: linear-gradient(135deg, rgba(255, 230, 240, 0.8), rgba(255, 210, 220, 0.75)); 
-            color: #8b4a4a; 
+            border-color: rgba(200, 190, 215, 0.6); 
+            background: linear-gradient(135deg, rgba(238, 228, 245, 0.8), rgba(232, 222, 238, 0.75)); 
+            color: #7a6d82; 
             backdrop-filter: blur(8px) saturate(140%);
             -webkit-backdrop-filter: blur(8px) saturate(140%);
         }
         .label-exam { 
-            background: linear-gradient(135deg, rgba(255, 240, 220, 0.6), rgba(255, 250, 230, 0.55)); 
-            color: #6a5a4a; 
+            background: linear-gradient(135deg, rgba(242, 236, 248, 0.6), rgba(240, 228, 248, 0.55)); 
+            color: #656078; 
             backdrop-filter: blur(8px) saturate(140%);
             -webkit-backdrop-filter: blur(8px) saturate(140%);
         }
         .label-announce { 
-            background: linear-gradient(135deg, rgba(255, 218, 240, 0.7), rgba(255, 200, 220, 0.65)); 
-            color: #8b5a6a; 
+            background: linear-gradient(135deg, rgba(238, 228, 245, 0.7), rgba(236, 220, 248, 0.65)); 
+            color: #726a82; 
             backdrop-filter: blur(8px) saturate(140%);
             -webkit-backdrop-filter: blur(8px) saturate(140%);
         }
@@ -403,7 +411,7 @@
             top: 0;
             bottom: -1.5rem;
             width: 2px;
-            background: linear-gradient(180deg, rgba(180, 150, 130, 0.4) 0%, rgba(180, 150, 130, 0.1) 100%);
+            background: linear-gradient(180deg, rgba(202, 188, 222, 0.4) 0%, rgba(202, 188, 222, 0.1) 100%);
             z-index: 0;
         }
         .timeline-day-group .timeline-node:last-child::before { display: none; }
@@ -414,18 +422,18 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255, 200, 220, 0.7), rgba(255, 220, 200, 0.6));
-            border: 1px solid rgba(255, 180, 200, 0.5);
+            background: linear-gradient(135deg, rgba(236, 220, 248, 0.7), rgba(230, 218, 246, 0.6));
+            border: 1px solid rgba(218, 205, 238, 0.5);
             z-index: 1;
             box-shadow: 
-                0 3px 10px rgba(255, 180, 200, 0.2),
+                0 3px 10px rgba(218, 205, 238, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
         .timeline-day-group .timeline-node-dot.upcoming {
-            background: linear-gradient(135deg, rgba(255, 200, 220, 0.9), rgba(255, 220, 200, 0.8));
+            background: linear-gradient(135deg, rgba(236, 220, 248, 0.9), rgba(230, 218, 246, 0.8));
             box-shadow: 
-                0 0 0 3px rgba(255, 200, 220, 0.4),
-                0 3px 12px rgba(255, 180, 200, 0.25);
+                0 0 0 3px rgba(236, 220, 248, 0.4),
+                0 3px 12px rgba(218, 205, 238, 0.25);
         }
         /* ユーザーメモ（便箋・テープ風） */
         .memo-sticker {
@@ -435,19 +443,19 @@
             font-size: 13px;
             line-height: 1.5;
             border-radius: 6px;
-            border-left: 4px solid rgba(255, 180, 200, 0.7);
+            border-left: 4px solid rgba(218, 205, 238, 0.7);
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.95) 0%,
-                rgba(255, 250, 248, 0.92) 50%,
-                rgba(255, 252, 250, 0.95) 100%
+                rgba(244, 234, 250, 0.95) 0%,
+                rgba(248, 245, 252, 0.92) 50%,
+                rgba(250, 248, 252, 0.95) 100%
             );
             backdrop-filter: blur(16px) saturate(150%);
             -webkit-backdrop-filter: blur(16px) saturate(150%);
-            border-right: 1px solid rgba(255, 200, 220, 0.4);
-            border-top: 1px solid rgba(255, 200, 220, 0.4);
-            border-bottom: 1px solid rgba(255, 200, 220, 0.4);
+            border-right: 1px solid rgba(236, 220, 248, 0.4);
+            border-top: 1px solid rgba(236, 220, 248, 0.4);
+            border-bottom: 1px solid rgba(236, 220, 248, 0.4);
             box-shadow: 
-                0 4px 16px rgba(255, 180, 200, 0.12),
+                0 4px 16px rgba(218, 205, 238, 0.12),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
             transform: rotate(-0.5deg);
         }
@@ -458,7 +466,7 @@
             right: 0;
             width: 24px;
             height: 24px;
-            background: linear-gradient(135deg, rgba(255, 220, 240, 0.6), transparent);
+            background: linear-gradient(135deg, rgba(230, 218, 248, 0.6), transparent);
             border-radius: 0 6px 0 12px;
         }
         .memo-add-btn {
@@ -468,32 +476,32 @@
             padding: 6px 12px;
             font-size: 12px;
             border-radius: 999px;
-            border: 1px solid rgba(255, 200, 220, 0.5);
+            border: 1px solid rgba(236, 220, 248, 0.5);
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.9) 0%,
-                rgba(255, 250, 248, 0.85) 100%
+                rgba(244, 234, 250, 0.9) 0%,
+                rgba(248, 245, 252, 0.85) 100%
             );
             backdrop-filter: blur(12px) saturate(140%);
             -webkit-backdrop-filter: blur(12px) saturate(140%);
-            color: #8b6b5b;
+            color: #6e697d;
             cursor: pointer;
             transition: all 0.25s ease;
-            box-shadow: 0 2px 8px rgba(255, 180, 200, 0.1);
+            box-shadow: 0 2px 8px rgba(218, 205, 238, 0.1);
         }
         .memo-add-btn:hover {
             background: linear-gradient(135deg, 
-                rgba(255, 250, 255, 0.95) 0%,
-                rgba(255, 252, 250, 0.9) 100%
+                rgba(250, 248, 252, 0.95) 0%,
+                rgba(250, 248, 252, 0.9) 100%
             );
-            border-color: rgba(255, 180, 200, 0.7);
-            box-shadow: 0 4px 12px rgba(255, 180, 200, 0.2);
+            border-color: rgba(218, 205, 238, 0.7);
+            box-shadow: 0 4px 12px rgba(218, 205, 238, 0.2);
             transform: translateY(-1px);
         }
         .memo-modal-overlay {
             position: fixed;
             inset: 0;
             z-index: 100;
-            background: rgba(255, 180, 200, 0.25);
+            background: rgba(218, 205, 238, 0.25);
             backdrop-filter: blur(12px) saturate(150%);
             -webkit-backdrop-filter: blur(12px) saturate(150%);
             display: flex;
@@ -504,18 +512,18 @@
         .memo-modal-overlay.hidden { display: none !important; }
         .memo-modal {
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.98) 0%,
-                rgba(255, 250, 248, 0.96) 100%
+                rgba(244, 234, 250, 0.98) 0%,
+                rgba(248, 245, 252, 0.96) 100%
             );
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(255, 200, 220, 0.5);
+            border: 1px solid rgba(236, 220, 248, 0.5);
             border-radius: 1.25rem;
             padding: 24px;
             max-width: 400px;
             width: 100%;
             box-shadow: 
-                0 20px 60px rgba(255, 180, 200, 0.2),
+                0 20px 60px rgba(218, 205, 238, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
         /* 折りたたみドロワー */
@@ -543,79 +551,79 @@
         /* 大抽屉 - 最深的颜色 */
         .drawer-main .drawer-header { 
             background: linear-gradient(135deg, 
-                rgba(255, 200, 220, 0.25), 
-                rgba(255, 220, 200, 0.2)
+                rgba(236, 220, 248, 0.25), 
+                rgba(230, 218, 246, 0.2)
             ); 
             backdrop-filter: blur(16px) saturate(150%);
             -webkit-backdrop-filter: blur(16px) saturate(150%);
-            border: 1px solid rgba(255, 180, 200, 0.4);
+            border: 1px solid rgba(218, 205, 238, 0.4);
             border-radius: 1rem; 
             padding: 1rem 1.25rem;
             box-shadow: 
-                0 4px 12px rgba(255, 180, 200, 0.15),
+                0 4px 12px rgba(218, 205, 238, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.7);
         }
         .drawer-main .drawer-header:hover {
             background: linear-gradient(135deg, 
-                rgba(255, 200, 220, 0.3), 
-                rgba(255, 220, 200, 0.25)
+                rgba(236, 220, 248, 0.3), 
+                rgba(230, 218, 246, 0.25)
             );
             box-shadow: 
-                0 6px 16px rgba(255, 180, 200, 0.2),
+                0 6px 16px rgba(218, 205, 238, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
         /* 中抽屉 - 中等颜色 */
         .drawer-univ .drawer-header { 
             padding-left: 1.5rem;
             background: linear-gradient(135deg, 
-                rgba(255, 210, 230, 0.2), 
-                rgba(255, 230, 210, 0.15)
+                rgba(238, 228, 245, 0.2), 
+                rgba(240, 232, 248, 0.15)
             );
             backdrop-filter: blur(14px) saturate(140%);
             -webkit-backdrop-filter: blur(14px) saturate(140%);
-            border: 1px solid rgba(255, 190, 210, 0.35);
+            border: 1px solid rgba(224, 210, 238, 0.35);
             box-shadow: 
-                0 3px 10px rgba(255, 180, 200, 0.12),
+                0 3px 10px rgba(218, 205, 238, 0.12),
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
         .drawer-univ .drawer-header:hover {
             background: linear-gradient(135deg, 
-                rgba(255, 210, 230, 0.25), 
-                rgba(255, 230, 210, 0.2)
+                rgba(238, 228, 245, 0.25), 
+                rgba(240, 232, 248, 0.2)
             );
             box-shadow: 
-                0 4px 14px rgba(255, 180, 200, 0.18),
+                0 4px 14px rgba(218, 205, 238, 0.18),
                 inset 0 1px 0 rgba(255, 255, 255, 0.7);
         }
         /* 小抽屉 - 最浅的颜色 */
         .drawer-dept .drawer-header { 
             padding-left: 2.5rem;
             background: linear-gradient(135deg, 
-                rgba(255, 220, 240, 0.15), 
-                rgba(255, 240, 220, 0.12)
+                rgba(230, 218, 248, 0.15), 
+                rgba(242, 236, 248, 0.12)
             );
             backdrop-filter: blur(12px) saturate(130%);
             -webkit-backdrop-filter: blur(12px) saturate(130%);
-            border: 1px solid rgba(255, 200, 220, 0.3);
+            border: 1px solid rgba(236, 220, 248, 0.3);
             box-shadow: 
-                0 2px 8px rgba(255, 180, 200, 0.1),
+                0 2px 8px rgba(218, 205, 238, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
         .drawer-dept .drawer-header:hover {
             background: linear-gradient(135deg, 
-                rgba(255, 220, 240, 0.2), 
-                rgba(255, 240, 220, 0.17)
+                rgba(230, 218, 248, 0.2), 
+                rgba(242, 236, 248, 0.17)
             );
             box-shadow: 
-                0 3px 12px rgba(255, 180, 200, 0.15),
+                0 3px 12px rgba(218, 205, 238, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
         /* 志望校マインドマップ：大学左揃え、右に展開 学部→学科 */
         .mindmap-box {
-            background: #faf8f5;
+            background: #f2eef7;
             border-radius: 1rem;
             padding: 0.75rem 1rem;
-            border: 1px dashed rgba(180,150,130,0.3);
+            border: 1px dashed rgba(202,188,222,0.3);
         }
         .mindmap-root {
             display: flex;
@@ -635,7 +643,7 @@
             padding: 0.35rem 0.6rem;
             font-weight: 600;
             font-size: 0.85rem;
-            color: #5c4033;
+            color: #5a5569;
         }
         .mindmap-branches {
             display: flex;
@@ -651,13 +659,13 @@
             gap: 0.2rem;
             padding: 0.25rem 0.5rem;
             font-size: 0.78rem;
-            color: #7a5a4a;
-            border-left: 2px solid rgba(180,150,130,0.4);
+            color: #6a6578;
+            border-left: 2px solid rgba(202,188,222,0.4);
         }
         .mindmap-major {
             padding-left: 0.5rem;
             font-size: 0.72rem;
-            color: #8b6b5b;
+            color: #6e697d;
         }
         .mindmap-node {
             display: inline-flex;
@@ -684,40 +692,40 @@
             gap: 8px;
             padding: 8px 12px;
             border-radius: 0.5rem;
-            border: 1px dashed rgba(180, 150, 130, 0.35);
-            background: rgba(255, 252, 250, 0.6);
+            border: 1px dashed rgba(202, 188, 222, 0.35);
+            background: rgba(250, 248, 252, 0.6);
             min-width: 140px;
         }
         .node-cell .node-icon {
             flex-shrink: 0;
             width: 20px;
             height: 20px;
-            color: #8b6b5b;
+            color: #6e697d;
             opacity: 0.85;
         }
-        .node-cell .node-label { font-size: 11px; color: #a08070; }
-        .node-cell .node-value { font-size: 13px; font-weight: 500; color: #7a5a4a; }
+        .node-cell .node-label { font-size: 11px; color: #8a8595; }
+        .node-cell .node-value { font-size: 13px; font-weight: 500; color: #6a6578; }
         /* 今週Todo区域：米黄色/米白色系 */
         .week-todo-box {
             background: linear-gradient(135deg, 
-                rgba(255, 250, 245, 0.9) 0%, 
-                rgba(255, 248, 242, 0.85) 30%,
-                rgba(255, 252, 248, 0.9) 60%,
-                rgba(255, 250, 245, 0.85) 100%
+                rgba(248, 246, 252, 0.9) 0%, 
+                rgba(248, 244, 250, 0.85) 30%,
+                rgba(250, 248, 252, 0.9) 60%,
+                rgba(248, 246, 252, 0.85) 100%
             );
             backdrop-filter: blur(28px) saturate(180%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border: 1px solid rgba(220, 200, 180, 0.5);
+            border: 1px solid rgba(218, 212, 228, 0.5);
             box-shadow: 
-                0 12px 40px rgba(220, 200, 180, 0.12),
-                0 6px 20px rgba(230, 210, 190, 0.1),
+                0 12px 40px rgba(218, 212, 228, 0.12),
+                0 6px 20px rgba(225, 218, 235, 0.1),
                 inset 0 2px 4px rgba(255, 255, 255, 0.9),
-                inset 0 -2px 6px rgba(240, 230, 220, 0.15);
+                inset 0 -2px 6px rgba(235, 230, 242, 0.15);
             border-radius: 1rem;
             padding: 0.75rem 1rem !important;
         }
         .week-todo-title { 
-            color: #6c4033; 
+            color: #5c5669; 
             letter-spacing: 0.05em; 
             font-size: 0.9rem;
             font-weight: 700;
@@ -726,16 +734,16 @@
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
         .week-todo-body .week-todo-today { 
-            color: #7a4a4a; 
+            color: #6e6578; 
             font-size: 1rem; 
             font-weight: 600;
         }
         .week-todo-body .week-todo-today-list { 
-            color: #8b6a6a; 
+            color: #7a7585; 
             font-size: 0.9rem;
         }
         .week-todo-body .week-todo-future { 
-            color: #9b7a7a; 
+            color: #858092; 
             font-size: 0.9rem; 
         }
         /* 周表格样式 - 超扁平顶部提示条 */
@@ -751,24 +759,24 @@
             text-align: left;
             font-weight: 600;
             font-size: 0.72rem;
-            color: #7a5a4a;
-            border-bottom: 1px solid rgba(220, 200, 180, 0.3);
+            color: #6a6578;
+            border-bottom: 1px solid rgba(218, 212, 228, 0.3);
             letter-spacing: 0.02em;
-            background: rgba(255, 250, 245, 0.5);
+            background: rgba(248, 246, 252, 0.5);
         }
         .week-todo-table td {
             padding: 0.3rem 0.4rem;
             vertical-align: middle;
             border-bottom: 1px solid rgba(230, 220, 200, 0.2);
             line-height: 1.25;
-            background: rgba(255, 252, 250, 0.3);
+            background: rgba(250, 248, 252, 0.3);
         }
         .week-todo-table tr:last-child td {
             border-bottom: none;
         }
         .week-todo-table .day-name {
             font-weight: 600;
-            color: #6c4a3a;
+            color: #5e586c;
             min-width: 45px;
             font-size: 0.72rem;
             white-space: nowrap;
@@ -776,14 +784,14 @@
         }
         .week-todo-table .day-date {
             font-size: 0.67rem;
-            color: #8b6a6a;
+            color: #7a7585;
             margin-top: 0.05rem;
             opacity: 0.85;
             font-weight: 500;
         }
         .week-todo-table .day-content {
             font-size: 0.72rem;
-            color: #7a5a4a;
+            color: #6a6578;
             font-weight: 500;
         }
         .week-todo-table .day-content ul {
@@ -799,7 +807,7 @@
             line-height: 1.15;
         }
         .week-todo-table .day-content .no-items {
-            color: #b5a5a5;
+            color: #9a95a5;
             font-style: italic;
             font-size: 0.65rem;
             opacity: 0.7;
@@ -809,9 +817,9 @@
             width: 100%;
             padding: 0.25rem 0.4rem;
             font-size: 0.7rem;
-            color: #7a5a4a;
-            background: rgba(255, 252, 248, 0.7);
-            border: 1px dashed rgba(220, 200, 180, 0.4);
+            color: #6a6578;
+            background: rgba(250, 248, 252, 0.7);
+            border: 1px dashed rgba(218, 212, 228, 0.4);
             border-radius: 0.375rem;
             outline: none;
             transition: all 0.2s ease;
@@ -819,12 +827,12 @@
             margin-top: 0.2rem;
         }
         .week-todo-table .day-content .custom-todo-input:focus {
-            background: rgba(255, 252, 248, 0.9);
-            border-color: rgba(220, 200, 180, 0.6);
-            box-shadow: 0 0 0 2px rgba(220, 200, 180, 0.2);
+            background: rgba(250, 248, 252, 0.9);
+            border-color: rgba(218, 212, 228, 0.6);
+            box-shadow: 0 0 0 2px rgba(218, 212, 228, 0.2);
         }
         .week-todo-table .day-content .custom-todo-input::placeholder {
-            color: #b5a5a5;
+            color: #9a95a5;
             opacity: 0.6;
             font-style: italic;
         }
@@ -838,9 +846,9 @@
             padding: 0.4rem 0.8rem;
             font-size: 0.7rem;
             font-weight: 500;
-            color: #7a5a4a;
-            background: rgba(255, 252, 248, 0.7);
-            border: 1px dashed rgba(220, 200, 180, 0.4);
+            color: #6a6578;
+            background: rgba(250, 248, 252, 0.7);
+            border: 1px dashed rgba(218, 212, 228, 0.4);
             border-radius: 0.4rem;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -849,8 +857,8 @@
             gap: 0.3rem;
         }
         .week-todo-edit-btn:hover {
-            background: rgba(255, 252, 248, 0.9);
-            border-color: rgba(220, 200, 180, 0.6);
+            background: rgba(250, 248, 252, 0.9);
+            border-color: rgba(218, 212, 228, 0.6);
             transform: translateY(-1px);
         }
         /* 保存/取消按钮 */
@@ -859,9 +867,9 @@
             padding: 0.5rem 1rem;
             font-size: 0.75rem;
             font-weight: 500;
-            color: #7a5a4a;
-            background: rgba(255, 252, 248, 0.8);
-            border: 1px dashed rgba(220, 200, 180, 0.4);
+            color: #6a6578;
+            background: rgba(250, 248, 252, 0.8);
+            border: 1px dashed rgba(218, 212, 228, 0.4);
             border-radius: 0.5rem;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -871,16 +879,16 @@
             margin-left: 0.5rem;
         }
         .week-todo-action-btn:hover {
-            background: rgba(255, 252, 248, 0.95);
-            border-color: rgba(220, 200, 180, 0.6);
+            background: rgba(250, 248, 252, 0.95);
+            border-color: rgba(218, 212, 228, 0.6);
             transform: translateY(-1px);
-            box-shadow: 0 2px 6px rgba(220, 200, 180, 0.15);
+            box-shadow: 0 2px 6px rgba(218, 212, 228, 0.15);
         }
         .week-todo-action-btn.save-btn {
             color: #7a9a7a;
         }
         .week-todo-action-btn.cancel-btn {
-            color: #9b7a7a;
+            color: #858092;
         }
         .week-todo-action-btn.saved {
             color: #7a9a7a;
@@ -894,7 +902,7 @@
             align-items: center;
             gap: 0.25rem;
             line-height: 1.15;
-            color: #8b6a6a;
+            color: #7a7585;
             font-size: 0.7rem;
             margin-top: 0.15rem;
         }
@@ -904,14 +912,14 @@
         /* 今天那一行突出显示 - 精致活力感 */
         .week-todo-table tr.today-row {
             background: linear-gradient(135deg, 
-                rgba(255, 248, 240, 0.95) 0%,
-                rgba(255, 245, 238, 0.9) 100%
+                rgba(248, 244, 250, 0.95) 0%,
+                rgba(240, 228, 248, 0.9) 100%
             );
-            border: 2px solid rgba(220, 200, 180, 0.6);
+            border: 2px solid rgba(218, 212, 228, 0.6);
             border-radius: 0.5rem;
             box-shadow: 
-                0 4px 16px rgba(220, 200, 180, 0.2),
-                0 2px 6px rgba(230, 210, 190, 0.15),
+                0 4px 16px rgba(218, 212, 228, 0.2),
+                0 2px 6px rgba(225, 218, 235, 0.15),
                 inset 0 1px 2px rgba(255, 255, 255, 0.9);
         }
         .week-todo-table tr.today-row td {
@@ -921,19 +929,19 @@
         .week-todo-table tr.today-row .day-name {
             font-size: 0.82rem;
             font-weight: 700;
-            color: #6c3a3a;
+            color: #5e5668;
             letter-spacing: 0.02em;
         }
         .week-todo-table tr.today-row .day-date {
             font-size: 0.72rem;
             font-weight: 600;
-            color: #7a5a5a;
+            color: #6e6a78;
             opacity: 1;
         }
         .week-todo-table tr.today-row .day-content {
             font-size: 0.77rem;
             font-weight: 600;
-            color: #6c4a3a;
+            color: #5e586c;
         }
         /* 多階層ドロワー：expanded時のみ有効、それ以外はmax-height:0で折りたたみ */
         .drawer-body.dept-level.expanded { max-height: 800px; }
@@ -944,13 +952,13 @@
             width: 100%;
             padding: 1.15rem 1.4rem;
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.95) 0%,
-                rgba(255, 250, 248, 0.92) 50%,
-                rgba(255, 252, 250, 0.95) 100%
+                rgba(244, 234, 250, 0.95) 0%,
+                rgba(248, 245, 252, 0.92) 50%,
+                rgba(250, 248, 252, 0.95) 100%
             );
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1.5px solid rgba(255, 200, 220, 0.4);
+            border: 1.5px solid rgba(236, 220, 248, 0.4);
             border-radius: 1rem;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -958,23 +966,23 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 
-                0 6px 20px rgba(255, 180, 200, 0.12),
-                0 3px 10px rgba(255, 200, 220, 0.08),
+                0 6px 20px rgba(218, 205, 238, 0.12),
+                0 3px 10px rgba(236, 220, 248, 0.08),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                inset 0 -1px 0 rgba(255, 220, 240, 0.2);
+                inset 0 -1px 0 rgba(230, 218, 248, 0.2);
         }
         .section-button:hover {
             background: linear-gradient(135deg, 
-                rgba(255, 250, 255, 0.98) 0%,
-                rgba(255, 252, 250, 0.95) 50%,
-                rgba(255, 250, 255, 0.98) 100%
+                rgba(250, 248, 252, 0.98) 0%,
+                rgba(250, 248, 252, 0.95) 50%,
+                rgba(250, 248, 252, 0.98) 100%
             );
-            border-color: rgba(255, 180, 200, 0.6);
+            border-color: rgba(218, 205, 238, 0.6);
             box-shadow: 
-                0 8px 28px rgba(255, 180, 200, 0.18),
-                0 4px 14px rgba(255, 200, 220, 0.12),
+                0 8px 28px rgba(218, 205, 238, 0.18),
+                0 4px 14px rgba(236, 220, 248, 0.12),
                 inset 0 2px 2px rgba(255, 255, 255, 0.9),
-                inset 0 -2px 2px rgba(255, 220, 240, 0.25);
+                inset 0 -2px 2px rgba(230, 218, 248, 0.25);
             transform: translateY(-2px);
         }
         .section-button.expanded {
@@ -987,17 +995,17 @@
             overflow: hidden;
             transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.8) 0%,
-                rgba(255, 250, 248, 0.75) 100%
+                rgba(244, 234, 250, 0.8) 0%,
+                rgba(248, 245, 252, 0.75) 100%
             );
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1.5px solid rgba(255, 200, 220, 0.35);
+            border: 1.5px solid rgba(236, 220, 248, 0.35);
             border-top: none;
             border-radius: 0 0 1rem 1rem;
             box-shadow: 
                 inset 0 2px 4px rgba(255, 255, 255, 0.6),
-                inset 0 -2px 4px rgba(255, 220, 240, 0.15);
+                inset 0 -2px 4px rgba(230, 218, 248, 0.15);
         }
         .section-content.expanded {
             max-height: 5000px !important;
@@ -1019,7 +1027,7 @@
         }
         .section-chevron {
             transition: transform 0.3s ease;
-            color: #8b6b5b;
+            color: #6e697d;
             font-size: 1.2rem;
         }
         .section-button.expanded .section-chevron {
@@ -1030,7 +1038,7 @@
             position: fixed;
             inset: 0;
             z-index: 200;
-            background: rgba(255, 180, 200, 0.3);
+            background: rgba(218, 205, 238, 0.3);
             backdrop-filter: blur(16px) saturate(150%);
             -webkit-backdrop-filter: blur(16px) saturate(150%);
             display: flex;
@@ -1041,12 +1049,12 @@
         .future-applications-modal.hidden { display: none !important; }
         .future-applications-content {
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.98) 0%,
-                rgba(255, 250, 248, 0.96) 100%
+                rgba(244, 234, 250, 0.98) 0%,
+                rgba(248, 245, 252, 0.96) 100%
             );
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 2px solid rgba(255, 200, 220, 0.5);
+            border: 2px solid rgba(236, 220, 248, 0.5);
             border-radius: 1.5rem;
             padding: 2rem;
             max-width: 800px;
@@ -1054,38 +1062,38 @@
             max-height: 80vh;
             overflow-y: auto;
             box-shadow: 
-                0 24px 72px rgba(255, 180, 200, 0.25),
+                0 24px 72px rgba(218, 205, 238, 0.25),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
         .future-applications-item {
             padding: 0.75rem 1rem;
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.9) 0%,
-                rgba(255, 250, 248, 0.85) 100%
+                rgba(244, 234, 250, 0.9) 0%,
+                rgba(248, 245, 252, 0.85) 100%
             );
             backdrop-filter: blur(12px) saturate(140%);
             -webkit-backdrop-filter: blur(12px) saturate(140%);
-            border: 1px solid rgba(255, 200, 220, 0.4);
+            border: 1px solid rgba(236, 220, 248, 0.4);
             border-radius: 0.75rem;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(255, 180, 200, 0.08);
+            box-shadow: 0 2px 8px rgba(218, 205, 238, 0.08);
         }
         .future-applications-item:hover {
             background: linear-gradient(135deg, 
-                rgba(255, 250, 255, 0.95) 0%,
-                rgba(255, 252, 250, 0.9) 100%
+                rgba(250, 248, 252, 0.95) 0%,
+                rgba(250, 248, 252, 0.9) 100%
             );
-            border-color: rgba(255, 180, 200, 0.6);
+            border-color: rgba(218, 205, 238, 0.6);
             transform: translateX(4px);
-            box-shadow: 0 4px 12px rgba(255, 180, 200, 0.15);
+            box-shadow: 0 4px 12px rgba(218, 205, 238, 0.15);
         }
         /* 工具箱模态框样式 */
         .toolbox-modal-overlay {
             position: fixed;
             inset: 0;
             z-index: 200;
-            background: rgba(255, 180, 200, 0.3);
+            background: rgba(218, 205, 238, 0.3);
             backdrop-filter: blur(16px) saturate(150%);
             -webkit-backdrop-filter: blur(16px) saturate(150%);
             display: flex;
@@ -1096,12 +1104,12 @@
         .toolbox-modal-overlay.hidden { display: none !important; }
         .toolbox-modal {
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.98) 0%,
-                rgba(255, 250, 248, 0.96) 100%
+                rgba(244, 234, 250, 0.98) 0%,
+                rgba(248, 245, 252, 0.96) 100%
             );
             backdrop-filter: blur(28px) saturate(180%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border: 2px solid rgba(255, 200, 220, 0.5);
+            border: 2px solid rgba(236, 220, 248, 0.5);
             border-radius: 1.5rem;
             padding: 2rem;
             max-width: 900px;
@@ -1109,7 +1117,7 @@
             max-height: 85vh;
             overflow-y: auto;
             box-shadow: 
-                0 24px 72px rgba(255, 180, 200, 0.3),
+                0 24px 72px rgba(218, 205, 238, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9);
             position: relative;
         }
@@ -1119,12 +1127,12 @@
             justify-content: space-between;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
-            border-bottom: 2px dashed rgba(180, 150, 130, 0.3);
+            border-bottom: 2px dashed rgba(202, 188, 222, 0.3);
         }
         .toolbox-title {
             font-size: 1.5rem;
             font-weight: 600;
-            color: #5c4033;
+            color: #5a5569;
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -1137,25 +1145,25 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, 
-                rgba(255, 240, 250, 0.9) 0%,
-                rgba(255, 250, 240, 0.85) 100%
+                rgba(238, 224, 248, 0.9) 0%,
+                rgba(248, 245, 252, 0.85) 100%
             );
             backdrop-filter: blur(12px) saturate(140%);
             -webkit-backdrop-filter: blur(12px) saturate(140%);
-            border: 1px solid rgba(255, 200, 220, 0.4);
-            color: #8b6b5b;
+            border: 1px solid rgba(236, 220, 248, 0.4);
+            color: #6e697d;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(255, 180, 200, 0.1);
+            box-shadow: 0 2px 8px rgba(218, 205, 238, 0.1);
         }
         .toolbox-close-btn:hover {
             background: linear-gradient(135deg, 
-                rgba(255, 250, 255, 0.95) 0%,
-                rgba(255, 252, 250, 0.9) 100%
+                rgba(250, 248, 252, 0.95) 0%,
+                rgba(250, 248, 252, 0.9) 100%
             );
-            border-color: rgba(255, 180, 200, 0.6);
+            border-color: rgba(218, 205, 238, 0.6);
             transform: rotate(90deg);
-            box-shadow: 0 4px 12px rgba(255, 180, 200, 0.2);
+            box-shadow: 0 4px 12px rgba(218, 205, 238, 0.2);
         }
         .toolbox-grid {
             display: grid;
@@ -1166,22 +1174,22 @@
         .toolbox-item {
             padding: 1.5rem;
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.98) 0%,
-                rgba(255, 250, 248, 0.95) 50%,
-                rgba(255, 252, 250, 0.98) 100%
+                rgba(244, 234, 250, 0.98) 0%,
+                rgba(248, 245, 252, 0.95) 50%,
+                rgba(250, 248, 252, 0.98) 100%
             );
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 2px solid rgba(255, 200, 220, 0.6);
+            border: 2px solid rgba(236, 220, 248, 0.6);
             border-radius: 1rem;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
             box-shadow: 
-                0 8px 20px rgba(255, 180, 200, 0.2),
-                0 4px 12px rgba(255, 200, 220, 0.15),
+                0 8px 20px rgba(218, 205, 238, 0.2),
+                0 4px 12px rgba(236, 220, 248, 0.15),
                 inset 0 2px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -2px 0 rgba(255, 220, 240, 0.3);
+                inset 0 -2px 0 rgba(230, 218, 248, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -1204,17 +1212,17 @@
         }
         .toolbox-item:hover {
             background: linear-gradient(135deg, 
-                rgba(255, 250, 255, 1) 0%,
-                rgba(255, 252, 250, 0.98) 50%,
-                rgba(255, 250, 255, 1) 100%
+                rgba(250, 248, 252, 1) 0%,
+                rgba(250, 248, 252, 0.98) 50%,
+                rgba(250, 248, 252, 1) 100%
             );
-            border-color: rgba(255, 180, 200, 0.85);
+            border-color: rgba(218, 205, 238, 0.85);
             transform: translateY(-6px) scale(1.03);
             box-shadow: 
-                0 16px 40px rgba(255, 180, 200, 0.3),
-                0 10px 24px rgba(255, 200, 220, 0.25),
+                0 16px 40px rgba(218, 205, 238, 0.3),
+                0 10px 24px rgba(236, 220, 248, 0.25),
                 inset 0 3px 6px rgba(255, 255, 255, 1),
-                inset 0 -3px 6px rgba(255, 220, 240, 0.25);
+                inset 0 -3px 6px rgba(230, 218, 248, 0.25);
         }
         .toolbox-item:active {
             transform: translateY(-2px) scale(0.98);
@@ -1223,7 +1231,7 @@
             font-size: 2.5rem;
             margin-bottom: 0.75rem;
             display: inline-block;
-            filter: drop-shadow(0 2px 4px rgba(139, 115, 95, 0.2));
+            filter: drop-shadow(0 2px 4px rgba(165, 152, 198, 0.2));
             transition: transform 0.3s ease;
         }
         .toolbox-item:hover .toolbox-item-icon {
@@ -1232,39 +1240,39 @@
         .toolbox-item-title {
             font-size: 1rem;
             font-weight: 600;
-            color: #5c4033;
+            color: #5a5569;
             margin-bottom: 0.4rem;
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
             letter-spacing: 0.02em;
         }
         .toolbox-item:hover .toolbox-item-title {
-            color: #4c3023;
+            color: #5a5569;
         }
         .toolbox-item-desc {
             font-size: 0.8rem;
-            color: #8b6b5b;
+            color: #6e697d;
             font-weight: 400;
             opacity: 0.85;
         }
         .toolbox-item:hover .toolbox-item-desc {
             opacity: 1;
-            color: #7a5a4a;
+            color: #6a6578;
         }
         .toolbox-content-area {
             display: none;
             margin-top: 1.5rem;
             padding: 1.5rem;
             background: linear-gradient(135deg, 
-                rgba(255, 248, 252, 0.85) 0%,
-                rgba(255, 250, 248, 0.8) 100%
+                rgba(244, 234, 250, 0.85) 0%,
+                rgba(248, 245, 252, 0.8) 100%
             );
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1px solid rgba(255, 200, 220, 0.4);
+            border: 1px solid rgba(236, 220, 248, 0.4);
             border-radius: 1rem;
             box-shadow: 
                 inset 0 2px 4px rgba(255, 255, 255, 0.7),
-                inset 0 -2px 4px rgba(255, 220, 240, 0.2);
+                inset 0 -2px 4px rgba(230, 218, 248, 0.2);
         }
         .toolbox-content-area.active {
             display: block;
@@ -1275,38 +1283,38 @@
             justify-content: space-between;
             margin-bottom: 1rem;
             padding-bottom: 0.75rem;
-            border-bottom: 1px dashed rgba(180, 150, 130, 0.3);
+            border-bottom: 1px dashed rgba(202, 188, 222, 0.3);
         }
         .toolbox-content-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: #5c4033;
+            color: #5a5569;
         }
         .toolbox-content-body {
-            color: #5c4033;
+            color: #5a5569;
             line-height: 1.8;
             font-size: 0.95rem;
         }
         .toolbox-content-body h2 {
             font-size: 1.3rem;
             font-weight: 600;
-            color: #5c4033;
+            color: #5a5569;
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px dashed rgba(180, 150, 130, 0.2);
+            border-bottom: 2px dashed rgba(202, 188, 222, 0.2);
         }
         .toolbox-content-body h3 {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #6c5040;
+            color: #6a6578;
             margin-top: 1.25rem;
             margin-bottom: 0.5rem;
         }
         .toolbox-content-body h4 {
             font-size: 1rem;
             font-weight: 600;
-            color: #7a5a4a;
+            color: #6a6578;
             margin-top: 1rem;
             margin-bottom: 0.5rem;
         }
@@ -1321,20 +1329,20 @@
             margin-bottom: 0.5rem;
         }
         .toolbox-content-body strong {
-            color: #5c4033;
+            color: #5a5569;
             font-weight: 600;
         }
         .toolbox-content-body code {
-            background: rgba(180, 150, 130, 0.1);
+            background: rgba(202, 188, 222, 0.1);
             padding: 0.2rem 0.4rem;
             border-radius: 0.25rem;
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
-            color: #6c5040;
+            color: #6a6578;
         }
         .toolbox-content-body .highlight-box {
-            background: rgba(255, 248, 240, 0.8);
-            border-left: 3px solid rgba(180, 150, 130, 0.5);
+            background: rgba(248, 244, 250, 0.8);
+            border-left: 3px solid rgba(202, 188, 222, 0.5);
             padding: 1rem;
             margin: 1rem 0;
             border-radius: 0.5rem;
@@ -1347,34 +1355,34 @@
         .toolbox-content-body table th,
         .toolbox-content-body table td {
             padding: 0.75rem;
-            border: 1px dashed rgba(180, 150, 130, 0.3);
+            border: 1px dashed rgba(202, 188, 222, 0.3);
             text-align: left;
         }
         .toolbox-content-body table th {
-            background: rgba(180, 150, 130, 0.1);
+            background: rgba(202, 188, 222, 0.1);
             font-weight: 600;
-            color: #5c4033;
+            color: #5a5569;
         }
         /* 顶部工具箱按钮样式 - 有质感有光泽 */
         #toolbox-btn {
             padding: 0.875rem 1.5rem !important;
             background: linear-gradient(135deg, 
-                rgba(255, 250, 240, 0.98) 0%,
-                rgba(255, 252, 245, 0.95) 50%,
-                rgba(255, 250, 240, 0.98) 100%
+                rgba(248, 245, 252, 0.98) 0%,
+                rgba(250, 248, 252, 0.95) 50%,
+                rgba(248, 245, 252, 0.98) 100%
             ) !important;
             backdrop-filter: blur(20px) saturate(160%) !important;
             -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
-            border: 2px solid rgba(255, 240, 200, 0.6) !important;
+            border: 2px solid rgba(226, 215, 242, 0.6) !important;
             border-radius: 1rem !important;
-            color: #5c4033 !important;
+            color: #5a5569 !important;
             font-weight: 600 !important;
             font-size: 0.95rem !important;
             box-shadow: 
-                0 6px 20px rgba(255, 230, 180, 0.2),
-                0 3px 10px rgba(255, 240, 200, 0.15),
+                0 6px 20px rgba(218, 205, 238, 0.2),
+                0 3px 10px rgba(226, 215, 242, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -1px 0 rgba(255, 245, 220, 0.3) !important;
+                inset 0 -1px 0 rgba(240, 228, 248, 0.3) !important;
             position: relative;
             overflow: hidden;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -1398,24 +1406,24 @@
         }
         #toolbox-btn:hover {
             background: linear-gradient(135deg, 
-                rgba(255, 252, 245, 1) 0%,
-                rgba(255, 250, 240, 0.98) 50%,
-                rgba(255, 252, 245, 1) 100%
+                rgba(250, 248, 252, 1) 0%,
+                rgba(248, 245, 252, 0.98) 50%,
+                rgba(250, 248, 252, 1) 100%
             ) !important;
-            border-color: rgba(255, 230, 180, 0.8) !important;
+            border-color: rgba(218, 205, 238, 0.8) !important;
             transform: translateY(-2px) scale(1.05) !important;
             box-shadow: 
-                0 10px 30px rgba(255, 230, 180, 0.3),
-                0 6px 18px rgba(255, 240, 200, 0.25),
+                0 10px 30px rgba(218, 205, 238, 0.3),
+                0 6px 18px rgba(226, 215, 242, 0.25),
                 inset 0 2px 4px rgba(255, 255, 255, 1),
-                inset 0 -2px 4px rgba(255, 245, 220, 0.25) !important;
-            color: #4c3023 !important;
+                inset 0 -2px 4px rgba(240, 228, 248, 0.25) !important;
+            color: #5a5569 !important;
         }
         #toolbox-btn:active {
             transform: translateY(0) scale(1.02) !important;
         }
         #toolbox-btn i {
-            filter: drop-shadow(0 1px 2px rgba(255, 230, 180, 0.3));
+            filter: drop-shadow(0 1px 2px rgba(218, 205, 238, 0.3));
             transition: transform 0.3s ease;
         }
         #toolbox-btn:hover i {
@@ -1424,23 +1432,24 @@
     </style>
 </head>
 <body>
+    <script src="js/auth.js"></script><script>Auth.requireAuth();</script>
     <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/30">
         <div class="max-w-7xl mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <a href="compass_index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
-                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white nav-icon-box" style="background:linear-gradient(135deg,rgba(255,220,120,0.95),rgba(255,235,140,0.9));border:1px solid rgba(255,255,255,0.5);box-shadow:0 8px 24px rgba(255,210,100,0.3),inset 0 2px 4px rgba(255,255,255,0.5),inset 0 -2px 4px rgba(255,200,120,0.2);backdrop-filter:blur(12px) saturate(180%);-webkit-backdrop-filter:blur(12px) saturate(180%);">
+                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white nav-icon-box" style="background:linear-gradient(135deg,rgba(218,205,235,0.95),rgba(232,222,245,0.9));border:1px solid rgba(255,255,255,0.5);box-shadow:0 8px 24px rgba(202,188,222,0.25),inset 0 2px 4px rgba(255,255,255,0.5),inset 0 -2px 4px rgba(228,218,238,0.2);backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);">
                         <i class="fas fa-calendar-check text-xl"></i>
                     </div>
                     <div>
-                        <h1 class="font-bold text-xl" style="color:#5c4033">出願センター</h1>
-                        <p class="text-xs" style="color:#a08070">Application Center</p>
+                        <h1 class="font-bold text-xl font-serif-title" style="color:#5a5569;letter-spacing:0.06em">出願センター</h1>
+                        <p class="text-xs" style="color:#8a8595">Application Center</p>
                     </div>
                 </a>
                 <div class="flex items-center gap-3">
                     <button id="toolbox-btn">
                         <i class="fas fa-toolbox mr-2 text-lg"></i>出願工具箱
                     </button>
-                    <a href="compass_index.html" class="px-4 py-2 rounded-2xl text-sm font-medium transition-all" style="background:linear-gradient(135deg,rgba(255,250,240,0.85),rgba(255,252,245,0.8));backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid rgba(255,240,200,0.4);color:#8b6b5b;box-shadow:0 2px 8px rgba(255,230,180,0.1)">
+                    <a href="compass_index.html" class="px-4 py-2 rounded-2xl text-sm font-medium transition-all" style="background:linear-gradient(135deg,rgba(248,245,252,0.85),rgba(250,248,252,0.8));backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid rgba(235,228,245,0.4);color:#6e697d;box-shadow:0 2px 8px rgba(228,218,238,0.08)">
                         <i class="fas fa-home mr-2"></i>ホーム
                     </a>
                 </div>
@@ -1463,8 +1472,8 @@
                 <div class="flex items-center gap-3">
                     <span class="text-xl">📅</span>
                     <div class="text-left">
-                        <h3 class="text-lg font-bold" style="color:#5c4033">今後出願可能な大学</h3>
-                        <p class="text-xs" style="color:#a08070">今から受験終了までに出願できる大学を確認</p>
+                        <h3 class="text-lg font-bold font-serif-title" style="color:#5a5569;letter-spacing:0.04em">今後出願可能な大学</h3>
+                        <p class="text-xs" style="color:#8a8595">今から受験終了までに出願できる大学を確認</p>
                     </div>
                 </div>
                 <i class="fas fa-chevron-down section-chevron"></i>
@@ -1472,11 +1481,11 @@
             <div id="future-applications-content" class="section-content">
                 <div class="p-6">
                     <div class="mb-4">
-                        <label class="block text-sm font-medium mb-2" style="color:#8b6b5b">日付を選択（デフォルトは今日）</label>
-                        <input type="date" id="future-applications-date" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b;background:rgba(255,252,250,0.8)">
-                        <p class="text-xs mt-2" style="color:#a08070">選択した日付から翌年4月1日までに出願可能な大学を表示します</p>
+                        <label class="block text-sm font-medium mb-2" style="color:#6e697d">日付を選択（デフォルトは今日）</label>
+                        <input type="date" id="future-applications-date" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(202,188,222,0.4);color:#6e697d;background:rgba(250,248,252,0.8)">
+                        <p class="text-xs mt-2" style="color:#8a8595">選択した日付から翌年4月1日までに出願可能な大学を表示します</p>
                     </div>
-                    <button id="search-future-applications" class="w-full px-4 py-3 rounded-xl text-white font-medium transition-all" style="background:linear-gradient(135deg,rgba(180,150,130,0.9),rgba(139,115,95,0.85));border:1px dashed rgba(255,255,255,0.35);box-shadow:0 4px 16px rgba(139,115,95,0.15)">
+                    <button id="search-future-applications" class="w-full px-4 py-3 rounded-xl text-white font-medium transition-all" style="background:linear-gradient(135deg,rgba(202,188,222,0.9),rgba(165,152,198,0.85));border:1px dashed rgba(255,255,255,0.35);box-shadow:0 4px 16px rgba(165,152,198,0.15)">
                         <i class="fas fa-search mr-2"></i>出願可能な大学を検索
                     </button>
                     <div id="future-applications-results" class="mt-6"></div>
@@ -1490,8 +1499,8 @@
                     <div class="flex items-center gap-3">
                         <span class="text-xl">🏫</span>
                         <div class="text-left">
-                            <h3 class="text-lg font-bold" style="color:#5c4033">志望校リスト</h3>
-                            <p class="text-xs" style="color:#a08070">追加済みの学校リスト</p>
+                            <h3 class="text-lg font-bold font-serif-title" style="color:#5a5569;letter-spacing:0.04em">志望校リスト</h3>
+                            <p class="text-xs" style="color:#8a8595">追加済みの学校リスト</p>
                         </div>
                     </div>
                     <i class="fas fa-chevron-down section-chevron"></i>
@@ -1499,16 +1508,16 @@
                 <div id="schools-section-content" class="section-content">
                     <div class="glass rounded-b-2xl p-6">
                         <div id="selected-schools" class="space-y-3">
-                            <p class="text-sm text-center py-8" style="color:#a08070">検索モジュールから大学を追加してください</p>
+                            <p class="text-sm text-center py-8" style="color:#8a8595">検索モジュールから大学を追加してください</p>
                         </div>
                         <div class="mt-4 space-y-2">
-                            <a href="compass_filter.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b">
+                            <a href="compass_filter.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(202,188,222,0.4);color:#6e697d">
                                 <i class="fas fa-plus mr-2"></i>条件筛选で追加
                             </a>
-                            <a href="compass_score.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b">
+                            <a href="compass_score.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(202,188,222,0.4);color:#6e697d">
                                 <i class="fas fa-plus mr-2"></i>成績matchで追加
                             </a>
-                            <a href="compass_search.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b">
+                            <a href="compass_search.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(202,188,222,0.4);color:#6e697d">
                                 <i class="fas fa-plus mr-2"></i>検索で追加
                             </a>
                         </div>
@@ -1521,8 +1530,8 @@
                     <div class="flex items-center gap-3">
                         <span class="text-xl">📊</span>
                         <div class="text-left">
-                            <h3 class="text-lg font-bold" style="color:#5c4033">出願タイムライン</h3>
-                            <p class="text-xs" style="color:#a08070">スケジュールと重要なポイント</p>
+                            <h3 class="text-lg font-bold font-serif-title" style="color:#5a5569;letter-spacing:0.04em">出願タイムライン</h3>
+                            <p class="text-xs" style="color:#8a8595">スケジュールと重要なポイント</p>
                         </div>
                     </div>
                     <i class="fas fa-chevron-down section-chevron"></i>
@@ -1530,7 +1539,7 @@
                 <div id="timeline-section-content" class="section-content">
                     <div class="glass rounded-b-2xl p-6">
                         <div id="timeline-content">
-                            <p class="text-center py-12" style="color:#a08070">志望校を追加するとタイムラインが表示されます</p>
+                            <p class="text-center py-12" style="color:#8a8595">志望校を追加するとタイムラインが表示されます</p>
                         </div>
                     </div>
                 </div>
@@ -1541,27 +1550,27 @@
     <!-- メモ入力モーダル -->
     <div id="memo-modal-overlay" class="memo-modal-overlay hidden">
         <div class="memo-modal" style="max-width: 500px;">
-            <h4 class="font-bold mb-3" style="color:#8b6b5b">📝 出願メモ</h4>
-            <p class="text-xs mb-3" style="color:#a08070" id="memo-modal-school-name"></p>
+            <h4 class="font-bold mb-3" style="color:#6e697d">📝 出願メモ</h4>
+            <p class="text-xs mb-3" style="color:#8a8595" id="memo-modal-school-name"></p>
             
             <div class="mb-4">
-                <label class="block text-sm font-medium mb-2" style="color:#8b6b5b">日付を選択</label>
-                <input type="date" id="memo-modal-date" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b;background:rgba(255,252,250,0.8)">
+                <label class="block text-sm font-medium mb-2" style="color:#6e697d">日付を選択</label>
+                <input type="date" id="memo-modal-date" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(202,188,222,0.4);color:#6e697d;background:rgba(250,248,252,0.8)">
             </div>
             
             <div class="mb-4">
-                <label class="block text-sm font-medium mb-2" style="color:#8b6b5b">時間を選択（オプション）</label>
-                <input type="time" id="memo-modal-time" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b;background:rgba(255,252,250,0.8)">
+                <label class="block text-sm font-medium mb-2" style="color:#6e697d">時間を選択（オプション）</label>
+                <input type="time" id="memo-modal-time" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(202,188,222,0.4);color:#6e697d;background:rgba(250,248,252,0.8)">
             </div>
             
             <div class="mb-4">
-                <label class="block text-sm font-medium mb-2" style="color:#8b6b5b">メモ内容</label>
-                <textarea id="memo-modal-input" rows="4" class="w-full px-4 py-3 rounded-xl border border-dashed resize-none focus:outline-none focus:ring-2" style="border-color:rgba(180,150,130,0.4);color:#8b6b5b;background:rgba(255,252,250,0.8)" placeholder="例：志望理由書を準備、面接はスーツ必須..."></textarea>
+                <label class="block text-sm font-medium mb-2" style="color:#6e697d">メモ内容</label>
+                <textarea id="memo-modal-input" rows="4" class="w-full px-4 py-3 rounded-xl border border-dashed resize-none focus:outline-none focus:ring-2" style="border-color:rgba(202,188,222,0.4);color:#6e697d;background:rgba(250,248,252,0.8)" placeholder="例：志望理由書を準備、面接はスーツ必須..."></textarea>
             </div>
             
             <div class="flex gap-3 mt-4">
-                <button id="memo-modal-cancel" class="px-4 py-2 rounded-xl text-sm" style="color:#a08070;border:1px dashed rgba(180,150,130,0.4);background:rgba(255,252,250,0.6)">キャンセル</button>
-                <button id="memo-modal-save" class="px-4 py-2 rounded-xl text-sm text-white" style="background:linear-gradient(135deg,rgba(180,150,130,0.9),rgba(139,115,95,0.85));border:1px dashed rgba(255,255,255,0.35)">保存</button>
+                <button id="memo-modal-cancel" class="px-4 py-2 rounded-xl text-sm" style="color:#8a8595;border:1px dashed rgba(202,188,222,0.4);background:rgba(250,248,252,0.6)">キャンセル</button>
+                <button id="memo-modal-save" class="px-4 py-2 rounded-xl text-sm text-white" style="background:linear-gradient(135deg,rgba(202,188,222,0.9),rgba(165,152,198,0.85));border:1px dashed rgba(255,255,255,0.35)">保存</button>
             </div>
         </div>
     </div>
@@ -1700,7 +1709,7 @@
             <!-- 即将推出提示 -->
             <div id="toolbox-content-coming-soon" class="toolbox-content-area">
                 <div class="toolbox-content-body">
-                    <p style="text-align: center; padding: 2rem; color: #a08070;">
+                    <p style="text-align: center; padding: 2rem; color: #8a8595;">
                         <i class="fas fa-hourglass-half" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
                         此功能即将推出，敬请期待！
                     </p>
@@ -1797,6 +1806,19 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
         }
 
+        /** 已登录时从服务器加载出愿计划并写入 localStorage，实现永久保存 */
+        async function loadPlanFromServer() {
+            if (typeof Auth === 'undefined' || !Auth.getToken()) return;
+            const base = Auth.getApiBase();
+            try {
+                const r = await fetch(base + '/api/plan', { headers: Auth.authHeaders() });
+                if (!r.ok) return;
+                const data = await r.json();
+                const plan = Array.isArray(data) ? data.map(({ id, payload }) => ({ _serverId: id, ...(payload || {}) })) : [];
+                savePlan(plan);
+            } catch (e) { /* ignore */ }
+        }
+
         function getMemos() {
             try {
                 const raw = localStorage.getItem(MEMO_STORAGE_KEY);
@@ -1840,9 +1862,16 @@
             return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         }
 
-        function removeFromPlan(planId) {
-            const plan = getPlan().filter(s => s.id !== planId);
-            savePlan(plan);
+        async function removeFromPlan(planId) {
+            const plan = getPlan();
+            const item = plan.find(s => s.id === planId);
+            if (item && item._serverId && typeof Auth !== 'undefined' && Auth.getToken()) {
+                try {
+                    await fetch(Auth.getApiBase() + '/api/plan/' + item._serverId, { method: 'DELETE', headers: Auth.authHeaders() });
+                } catch (e) { /* ignore */ }
+            }
+            const next = plan.filter(s => s.id !== planId);
+            savePlan(next);
             updateDisplay();
         }
 
@@ -1949,7 +1978,8 @@
             return merged;
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadPlanFromServer();
             updateDisplay();
             loadFullData();
             
@@ -2127,7 +2157,7 @@
                 const nextYear = selectedDate.getFullYear() + 1;
                 const endDate = new Date(nextYear, 3, 1); // 4月1日（月份从0开始）
                 
-                resultsDiv.innerHTML = '<p class="text-center py-4" style="color:#a08070">検索中...</p>';
+                resultsDiv.innerHTML = '<p class="text-center py-4" style="color:#8a8595">検索中...</p>';
                 
                 try {
                     const res = await fetch(FULL_DATA_URL);
@@ -2163,7 +2193,7 @@
                     });
                     
                     if (uniqueList.length === 0) {
-                        resultsDiv.innerHTML = `<p class="text-center py-8" style="color:#a08070">${selectedDate.toISOString().slice(0, 10)} から ${endDate.toISOString().slice(0, 10)} までの期間に出願可能な大学はありません</p>`;
+                        resultsDiv.innerHTML = `<p class="text-center py-8" style="color:#8a8595">${selectedDate.toISOString().slice(0, 10)} から ${endDate.toISOString().slice(0, 10)} までの期間に出願可能な大学はありません</p>`;
                     } else {
                         const dateStr = (d) => d ? d.toISOString().slice(0, 10) : '―';
                         const escapeHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -2180,7 +2210,7 @@
                         
                         const univList = Array.from(univMap.entries()).sort((a, b) => a[0].localeCompare(b[0]));
                         
-                        let html = `<div class="mb-4"><p class="text-sm font-medium" style="color:#8b6b5b"><strong style="color:#5c4033">${univList.length}</strong> 校の大学が出願可能です：</p></div>`;
+                        let html = `<div class="mb-4"><p class="text-sm font-medium" style="color:#6e697d"><strong style="color:#5a5569">${univList.length}</strong> 校の大学が出願可能です：</p></div>`;
                         html += '<div class="space-y-2">';
                         
                         univList.forEach(([univName, depts], idx) => {
@@ -2189,11 +2219,11 @@
                             
                             html += `
                                 <div class="drawer-group drawer-univ mb-2">
-                                    <div class="drawer-header card-diary p-3 flex items-center justify-between cursor-pointer" data-drawer-toggle="${univKey}" style="background:rgba(255,252,250,0.8);border:1px dashed rgba(180,150,130,0.3);border-radius:0.75rem;">
+                                    <div class="drawer-header card-diary p-3 flex items-center justify-between cursor-pointer" data-drawer-toggle="${univKey}" style="background:rgba(250,248,252,0.8);border:1px dashed rgba(202,188,222,0.3);border-radius:0.75rem;">
                                         <div class="flex items-center gap-2">
-                                            <span class="drawer-chevron text-sm" style="color:#8b6b5b;transition:transform 0.3s ease;transform:rotate(${univExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
-                                            <span class="font-semibold" style="color:#5c4033">🏫 ${escapeHtml(univName)}</span>
-                                            <span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(180,150,130,0.25);color:#7a5a4a">${depts.length} 学部</span>
+                                            <span class="drawer-chevron text-sm" style="color:#6e697d;transition:transform 0.3s ease;transform:rotate(${univExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
+                                            <span class="font-semibold" style="color:#5a5569">🏫 ${escapeHtml(univName)}</span>
+                                            <span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(202,188,222,0.25);color:#6a6578">${depts.length} 学部</span>
                                         </div>
                                     </div>
                                     <div class="drawer-body univ-level ${univExpanded ? 'expanded' : ''}" id="drawer-${univKey}" style="${univExpanded ? 'max-height:800px;' : 'max-height:0;'}overflow:hidden;transition:max-height 0.35s ease-out;">
@@ -2207,8 +2237,8 @@
                                     <div class="future-applications-item" style="margin-left:0.5rem;">
                                         <div class="flex items-start justify-between gap-3">
                                             <div class="flex-1">
-                                                <div class="font-medium mb-1" style="color:#7a5a4a">📖 ${escapeHtml(dept.department || '全学')}${dept.major ? ' - ' + escapeHtml(dept.major) : ''}</div>
-                                                <div class="text-xs space-y-1" style="color:#a08070">
+                                                <div class="font-medium mb-1" style="color:#6a6578">📖 ${escapeHtml(dept.department || '全学')}${dept.major ? ' - ' + escapeHtml(dept.major) : ''}</div>
+                                                <div class="text-xs space-y-1" style="color:#8a8595">
                                                     <div>出願開始：${dateStr(mailStart)}</div>
                                                     ${mailEnd ? `<div>出願締切：${dateStr(mailEnd)}</div>` : ''}
                                                 </div>
@@ -2280,8 +2310,8 @@
             const timelineEl = document.getElementById('timeline-content');
 
             if (plan.length === 0) {
-                container.innerHTML = '<p class="text-sm text-center py-8" style="color:#a08070">検索モジュールから大学・学部を追加してください</p>';
-                timelineEl.innerHTML = '<p class="text-center py-12" style="color:#a08070">志望校を追加するとタイムラインが表示されます</p>';
+                container.innerHTML = '<p class="text-sm text-center py-8" style="color:#8a8595">検索モジュールから大学・学部を追加してください</p>';
+                timelineEl.innerHTML = '<p class="text-center py-12" style="color:#8a8595">志望校を追加するとタイムラインが表示されます</p>';
                 return;
             }
 
@@ -2317,7 +2347,7 @@
                                     return `
                                     <div class="mindmap-major mindmap-node">
                                         <span>${label}</span>
-                                        <button type="button" class="remove-plan-btn w-6 h-6 rounded-full flex items-center justify-center text-xs" data-plan-id="${escapeAttr(item.id)}" style="color:#a08070;border:1px dashed rgba(180,150,130,0.4)" title="削除"><i class="fas fa-times"></i></button>
+                                        <button type="button" class="remove-plan-btn w-6 h-6 rounded-full flex items-center justify-center text-xs" data-plan-id="${escapeAttr(item.id)}" style="color:#8a8595;border:1px dashed rgba(202,188,222,0.4)" title="削除"><i class="fas fa-times"></i></button>
                                     </div>`;
                                 }).join('')}
                             </div>`;
@@ -2637,7 +2667,7 @@
                     const emoji = NODE_EMOJI[n.type] || '📌';
                     const val = n.type === 'format' ? n.value : (n.date ? dateStr(n.date) : '―');
                     const extra = (n.extra ? ` (${n.extra})` : '');
-                    const cellColor = n.type === 'deadline' || n.type === 'mailDeadline' ? 'border-color:rgba(200,100,90,0.4);background:rgba(255,240,235,0.7)' : n.type === 'exam' ? 'border-color:rgba(120,160,140,0.4);background:rgba(235,248,240,0.7)' : n.type === 'announce' ? 'border-color:rgba(200,150,180,0.4);background:rgba(255,240,250,0.7)' : '';
+                    const cellColor = n.type === 'deadline' || n.type === 'mailDeadline' ? 'border-color:rgba(185,170,200,0.4);background:rgba(242,235,248,0.7)' : n.type === 'exam' ? 'border-color:rgba(120,160,140,0.4);background:rgba(235,248,240,0.7)' : n.type === 'announce' ? 'border-color:rgba(202,188,222,0.4);background:rgba(245,238,250,0.7)' : '';
                     return `<div class="node-cell" style="${cellColor}"><span class="node-icon">${icon}</span><div><div class="node-label">${emoji} ${n.label}</div><div class="node-value">${val}${extra}</div></div></div>`;
                 }).join('');
                 
@@ -2645,16 +2675,16 @@
                 let memoNodeCell = '';
                 if (itemMemo && itemMemo.date && itemMemo.text) {
                     const memoDateStr = itemMemo.date + (itemMemo.time ? ` ${itemMemo.time}` : '');
-                    memoNodeCell = `<div class="node-cell" style="border-color:rgba(180,150,130,0.4);background:rgba(255,252,250,0.8)"><span class="node-icon">📝</span><div><div class="node-label">📝 メモ</div><div class="node-value">${escapeHtml(memoDateStr)}</div></div></div>`;
+                    memoNodeCell = `<div class="node-cell" style="border-color:rgba(202,188,222,0.4);background:rgba(250,248,252,0.8)"><span class="node-icon">📝</span><div><div class="node-label">📝 メモ</div><div class="node-value">${escapeHtml(memoDateStr)}</div></div></div>`;
                 }
                 
                 const memoTextDisplay = itemMemo && typeof itemMemo === 'object' && itemMemo.text ? itemMemo.text : (typeof itemMemo === 'string' ? itemMemo : '');
-                return `<div class="pl-4 pr-4 pb-4 pt-2 border-l-2 border-b border-r ml-4" style="border-color:rgba(180,150,130,0.25);margin-left:1.5rem;border-radius:0 0 0.5rem 0;background:rgba(255,252,250,0.3)">
+                return `<div class="pl-4 pr-4 pb-4 pt-2 border-l-2 border-b border-r ml-4" style="border-color:rgba(202,188,222,0.25);margin-left:1.5rem;border-radius:0 0 0.5rem 0;background:rgba(250,248,252,0.3)">
                     <div class="school-progress-bar mb-4">
                         <div class="school-progress-fill" style="width:${r.pct}%"></div>
                     </div>
-                    <div class="node-row mb-4" style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;">${nodeCells || '<p class="text-sm" style="color:#a08070">時間データがありません</p>'}${memoNodeCell}</div>
-                    <div class="mt-4 pt-4 border-t" style="border-color:rgba(180,150,130,0.2)">
+                    <div class="node-row mb-4" style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;">${nodeCells || '<p class="text-sm" style="color:#8a8595">時間データがありません</p>'}${memoNodeCell}</div>
+                    <div class="mt-4 pt-4 border-t" style="border-color:rgba(202,188,222,0.2)">
                         <button type="button" class="memo-add-btn" data-plan-id="${escapeAttr(item.id)}" data-display-label="${escapeAttr(dl)}">📝 ${itemMemo ? 'メモを編集' : 'メモを追加'}</button>
                         ${memoTextDisplay ? `<div class="memo-sticker mt-2">${escapeHtml(memoTextDisplay).replace(/\n/g, '<br>')}</div>` : ''}
                     </div>
@@ -2674,9 +2704,9 @@
             <div class="drawer-group drawer-main mb-4" data-drawer-id="main">
                 <div class="drawer-header card-diary flex items-center justify-between" data-drawer-toggle="main">
                     <div class="flex items-center gap-3">
-                        <span class="drawer-chevron text-sm" style="color:#5c4033;transition:transform 0.3s ease;transform:rotate(${mainExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
-                        <span class="text-lg font-bold" style="color:#5c4033">📚 各学部出願タイムライン</span>
-                        <span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(180,150,130,0.25);color:#7a5a4a">${enrichedPlan.length} 学部</span>
+                        <span class="drawer-chevron text-sm" style="color:#5a5569;transition:transform 0.3s ease;transform:rotate(${mainExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
+                        <span class="text-lg font-bold font-serif-title" style="color:#5a5569;letter-spacing:0.04em">📚 各学部出願タイムライン</span>
+                        <span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(202,188,222,0.25);color:#6a6578">${enrichedPlan.length} 学部</span>
                     </div>
                 </div>
                 <div class="drawer-body main-level ${mainExpanded ? 'expanded' : ''}" id="drawer-main">
@@ -2691,9 +2721,9 @@
                 <div class="drawer-group drawer-univ" data-drawer-id="${univKey}">
                     <div class="drawer-header card-diary p-3 flex items-center justify-between" data-drawer-toggle="${univKey}">
                         <div class="flex items-center gap-2">
-                            <span class="drawer-chevron text-sm" style="color:#8b6b5b;transition:transform 0.3s ease;transform:rotate(${univExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
-                            <span class="font-semibold" style="color:#7a5a4a">🏫 ${escapeHtml(univName)}</span>
-                            <span class="text-xs" style="color:#a08070">${depts.length} 学部</span>
+                            <span class="drawer-chevron text-sm" style="color:#6e697d;transition:transform 0.3s ease;transform:rotate(${univExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
+                            <span class="font-semibold" style="color:#6a6578">🏫 ${escapeHtml(univName)}</span>
+                            <span class="text-xs" style="color:#8a8595">${depts.length} 学部</span>
                         </div>
                     </div>
                     <div class="drawer-body univ-level ${univExpanded ? 'expanded' : ''}" id="drawer-${univKey}">
@@ -2709,11 +2739,11 @@
                     <div class="drawer-group drawer-dept" data-plan-id="${escapeAttr(item.id)}">
                         <div class="drawer-header card-diary p-3 flex items-center justify-between" data-drawer-toggle="${escapeAttr(item.id)}">
                             <div class="flex items-center gap-2">
-                                <span class="drawer-chevron text-sm" style="color:#8b6b5b;transition:transform 0.3s ease;transform:rotate(${deptExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
-                                <span class="font-medium" style="color:#8b6b5b">📖 ${escapeHtml(item.department || '全学')}</span>
-                                <span class="text-xs" style="color:#a08070">${startStr || '―'} ～ ${endStr || '未定'}</span>
+                                <span class="drawer-chevron text-sm" style="color:#6e697d;transition:transform 0.3s ease;transform:rotate(${deptExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
+                                <span class="font-medium" style="color:#6e697d">📖 ${escapeHtml(item.department || '全学')}</span>
+                                <span class="text-xs" style="color:#8a8595">${startStr || '―'} ～ ${endStr || '未定'}</span>
                             </div>
-                            <button type="button" class="remove-plan-btn w-7 h-7 rounded-full flex items-center justify-center" data-plan-id="${escapeAttr(item.id)}" style="color:#a08070;border:1px dashed rgba(180,150,130,0.4)" title="削除"><i class="fas fa-times text-xs"></i></button>
+                            <button type="button" class="remove-plan-btn w-7 h-7 rounded-full flex items-center justify-center" data-plan-id="${escapeAttr(item.id)}" style="color:#8a8595;border:1px dashed rgba(202,188,222,0.4)" title="削除"><i class="fas fa-times text-xs"></i></button>
                         </div>
                         <div class="drawer-body dept-level ${deptExpanded ? 'expanded' : ''}" id="drawer-${escapeAttr(item.id)}">
                             ${renderDeptContent(item)}
@@ -2801,16 +2831,16 @@
                 const dotClass = isPast ? '' : ' upcoming';
                 return sortedNodes.map((n, i) => {
                     const em = typeEmoji(n.type);
-                    let cardStyle = n.required ? 'border-color:rgba(200,100,90,0.35);background:rgba(255,248,246,0.8)' : '';
+                    let cardStyle = n.required ? 'border-color:rgba(185,170,200,0.35);background:rgba(248,242,250,0.8)' : '';
                     if (n.isMemo) {
-                        cardStyle = 'border-color:rgba(180,150,130,0.4);background:rgba(255,252,250,0.9)';
+                        cardStyle = 'border-color:rgba(202,188,222,0.4);background:rgba(250,248,252,0.9)';
                     }
-                    const memoContent = n.isMemo && n.memoText ? `<div class="mt-2 pt-2 border-t" style="border-color:rgba(180,150,130,0.2);color:#8b6b5b;font-size:0.85em;line-height:1.6">${escapeHtml(n.memoText).replace(/\n/g, '<br>')}</div>` : '';
+                    const memoContent = n.isMemo && n.memoText ? `<div class="mt-2 pt-2 border-t" style="border-color:rgba(202,188,222,0.2);color:#6e697d;font-size:0.85em;line-height:1.6">${escapeHtml(n.memoText).replace(/\n/g, '<br>')}</div>` : '';
                     return `<div class="timeline-node animate-slide-up" style="animation-delay:${i * 0.05}s;position:relative;padding-left:2.5rem;padding-bottom:1.5rem;min-height:40px;margin-bottom:0.5rem;">
-                        <div class="timeline-node-dot${dotClass}" style="position:absolute;left:0;top:4px;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg, rgba(180, 150, 130, 0.6), rgba(139, 115, 95, 0.5));border:1px dashed rgba(180, 150, 130, 0.4);z-index:1;box-shadow:0 2px 8px rgba(139, 115, 95, 0.15);"></div>
+                        <div class="timeline-node-dot${dotClass}" style="position:absolute;left:0;top:4px;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg, rgba(202, 188, 222, 0.6), rgba(165, 152, 198, 0.5));border:1px dashed rgba(202, 188, 222, 0.4);z-index:1;box-shadow:0 2px 8px rgba(165, 152, 198, 0.15);"></div>
                         <div class="card-diary p-3" style="${cardStyle};padding:${cardPad};position:relative;z-index:0;">
                             <div class="flex flex-wrap items-center justify-between gap-2">
-                                <span class="font-semibold" style="color:#5c4033;font-size:${fontSize}">${em} [${n.dateStr || '―'}] ${escapeHtml(n.label)}</span>
+                                <span class="font-semibold" style="color:#5a5569;font-size:${fontSize}">${em} [${n.dateStr || '―'}] ${escapeHtml(n.label)}</span>
                                 ${n.isMemo ? '' : renderLabel(n)}
                             </div>
                             ${memoContent}
@@ -2829,7 +2859,7 @@
 
             let track2 = '';
             if (globalNodes.length === 0) {
-                track2 = '<p class="text-sm py-4" style="color:#a08070">出願日データがありません</p>';
+                track2 = '<p class="text-sm py-4" style="color:#8a8595">出願日データがありません</p>';
             } else {
                 const pastSection = pastDates.length > 0 ? `
                     <div class="timeline-past">
@@ -2846,7 +2876,7 @@
                         ` : `<div class="timeline-global">${renderDatesSection(pastDates, true)}</div>`}
                     </div>
                 ` : '';
-                const futureSection = futureDates.length > 0 ? `<div class="timeline-global">${renderDatesSection(futureDates, false)}</div>` : '<p class="text-sm py-3 pl-4" style="color:#a08070">今後の予定はありません</p>';
+                const futureSection = futureDates.length > 0 ? `<div class="timeline-global">${renderDatesSection(futureDates, false)}</div>` : '<p class="text-sm py-3 pl-4" style="color:#8a8595">今後の予定はありません</p>';
                 track2 = `<div class="timeline-flow">
                     ${pastSection}
                     <div class="timeline-future-header">これからやること</div>
@@ -2860,8 +2890,8 @@
                     <section>
                         <div class="space-y-0">${track1}</div>
                     </section>
-                    <section class="pt-4 border-t timeline-section-wrapper" style="border-color:rgba(255,200,220,0.3);background:linear-gradient(135deg, rgba(255,245,250,0.4) 0%, rgba(255,250,245,0.35) 100%);backdrop-filter:blur(8px) saturate(120%);-webkit-backdrop-filter:blur(8px) saturate(120%);border-radius:0.75rem;padding:1rem;margin-top:1rem;">
-                        <h4 class="text-sm font-bold mb-3 timeline-section-title" style="color:#6c4033;letter-spacing:0.04em;font-weight:700;font-size:0.95rem;">全体スケジュール（時系列）</h4>
+                    <section class="pt-4 border-t timeline-section-wrapper" style="border-color:rgba(242,232,248,0.3);background:linear-gradient(135deg, rgba(246,242,250,0.4) 0%, rgba(248,246,252,0.35) 100%);backdrop-filter:blur(8px) saturate(120%);-webkit-backdrop-filter:blur(8px) saturate(120%);border-radius:0.75rem;padding:1rem;margin-top:1rem;">
+                        <h4 class="text-sm font-bold mb-3 timeline-section-title" style="color:#5c5669;letter-spacing:0.04em;font-weight:700;font-size:0.95rem;">全体スケジュール（時系列）</h4>
                         ${track2}
                     </section>
                 </div>

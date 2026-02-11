@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 | 大学コンパス 后台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sakura: { 100: '#fee9f2', 500: '#f565a3', 600: '#e94689' },
+                        sky: { 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7' },
+                        mint: { 100: '#dcfce7', 600: '#16a34a' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Noto Sans JP', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #fef8fb 50%, #f0f9ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .glass {
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 4px 24px rgba(14,165,233,0.08);
+        }
+        .input-glass {
+            background: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.7);
+            border-radius: 12px;
+            padding: 10px 14px;
+        }
+        .input-glass:focus {
+            outline: none;
+            border-color: rgba(14,165,233,0.5);
+            box-shadow: 0 0 0 2px rgba(14,165,233,0.15);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: #fff;
+            border: none;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14,165,233,0.4); }
+        .text-error { color: #e94689; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="w-full max-w-md">
+        <div class="glass rounded-2xl p-8">
+            <a href="../index.html" class="flex items-center gap-3 mb-6 text-sky-600 no-underline text-sm">
+                <i class="fas fa-compass text-xl"></i>
+                <span>返回 大学コンパス 首页</span>
+            </a>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 rounded-xl bg-sky-100 flex items-center justify-center">
+                    <i class="fas fa-shield-halved text-sky-600 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-semibold text-slate-800">管理员后台</h1>
+                    <p class="text-slate-500 text-sm">仅管理员账号可登录</p>
+                </div>
+            </div>
+
+            <div id="message" class="hidden mb-4 p-3 rounded-xl text-sm"></div>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-slate-600 text-sm mb-1">用户名</label>
+                    <input type="text" id="username" name="username" class="input-glass w-full" placeholder="管理员用户名" required autocomplete="username">
+                </div>
+                <div>
+                    <label class="block text-slate-600 text-sm mb-1">密码</label>
+                    <input type="password" id="password" name="password" class="input-glass w-full" placeholder="密码" required autocomplete="current-password">
+                </div>
+                <button type="submit" id="submitBtn" class="btn-primary w-full py-3 rounded-xl text-sm">
+                    登录
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/admin-auth.js"></script>
+    <script>
+        if (AdminAuth && AdminAuth.getToken()) {
+            window.location.href = 'index.html';
+        }
+        var apiBase = (typeof AdminAuth !== 'undefined' && AdminAuth.getApiBase) ? AdminAuth.getApiBase() : '';
+
+        var form = document.getElementById('loginForm');
+        var messageEl = document.getElementById('message');
+        var submitBtn = document.getElementById('submitBtn');
+
+        function showMessage(text, isError) {
+            messageEl.textContent = text;
+            messageEl.className = 'mb-4 p-3 rounded-xl text-sm ' + (isError ? 'bg-sakura-100 text-sakura-600' : 'bg-mint-100 text-mint-600');
+            messageEl.classList.remove('hidden');
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            messageEl.classList.add('hidden');
+            var username = document.getElementById('username').value.trim();
+            var password = document.getElementById('password').value;
+            if (!username || !password) {
+                showMessage('请输入用户名和密码', true);
+                return;
+            }
+            submitBtn.disabled = true;
+            submitBtn.textContent = '登录中...';
+            try {
+                var res = await fetch(apiBase + '/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: username, password: password })
+                });
+                var data = await res.json().catch(function() { return {}; });
+                if (!res.ok) {
+                    var msg = (data.message || 'HTTP ' + res.status) + ' (状态码 ' + res.status + ')';
+                    showMessage(msg, true);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '登录';
+                    return;
+                }
+                if (data.token) {
+                    AdminAuth.setToken(data.token);
+                    if (data.user) AdminAuth.setUser(data.user);
+                    window.location.href = 'index.html';
+                    return;
+                }
+                showMessage('登录失败：服务器未返回 token', true);
+            } catch (err) {
+                showMessage('无法连接服务器：' + (err.message || '请确认已运行 npm start 并在 http://localhost:3000/admin/login.html 打开'), true);
+            }
+            submitBtn.disabled = false;
+            submitBtn.textContent = '登录';
+        });
+    </script>
+</body>
+</html>

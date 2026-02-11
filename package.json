@@ -1,0 +1,25 @@
+{
+  "name": "ichikawaryuugaku",
+  "version": "1.0.0",
+  "description": "日本留学申请综合管理平台 - 大学コンパス",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "init-db": "node scripts/init-db.js",
+    "migrate-admin": "node scripts/migrate-admin.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "pg": "^8.11.3",
+    "xlsx": "^0.18.5"
+  }
+}

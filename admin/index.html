@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员后台 | 大学コンパス</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { font-family: 'Noto Sans JP', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f1f5f9; min-height: 100vh; }
+        .sidebar { width: 240px; background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; position: fixed; left: 0; top: 0; }
+        .sidebar a { color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 8px; transition: background .2s, color .2s; }
+        .sidebar a:hover { background: rgba(255,255,255,0.08); color: #e2e8f0; }
+        .sidebar a.active { background: rgba(14,165,233,0.2); color: #38bdf8; }
+        .main-wrap { margin-left: 240px; min-height: 100vh; display: flex; flex-direction: column; }
+        .topbar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .content { flex: 1; padding: 24px; }
+        .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 20px; }
+        .stat-card { background: linear-gradient(135deg, #fff 0%, #f8fafc 100%); border: 1px solid #e2e8f0; }
+        .table-wrap { overflow-x: auto; }
+        .table-wrap table { width: 100%; border-collapse: collapse; }
+        .table-wrap th, .table-wrap td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+        .table-wrap th { background: #f8fafc; font-weight: 600; color: #475569; }
+        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all .2s; }
+        .btn-primary { background: #0ea5e9; color: #fff; }
+        .btn-primary:hover { background: #0284c7; }
+        .btn-ghost { background: #f1f5f9; color: #475569; }
+        .btn-ghost:hover { background: #e2e8f0; }
+        .btn-danger { background: #fef2f2; color: #dc2626; }
+        .btn-danger:hover { background: #fee2e2; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px; }
+        .badge-user { background: #e0f2fe; color: #0284c7; }
+        .badge-admin { background: #fef3c7; color: #b45309; }
+        .badge-active { background: #dcfce7; color: #16a34a; }
+        .badge-disabled { background: #fef2f2; color: #dc2626; }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        .upload-zone { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 40px; text-align: center; background: #f8fafc; cursor: pointer; transition: border-color .2s, background .2s; }
+        .upload-zone:hover, .upload-zone.dragover { border-color: #0ea5e9; background: #f0f9ff; }
+        .input-field { width: 100%; padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+        .input-field:focus { outline: none; border-color: #0ea5e9; box-shadow: 0 0 0 2px rgba(14,165,233,0.2); }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="p-4 border-b border-slate-700">
+            <a href="../index.html" class="!p-0 !bg-transparent text-sky-400 hover:!bg-transparent">
+                <i class="fas fa-compass text-lg"></i>
+                <span class="font-semibold">管理后台</span>
+            </a>
+        </div>
+        <div class="p-2 pt-4 space-y-1">
+            <a href="#" class="nav-link active" data-page="dashboard"><i class="fas fa-chart-pie w-5"></i> 数据概览</a>
+            <a href="#" class="nav-link" data-page="users"><i class="fas fa-users w-5"></i> 用户管理</a>
+            <a href="#" class="nav-link" data-page="schools"><i class="fas fa-school w-5"></i> 学校管理</a>
+            <a href="#" class="nav-link" data-page="data-update"><i class="fas fa-database w-5"></i> 数据库更新</a>
+        </div>
+    </nav>
+
+    <div class="main-wrap">
+        <header class="topbar">
+            <h2 class="text-slate-700 font-semibold" id="pageTitle">数据概览</h2>
+            <div class="flex items-center gap-4">
+                <span class="text-slate-600 text-sm" id="adminUserName"></span>
+                <button type="button" class="btn btn-ghost" id="btnLogout"><i class="fas fa-sign-out-alt"></i> 退出</button>
+            </div>
+        </header>
+
+        <main class="content">
+            <!-- 数据概览 -->
+            <section id="section-dashboard" class="page-section active">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="card stat-card">
+                        <div class="text-slate-500 text-sm mb-1">总用户数</div>
+                        <div class="text-2xl font-semibold text-sky-600" id="stat-totalUsers">-</div>
+                        <div class="text-xs text-slate-400 mt-1">今日新增 <span id="stat-todayUsers">0</span></div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="text-slate-500 text-sm mb-1">用户添加的学校数</div>
+                        <div class="text-2xl font-semibold text-sky-600" id="stat-totalSchools">-</div>
+                        <div class="text-xs text-slate-400 mt-1">今日新增 <span id="stat-todaySchools">0</span></div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="text-slate-500 text-sm mb-1">出愿计划条数</div>
+                        <div class="text-2xl font-semibold text-slate-700" id="stat-totalPlans">-</div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="text-slate-500 text-sm mb-1">学校总览条数</div>
+                        <div class="text-2xl font-semibold text-slate-700" id="stat-masterCount">-</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="card">
+                        <h3 class="font-semibold text-slate-700 mb-3">最新注册用户</h3>
+                        <div class="table-wrap">
+                            <table><thead><tr><th>用户名</th><th>邮箱</th><th>注册时间</th></tr></thead><tbody id="recentUsers"></tbody></table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 class="font-semibold text-slate-700 mb-3">最新添加的学校</h3>
+                        <div class="table-wrap">
+                            <table><thead><tr><th>学校名</th><th>添加者</th><th>时间</th></tr></thead><tbody id="recentSchools"></tbody></table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 用户管理 -->
+            <section id="section-users" class="page-section">
+                <div class="card mb-4">
+                    <div class="flex flex-wrap gap-3 items-center">
+                        <input type="text" id="userSearch" class="input-field max-w-xs" placeholder="搜索用户名/邮箱">
+                        <select id="userRole" class="input-field max-w-[120px]">
+                            <option value="">全部角色</option>
+                            <option value="user">普通用户</option>
+                            <option value="admin">管理员</option>
+                        </select>
+                        <select id="userStatus" class="input-field max-w-[120px]">
+                            <option value="">全部状态</option>
+                            <option value="active">正常</option>
+                            <option value="disabled">已停用</option>
+                            <option value="deleted">已删除</option>
+                        </select>
+                        <button type="button" class="btn btn-primary" id="userSearchBtn">搜索</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="table-wrap">
+                        <table><thead><tr><th>ID</th><th>用户名</th><th>邮箱</th><th>角色</th><th>状态</th><th>注册时间</th><th>学校数</th><th>操作</th></tr></thead><tbody id="userList"></tbody></table>
+                    </div>
+                    <div class="flex justify-between items-center mt-3 text-sm text-slate-500">
+                        <span id="userPaginationInfo"></span>
+                        <div class="flex gap-2" id="userPagination"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 学校管理 -->
+            <section id="section-schools" class="page-section">
+                <div class="card mb-4">
+                    <div class="flex flex-wrap gap-3 items-center">
+                        <input type="text" id="schoolSearch" class="input-field max-w-xs" placeholder="搜索学校名/位置">
+                        <input type="number" id="schoolUserId" class="input-field max-w-[140px]" placeholder="用户 ID">
+                        <button type="button" class="btn btn-primary" id="schoolSearchBtn">搜索</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="table-wrap">
+                        <table><thead><tr><th>ID</th><th>学校名</th><th>位置</th><th>添加者</th><th>添加时间</th><th>操作</th></tr></thead><tbody id="schoolList"></tbody></table>
+                    </div>
+                    <div class="flex justify-between items-center mt-3 text-sm text-slate-500">
+                        <span id="schoolPaginationInfo"></span>
+                        <div class="flex gap-2" id="schoolPagination"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 数据库更新 -->
+            <section id="section-data-update" class="page-section">
+                <div class="card mb-4">
+                    <p class="text-slate-600 text-sm mb-2">当前学校总览：<strong id="dataUpdateCount">-</strong> 条；最近备份：<span id="dataUpdateBackups" class="text-slate-500">-</span></p>
+                    <p class="text-slate-500 text-xs">上传与「学部学校一览表」格式一致的 Excel（表头含：大学、学部、学科、位置等），将覆盖 学校总览.json / 学校总览.csv，并自动备份。</p>
+                </div>
+                <div class="card">
+                    <div id="uploadZone" class="upload-zone">
+                        <i class="fas fa-file-excel text-4xl text-sky-500 mb-2"></i>
+                        <p class="text-slate-600">点击或拖拽 Excel 文件到此处上传</p>
+                        <p class="text-slate-400 text-sm mt-1">支持 .xlsx / .xls</p>
+                    </div>
+                    <input type="file" id="fileInput" accept=".xlsx,.xls" class="hidden">
+                    <div id="uploadResult" class="mt-4 hidden p-3 rounded-lg text-sm"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 用户编辑弹窗 -->
+    <div id="userModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50" style="display: none;">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
+            <h3 class="font-semibold text-lg mb-4">编辑用户</h3>
+            <input type="hidden" id="editUserId">
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm text-slate-600 mb-1">用户名</label>
+                    <input type="text" id="editUsername" class="input-field">
+                </div>
+                <div>
+                    <label class="block text-sm text-slate-600 mb-1">邮箱</label>
+                    <input type="email" id="editEmail" class="input-field">
+                </div>
+                <div>
+                    <label class="block text-sm text-slate-600 mb-1">角色</label>
+                    <select id="editRole" class="input-field"><option value="user">普通用户</option><option value="admin">管理员</option></select>
+                </div>
+                <div>
+                    <label class="block text-sm text-slate-600 mb-1">状态</label>
+                    <select id="editStatus" class="input-field"><option value="active">正常</option><option value="disabled">已停用</option><option value="deleted">已删除</option></select>
+                </div>
+            </div>
+            <div class="flex gap-2 mt-6">
+                <button type="button" class="btn btn-primary flex-1" id="userModalSave">保存</button>
+                <button type="button" class="btn btn-ghost" id="userModalClose">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin-auth.js"></script>
+    <script>
+        if (!AdminAuth.requireAdmin()) throw new Error('redirect');
+        var apiBase = AdminAuth.getApiBase();
+        var adminUser = AdminAuth.getUser();
+        if (adminUser && adminUser.username) document.getElementById('adminUserName').textContent = adminUser.username;
+
+        document.getElementById('btnLogout').onclick = function() {
+            AdminAuth.clearAdminAuth();
+            window.location.href = 'login.html';
+        };
+
+        // 导航
+        var titles = { dashboard: '数据概览', users: '用户管理', schools: '学校管理', 'data-update': '数据库更新' };
+        document.querySelectorAll('.nav-link').forEach(function(a) {
+            a.onclick = function(e) {
+                e.preventDefault();
+                var page = a.getAttribute('data-page');
+                document.querySelectorAll('.nav-link').forEach(function(x) { x.classList.remove('active'); });
+                a.classList.add('active');
+                document.querySelectorAll('.page-section').forEach(function(s) { s.classList.remove('active'); });
+                var section = document.getElementById('section-' + page);
+                if (section) section.classList.add('active');
+                document.getElementById('pageTitle').textContent = titles[page] || page;
+                if (page === 'dashboard') loadDashboard();
+                if (page === 'users') loadUsers(1);
+                if (page === 'schools') loadSchools(1);
+                if (page === 'data-update') loadDataUpdateInfo();
+            };
+        });
+
+        function authHeaders() {
+            var h = { 'Content-Type': 'application/json' };
+            var t = AdminAuth.getToken();
+            if (t) h['Authorization'] = 'Bearer ' + t;
+            return h;
+        }
+
+        function loadDashboard() {
+            fetch(apiBase + '/api/admin/dashboard', { headers: authHeaders() })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    document.getElementById('stat-totalUsers').textContent = d.totalUsers != null ? d.totalUsers : '-';
+                    document.getElementById('stat-todayUsers').textContent = d.todayUsers != null ? d.todayUsers : 0;
+                    document.getElementById('stat-totalSchools').textContent = d.totalSchools != null ? d.totalSchools : '-';
+                    document.getElementById('stat-todaySchools').textContent = d.todaySchools != null ? d.todaySchools : 0;
+                    document.getElementById('stat-totalPlans').textContent = d.totalPlans != null ? d.totalPlans : '-';
+                });
+            fetch(apiBase + '/api/admin/dashboard/recent', { headers: authHeaders() })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    var ub = document.getElementById('recentUsers');
+                    ub.innerHTML = (d.recentUsers || []).slice(0, 10).map(function(u) {
+                        return '<tr><td>' + (u.username || '') + '</td><td>' + (u.email || '') + '</td><td>' + (u.created_at ? new Date(u.created_at).toLocaleString() : '') + '</td></tr>';
+                    }).join('') || '<tr><td colspan="3" class="text-slate-400">暂无</td></tr>';
+                    var sb = document.getElementById('recentSchools');
+                    sb.innerHTML = (d.recentSchools || []).slice(0, 20).map(function(s) {
+                        return '<tr><td>' + (s.school_name || '') + '</td><td>' + (s.added_by || '') + '</td><td>' + (s.added_at ? new Date(s.added_at).toLocaleString() : '') + '</td></tr>';
+                    }).join('') || '<tr><td colspan="3" class="text-slate-400">暂无</td></tr>';
+                });
+            fetch(apiBase + '/api/admin/data-update/info', { headers: authHeaders() })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    document.getElementById('stat-masterCount').textContent = d.currentCount != null ? d.currentCount : '-';
+                });
+        }
+
+        var userPage = 1, userTotal = 0, userLimit = 20;
+        function loadUsers(page) {
+            userPage = page;
+            var q = '?page=' + page + '&limit=' + userLimit;
+            var search = document.getElementById('userSearch').value.trim();
+            if (search) q += '&search=' + encodeURIComponent(search);
+            var role = document.getElementById('userRole').value;
+            if (role) q += '&role=' + encodeURIComponent(role);
+            var status = document.getElementById('userStatus').value;
+            if (status) q += '&status=' + encodeURIComponent(status);
+            fetch(apiBase + '/api/admin/users' + q, { headers: authHeaders() })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    userTotal = d.total || 0;
+                    var list = d.list || [];
+                    var tbody = document.getElementById('userList');
+                    tbody.innerHTML = list.map(function(u) {
+                        var roleBadge = u.role === 'admin' ? '<span class="badge badge-admin">管理员</span>' : '<span class="badge badge-user">用户</span>';
+                        var statusBadge = u.status === 'active' ? '<span class="badge badge-active">正常</span>' : (u.status === 'disabled' ? '<span class="badge badge-disabled">停用</span>' : '<span class="badge">已删</span>');
+                        return '<tr><td>' + u.id + '</td><td>' + (u.username || '') + '</td><td>' + (u.email || '') + '</td><td>' + roleBadge + '</td><td>' + statusBadge + '</td><td>' + (u.created_at ? new Date(u.created_at).toLocaleString() : '') + '</td><td>' + (u.school_count || 0) + '</td><td><button type="button" class="btn btn-ghost btn-edit-user" data-id="' + u.id + '">编辑</button></td></tr>';
+                    }).join('') || '<tr><td colspan="8" class="text-slate-400">暂无数据</td></tr>';
+                    document.getElementById('userPaginationInfo').textContent = '共 ' + userTotal + ' 条';
+                    var totalPages = Math.ceil(userTotal / userLimit) || 1;
+                    var pag = document.getElementById('userPagination');
+                    pag.innerHTML = '';
+                    for (var i = 1; i <= Math.min(10, totalPages); i++) {
+                        var btn = document.createElement('button');
+                        btn.className = 'btn btn-ghost' + (i === page ? ' bg-sky-100 text-sky-700' : '');
+                        btn.textContent = i;
+                        btn.onclick = function() { loadUsers(parseInt(this.textContent, 10)); };
+                        pag.appendChild(btn);
+                    }
+                    document.querySelectorAll('.btn-edit-user').forEach(function(btn) {
+                        btn.onclick = function() { openUserModal(parseInt(this.getAttribute('data-id'), 10)); };
+                    });
+                });
+        }
+        document.getElementById('userSearchBtn').onclick = function() { loadUsers(1); };
+
+        function openUserModal(id) {
+            fetch(apiBase + '/api/admin/users/' + id, { headers: authHeaders() })
+                .then(function(r) { return r.json(); })
+                .then(function(u) {
+                    document.getElementById('editUserId').value = id;
+                    document.getElementById('editUsername').value = u.username || '';
+                    document.getElementById('editEmail').value = u.email || '';
+                    document.getElementById('editRole').value = u.role || 'user';
+                    document.getElementById('editStatus').value = u.status || 'active';
+                    document.getElementById('userModal').style.display = 'flex';
+                    document.getElementById('userModal').classList.remove('hidden');
+                });
+        }
+        document.getElementById('userModalClose').onclick = function() {
+            document.getElementById('userModal').style.display = 'none';
+            document.getElementById('userModal').classList.add('hidden');
+        };
+        document.getElementById('userModalSave').onclick = function() {
+            var id = document.getElementById('editUserId').value;
+            var payload = {
+                username: document.getElementById('editUsername').value.trim(),
+                email: document.getElementById('editEmail').value.trim(),
+                role: document.getElementById('editRole').value,
+                status: document.getElementById('editStatus').value
+            };
+            fetch(apiBase + '/api/admin/users/' + id, {
+                method: 'PATCH',
+                headers: authHeaders(),
+                body: JSON.stringify(payload)
+            }).then(function(r) { return r.json(); }).then(function(d) {
+                if (d.message) {
+                    document.getElementById('userModal').style.display = 'none';
+                    document.getElementById('userModal').classList.add('hidden');
+                    loadUsers(userPage);
+                } else {
+                    alert(d.message || '保存失败');
+                }
+            });
+        };
+
+        var schoolPage = 1, schoolTotal = 0, schoolLimit = 20;
+        function loadSchools(page) {
+            schoolPage = page;
+            var q = '?page=' + page + '&limit=' + schoolLimit;
+            var search = document.getElementById('schoolSearch').value.trim();
+            if (search) q += '&search=' + encodeURIComponent(search);
+            var uid = document.getElementById('schoolUserId').value.trim();
+            if (uid) q += '&user_id=' + encodeURIComponent(uid);
+            fetch(apiBase + '/api/admin/schools' + q, { headers: authHeaders() })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    schoolTotal = d.total || 0;
+                    var list = d.list || [];
+                    var tbody = document.getElementById('schoolList');
+                    tbody.innerHTML = list.map(function(s) {
+                        return '<tr><td>' + s.id + '</td><td>' + (s.school_name || '') + '</td><td>' + (s.location || '') + '</td><td>' + (s.added_by || '') + '</td><td>' + (s.added_at ? new Date(s.added_at).toLocaleString() : '') + '</td><td><button type="button" class="btn btn-danger btn-delete-school" data-id="' + s.id + '">删除</button></td></tr>';
+                    }).join('') || '<tr><td colspan="6" class="text-slate-400">暂无数据</td></tr>';
+                    document.getElementById('schoolPaginationInfo').textContent = '共 ' + schoolTotal + ' 条';
+                    var totalPages = Math.ceil(schoolTotal / schoolLimit) || 1;
+                    var pag = document.getElementById('schoolPagination');
+                    pag.innerHTML = '';
+                    for (var i = 1; i <= Math.min(10, totalPages); i++) {
+                        var btn = document.createElement('button');
+                        btn.className = 'btn btn-ghost' + (i === page ? ' bg-sky-100 text-sky-700' : '');
+                        btn.textContent = i;
+                        btn.onclick = function() { loadSchools(parseInt(this.textContent, 10)); };
+                        pag.appendChild(btn);
+                    }
+                    document.querySelectorAll('.btn-delete-school').forEach(function(btn) {
+                        btn.onclick = function() {
+                            if (!confirm('确定删除该学校记录？')) return;
+                            var id = this.getAttribute('data-id');
+                            fetch(apiBase + '/api/admin/schools/' + id, { method: 'DELETE', headers: authHeaders() })
+                                .then(function(r) { return r.json(); })
+                                .then(function() { loadSchools(schoolPage); });
+                        };
+                    });
+                });
+        }
+        document.getElementById('schoolSearchBtn').onclick = function() { loadSchools(1); };
+
+        function loadDataUpdateInfo() {
+            fetch(apiBase + '/api/admin/data-update/info', { headers: authHeaders() })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    document.getElementById('dataUpdateCount').textContent = d.currentCount != null ? d.currentCount : '-';
+                    document.getElementById('dataUpdateBackups').textContent = (d.recentBackups && d.recentBackups.length) ? d.recentBackups.slice(0, 3).join(', ') : '无';
+                });
+        }
+
+        var fileInput = document.getElementById('fileInput');
+        var uploadZone = document.getElementById('uploadZone');
+        var uploadResult = document.getElementById('uploadResult');
+        uploadZone.onclick = function() { fileInput.click(); };
+        uploadZone.ondragover = function(e) { e.preventDefault(); uploadZone.classList.add('dragover'); };
+        uploadZone.ondragleave = function() { uploadZone.classList.remove('dragover'); };
+        uploadZone.ondrop = function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            var f = e.dataTransfer && e.dataTransfer.files[0];
+            if (f && (f.name.endsWith('.xlsx') || f.name.endsWith('.xls'))) doUpload(f);
+        };
+        fileInput.onchange = function() {
+            var f = fileInput.files[0];
+            if (f) doUpload(f);
+            fileInput.value = '';
+        };
+        function doUpload(file) {
+            uploadResult.classList.add('hidden');
+            var form = new FormData();
+            form.append('file', file);
+            fetch(apiBase + '/api/admin/data-update', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + AdminAuth.getToken() },
+                body: form
+            }).then(function(r) { return r.json(); }).then(function(d) {
+                uploadResult.classList.remove('hidden');
+                if (d.message && d.count != null) {
+                    uploadResult.className = 'mt-4 p-3 rounded-lg text-sm bg-green-50 text-green-800';
+                    uploadResult.textContent = d.message + '，共 ' + d.count + ' 条；备份：' + (d.backup || '');
+                } else {
+                    uploadResult.className = 'mt-4 p-3 rounded-lg text-sm bg-red-50 text-red-800';
+                    uploadResult.textContent = d.message || '上传失败';
+                }
+                loadDataUpdateInfo();
+            });
+        }
+
+        loadDashboard();
+    </script>
+</body>
+</html>
