@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン | 大学コンパス</title>
+    <title>ログイン | JI-日本留学ナビ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
@@ -78,8 +78,8 @@
                     <i class="fas fa-compass text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-medium font-serif-title" style="letter-spacing: 0.06em">大学コンパス</h1>
-                    <p class="text-xs text-slate-500 font-normal">Japanese University Compass</p>
+                    <h1 class="text-xl font-medium font-serif-title" style="letter-spacing: 0.06em">JI-日本留学ナビ</h1>
+                    <p class="text-xs text-slate-500 font-normal">JI-Japan Study Navigator</p>
                 </div>
             </a>
             <h2 class="text-2xl font-medium text-[#0284c7] font-serif-title mb-2" style="letter-spacing: 0.05em">ログイン</h2>
@@ -163,7 +163,8 @@
                 });
                 const data = await res.json().catch(function() { return {}; });
                 if (!res.ok) {
-                    showMessage(data.message || data.error || 'ログインに失敗しました', true);
+                    var msg = (data.message || data.error || 'ログインに失敗しました') + ' (HTTP ' + res.status + ')';
+                    showMessage(msg, true);
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'ログイン';
                     return;
@@ -174,9 +175,9 @@
                     window.location.href = 'index.html';
                     return;
                 }
-                showMessage('ログインに失敗しました', true);
+                showMessage('ログインに失敗しました (服务器未返回 token)', true);
             } catch (err) {
-                showMessage('无法连接服务器。请确认：1) 在项目目录已运行 npm start；2) 在浏览器地址栏输入 http://localhost:3000 打开本页（不要直接双击 HTML 文件）。', true);
+                showMessage('无法连接服务器: ' + (err.message || '请检查网络或稍后重试'), true);
             }
             submitBtn.disabled = false;
             submitBtn.textContent = 'ログイン';

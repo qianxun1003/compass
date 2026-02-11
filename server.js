@@ -18,6 +18,11 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// 健康检查：部署后可在浏览器打开 /api/health 确认接口是否正常
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, db: !!process.env.DATABASE_URL });
+});
+
 // 静态文件（HTML/CSS/JS）
 app.use(express.static(path.join(__dirname)));
 
