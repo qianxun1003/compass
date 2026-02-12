@@ -4,6 +4,8 @@
   "description": "日本留学申请综合管理平台 - JI-日本留学ナビ",
   "main": "server.js",
   "scripts": {
+    "prestart": "node -e \"const fs=require('fs');const p=require('path');const j=p.join(process.cwd(),'学校总览.json');const o=p.join(process.cwd(),'school-master.json');if(fs.existsSync(j)){fs.copyFileSync(j,o);}\"",
+    "predev": "node -e \"const fs=require('fs');const p=require('path');const j=p.join(process.cwd(),'学校总览.json');const o=p.join(process.cwd(),'school-master.json');if(fs.existsSync(j)){fs.copyFileSync(j,o);}\"",
     "start": "node server.js",
     "dev": "node server.js",
     "init-db": "node scripts/init-db.js",

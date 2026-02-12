@@ -25,15 +25,39 @@ app.use('/api/schools', schoolsRoutes);
 app.use('/api/plan', planRoutes);
 app.use('/api/admin', adminRoutes);
 
-// 学校总览数据（公开，供 compass 搜索/筛选等使用，避免部署后中文路径静态文件不可用）
-const schoolMasterPath = path.join(__dirname, '学校总览.json');
+// 学校总览数据（公开，供 compass 搜索/筛选等使用）
+// 优先读英文路径，避免部署环境（如 Render）下中文文件名无法识别
+const schoolMasterPath = path.join(__dirname, 'school-master.json');
+const schoolMasterPathZh = path.join(__dirname, '学校总览.json');
+function ensureSchoolMasterCopy() {
+  if (fs.existsSync(schoolMasterPath)) return;
+  if (fs.existsSync(schoolMasterPathZh)) {
+    try {
+      fs.copyFileSync(schoolMasterPathZh, schoolMasterPath);
+      console.log('[school-master] 已从 学校总览.json 复制到 school-master.json');
+    } catch (e) {
+      console.warn('[school-master] 复制失败:', e.message);
+    }
+  }
+}
+function getSchoolMasterPath() {
+  ensureSchoolMasterCopy();
+  if (fs.existsSync(schoolMasterPath)) return schoolMasterPath;
+  if (fs.existsSync(schoolMasterPathZh)) return schoolMasterPathZh;
+  console.warn('[school-master] 未找到数据文件：请确保存在 school-master.json 或 学校总览.json（可运行 python3 export_school_data.py 生成）');
+  return null;
+}
 app.get('/api/school-master', (req, res) => {
-  if (!fs.existsSync(schoolMasterPath)) {
+  console.log('[school-master] GET /api/school-master 被请求');
+  const p = getSchoolMasterPath();
+  if (!p) {
     return res.status(404).json({ message: '学校总览数据未就绪' });
   }
   try {
-    const raw = fs.readFileSync(schoolMasterPath, 'utf8');
+    const raw = fs.readFileSync(p, 'utf8');
     const data = JSON.parse(raw);
+    const count = (data && data.data && data.data.length) || 0;
+    console.log('[school-master] 返回', count, '条');
     res.json(data);
   } catch (err) {
     console.error('school-master read error:', err);
@@ -59,4 +83,7 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log('Server running on port', PORT);
+  const p = getSchoolMasterPath();
+  if (p) console.log('[school-master] 搜索数据已就绪:', path.basename(p));
+  else console.warn('[school-master] 搜索数据未就绪，/api/school-master 将返回 404');
 });

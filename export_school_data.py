@@ -8,6 +8,7 @@ from pathlib import Path
 
 EXCEL_PATH = Path(__file__).parent / "学部学校一览表.xlsx"
 OUTPUT_JSON = Path(__file__).parent / "学校总览.json"
+OUTPUT_JSON_ASCII = Path(__file__).parent / "school-master.json"  # 部署用英文路径，避免 Render 等环境中文文件名不可用
 OUTPUT_CSV = Path(__file__).parent / "学校总览.csv"
 
 COLUMN_MAP = {
@@ -59,8 +60,10 @@ def main():
         if row.get("name"):
             rows.append(row)
     data = {"data": rows}
-    OUTPUT_JSON.write_text(json.dumps(data, ensure_ascii=False, indent=0), encoding="utf-8")
-    print(f"已导出 {len(rows)} 条到 {OUTPUT_JSON}")
+    json_str = json.dumps(data, ensure_ascii=False, indent=0)
+    OUTPUT_JSON.write_text(json_str, encoding="utf-8")
+    OUTPUT_JSON_ASCII.write_text(json_str, encoding="utf-8")
+    print(f"已导出 {len(rows)} 条到 {OUTPUT_JSON} 与 {OUTPUT_JSON_ASCII}")
     # 同时导出 CSV 供 compass_search 使用
     cols = ["大学", "学部", "学科", "位置", "文理", "方式", "第几期", "併願", "能使用EJU", "需要EJU科目", "英语", "JLPT", "校内考形式", "网上出愿开始时间", "网上出愿截止时间", "邮寄开始时间", "邮寄截止时间", "校内考时间1", "校内考时间2", "发榜时间"]
     import csv

@@ -460,6 +460,8 @@
 
         function loadData() {
             const base = (typeof Auth !== 'undefined' && Auth.getApiBase) ? Auth.getApiBase() : '';
+            const apiUrl = base + '/api/school-master';
+            console.log('[搜索] loadData 开始，请求:', apiUrl || '(同源) /api/school-master');
             const tryEmbedded = () => {
                 if (typeof EMBEDDED_DATA !== 'undefined' && EMBEDDED_DATA?.data) {
                     universitiesData = EMBEDDED_DATA.data || [];
@@ -473,20 +475,39 @@
                 console.log(`✅ 已加载 ${universitiesData.length} 条数据`);
                 onDataLoaded();
             };
-            // 优先走 API（部署后中文路径静态文件可能不可用）
-            fetch(base + '/api/school-master').then(r => r.ok ? r.json() : Promise.reject()).then(applyJson).catch(() => {
-                fetch('学校总览.json').then(r => r.ok ? r.json() : Promise.reject()).then(applyJson).catch(() => {
-                    fetch('学校总览.csv').then(r => r.text()).then(txt => {
-                        const rows = parseCSV(txt);
-                        universitiesData = normalizeCsvToJs(rows);
-                        console.log(`✅ 已加载 ${universitiesData.length} 条数据（CSV）`);
-                        onDataLoaded();
-                    }).catch(() => {
-                        if (tryEmbedded()) onDataLoaded();
-                        else console.warn('未加载到数据');
-                    });
+            const onAllFailed = () => {
+                if (tryEmbedded()) onDataLoaded();
+                else {
+                    console.warn('[搜索] 未加载到数据，请确认通过 http://localhost:3000/compass_search.html 打开并已启动 npm run dev');
+                    document.body.classList.add('search-data-failed');
+                    const banner = document.getElementById('search-data-failed-banner');
+                    if (!banner) {
+                        const el = document.createElement('div');
+                        el.id = 'search-data-failed-banner';
+                        el.setAttribute('role', 'alert');
+                        el.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#b91c1c;color:#fff;padding:10px 16px;text-align:center;font-size:14px;';
+                        el.textContent = '搜索数据未加载，请通过 http://localhost:3000/compass_search.html 打开页面并确保终端已运行 npm run dev';
+                        document.body.prepend(el);
+                    }
+                }
+            };
+            // 优先 API，失败则依次尝试静态文件（英文路径优先，避免部署环境中文路径不可用）
+            fetch(apiUrl).then(r => {
+                if (!r.ok) throw new Error('API ' + r.status);
+                return r.json();
+            }).then(applyJson).catch((e) => {
+                console.warn('[搜索] API 失败，尝试 school-master.json', e && e.message);
+                return fetch('school-master.json').then(r => r.ok ? r.json() : Promise.reject()).then(applyJson);
+            }).catch(() => {
+                return fetch('学校总览.json').then(r => r.ok ? r.json() : Promise.reject()).then(applyJson);
+            }).catch(() => {
+                return fetch('学校总览.csv').then(r => r.text()).then(txt => {
+                    const rows = parseCSV(txt);
+                    universitiesData = normalizeCsvToJs(rows);
+                    console.log(`✅ 已加载 ${universitiesData.length} 条数据（CSV）`);
+                    onDataLoaded();
                 });
-            });
+            }).catch(onAllFailed);
 
         function onDataLoaded() {
             // 不自动搜索，等用户点击「検索」或按 Enter
@@ -513,15 +534,28 @@
                 document.getElementById('result-subtitle').textContent = 'キーワードを入力してください ✨';
                 return;
             }
+            if (universitiesData.length === 0) {
+                document.getElementById('empty-state').classList.remove('hidden');
+                document.getElementById('empty-state-msg').textContent = '数据尚未加载，请刷新页面或确认通过 http://localhost:3000/compass_search.html 打开';
+                const extra = document.getElementById('empty-state-extra');
+                if (extra) { extra.classList.add('hidden'); }
+                document.getElementById('results-grid').innerHTML = '';
+                const mc = document.getElementById('match-count'); if (mc) mc.textContent = '0';
+                document.getElementById('result-subtitle').textContent = '数据未加载';
+                return;
+            }
             
             const kw = keyword.trim();
             const kwLower = kw.toLowerCase();
             
-            /** 仅匹配学部或学科（避免仅靠大学名匹配到学部学科无关的结果） */
+            /** 匹配大学名、地区、学部、学科（例如「早稲田」「東京」可搜到对应大学） */
             const matches = universitiesData.filter(uni => {
+                const name = (uni.name || '').toLowerCase();
+                const region = (uni.region || '').toLowerCase();
                 const dept = (uni.department || '').toLowerCase();
                 const major = (uni.major || '').toLowerCase();
-                return dept.includes(kwLower) || major.includes(kwLower);
+                return name.includes(kwLower) || region.includes(kwLower)
+                    || dept.includes(kwLower) || major.includes(kwLower);
             });
             
             renderResults(matches, keyword);
