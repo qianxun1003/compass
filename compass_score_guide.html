@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-JP">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>各大学分数要求 | JI-日本留学ナビ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deep: { 500: '#4a90e2', 600: '#3b7bc8', 700: '#2d5fa0', 800: '#1e4a7a' },
+                        sky: { 500: '#0ea5e9', 600: '#0284c7' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Noto Sans JP', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 40%, #fefce8 70%, #e0f2fe 100%); min-height: 100vh; }
+        .glass { background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.6) 100%); backdrop-filter: blur(12px); border: 1px solid rgba(56,189,248,0.25); }
+        .font-serif-title { font-family: 'Noto Serif JP', serif; }
+        .drawer-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; }
+        .drawer-content.expanded { max-height: 3000px; transition: max-height 0.4s ease-in; }
+        .chevron-icon { transition: transform 0.25s ease; }
+        .chevron-icon.rotated { transform: rotate(180deg); }
+        .calc-detail { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
+        .calc-detail.expanded { max-height: 2000px; transition: max-height 0.5s ease-in; }
+    </style>
+</head>
+<body>
+    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/30">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="compass_score.html" class="flex items-center gap-3 hover:opacity-90">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white" style="background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 4px 12px rgba(245,158,11,0.3)">
+                    <i class="fas fa-list-check text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-semibold text-lg font-serif-title text-deep-800">各大学分数要求</h1>
+                    <p class="text-xs text-sky-600">来自合格实绩分析</p>
+                </div>
+            </a>
+            <a href="compass_score.html" class="px-4 py-2 bg-white/70 hover:bg-white border border-sky-200 rounded-xl text-sm font-medium text-sky-700">← 返回成绩匹配</a>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-20 px-6 max-w-6xl mx-auto">
+        <!-- 数据来源说明 -->
+        <section class="glass rounded-2xl p-6 mb-8 shadow-lg">
+            <h2 class="font-semibold text-xl text-sky-800 mb-3 font-serif-title flex items-center gap-2">
+                <i class="fas fa-database text-amber-500"></i>
+                数据来源
+            </h2>
+            <p class="text-sm text-sky-700 mb-2">本页展示的<strong>各科所需分数</strong>均来自 <strong>合格实绩.xlsx</strong> 的分析结果，由脚本 <code class="bg-sky-100 px-1 rounded">scripts/analyze_admission_scores.py</code> 生成，结果保存在 <code class="bg-sky-100 px-1 rounded">data/admission_score_model.json</code>。下表按学校名展示，<strong>展开后</strong>可查看该校各学部、各科目（日本語・数学1・数学2・综合・物理・化学・生物・TOEFL）的参考分数（p25/min）及样本数。</p>
+            <p class="text-xs text-sky-500">若下表为空，请先在 合格实绩.xlsx 中填写 2022–2024 年合格样本数据，再在项目根目录运行：<code class="bg-amber-50 px-1 rounded">python3 scripts/analyze_admission_scores.py</code></p>
+        </section>
+
+        <!-- 计算方式说明（可折叠） -->
+        <section class="glass rounded-2xl mb-8 shadow-lg overflow-hidden">
+            <button type="button" id="calc-toggle" class="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-white/40 transition-colors">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-calculator text-amber-500"></i>
+                    <h2 class="font-semibold text-lg text-sky-800 font-serif-title">分数计算方式</h2>
+                    <span class="text-xs text-sky-500">点击展开查看详细说明</span>
+                </div>
+                <i class="fas fa-chevron-down chevron-icon text-sky-500" id="calc-chevron"></i>
+            </button>
+            <div class="calc-detail" id="calc-detail">
+                <div class="px-6 pb-6 pt-0 border-t border-sky-100">
+                    <div class="mt-4 space-y-4 text-sm text-sky-700">
+                        <div>
+                            <h3 class="font-semibold text-base text-sky-800 mb-2 flex items-center gap-2">
+                                <span class="text-amber-500 font-bold">1.</span>
+                                分组统计
+                            </h3>
+                            <p class="ml-6">将所有合格实绩按 <strong>「大学 + 学部 + 文理」</strong>分组。例如：东京大学 · 文科一類 · 文 → 把所有合格且是「东大文科一類」的学生的各科成绩归到同一组里。</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-base text-sky-800 mb-2 flex items-center gap-2">
+                                <span class="text-amber-500 font-bold">2.</span>
+                                年份权重
+                            </h3>
+                            <p class="ml-6">每条成绩带「年份权重」，越近年份权重越高：<strong>2024 = 1.0</strong>，<strong>2023 = 0.8</strong>，<strong>2022 = 0.6</strong>。也就是说：<strong>不是简单平均，而是“近几年合格的人的成绩更算数”</strong>。</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-base text-sky-800 mb-2 flex items-center gap-2">
+                                <span class="text-amber-500 font-bold">3.</span>
+                                分位数统计（不是平均数）
+                            </h3>
+                            <p class="ml-6 mb-2">对每一科（比如日语），把该组里所有人的这一科分数和对应年份权重放在一起，然后算的是<strong>加权分位数</strong>，不是平均：</p>
+                            <table class="ml-6 text-xs border-collapse border border-sky-200">
+                                <thead>
+                                    <tr class="bg-sky-50">
+                                        <th class="border border-sky-200 px-3 py-2 text-left">统计量</th>
+                                        <th class="border border-sky-200 px-3 py-2 text-left">含义</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="border border-sky-200 px-3 py-2 font-medium">min</td><td class="border border-sky-200 px-3 py-2">该科所有合格者中的<strong>最低分</strong></td></tr>
+                                    <tr><td class="border border-sky-200 px-3 py-2 font-medium">p25</td><td class="border border-sky-200 px-3 py-2"><strong>加权 25% 分位数</strong>：按权重算，有 25% 的“权重”对应的分数 ≤ 这个值（约等于“下游约 1/4 合格生的水平”）</td></tr>
+                                    <tr><td class="border border-sky-200 px-3 py-2 font-medium">p50</td><td class="border border-sky-200 px-3 py-2"><strong>加权中位数</strong>：一半权重对应的分数在这之下</td></tr>
+                                    <tr><td class="border border-sky-200 px-3 py-2 font-medium">p75</td><td class="border border-sky-200 px-3 py-2"><strong>加权 75% 分位数</strong>：约“上游 1/4 合格生的水平”</td></tr>
+                                    <tr><td class="border border-sky-200 px-3 py-2 font-medium">n</td><td class="border border-sky-200 px-3 py-2">有效样本数（有这一科成绩的人数）</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-base text-sky-800 mb-2 flex items-center gap-2">
+                                <span class="text-amber-500 font-bold">4.</span>
+                                参考分数（p25）
+                            </h3>
+                            <p class="ml-6">成绩匹配和分数要求说明里，用的是 <strong>p25</strong>（没有 p25 时用 min）作为该科的<strong>参考分</strong>。含义：<strong>过去合格的人里，约 25% 的人这一科 ≤ 这个分数</strong>。你达到或超过这个分，可以理解为至少不低于“下游 1/4 合格生”的水平，比单纯用“平均分”更能反映<strong>门槛</strong>而不是“中等水平”。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 搜索框 -->
+        <section class="mb-6">
+            <label class="block text-sm font-medium text-sky-700 mb-2">搜索大学名称</label>
+            <div class="relative">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-sky-400"></i>
+                <input type="text" id="search-school" placeholder="输入大学名，如：東京、早稲田、明治..." class="w-full pl-11 pr-4 py-3 rounded-xl border border-sky-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-sky-400/50 focus:border-sky-400">
+            </div>
+        </section>
+
+        <!-- 大学列表：抽屉式，默认收起，顶部只显示校名 -->
+        <section class="space-y-2" id="school-list"></section>
+
+        <div id="loading" class="text-center py-12 text-sky-500">
+            <i class="fas fa-spinner fa-spin text-2xl mb-3"></i>
+            <p>加载中...</p>
+        </div>
+        <div id="no-data" class="text-center py-10 text-sky-600 hidden">
+            <p class="font-medium mb-2">暂无合格实绩分析数据</p>
+            <p class="text-sm">请先在 <strong>合格实绩.xlsx</strong> 中填写合格样本（大学・学部・文理・各科分数等），再运行：</p>
+            <p class="mt-2 text-amber-700 bg-amber-50 rounded-lg px-3 py-2 font-mono text-sm">python3 scripts/analyze_admission_scores.py</p>
+            <p class="text-xs text-sky-500 mt-2">生成 data/admission_score_model.json 后刷新本页即可看到各校各科分数要求。</p>
+        </div>
+    </main>
+
+    <script>
+        const SUBJECT_LABELS = { '日语': '日本語', '数学1': '数学1', '数学2': '数学2', '综合': '综合科目', '物理': '物理', '化学': '化学', '生物': '生物', '托福': 'TOEFL' };
+        const SUBJECT_ORDER = ['日语', '数学1', '数学2', '综合', '物理', '化学', '生物', '托福'];
+
+        /** 从 admission_score_model.json 构建学校列表：{ name, departments: [{ department, bunri, subjects, n }] } */
+        function buildSchoolListFromModel(model) {
+            const byName = {};
+            function add(school, department, bunri, entry) {
+                if (!byName[school]) byName[school] = { name: school, departments: [] };
+                byName[school].departments.push({
+                    department: department,
+                    bunri: bunri,
+                    subjects: entry.subjects || {},
+                    n: entry.n
+                });
+            }
+            if (model.bunka) {
+                Object.keys(model.bunka).forEach(school => {
+                    Object.keys(model.bunka[school]).forEach(dept => add(school, dept, '文', model.bunka[school][dept]));
+                });
+            }
+            if (model.rika) {
+                Object.keys(model.rika).forEach(school => {
+                    Object.keys(model.rika[school]).forEach(dept => add(school, dept, '理', model.rika[school][dept]));
+                });
+            }
+            return Object.values(byName).sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        /** 单个学校抽屉：顶部只显示校名 + 箭头，默认收起；展开后显示各学部、各科分数 */
+        function buildDrawerRow(school, searchTerm) {
+            const safeId = 'drawer-' + school.name.replace(/\s/g, '-').replace(/[^\w\u4e00-\u9fa5-]/g, '');
+            const isExpanded = false;
+            const deptsHtml = school.departments.map(d => {
+                const subjectKeys = SUBJECT_ORDER.filter(sk => d.subjects[sk]);
+                const rows = subjectKeys.map(sk => {
+                    const s = d.subjects[sk];
+                    const v = s.p25 != null ? s.p25 : s.min;
+                    const valStr = v != null ? (Number.isInteger(v) ? v : v.toFixed(1)) : '—';
+                    const label = SUBJECT_LABELS[sk] || sk;
+                    return `<tr class="border-b border-sky-100"><td class="py-2 pr-4 text-sky-600">${label}</td><td class="py-2 font-medium text-sky-800">${valStr}</td><td class="py-2 text-xs text-sky-400">n=${s.n || 0}</td></tr>`;
+                }).join('');
+                return `<div class="mb-5 pl-4 border-l-2 border-sky-200">
+                    <div class="text-sm font-medium text-sky-700 mb-2">${(d.department || '—').replace(/</g, '&lt;')}</div>
+                    <div class="text-xs text-sky-500 mb-2">${d.bunri === '理' ? '理科' : '文科'} · 样本数 ${d.n || 0}</div>
+                    <table class="text-sm w-full max-w-md"><thead><tr class="border-b border-sky-200"><th class="text-left py-2 text-sky-600">科目</th><th class="text-left py-2 text-sky-600">参考分（p25/min）</th><th class="text-left py-2 text-sky-400 text-xs">样本</th></tr></thead><tbody>${rows}</tbody></table>
+                </div>`;
+            }).join('');
+            return `
+                <div class="glass rounded-xl overflow-hidden" data-school="${school.name.replace(/"/g, '&quot;')}">
+                    <button type="button" class="drawer-trigger w-full flex items-center justify-between px-4 py-4 text-left hover:bg-white/60 transition-colors" data-id="${safeId}">
+                        <span class="font-semibold text-sky-800">${school.name.replace(/</g, '&lt;')}</span>
+                        <i class="fas fa-chevron-down chevron-icon text-sky-500"></i>
+                    </button>
+                    <div class="drawer-content" id="${safeId}"><div class="px-4 pb-4 pt-0 border-t border-sky-100">${deptsHtml}</div></div>
+                </div>`;
+        }
+
+        function renderList(schoolList, searchTerm) {
+            const listEl = document.getElementById('school-list');
+            const term = (searchTerm || '').trim().toLowerCase();
+            const filtered = term ? schoolList.filter(s => s.name.toLowerCase().includes(term)) : schoolList;
+            if (filtered.length === 0) {
+                listEl.innerHTML = '';
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('no-data').classList.remove('hidden');
+                return;
+            }
+            listEl.innerHTML = filtered.map(s => buildDrawerRow(s, term)).join('');
+            listEl.querySelectorAll('.drawer-trigger').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const content = document.getElementById(id);
+                    const chevron = this.querySelector('.chevron-icon');
+                    if (!content) return;
+                    content.classList.toggle('expanded');
+                    chevron.classList.toggle('rotated');
+                });
+            });
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('no-data').classList.add('hidden');
+        }
+
+        fetch('data/admission_score_model.json')
+            .then(r => r.ok ? r.json() : {})
+            .then(model => {
+                const schoolList = buildSchoolListFromModel(model || {});
+                renderList(schoolList);
+                window._scoreGuideSchoolList = schoolList;
+            })
+            .catch(() => {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('no-data').classList.remove('hidden');
+                window._scoreGuideSchoolList = [];
+            });
+
+        document.getElementById('search-school').addEventListener('input', function() {
+            const list = window._scoreGuideSchoolList || [];
+            renderList(list, this.value);
+        });
+        document.getElementById('calc-toggle').addEventListener('click', function() {
+            const detail = document.getElementById('calc-detail');
+            const chevron = document.getElementById('calc-chevron');
+            detail.classList.toggle('expanded');
+            chevron.classList.toggle('rotated');
+        });
+    </script>
+</body>
+</html>

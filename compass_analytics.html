@@ -6,38 +6,94 @@
     <title>データ分析 | JI-日本留学ナビ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-cream: #fdfdfb;
-            --border-slate: #e2e8f0;
-            --border-glass: rgba(255, 255, 255, 0.5);
-            --text-primary: #475569;
-            --text-secondary: #64748b;
-            --chart-1: #94a3b8;
-            --chart-2: #b8c5d6;
-            --chart-3: #cbd5e1;
-            --chart-4: #94a3b8;
-            --chart-5: #a8b8c8;
+            --bg-cream: #fdfcf8;
+            --bg-warm: #fefdf9;
+            --border-slate: #e8e4dc;
+            --text-primary: #4a4540;
+            --text-secondary: #6b6560;
+            --accent: #8b7355;
+            --warm-yellow: #e8dcc8;
+            --warm-beige: #d4c4a8;
+            --cream-highlight: #f5f0e6;
+            --chart-1: #a8987a;
+            --chart-2: #8b7355;
+            --chart-3: #6b5b45;
+            --chart-4: #0ea5e9;
+            --chart-5: #22c55e;
+            --chart-6: #c9a227;
+            --chart-7: #d4b896;
         }
         * {
             font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0; padding: 0; box-sizing: border-box;
-            font-weight: 300;
-            letter-spacing: 0.06em;
+            font-weight: 400;
+            letter-spacing: 0.04em;
         }
         body {
             background: var(--bg-cream);
             min-height: 100vh;
             color: var(--text-primary);
+            font-size: 15px;
+        }
+        h1, h2, h3, h4, .report-title, .accordion-trigger > div > span {
+            font-weight: 500;
+        }
+        .report-paper .report-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            margin-bottom: 16px;
+        }
+        .report-paper .report-note {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: var(--warm-yellow);
+            border-radius: 10px;
+            border-left: 3px solid var(--chart-6);
+        }
+        .report-paper .score-table-wrap {
+            margin-top: 16px;
+            overflow-x: auto;
+        }
+        .report-paper table.score-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+        .report-paper table.score-table th,
+        .report-paper table.score-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-slate);
+        }
+        .report-paper table.score-table th {
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: var(--warm-yellow);
+        }
+        .report-paper table.score-table tr:hover td { background: rgba(248, 250, 252, 0.5); }
+        .glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-slate);
+            box-shadow: 0 2px 16px rgba(100, 116, 139, 0.06);
         }
         .card {
-            background: rgba(255, 255, 255, 0.6);
+            background: linear-gradient(145deg, rgba(255,255,255,0.85) 0%, var(--cream-highlight) 100%);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid var(--border-slate);
-            box-shadow: 0 2px 16px rgba(100, 116, 139, 0.06);
+            box-shadow: 0 2px 16px rgba(139, 115, 85, 0.06);
             border-radius: 14px;
         }
         .accordion-trigger {
@@ -49,18 +105,16 @@
             padding: 1.25rem 1.5rem;
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             border: 1px solid var(--border-slate);
             border-radius: 14px;
             color: var(--text-primary);
             font-size: 0.95rem;
-            font-weight: 400;
             cursor: pointer;
             transition: all 0.3s ease;
         }
         .accordion-trigger:hover {
-            background: rgba(255, 255, 255, 0.8);
-            border-color: #cbd5e1;
+            background: rgba(255, 253, 248, 0.9);
+            border-color: var(--warm-beige);
         }
         .accordion-trigger .trigger-icon {
             position: absolute;
@@ -68,23 +122,12 @@
             top: 50%;
             transform: translateY(-50%);
             transition: transform 0.3s ease;
-        }
-        .accordion-trigger.open .trigger-icon {
-            transform: translateY(-50%) rotate(180deg);
-        }
-        .accordion-trigger .trigger-desc {
-            font-size: 0.75rem;
             color: var(--text-secondary);
-            font-weight: 300;
-            letter-spacing: 0.04em;
-            padding-right: 2rem;
         }
+        .accordion-trigger.open .trigger-icon { transform: translateY(-50%) rotate(180deg); }
+        .accordion-trigger .trigger-desc { font-size: 0.75rem; color: var(--text-secondary); padding-right: 2rem; }
         .accordion-trigger-wrapper { position: relative; width: 100%; }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-        }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
         .accordion-content-inner {
             padding: 1.5rem 1.75rem;
             border: 1px solid var(--border-slate);
@@ -93,126 +136,300 @@
             margin-top: -1px;
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
         }
-        .chart-container {
+        .chart-container { position: relative; height: 300px; min-height: 240px; padding: 12px 8px 20px; }
+        @media (max-width: 768px) { .chart-container { height: 260px; min-height: 220px; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .chart-card { animation: fadeIn 0.45s ease-out forwards; }
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(32px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .results-reveal { animation: revealUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        .search-input {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--border-slate);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--warm-beige);
+            box-shadow: 0 0 0 2px rgba(212, 196, 168, 0.35);
+        }
+        .btn-search {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            background: linear-gradient(180deg, var(--chart-2) 0%, var(--chart-3) 100%);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(139, 115, 85, 0.3);
+        }
+        .report-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: linear-gradient(145deg, var(--cream-highlight) 0%, rgba(255,255,255,0.85) 100%);
+            border: 1px solid var(--warm-beige);
+            box-shadow: 0 2px 12px rgba(139, 115, 85, 0.1);
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .report-circle:hover {
+            background: linear-gradient(145deg, #fff9ef 0%, var(--cream-highlight) 100%);
+            border-color: var(--chart-6);
+            transform: scale(1.06);
+            box-shadow: 0 8px 24px rgba(201, 162, 39, 0.15);
+        }
+        .report-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(253, 252, 248, 0.72);
+            backdrop-filter: blur(20px) saturate(110%);
+            -webkit-backdrop-filter: blur(20px) saturate(110%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+        .report-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .report-overlay.open .report-paper {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .report-paper {
             position: relative;
-            height: 300px;
-            min-height: 240px;
-            padding: 12px 8px 20px;
+            max-width: 90vw;
+            width: 560px;
+            max-height: 85vh;
+            overflow: auto;
+            background: linear-gradient(180deg, #fffefb 0%, var(--bg-warm) 100%);
+            border-radius: 18px;
+            box-shadow: 0 24px 48px rgba(74, 69, 64, 0.1), 0 0 0 1px rgba(212, 196, 168, 0.25);
+            padding: 28px 32px;
+            opacity: 0;
+            transform: scale(0.94);
+            transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        @media (max-width: 768px) {
-            .chart-container { height: 260px; min-height: 220px; padding: 16px 12px 24px; }
+        .report-paper .report-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            padding-right: 36px;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .chart-card { animation: fadeIn 0.4s ease-out forwards; }
+        .report-paper .report-chart-wrap {
+            position: relative;
+            height: 280px;
+            min-height: 220px;
+        }
+        .report-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--text-secondary);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s;
+        }
+        .report-close:hover {
+            background: var(--warm-yellow);
+            color: var(--text-primary);
+        }
+        .report-paper .dept-select-wrap { margin-bottom: 16px; }
+        .report-paper select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-slate);
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--text-primary);
+            background: #fff;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(226, 232, 240, 0.6); border-radius: 8px; }
+        ::-webkit-scrollbar-thumb { background: var(--warm-beige); border-radius: 8px; }
     </style>
 </head>
 <body>
     <script src="js/auth.js"></script><script>Auth.requireAuth();</script>
-    <nav class="sticky top-0 z-50 card border-b border-l-0 border-r-0 border-t-0 rounded-none">
+    <nav class="sticky top-0 z-50 glass border-b border-slate-200 rounded-none">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <a href="compass_index.html" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100/80 hover:text-slate-700 transition-all" title="戻る">
-                        <i class="fas fa-arrow-left text-base"></i>
-                    </a>
-                    <div>
-                        <h1 class="font-normal text-lg" style="color: var(--text-primary); letter-spacing: 0.06em">データ分析</h1>
-                        <p class="text-xs" style="color: var(--text-secondary)">Analytics</p>
-                    </div>
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-all" title="戻る">
+                    <i class="fas fa-arrow-left text-base"></i>
+                </a>
+                <div>
+                    <h1 class="text-lg" style="color: var(--text-primary)">データ分析</h1>
+                    <p class="text-xs" style="color: var(--text-secondary)">Analytics</p>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 pb-16">
+    <!-- 報表展開用モーダル（磨砂玻璃 + 清晰報表紙） -->
+    <div id="report-overlay" class="report-overlay">
+        <div class="report-paper">
+            <button type="button" class="report-close" id="report-close" aria-label="閉じる"><i class="fas fa-times"></i></button>
+            <h3 class="report-title" id="report-modal-title"></h3>
+            <p class="report-desc hidden" id="report-desc"></p>
+            <p class="report-note hidden" id="report-note"></p>
+            <div id="report-dept-wrap" class="dept-select-wrap hidden">
+                <label class="block text-sm mb-2" style="color: var(--text-secondary)">学部を選択</label>
+                <select id="report-dept-select"></select>
+            </div>
+            <div id="report-subject-wrap" class="dept-select-wrap hidden">
+                <label class="block text-sm mb-2" style="color: var(--text-secondary)">科目を選択（同一科目で各学部を横比較）</label>
+                <select id="report-subject-select"></select>
+            </div>
+            <div class="report-chart-wrap">
+                <canvas id="report-chart-canvas"></canvas>
+            </div>
+            <div id="report-score-table-wrap" class="score-table-wrap hidden"></div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 pb-20">
+        <!-- 合格実績：検索 → 確認後にサークル表示、クリックで報表展開 -->
+        <section id="admission-section" class="mb-12">
+            <div class="card p-6 sm:p-8 mb-6">
+                <h2 class="text-2xl sm:text-3xl mb-1" style="color: var(--text-primary)">合格実績データ可視化</h2>
+                <p class="text-sm mb-6" style="color: var(--text-secondary)">大学名を入力し、検索を押すとレポート一覧が表示されます</p>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="university-search" class="search-input flex-1" placeholder="大学名（例：東京大学、専修大学）" autocomplete="off">
+                    <button type="button" id="search-btn" class="btn-search">検索</button>
+                </div>
+            </div>
+
+            <div id="admission-results" class="hidden results-reveal">
+                <p class="text-sm mb-4" style="color: var(--text-secondary)"><span id="selected-university-name"></span> のレポート</p>
+                <div class="flex flex-wrap gap-6 justify-start">
+                    <button type="button" class="report-circle" data-report="count" title="学部別合格人数与占比">学部別<br>合格与占比</button>
+                    <button type="button" class="report-circle" data-report="score" title="科目別スコア分布">科目別<br>スコア分布</button>
+                    <button type="button" class="report-circle" data-report="compare" title="同一科目・学部別比較">同一科目<br>学部比較</button>
+                </div>
+            </div>
+            <div id="admission-empty" class="card p-12 text-center" style="color: var(--text-secondary)">
+                <i class="fas fa-university text-4xl mb-4 opacity-50"></i>
+                <p class="font-medium">大学名を入力して「検索」を押すと、レポートが表示されます</p>
+            </div>
+        </section>
+
+        <!-- 学校データ可視化（辅助） -->
         <div class="mb-8">
-            <h2 class="font-normal text-2xl sm:text-3xl mb-1" style="color: var(--text-primary); letter-spacing: 0.06em">データ可視化</h2>
-            <p class="text-sm" style="color: var(--text-secondary)">学校データに基づく留学トレンド</p>
+            <h2 class="text-2xl sm:text-3xl mb-1" style="color: var(--text-primary)">学校データ可視化</h2>
+            <p class="text-sm" style="color: var(--text-secondary)">学校総覧に基づく留学トレンド</p>
         </div>
 
         <div id="loading" class="text-center py-16 opacity-70">
-            <i class="fas fa-spinner fa-spin text-2xl mb-3" style="color: var(--text-secondary)"></i>
+            <i class="fas fa-spinner fa-spin text-3xl mb-3" style="color: var(--text-secondary)"></i>
             <p class="text-sm" style="color: var(--text-secondary)">データを読み込み中…</p>
         </div>
 
         <div id="accordions" class="space-y-3 hidden">
-            <!-- 学科・出願資格 -->
             <div class="accordion-item">
                 <button type="button" class="accordion-trigger" data-target="panel-1" aria-expanded="false">
                     <div class="accordion-trigger-wrapper">
                         <span>📚 学科と出願資格</span>
                         <p class="trigger-desc mt-1">文理・JLPT・英語などの基準</p>
-                        <i class="fas fa-chevron-down text-sm trigger-icon" style="color: var(--text-secondary)"></i>
+                        <i class="fas fa-chevron-down text-sm trigger-icon"></i>
                     </div>
                 </button>
                 <div class="accordion-content" id="panel-1">
                     <div class="accordion-content-inner space-y-6">
                         <div class="chart-card card p-5 sm:p-6">
-                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">文理比率</h4>
+                            <h4 class="text-sm font-medium mb-4" style="color: var(--text-primary)">文理比率</h4>
                             <div class="chart-container"><canvas id="chart-bunri"></canvas></div>
                         </div>
                         <div class="chart-card card p-5 sm:p-6">
-                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">英語要件</h4>
+                            <h4 class="text-sm font-medium mb-4" style="color: var(--text-primary)">英語要件</h4>
                             <div class="chart-container"><canvas id="chart-english"></canvas></div>
                         </div>
                         <div class="chart-card card p-5 sm:p-6">
-                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">JLPT要件</h4>
+                            <h4 class="text-sm font-medium mb-4" style="color: var(--text-primary)">JLPT要件</h4>
                             <div class="chart-container"><canvas id="chart-jlpt"></canvas></div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- 選抜方法 -->
             <div class="accordion-item">
                 <button type="button" class="accordion-trigger" data-target="panel-2" aria-expanded="false">
                     <div class="accordion-trigger-wrapper">
                         <span>📝 選抜方法</span>
                         <p class="trigger-desc mt-1">校内考の形式や併願可否</p>
-                        <i class="fas fa-chevron-down text-sm trigger-icon" style="color: var(--text-secondary)"></i>
+                        <i class="fas fa-chevron-down text-sm trigger-icon"></i>
                     </div>
                 </button>
                 <div class="accordion-content" id="panel-2">
                     <div class="accordion-content-inner space-y-6">
                         <div class="chart-card card p-5 sm:p-6">
-                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">校内考形式の割合</h4>
+                            <h4 class="text-sm font-medium mb-4" style="color: var(--text-primary)">校内考形式の割合</h4>
                             <div class="chart-container"><canvas id="chart-exam-format"></canvas></div>
                         </div>
                         <div class="chart-card card p-5 sm:p-6">
-                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">併願可否</h4>
+                            <h4 class="text-sm font-medium mb-4" style="color: var(--text-primary)">併願可否</h4>
                             <div class="chart-container"><canvas id="chart-combined"></canvas></div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- 立地・スケジュール -->
             <div class="accordion-item">
                 <button type="button" class="accordion-trigger" data-target="panel-3" aria-expanded="false">
                     <div class="accordion-trigger-wrapper">
                         <span>📍 立地・スケジュール</span>
                         <p class="trigger-desc mt-1">キャンパスの場所や出願時期</p>
-                        <i class="fas fa-chevron-down text-sm trigger-icon" style="color: var(--text-secondary)"></i>
+                        <i class="fas fa-chevron-down text-sm trigger-icon"></i>
                     </div>
                 </button>
                 <div class="accordion-content" id="panel-3">
                     <div class="accordion-content-inner space-y-6">
                         <div class="chart-card card p-5 sm:p-6">
-                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">位置分布</h4>
+                            <h4 class="text-sm font-medium mb-4" style="color: var(--text-primary)">位置分布</h4>
                             <div class="chart-container"><canvas id="chart-region"></canvas></div>
                         </div>
                         <div class="chart-card card p-5 sm:p-6">
-                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">出願期数分布</h4>
+                            <h4 class="text-sm font-medium mb-4" style="color: var(--text-primary)">出願期数分布</h4>
                             <div class="chart-container"><canvas id="chart-period"></canvas></div>
                         </div>
                         <div class="chart-card card p-5 sm:p-6">
-                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">出願締切月分布</h4>
+                            <h4 class="text-sm font-medium mb-4" style="color: var(--text-primary)">出願締切月分布</h4>
                             <div class="chart-container"><canvas id="chart-deadline"></canvas></div>
                         </div>
                         <div class="chart-card card p-5 sm:p-6">
-                            <h4 class="text-sm font-normal mb-4" style="color: var(--text-primary); letter-spacing: 0.05em">EJUスコア互換性</h4>
+                            <h4 class="text-sm font-medium mb-4" style="color: var(--text-primary)">EJUスコア互換性</h4>
                             <div class="chart-container"><canvas id="chart-eju"></canvas></div>
                         </div>
                     </div>
@@ -222,9 +439,13 @@
     </main>
 
     <script>
-        const PALETTE = ['#94a3b8', '#b8c5d6', '#cbd5e1', '#94a3b8', '#a8b8c8', '#7c8fa5', '#64748b'];
-        const defaultFont = { family: "'Noto Sans JP', sans-serif", size: 12, weight: 300, color: '#475569' };
+        const PALETTE = ['#a8987a', '#8b7355', '#6b5b45', '#0ea5e9', '#22c55e', '#c9a227', '#d4b896', '#b8a078'];
+        const defaultFont = { family: "'Noto Sans JP', sans-serif", size: 12, weight: 400, color: '#4a4540' };
         const isMobile = () => window.innerWidth <= 768;
+
+        let admissionModel = { bunka: {}, rika: {} };
+        let selectedUniversityName = '';
+        let reportModalChart = null;
 
         function parseCSV(text) {
             const lines = text.split(/\r?\n/).filter(Boolean);
@@ -321,6 +542,313 @@
             });
         }
 
+        function getMergedUniversityData(name) {
+            const fromB = admissionModel.bunka[name] || {};
+            const fromR = admissionModel.rika[name] || {};
+            return { ...fromB, ...fromR };
+        }
+
+        function searchUniversities(keyword) {
+            const k = String(keyword).trim().toLowerCase();
+            if (!k) return [];
+            const set = new Set();
+            Object.keys(admissionModel.bunka || {}).forEach(n => { if (n.toLowerCase().includes(k)) set.add(n); });
+            Object.keys(admissionModel.rika || {}).forEach(n => { if (n.toLowerCase().includes(k)) set.add(n); });
+            return Array.from(set);
+        }
+
+        function createChartInModal(config) {
+            const canvas = document.getElementById('report-chart-canvas');
+            if (!canvas) return null;
+            if (reportModalChart) { reportModalChart.destroy(); reportModalChart = null; }
+            const font = { ...defaultFont, size: isMobile() ? 11 : 12 };
+            return new Chart(canvas.getContext('2d'), {
+                ...config,
+                options: {
+                    ...config.options,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: { padding: { top: 8, right: 12, bottom: 20, left: 12 } },
+                    plugins: {
+                        ...config.options?.plugins,
+                        legend: { position: 'bottom', labels: { font: font, color: font.color, padding: 12, boxWidth: 14 } },
+                        tooltip: { enabled: true, bodyFont: font, titleFont: font }
+                    },
+                    scales: config.options?.scales ? {
+                        ...config.options.scales,
+                        x: { ...config.options.scales?.x, ticks: { ...config.options.scales?.x?.ticks, font: font, color: font.color, maxRotation: 45 } },
+                        y: { ...config.options.scales?.y, ticks: { ...config.options.scales?.y?.ticks, font: font, color: font.color } }
+                    } : undefined
+                }
+            });
+        }
+
+        function openReport(reportType) {
+            const overlay = document.getElementById('report-overlay');
+            const titleEl = document.getElementById('report-modal-title');
+            const descEl = document.getElementById('report-desc');
+            const noteEl = document.getElementById('report-note');
+            const deptWrap = document.getElementById('report-dept-wrap');
+            const deptSelect = document.getElementById('report-dept-select');
+            const tableWrap = document.getElementById('report-score-table-wrap');
+            const uni = getMergedUniversityData(selectedUniversityName);
+            const deptNames = Object.keys(uni);
+
+            descEl.classList.add('hidden');
+            noteEl.classList.add('hidden');
+            noteEl.textContent = '';
+            tableWrap.classList.add('hidden');
+            tableWrap.innerHTML = '';
+
+            if (reportType === 'count') {
+                deptWrap.classList.add('hidden');
+                document.getElementById('report-subject-wrap').classList.add('hidden');
+                titleEl.textContent = selectedUniversityName + ' — 学部別合格人数与占比';
+                descEl.textContent = '各学部の合格者記録数と、その学部が本校の「総合格者数」に占める割合（%）です。受験者数はデータに含まれないため、実合格率（報録比）は算出できません。';
+                descEl.classList.remove('hidden');
+                noteEl.textContent = '※ 棒の高さ＝合格者記録数。ホバーで人数と占比（本校総合格者に占める割合）を表示。';
+                noteEl.classList.remove('hidden');
+                const counts = deptNames.map(d => (uni[d].n != null ? uni[d].n : 0));
+                const total = counts.reduce((a, b) => a + b, 0) || 1;
+                const pcts = counts.map(c => total ? ((c / total) * 100).toFixed(1) : '0');
+                const colors = deptNames.map((_, i) => PALETTE[i % PALETTE.length]);
+                reportModalChart = createChartInModal({
+                    type: 'bar',
+                    data: {
+                        labels: deptNames,
+                        datasets: [{ label: '合格者記録数', data: counts, backgroundColor: colors, borderColor: colors.map(c => c), borderWidth: 1 }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    title: function(ctx) { return deptNames[ctx[0].dataIndex]; },
+                                    label: function(ctx) {
+                                        return '合格者記録数: ' + ctx.raw + '人　占比: ' + pcts[ctx.dataIndex] + '%';
+                                    },
+                                    afterLabel: function() { return '（本校総合格者数に占める割合）'; }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { maxRotation: 35, font: { size: 11 } } },
+                            y: { title: { display: true, text: '合格者記録数（人）' }, beginAtZero: true, grid: { color: 'rgba(139, 115, 85, 0.12)' } }
+                        }
+                    }
+                });
+            } else if (reportType === 'compare') {
+                deptWrap.classList.add('hidden');
+                titleEl.textContent = selectedUniversityName + ' — 同一科目・学部別スコア比較';
+                descEl.textContent = '同一科目について、各学部の分数要求（最小・25%・中央値・75%）を横並びで比較できます。科目を選ぶと、その科目がある学部どうしを一覧できます。';
+                descEl.classList.remove('hidden');
+                noteEl.textContent = '※ 表は「学部×四つの成績」で、グラフは中央値の学部間比較です。';
+                noteEl.classList.remove('hidden');
+                var subjectSet = new Set();
+                deptNames.forEach(function(d) {
+                    var subj = uni[d].subjects;
+                    if (subj) Object.keys(subj).filter(function(s) { return s !== 'n'; }).forEach(function(s) { subjectSet.add(s); });
+                });
+                var subjectList = Array.from(subjectSet).sort();
+                var subjectSelect = document.getElementById('report-subject-select');
+                var subjectWrap = document.getElementById('report-subject-wrap');
+                subjectWrap.classList.remove('hidden');
+                subjectSelect.innerHTML = '';
+                subjectList.forEach(function(s) {
+                    var opt = document.createElement('option');
+                    opt.value = s;
+                    opt.textContent = s;
+                    subjectSelect.appendChild(opt);
+                });
+                function drawCompareChart() {
+                    var subjectName = subjectSelect.value;
+                    if (!subjectName) return;
+                    var rows = [];
+                    deptNames.forEach(function(d) {
+                        var subj = uni[d].subjects;
+                        if (!subj || !subj[subjectName]) return;
+                        var o = subj[subjectName];
+                        rows.push({ dept: d, min: o.min, p25: o.p25, p50: o.p50, p75: o.p75 });
+                    });
+                    tableWrap.classList.add('hidden');
+                    tableWrap.innerHTML = '';
+                    if (rows.length === 0) return;
+                    if (reportModalChart) { reportModalChart.destroy(); reportModalChart = null; }
+                    reportModalChart = createChartInModal({
+                        type: 'bar',
+                        data: {
+                            labels: rows.map(function(r) { return r.dept; }),
+                            datasets: [{
+                                label: '中央値',
+                                data: rows.map(function(r) { return r.p50; }),
+                                backgroundColor: 'rgba(201, 162, 39, 0.55)',
+                                borderColor: '#8b7355',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        title: function(ctx) { return rows[ctx[0].dataIndex].dept; },
+                                        label: function(ctx) {
+                                            var r = rows[ctx.dataIndex];
+                                            return '中央値 ' + (r.p50 != null ? r.p50 : '—') + '　最小 ' + (r.min != null ? r.min : '—') + '　25% ' + (r.p25 != null ? r.p25 : '—') + '　75% ' + (r.p75 != null ? r.p75 : '—');
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: { title: { display: true, text: 'スコア（中央値）' }, beginAtZero: true, grid: { color: 'rgba(139, 115, 85, 0.12)' } },
+                                y: { grid: { display: false }, ticks: { maxRotation: 0 } }
+                            }
+                        }
+                    });
+                    var tableHtml = '<p class="report-desc mt-4 mb-2">「' + subjectName + '」の学部別スコア（横比較）</p><table class="score-table"><thead><tr><th>学部</th><th>最小</th><th>25%</th><th>中央値</th><th>75%</th></tr></thead><tbody>';
+                    rows.forEach(function(r) {
+                        tableHtml += '<tr><td>' + r.dept + '</td><td>' + (r.min != null ? r.min : '—') + '</td><td>' + (r.p25 != null ? r.p25 : '—') + '</td><td>' + (r.p50 != null ? r.p50 : '—') + '</td><td>' + (r.p75 != null ? r.p75 : '—') + '</td></tr>';
+                    });
+                    tableHtml += '</tbody></table>';
+                    tableWrap.innerHTML = tableHtml;
+                    tableWrap.classList.remove('hidden');
+                }
+                if (subjectList.length) {
+                    subjectSelect.value = subjectList[0];
+                    drawCompareChart();
+                }
+                subjectSelect.onchange = drawCompareChart;
+            } else {
+                titleEl.textContent = selectedUniversityName + ' — 科目別スコア分布';
+                descEl.textContent = '合格者スコアの分布を「中央値」と四分位（最小・25%・75%）で表示します。中央値＝半数がこれ以上／以下；25%・75%でばらつきの幅が分かります。';
+                descEl.classList.remove('hidden');
+                noteEl.textContent = '※ 下表で各科目の最小〜75%を一覧できます。';
+                noteEl.classList.remove('hidden');
+                document.getElementById('report-subject-wrap').classList.add('hidden');
+                deptWrap.classList.remove('hidden');
+                deptSelect.innerHTML = '';
+                deptNames.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d;
+                    opt.textContent = d;
+                    deptSelect.appendChild(opt);
+                });
+                function drawScoreChart() {
+                    const dept = deptSelect.value;
+                    const deptData = uni[dept];
+                    const subj = deptData && deptData.subjects;
+                    tableWrap.classList.add('hidden');
+                    tableWrap.innerHTML = '';
+                    if (!subj || !Object.keys(subj).length) return;
+                    const subjectNames = Object.keys(subj).filter(s => s !== 'n');
+                    const p50V = subjectNames.map(s => subj[s].p50);
+                    if (reportModalChart) { reportModalChart.destroy(); reportModalChart = null; }
+                    reportModalChart = createChartInModal({
+                        type: 'bar',
+                        data: {
+                            labels: subjectNames,
+                            datasets: [{
+                                label: '中央値（50パーセンタイル）',
+                                data: p50V,
+                                backgroundColor: 'rgba(201, 162, 39, 0.5)',
+                                borderColor: '#8b7355',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        title: function(ctx) { return subjectNames[ctx[0].dataIndex]; },
+                                        label: function(ctx) { return '中央値: ' + ctx.raw; },
+                                        afterLabel: function(ctx) {
+                                            const s = subjectNames[ctx.dataIndex];
+                                            const o = subj[s];
+                                            return '最小 ' + (o.min != null ? o.min : '—') + '　25% ' + (o.p25 != null ? o.p25 : '—') + '　75% ' + (o.p75 != null ? o.p75 : '—');
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: { title: { display: true, text: 'スコア（中央値）' }, beginAtZero: true, grid: { color: 'rgba(139, 115, 85, 0.12)' } },
+                                y: { grid: { display: false } }
+                            }
+                        }
+                    });
+                    var tableHtml = '<p class="report-desc mt-4 mb-2">各科目のスコア分布（最小・25%・中央値・75%）</p><table class="score-table"><thead><tr><th>科目</th><th>最小</th><th>25%</th><th>中央値</th><th>75%</th></tr></thead><tbody>';
+                    subjectNames.forEach(s => {
+                        const o = subj[s];
+                        tableHtml += '<tr><td>' + s + '</td><td>' + (o.min != null ? o.min : '—') + '</td><td>' + (o.p25 != null ? o.p25 : '—') + '</td><td>' + (o.p50 != null ? o.p50 : '—') + '</td><td>' + (o.p75 != null ? o.p75 : '—') + '</td></tr>';
+                    });
+                    tableHtml += '</tbody></table>';
+                    tableWrap.innerHTML = tableHtml;
+                    tableWrap.classList.remove('hidden');
+                }
+                if (deptNames.length) {
+                    deptSelect.value = deptNames[0];
+                    drawScoreChart();
+                }
+                deptSelect.onchange = drawScoreChart;
+            }
+            overlay.classList.add('open');
+        }
+
+        function closeReport() {
+            document.getElementById('report-overlay').classList.remove('open');
+            if (reportModalChart) { reportModalChart.destroy(); reportModalChart = null; }
+        }
+
+        function onSearchClick() {
+            const keyword = document.getElementById('university-search').value.trim();
+            const list = searchUniversities(keyword);
+            const emptyEl = document.getElementById('admission-empty');
+            const resultsEl = document.getElementById('admission-results');
+            if (!keyword) {
+                resultsEl.classList.add('hidden');
+                emptyEl.classList.remove('hidden');
+                emptyEl.innerHTML = '<i class="fas fa-university text-4xl mb-4 opacity-50"></i><p class="font-medium">大学名を入力して「検索」を押してください</p>';
+                return;
+            }
+            if (list.length === 0) {
+                resultsEl.classList.add('hidden');
+                emptyEl.classList.remove('hidden');
+                emptyEl.innerHTML = '<i class="fas fa-search text-4xl mb-4 opacity-50"></i><p class="font-medium">該当する大学が見つかりませんでした</p><p class="text-sm mt-1">別のキーワードで試してください</p>';
+                return;
+            }
+            selectedUniversityName = list.find(n => n === keyword) || list[0];
+            document.getElementById('selected-university-name').textContent = selectedUniversityName;
+            emptyEl.classList.add('hidden');
+            resultsEl.classList.remove('hidden');
+        }
+
+        function initAdmissionSection() {
+            fetch('data/admission_score_model.json')
+                .then(r => r.json())
+                .then(data => {
+                    admissionModel = { bunka: data.bunka || {}, rika: data.rika || {} };
+                })
+                .catch(() => {});
+
+            document.getElementById('search-btn').addEventListener('click', onSearchClick);
+            document.getElementById('university-search').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') { e.preventDefault(); onSearchClick(); }
+            });
+            document.querySelectorAll('.report-circle').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (!selectedUniversityName) return;
+                    openReport(this.getAttribute('data-report'));
+                });
+            });
+            document.getElementById('report-close').addEventListener('click', closeReport);
+            document.getElementById('report-overlay').addEventListener('click', function(e) {
+                if (e.target === this) closeReport();
+            });
+        }
+        initAdmissionSection();
+
         function buildCharts(rows) {
             const n = rows.length;
             const colors = (arr) => arr.map((_, i) => PALETTE[i % PALETTE.length]);
@@ -381,7 +909,7 @@
             const regionGrad = regionCtx ? (() => {
                 const g = regionCtx.createLinearGradient(0, 0, 400, 0);
                 g.addColorStop(0, '#cbd5e1');
-                g.addColorStop(0.6, '#94a3b8');
+                g.addColorStop(0.5, '#94a3b8');
                 g.addColorStop(1, '#64748b');
                 return g;
             })() : PALETTE[1];
@@ -415,7 +943,7 @@
                 type: 'line',
                 data: {
                     labels: months.length ? months : ['9月', '10月', '11月', '12月', '1月', '2月'],
-                    datasets: [{ label: '学校数', data: (months.length ? months : ['9月', '10月', '11月', '12月', '1月', '2月']).map(m => deadlineMap[m] || 0), borderColor: PALETTE[2], backgroundColor: 'rgba(148, 163, 184, 0.15)', fill: true, tension: 0.3 }]
+                    datasets: [{ label: '学校数', data: (months.length ? months : ['9月', '10月', '11月', '12月', '1月', '2月']).map(m => deadlineMap[m] || 0), borderColor: '#64748b', backgroundColor: 'rgba(100, 116, 139, 0.12)', fill: true, tension: 0.3 }]
                 },
                 options: { plugins: { legend: { display: false } }, scales: { x: {}, y: {} } }
             });

@@ -1436,7 +1436,7 @@
     <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/30">
         <div class="max-w-7xl mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <a href="compass_index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
+                <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
                     <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white nav-icon-box" style="background:linear-gradient(135deg,rgba(218,205,235,0.95),rgba(232,222,245,0.9));border:1px solid rgba(255,255,255,0.5);box-shadow:0 8px 24px rgba(202,188,222,0.25),inset 0 2px 4px rgba(255,255,255,0.5),inset 0 -2px 4px rgba(228,218,238,0.2);backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);">
                         <i class="fas fa-calendar-check text-xl"></i>
                     </div>
@@ -1449,7 +1449,7 @@
                     <button id="toolbox-btn">
                         <i class="fas fa-toolbox mr-2 text-lg"></i>出願工具箱
                     </button>
-                    <a href="compass_index.html" class="px-4 py-2 rounded-2xl text-sm font-medium transition-all" style="background:linear-gradient(135deg,rgba(248,245,252,0.85),rgba(250,248,252,0.8));backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid rgba(235,228,245,0.4);color:#6e697d;box-shadow:0 2px 8px rgba(228,218,238,0.08)">
+                    <a href="index.html" class="px-4 py-2 rounded-2xl text-sm font-medium transition-all" style="background:linear-gradient(135deg,rgba(248,245,252,0.85),rgba(250,248,252,0.8));backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid rgba(235,228,245,0.4);color:#6e697d;box-shadow:0 2px 8px rgba(228,218,238,0.08)">
                         <i class="fas fa-home mr-2"></i>ホーム
                     </a>
                 </div>
@@ -1806,7 +1806,7 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
         }
 
-        /** 已登录时从服务器加载出愿计划并写入 localStorage，实现永久保存 */
+        /** 已登录时从服务器加载出愿计划并写入 localStorage，实现永久保存。合并策略：保留服务器数据 + 本地独有的项（待同步），避免刷新时丢失刚添加的学校 */
         async function loadPlanFromServer() {
             if (typeof Auth === 'undefined' || !Auth.getToken()) return;
             const base = Auth.getApiBase();
@@ -1814,8 +1814,15 @@
                 const r = await fetch(base + '/api/plan', { headers: Auth.authHeaders() });
                 if (!r.ok) return;
                 const data = await r.json();
-                const plan = Array.isArray(data) ? data.map(({ id, payload }) => ({ _serverId: id, ...(payload || {}) })) : [];
-                savePlan(plan);
+                const serverPlan = Array.isArray(data) ? data.map(({ id, payload }) => ({ _serverId: id, ...(payload || {}) })) : [];
+                const localPlan = getPlan();
+                const serverIds = new Set(serverPlan.map(s => s.id || planId(s.name, s.department, s.major)));
+                const merged = [...serverPlan];
+                for (const item of localPlan) {
+                    const pid = item.id || planId(item.name, item.department, item.major);
+                    if (!serverIds.has(pid)) { merged.push(item); serverIds.add(pid); }
+                }
+                savePlan(merged);
             } catch (e) { /* ignore */ }
         }
 

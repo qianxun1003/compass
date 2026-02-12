@@ -198,6 +198,83 @@
         .add-to-plan-btn.added { background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.35); color: #1e4a7a; cursor: default; }
         .add-to-plan-btn.added:hover { background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.35); }
         #toast-container { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 200; pointer-events: none; }
+        /* 成绩匹配：先选文理再填分数 */
+        .step-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.75) 0%, rgba(224,242,254,0.5) 100%);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56,189,248,0.25);
+            border-radius: 20px;
+            padding: 20px 24px;
+        }
+        .bubble-bunri { padding: 10px 20px; border-radius: 9999px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.25s; border: 2px solid rgba(14,165,233,0.3); background: rgba(255,255,255,0.7); color: #0369a1; }
+        .bubble-bunri:hover { background: rgba(224,242,254,0.9); border-color: rgba(14,165,233,0.5); }
+        .bubble-bunri.active { background: linear-gradient(135deg, #0ea5e9, #0284c7); color: white; border-color: transparent; }
+        .score-section-dynamic { display: none; }
+        .score-section-dynamic.visible { display: block; }
+        /* 文理+组合选择弹窗（半透明浅蓝、不占满屏） */
+        .eju-combo-modal-overlay {
+            position: fixed; left: 0; top: 0; right: 0; bottom: 0;
+            background: rgba(14, 165, 233, 0.25);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 300; display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+        }
+        .eju-combo-modal-overlay.hidden { display: none; }
+        .eju-combo-modal-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(224,242,254,0.4) 100%);
+            border: 1px solid rgba(56,189,248,0.35);
+            border-radius: 24px;
+            padding: 28px 32px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 48px rgba(14,165,233,0.15);
+        }
+        .eju-combo-modal-box h3 { font-size: 1.25rem; color: #0c4a6e; margin-bottom: 20px; }
+        .eju-cards-grid-score {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+        .eju-category-card-score {
+            position: relative;
+            background: white;
+            border: 2px solid rgba(14, 165, 233, 0.2);
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .eju-category-card-score:hover {
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+        }
+        .eju-category-card-score.active {
+            border: 2px solid #0284c7;
+            background: linear-gradient(135deg, rgba(56,189,248,0.35), rgba(224,242,254,0.9));
+            box-shadow: 0 0 0 3px rgba(14,165,233,0.25), 0 6px 20px rgba(14,165,233,0.2);
+            transform: scale(1.02);
+        }
+        .eju-category-card-score.active::before {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 22px;
+            height: 22px;
+            line-height: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .eju-category-card-score.recommended { border-color: rgba(251, 191, 36, 0.45); }
+        .eju-badge-score { font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-left: 6px; }
+        .eju-badge-score.popular { background: #fef3c7; color: #b45309; }
+        .eju-badge-score.rec { background: #d1fae5; color: #047857; }
         .toast { padding: 12px 24px; background: rgba(59,130,246,0.88); color: white; border-radius: 12px; font-size: 14px; font-weight: 500; letter-spacing: 0.04em; box-shadow: 0 8px 24px rgba(59,130,246,0.25); animation: toastSlide 0.4s ease-out; border: 1px solid rgba(255,255,255,0.2); }
         @keyframes toastSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -320,6 +397,51 @@
             background: linear-gradient(135deg, rgba(59,130,246,0.75), rgba(37,99,235,0.65));
             color: white; border-color: rgba(255,255,255,0.4);
         }
+        /* 计算模型说明弹窗 */
+        .calc-model-overlay {
+            position: fixed; inset: 0; z-index: 350;
+            background: rgba(14, 165, 233, 0.2);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+        }
+        .calc-model-overlay.hidden { display: none; }
+        .calc-model-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(224,242,254,0.5) 100%);
+            border: 1px solid rgba(56,189,248,0.4);
+            border-radius: 24px;
+            padding: 28px 32px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 56px rgba(14,165,233,0.2);
+        }
+        .calc-model-box h3 { font-size: 1.25rem; color: #0c4a6e; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .calc-model-tree { font-size: 14px; color: #1e3a5f; line-height: 1.7; }
+        .calc-model-node { margin: 12px 0; padding-left: 20px; border-left: 3px solid rgba(56,189,248,0.5); }
+        .calc-model-node.root { border-left: none; padding-left: 0; }
+        .calc-model-node .node-title { font-weight: 600; color: #0c4a6e; margin-bottom: 4px; }
+        .calc-model-node .node-desc { font-size: 13px; color: #0369a1; opacity: 0.95; }
+        .calc-model-node .node-formula { font-family: ui-monospace, monospace; font-size: 12px; background: rgba(56,189,248,0.15); padding: 8px 12px; border-radius: 8px; margin: 6px 0; color: #0c4a6e; }
+        .calc-model-badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; margin-right: 6px; }
+        .calc-model-badge.pass { background: #d1fae5; color: #047857; }
+        .calc-model-badge.close { background: #e0f2fe; color: #0369a1; }
+        .calc-model-badge.reach { background: #ffedd5; color: #c2410c; }
+        .calc-info-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 16px; border-radius: 14px;
+            background: linear-gradient(135deg, rgba(56,189,248,0.15), rgba(14,165,233,0.08));
+            border: 1px solid rgba(56,189,248,0.35);
+            color: #0369a1; font-size: 13px; font-weight: 500;
+            cursor: pointer; transition: all 0.25s ease;
+        }
+        .calc-info-btn:hover {
+            background: linear-gradient(135deg, rgba(56,189,248,0.25), rgba(14,165,233,0.15));
+            border-color: rgba(56,189,248,0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14,165,233,0.15);
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -394,7 +516,7 @@
         <div class="max-w-7xl mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <a href="compass_index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
+                    <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
                         <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white" style="background:linear-gradient(135deg,rgba(59,130,246,0.85),rgba(45,95,160,0.8));border:1px solid rgba(255,255,255,0.35);box-shadow:0 4px 16px rgba(59,130,246,0.15)">
                             <i class="fas fa-star text-xl"></i>
                         </div>
@@ -410,10 +532,14 @@
                         <div class="font-medium text-3xl bg-gradient-to-br from-deep-600 to-deep-700 bg-clip-text text-transparent" id="match-count" style="letter-spacing: 0.05em">0</div>
                         <div class="text-xs tracking-wider font-normal text-deep-500">マッチング</div>
                     </div>
+                    <a href="compass_score_guide.html" class="px-4 py-2 rounded-2xl text-sm font-medium flex items-center gap-2 transition-all text-white border shadow-md hover:shadow-lg" style="background: linear-gradient(135deg, rgba(251,191,36,0.6) 0%, rgba(245,158,11,0.5) 100%); backdrop-filter: blur(10px) saturate(120%); -webkit-backdrop-filter: blur(10px) saturate(120%); border-color: rgba(245,158,11,0.35); box-shadow: 0 4px 16px rgba(245,158,11,0.12), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.05);" onmouseover="this.style.background='linear-gradient(135deg, rgba(251,191,36,0.7) 0%, rgba(245,158,11,0.6) 100%)'; this.style.boxShadow='0 6px 20px rgba(245,158,11,0.18), inset 0 1px 0 rgba(255,255,255,0.45), inset 0 -1px 0 rgba(0,0,0,0.08)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251,191,36,0.6) 0%, rgba(245,158,11,0.5) 100%)'; this.style.boxShadow='0 4px 16px rgba(245,158,11,0.12), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.05)';" title="查看各大学每科所需分数">
+                        <i class="fas fa-list-check"></i>
+                        <span>各大学分数要求</span>
+                    </a>
                     <a href="compass_application.html" class="px-4 py-2 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-sky-600 hover:text-sky-800 transition-all">
                         <i class="fas fa-calendar-check mr-2"></i>出願管理
                     </a>
-                    <a href="compass_index.html" class="px-4 py-2 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-sky-600 hover:text-sky-800 transition-all">
+                    <a href="index.html" class="px-4 py-2 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-sky-600 hover:text-sky-800 transition-all">
                         <i class="fas fa-home mr-2"></i>ホーム
                     </a>
                 </div>
@@ -421,38 +547,86 @@
         </div>
     </nav>
 
+    <!-- 文理 + EJU 组合选择弹窗 -->
+    <div id="eju-combo-modal" class="eju-combo-modal-overlay">
+        <div class="eju-combo-modal-box">
+            <h3 class="font-serif-title" style="letter-spacing: 0.04em">文理と EJU 科目の組み合わせを選ぶ</h3>
+            <p class="text-sm text-sky-600 mb-4">まず文理を選択し、次に受験する EJU 科目の組み合わせを選んでください。選んだ組み合わせの点数だけ入力すればOKです。</p>
+            <div class="mb-4">
+                <span class="text-sm font-medium text-sky-700 mr-2">文理</span>
+                <span class="text-xs text-sky-500">※ ひとつ選んでね</span>
+                <div class="flex flex-wrap gap-3 mt-2" id="modal-bubbles-bunri">
+                    <div class="bubble-bunri active" data-bunri="文" role="button" tabindex="0"><i class="fas fa-book-open mr-2"></i>文科系</div>
+                    <div class="bubble-bunri" data-bunri="理" role="button" tabindex="0"><i class="fas fa-flask mr-2"></i>理科系</div>
+                </div>
+            </div>
+            <div class="mb-5">
+                <div class="text-xs text-mint-500 mb-3 flex items-center gap-2"><i class="fas fa-angle-double-down"></i><span>EJU 科目の組み合わせを選ぶ</span><span class="text-sky-400">※ ひとつ選んでね</span></div>
+                <div id="modal-eju-cards"></div>
+            </div>
+            <div class="flex justify-end gap-3">
+                <button type="button" id="modal-confirm-btn" class="px-6 py-3 bg-gradient-to-r from-deep-600 to-deep-700 text-white rounded-xl font-medium hover:from-deep-700 hover:to-deep-800 transition-all shadow-lg" disabled>確定して点数を入力</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 计算模型说明弹窗 -->
+    <div id="calc-model-overlay" class="calc-model-overlay hidden" onclick="if(event.target===this)closeCalcModelModal()">
+        <div class="calc-model-box" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between mb-6">
+                <h3><i class="fas fa-sitemap text-amber-500"></i>マッチング計算モデル</h3>
+                <button type="button" onclick="closeCalcModelModal()" class="w-10 h-10 rounded-full flex items-center justify-center text-sky-500 hover:bg-sky-100 hover:text-sky-700 transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="calc-model-tree">
+                <div class="calc-model-node root">
+                    <div class="node-title">① データソース（閾値の取得）</div>
+                    <div class="node-desc">各大学・学部ごとに、<strong>合格実績</strong>から算出した「参考線（p25/min）」を使います。該当データがない場合は、学校カタログの recommendJP / recommendEN にフォールバック。</div>
+                </div>
+                <div class="calc-model-node">
+                    <div class="node-title">② 科目ごとの達成率</div>
+                    <div class="node-desc">あなたの各科成績 ÷ その科の参考線（p25 または min）</div>
+                    <div class="node-formula">達成率 = あなたの点数 ÷ 参考線</div>
+                </div>
+                <div class="calc-model-node">
+                    <div class="node-title">③ 短板法則（最小達成率）</div>
+                    <div class="node-desc">必要な科目すべての中で、<strong>一番低い達成率</strong>を「マッチ度」として採用。いずれか1科が足りないと全体が引き下げられる。</div>
+                    <div class="node-formula">マッチ度 = min( 日語達成率, 総合達成率, 数学達成率, TOEFL達成率, ... )</div>
+                </div>
+                <div class="calc-model-node">
+                    <div class="node-title">④ 結果区分</div>
+                    <div class="node-desc">
+                        <span class="calc-model-badge pass">合格圏</span> マッチ度 ≥ 105%<br>
+                        <span class="calc-model-badge close">接近圏</span> 95% ≤ マッチ度 &lt; 105%<br>
+                        <span class="calc-model-badge reach">观望圏</span> マッチ度 &lt; 95%
+                    </div>
+                </div>
+                <div class="calc-model-node root" style="margin-top: 20px;">
+                    <div class="node-title">📊 合格実績の算出方法</div>
+                    <div class="node-desc">合格実績.xlsx を <strong>大学・学部・文理</strong> でグループ化し、年度重み（2024=1.0, 2023=0.8, 2022=0.6）で加重分位数（min/p25/p50/p75）を算出。詳細は<a href="compass_score_guide.html" class="text-sky-600 underline hover:text-sky-800">各大学分数要求</a>をご確認ください。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 主内容 -->
     <main class="pt-28 pb-24 px-6 max-w-7xl mx-auto">
 
-        <!-- 成绩输入区 -->
-        <section class="glass rounded-3xl p-8 shadow-lg mb-8 animate-slide-up border border-sky-100/50">
-            <div class="mb-8">
-                <h2 class="font-medium text-3xl font-serif-title text-sky-800 mb-2" style="letter-spacing: 0.05em">あなたの成績を入力 📝</h2>
-                <p class="font-normal text-sky-600">成績に基づいて最適な大学を推薦します</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <!-- EJU日语 -->
-                <div>
-                    <label class="block text-sm font-medium text-sky-700 mb-3 flex items-center gap-2">
-                        <i class="fas fa-language text-sky-500"></i>
-                        EJU 日本語
-                    </label>
-                    <input type="number" id="score-japanese" class="score-input w-full" placeholder="例: 320" max="400" min="0">
-                    <p class="text-xs text-sky-500 mt-2">読解・聴解・聴読解の合計点（記述除く、満点400点）</p>
+        <!-- 成绩输入区（选完组合后才显示） -->
+        <section id="score-form-section" class="glass rounded-3xl p-8 shadow-lg mb-8 animate-slide-up border border-sky-100/50 hidden relative">
+            <div class="mb-6 flex items-start justify-between gap-4">
+                <div class="flex-1">
+                    <h2 class="font-medium text-3xl font-serif-title text-sky-800 mb-2" style="letter-spacing: 0.05em">あなたの成績を入力 📝</h2>
+                    <p class="font-normal text-sky-600">あなたの組合: <span id="chosen-combo-label" class="font-medium text-sky-700"></span>
+                        <button type="button" onclick="reopenComboModal()" class="ml-2 text-sm text-sky-500 hover:text-sky-700 underline">組み合わせを変更</button></p>
                 </div>
-                
-                <!-- TOEFL托福 -->
-                <div>
-                    <label class="block text-sm font-medium text-sky-700 mb-3 flex items-center gap-2">
-                        <i class="fas fa-globe text-sky-500"></i>
-                        TOEFL 托福
-                    </label>
-                    <input type="number" id="score-english" class="score-input w-full" placeholder="例: 85" max="120" min="0">
-                    <p class="text-xs text-sky-500 mt-2">TOEFL iBT 満点120点（TOEIC・IELTS換算可）</p>
-                </div>
+                <button type="button" class="calc-info-btn shrink-0" onclick="openCalcModelModal()" title="マッチング計算方式">
+                    <i class="fas fa-calculator text-sky-600"></i>
+                    <span>計算モデル</span>
+                </button>
             </div>
-            
+            <div id="score-inputs-dynamic" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"></div>
             <div class="flex gap-4">
                 <button onclick="matchByScore()" class="flex-1 px-8 py-4 bg-gradient-to-r from-deep-600 to-deep-700 text-white rounded-xl font-medium text-lg hover:from-deep-700 hover:to-deep-800 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3" style="letter-spacing: 0.05em">
                     <i class="fas fa-search text-xl"></i>
@@ -463,6 +637,7 @@
                 </button>
             </div>
         </section>
+        <p id="score-placeholder" class="text-center text-sky-500 py-8">上のポップアップで文理と EJU 科目の組み合わせを選んでから、点数を入力してください。</p>
 
         <!-- 成绩总结 -->
         <div id="score-summary" class="score-summary hidden animate-fade-in">
@@ -541,7 +716,74 @@
         let universitiesData = [];
         let matchedResults = [];
         let currentFilter = 'all';
-        let userScores = { jp: 0, en: 0 };
+        let userScores = { jp: 0, en: 0, math1: 0, math2: 0, sogo: 0, physics: 0, chemistry: 0, biology: 0 };
+        let selectedBunri = '文';
+        let selectedEjuCategoryId = null;
+        let selectedEjuCategoryLabel = '';
+        let admissionScoreModel = { bunka: {}, rika: {}, version: '1.0' };
+
+        /** EJU 分类（与 compass_filter 一致，仅保留弹窗所需字段） */
+        const BUNKA_EJU_CATEGORIES = [
+            { id: 'bunka-no-eju', label: 'EJU 不要', description: '特別選抜、EJU 成績不要', difficulty: 'special', icon: '🚫', keywords: ['不需要EJU', '無'] },
+            { id: 'bunka-japanese-only', label: '日本語のみ', description: '日本語の成績のみ、他科目不要', difficulty: 'easy', icon: '🗣️', keywords: ['日语'] },
+            { id: 'bunka-japanese-sogo', label: '日本語 + 総合科目', description: '日本語と総合科目が必要、数学不要', difficulty: 'medium', icon: '📚', keywords: ['日语', '綜合科目', '総合科目'] },
+            { id: 'bunka-full-3subjects', label: '日本語 + 総合 + 数学1', description: '文系標準3科目、難関大向け', difficulty: 'hard', icon: '🎓', popular: true, keywords: ['日语', '綜合科目', '総合科目', '数学1', '数学コース1'], examples: ['東大', '京大', '一橋'] },
+            { id: 'bunka-japanese-math1', label: '日本語 + 数学1', description: '数学必要、総合科目不要', difficulty: 'medium', icon: '🔢', keywords: ['日语', '数学1', '数学コース1'] },
+            { id: 'bunka-japanese-math2', label: '日本語 + 数学2', description: '文系で理系数学、やや珍しい', difficulty: 'hard', icon: '📐', keywords: ['日语', '数学2', '数学コース2'] },
+            { id: 'bunka-flexible-math', label: '日本語 + 総合 + 数学1or2', description: '数学1または2のどちらでも可', difficulty: 'medium', icon: '🔀', keywords: ['日语', '綜合科目', '総合科目', '数学1or2'] },
+            { id: 'bunka-other', label: 'その他', description: '特殊な要件、個別確認要', difficulty: 'special', icon: '❓' }
+        ];
+        const RIKA_EJU_CATEGORIES = [
+            { id: 'rika-no-eju', label: 'EJU 不要', description: '特別選抜、EJU 成績不要', difficulty: 'special', icon: '🚫', keywords: ['不需要EJU', '無'] },
+            { id: 'rika-japanese-only', label: '日本語のみ', description: '日本語の成績のみ、特殊な理系専攻', difficulty: 'easy', icon: '🗣️', keywords: ['日语'] },
+            { id: 'rika-japanese-math2', label: '日本語 + 数学2', description: '数学2必要、理科成績不要', difficulty: 'medium', icon: '📐', keywords: ['日语', '数学2', '数学コース2'] },
+            { id: 'rika-standard', label: '日本語 + 数学2 + 理科2科目選択', description: '最も一般的、物化生から2科目選択可', difficulty: 'medium', icon: '⭐', popular: true, recommended: true, keywords: ['日语', '数学2', '数学コース2', '理科2科目選択'], examples: ['東大', '京大', '北大'] },
+            { id: 'rika-science-1', label: '日本語 + 数学2 + 理科1科目選択', description: '理科1科目の成績のみ', difficulty: 'easy', icon: '🔬', keywords: ['日语', '数学2', '数学コース2', '理科1科目選択'] },
+            { id: 'rika-physics-chemistry', label: '日本語 + 数学2 + 物理・化学必須', description: '工学部の主流要件', difficulty: 'hard', icon: '⚙️', popular: true, keywords: ['日语', '数学2', '数学コース2', '物理', '化学'] },
+            { id: 'rika-all-3-required', label: '日本語 + 数学2 + 物化生すべて必須', description: '最も厳しい、理科3科目必要', difficulty: 'very-hard', icon: '🔥', keywords: ['日语', '数学2', '物理', '化学', '生物'] },
+            { id: 'rika-physics-required', label: '日本語 + 数学2 + 物理必須', description: '物理必須、他は制限なし', difficulty: 'hard', icon: '⚛️', keywords: ['日语', '数学2', '物理'] },
+            { id: 'rika-physics-plus-1', label: '日本語 + 数学2 + 物理必須 + 化生から1科目', description: '物理必須、化学か生物のどちらか1科目', difficulty: 'hard', icon: '⚡', keywords: ['日语', '数学2', '物理', '化学', '生物'] },
+            { id: 'rika-chemistry-required', label: '日本語 + 数学2 + 化学必須', description: '化学必須、化学・薬学向け', difficulty: 'hard', icon: '🧪', keywords: ['日语', '数学2', '化学'] },
+            { id: 'rika-chemistry-plus-1', label: '日本語 + 数学2 + 化学必須 + 物生から1科目', description: '化学必須、物理か生物のどちらか1科目', difficulty: 'hard', icon: '⚗️', keywords: ['日语', '数学2', '化学', '物理', '生物'] },
+            { id: 'rika-biology-required', label: '日本語 + 数学2 + 生物必須', description: '生物必須、生物・農学向け', difficulty: 'medium', icon: '🧬', keywords: ['日语', '数学2', '生物'] },
+            { id: 'rika-science-no-math', label: '日本語 + 理科（数学なし）', description: '数学不要だが理科必須、医学・農学向け', difficulty: 'special', icon: '🏥', keywords: ['日语', '理科'] },
+            { id: 'rika-other', label: 'その他', description: '特殊な要件、個別確認要', difficulty: 'special', icon: '❓' }
+        ];
+        /** 每个 EJU 分类对应的成绩输入科目键（仅显示这些输入框） */
+        const EJU_CATEGORY_SUBJECT_KEYS = {
+            'bunka-no-eju': ['日语', '托福'],
+            'bunka-japanese-only': ['日语', '托福'],
+            'bunka-japanese-sogo': ['日语', '综合', '托福'],
+            'bunka-full-3subjects': ['日语', '数学1', '综合', '托福'],
+            'bunka-japanese-math1': ['日语', '数学1', '托福'],
+            'bunka-japanese-math2': ['日语', '数学2', '托福'],
+            'bunka-flexible-math': ['日语', '数学1', '综合', '托福'],
+            'bunka-other': ['日语', '数学1', '综合', '托福'],
+            'rika-no-eju': ['日语', '托福'],
+            'rika-japanese-only': ['日语', '托福'],
+            'rika-japanese-math2': ['日语', '数学2', '托福'],
+            'rika-standard': ['日语', '数学2', '物理', '化学', '生物', '托福'],
+            'rika-science-1': ['日语', '数学2', '物理', '化学', '生物', '托福'],
+            'rika-physics-chemistry': ['日语', '数学2', '物理', '化学', '托福'],
+            'rika-all-3-required': ['日语', '数学2', '物理', '化学', '生物', '托福'],
+            'rika-physics-required': ['日语', '数学2', '物理', '托福'],
+            'rika-physics-plus-1': ['日语', '数学2', '物理', '化学', '生物', '托福'],
+            'rika-chemistry-required': ['日语', '数学2', '化学', '托福'],
+            'rika-chemistry-plus-1': ['日语', '数学2', '化学', '物理', '生物', '托福'],
+            'rika-biology-required': ['日语', '数学2', '生物', '托福'],
+            'rika-science-no-math': ['日语', '物理', '化学', '生物', '托福'],
+            'rika-other': ['日语', '数学2', '物理', '化学', '生物', '托福']
+        };
+        const SUBJECT_INPUT_SPEC = {
+            '日语': { id: 'score-japanese', label: 'EJU 日本語', icon: 'fa-language', placeholder: '例: 320', max: 400, hint: '満点400点' },
+            '数学1': { id: 'score-math1', label: '数学1', icon: 'fa-calculator', placeholder: '例: 140', max: 200, hint: '数学コース1' },
+            '数学2': { id: 'score-math2', label: '数学2', icon: 'fa-calculator', placeholder: '例: 170', max: 200, hint: '数学コース2' },
+            '综合': { id: 'score-sogo', label: '総合科目', icon: 'fa-landmark', placeholder: '例: 180', max: 200, hint: '文系総合' },
+            '物理': { id: 'score-physics', label: '物理', icon: 'fa-atom', placeholder: '例: 90', max: 100, hint: '' },
+            '化学': { id: 'score-chemistry', label: '化学', icon: 'fa-vial', placeholder: '例: 85', max: 100, hint: '' },
+            '生物': { id: 'score-biology', label: '生物', icon: 'fa-dna', placeholder: '例: 85', max: 100, hint: '' },
+            '托福': { id: 'score-english', label: 'TOEFL', icon: 'fa-globe', placeholder: '例: 85', max: 120, hint: 'iBT 120点' }
+        };
         let secondaryFilter = { region: [], department: [], bunri: null };
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -553,71 +795,236 @@
                 universitiesData = EMBEDDED_DATA.data || [];
                 console.log(`✅ 已加载 ${universitiesData.length} 所大学数据`);
             }
+            // 加载合格实绩分数模型（用于各科阈值匹配）
+            const modelPath = 'data/admission_score_model.json';
+            fetch(modelPath).then(r => r.ok ? r.json() : {}).then(data => {
+                if (data && (data.bunka || data.rika)) {
+                    admissionScoreModel = data;
+                    console.log('✅ 合格实绩分数模型已加载', data.version || '');
+                }
+            }).catch(() => {});
+        }
+
+        /** 弹窗：文理切换时重新渲染 EJU 卡片 */
+        function getCategoryRowCountScore(categoryId, bunri) {
+            if (!universitiesData || !universitiesData.length) return 0;
+            return universitiesData.filter(u => {
+                const uBunri = String(u.bunri || '').trim();
+                const norm = uBunri === '文科' ? '文' : uBunri === '理科' ? '理' : uBunri;
+                return norm === bunri && (u.EJU分类ID || '') === categoryId;
+            }).length;
+        }
+        function renderModalEjuCards(bunri) {
+            const container = document.getElementById('modal-eju-cards');
+            if (!container) return;
+            const categories = bunri === '文' ? BUNKA_EJU_CATEGORIES : RIKA_EJU_CATEGORIES;
+            const difficultyLabels = { easy: '簡単', medium: '普通', hard: 'やや難', 'very-hard': '難しい', special: '特殊' };
+            let recHtml = '<h4 class="text-sm font-semibold text-sky-600 mb-3 flex items-center gap-2"><span>🌟</span><span>人気の組み合わせ</span></h4><div class="eju-cards-grid-score mb-5">';
+            let otherHtml = '<h4 class="text-sm font-semibold text-sky-600 mb-3 flex items-center gap-2"><span>📋</span><span>その他の EJU 科目組み合わせ</span></h4><div class="eju-cards-grid-score">';
+            categories.forEach(cat => {
+                const isRec = cat.popular || cat.recommended;
+                const cardClass = `eju-category-card-score ${isRec ? 'recommended' : ''} ${selectedEjuCategoryId === cat.id ? 'active' : ''}`;
+                const badges = (cat.popular ? '<span class="eju-badge-score popular">人気</span>' : '') + (cat.recommended ? '<span class="eju-badge-score rec">おすすめ</span>' : '');
+                const diffBadge = !cat.popular && !cat.recommended ? `<span class="eju-badge-score text-blue-600 bg-blue-50">${difficultyLabels[cat.difficulty] || '特殊'}</span>` : '';
+                const card = `<div class="${cardClass}" data-category-id="${cat.id}" data-bunri="${bunri}" role="button" tabindex="0">
+                    <div class="flex items-center justify-between mb-2"><span class="text-xl">${cat.icon}</span>${badges}${diffBadge}</div>
+                    <div class="font-semibold text-base mb-1">${cat.label}</div>
+                    <div class="text-xs text-sky-500">${cat.description}</div>
+                </div>`;
+                if (isRec) recHtml += card; else otherHtml += card;
+            });
+            recHtml += '</div>'; otherHtml += '</div>';
+            container.innerHTML = recHtml + otherHtml;
+            container.querySelectorAll('.eju-category-card-score').forEach(el => {
+                el.addEventListener('click', function() {
+                    selectedEjuCategoryId = this.getAttribute('data-category-id');
+                    selectedEjuCategoryLabel = (categories.find(c => c.id === selectedEjuCategoryId) || {}).label || '';
+                    container.querySelectorAll('.eju-category-card-score').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById('modal-confirm-btn').disabled = false;
+                });
+            });
+        }
+        document.getElementById('modal-bubbles-bunri').addEventListener('click', function(e) {
+            const b = e.target.closest('[data-bunri]');
+            if (!b) return;
+            selectedBunri = b.getAttribute('data-bunri');
+            selectedEjuCategoryId = null;
+            document.querySelectorAll('#modal-bubbles-bunri .bubble-bunri').forEach(x => x.classList.remove('active'));
+            b.classList.add('active');
+            document.getElementById('modal-confirm-btn').disabled = true;
+            renderModalEjuCards(selectedBunri);
+        });
+        document.getElementById('modal-confirm-btn').addEventListener('click', function() {
+            if (!selectedEjuCategoryId) return;
+            const keys = EJU_CATEGORY_SUBJECT_KEYS[selectedEjuCategoryId] || ['日语', '托福'];
+            const container = document.getElementById('score-inputs-dynamic');
+            if (!container) return;
+            container.innerHTML = '';
+            keys.forEach(sk => {
+                const spec = SUBJECT_INPUT_SPEC[sk];
+                if (!spec) return;
+                const cell = document.createElement('div');
+                cell.innerHTML = `<label class="block text-sm font-medium text-sky-700 mb-3 flex items-center gap-2"><i class="fas ${spec.icon} text-sky-500"></i>${spec.label}</label>
+                    <input type="number" id="${spec.id}" class="score-input w-full" placeholder="${spec.placeholder}" max="${spec.max}" min="0">
+                    ${spec.hint ? `<p class="text-xs text-sky-500 mt-2">${spec.hint}</p>` : ''}`;
+                container.appendChild(cell);
+            });
+            document.getElementById('chosen-combo-label').textContent = selectedEjuCategoryLabel;
+            document.getElementById('eju-combo-modal').classList.add('hidden');
+            document.getElementById('score-form-section').classList.remove('hidden');
+            const ph = document.getElementById('score-placeholder');
+            if (ph) ph.classList.add('hidden');
+        });
+        function reopenComboModal() {
+            document.getElementById('eju-combo-modal').classList.remove('hidden');
+            document.getElementById('score-form-section').classList.add('hidden');
+            const ph = document.getElementById('score-placeholder');
+            if (ph) ph.classList.remove('hidden');
+        }
+
+        function openCalcModelModal() {
+            document.getElementById('calc-model-overlay').classList.remove('hidden');
+        }
+        function closeCalcModelModal() {
+            document.getElementById('calc-model-overlay').classList.add('hidden');
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            renderModalEjuCards(selectedBunri);
+        });
+
+        /** 从当前动态输入框读取分数（与 Python 科目键一致） */
+        function getScoreBunri() {
+            const jp = (v) => parseInt(v, 10) || 0;
+            const get = (id) => { const el = document.getElementById(id); return el ? jp(el.value) : 0; };
+            return {
+                bunri: selectedBunri,
+                '日语': get('score-japanese'),
+                '数学1': get('score-math1'),
+                '数学2': get('score-math2'),
+                '综合': get('score-sogo'),
+                '物理': get('score-physics'),
+                '化学': get('score-chemistry'),
+                '生物': get('score-biology'),
+                '托福': get('score-english')
+            };
+        }
+
+        /** 根据 ejuSubjects 和 englishRequired 推断该志愿需要的科目键（日语/数学1/数学2/综合/物理/化学/生物/托福） */
+        function getRequiredSubjects(uni) {
+            const eju = String(uni.ejuSubjects || '').trim();
+            const needEn = /要|必须|必|托福|TOEFL|英语/i.test(String(uni.englishRequired || ''));
+            const keys = [];
+            if (eju.length) {
+                if (/日语|日本語/.test(eju)) keys.push('日语');
+                if (/数学1|数学コース1|数学一/.test(eju)) keys.push('数学1');
+                if (/数学2|数学コース2|数学二/.test(eju)) keys.push('数学2');
+                if (/综合|綜合|総合|文综/.test(eju)) keys.push('综合');
+                if (/物理/.test(eju)) keys.push('物理');
+                if (/化学/.test(eju)) keys.push('化学');
+                if (/生物/.test(eju)) keys.push('生物');
+            } else {
+                keys.push('日语');
+            }
+            if (needEn) keys.push('托福');
+            return [...new Set(keys)];
+        }
+
+        /** 从合格实绩模型或 recommend 取该志愿某科目的参考线（用 p25 或 min） */
+        function getThreshold(uni, subjectKey) {
+            const school = (uni.name || '').trim();
+            const dept = (uni.department || '').trim() || '(无学部名)';
+            const bunri = (uni.bunri === '文科' ? '文' : uni.bunri === '理科' ? '理' : uni.bunri) || '文';
+            const side = bunri === '文' ? admissionScoreModel.bunka : admissionScoreModel.rika;
+            const bySchool = side[school];
+            if (bySchool && bySchool[dept] && bySchool[dept].subjects && bySchool[dept].subjects[subjectKey]) {
+                const s = bySchool[dept].subjects[subjectKey];
+                return s.p25 != null ? s.p25 : s.min;
+            }
+            if (subjectKey === '日语') {
+                const v = parseFloat(String(uni.recommendJP || '0').replace(/\+/g, '')) || 0;
+                return v > 0 ? v : 300;
+            }
+            if (subjectKey === '托福') {
+                const v = parseFloat(String(uni.recommendEN || '0').replace(/\+/g, '')) || 0;
+                return v > 0 ? v : 80;
+            }
+            return null;
         }
 
         const DEFAULT_JP = 300, DEFAULT_EN = 80;
         
         function matchByScore() {
-            userScores.jp = parseInt(document.getElementById('score-japanese').value) || 0;
-            userScores.en = parseInt(document.getElementById('score-english').value) || 0;
-            
-            if (!userScores.jp && !userScores.en) {
+            const scoreBunri = getScoreBunri();
+            userScores.jp = scoreBunri['日语'] || 0;
+            userScores.en = scoreBunri['托福'] || 0;
+            userScores.math1 = scoreBunri['数学1'] || 0;
+            userScores.math2 = scoreBunri['数学2'] || 0;
+            userScores.sogo = scoreBunri['综合'] || 0;
+            userScores.physics = scoreBunri['物理'] || 0;
+            userScores.chemistry = scoreBunri['化学'] || 0;
+            userScores.biology = scoreBunri['生物'] || 0;
+
+            const hasAny = userScores.jp > 0 || userScores.en > 0 || userScores.math1 > 0 || userScores.math2 > 0 ||
+                userScores.sogo > 0 || userScores.physics > 0 || userScores.chemistry > 0 || userScores.biology > 0;
+            if (!hasAny) {
                 document.getElementById('empty-state').classList.remove('hidden');
                 document.getElementById('results-grid').innerHTML = '';
                 document.getElementById('score-summary').classList.add('hidden');
                 return;
             }
-            
+
             document.getElementById('empty-state').classList.add('hidden');
-            
+
+            // 按合格实绩阈值匹配：每科达到 p25/min 才稳，用短板（最小达成率）判定
             matchedResults = universitiesData.map(uni => {
-                const recJP = parseFloat(uni.recommendJP) || 0;
-                const recEN = parseFloat(uni.recommendEN) || 0;
-                const useJP = recJP > 0;
-                const useEN = recEN > 0;
-                
-                if (!useJP && !useEN) {
+                const required = getRequiredSubjects(uni);
+                const bunriU = (uni.bunri === '文科' ? '文' : uni.bunri === '理科' ? '理' : uni.bunri) || '文';
+                if (required.length === 0) {
                     return { ...uni, matchStatus: 'unknown', scoreEffect: 0, recJP: 0, recEN: 0, jpDiff: 0, enDiff: 0 };
                 }
-                
-                const baseJP = useJP ? recJP : DEFAULT_JP;
-                const baseEN = useEN ? recEN : DEFAULT_EN;
-                const userJP = userScores.jp || (useJP ? 0 : baseJP);
-                const userEN = userScores.en || (useEN ? 0 : baseEN);
-                
-                // 综合达成率：日语60% + 托福40%（顶尖大学对英语更看重）
-                let scoreEffect = 0;
-                if (useJP && useEN) {
-                    scoreEffect = (userJP / baseJP) * 0.6 + (userEN / baseEN) * 0.4;
-                } else if (useJP) {
-                    scoreEffect = userJP / baseJP;
-                } else {
-                    scoreEffect = userEN / baseEN;
+                let minRatio = 2;
+                let recJP = 0, recEN = 0, jpDiff = 0, enDiff = 0;
+                let used = 0;
+                for (const sub of required) {
+                    const th = getThreshold(uni, sub);
+                    if (th == null || th <= 0) continue;
+                    const userVal = scoreBunri[sub] != null ? scoreBunri[sub] : (sub === '日语' ? userScores.jp : sub === '托福' ? userScores.en : 0);
+                    const ratio = userVal / th;
+                    minRatio = Math.min(minRatio, ratio);
+                    used++;
+                    if (sub === '日语') { recJP = th; jpDiff = userVal - th; }
+                    if (sub === '托福') { recEN = th; enDiff = userVal - th; }
                 }
-                scoreEffect = Math.round(scoreEffect * 1000) / 1000;
-                
-                const jpDiff = useJP ? userScores.jp - baseJP : 0;
-                const enDiff = useEN ? userScores.en - baseEN : 0;
-                
-                // 门槛收紧：合格≥105%、接近95-104.9%、挑战<95%
+                if (used === 0) {
+                    recJP = parseFloat(String(uni.recommendJP || '0').replace(/\+/g, '')) || DEFAULT_JP;
+                    recEN = parseFloat(String(uni.recommendEN || '0').replace(/\+/g, '')) || DEFAULT_EN;
+                    const baseJP = recJP || DEFAULT_JP;
+                    const baseEN = recEN || DEFAULT_EN;
+                    const userJP = userScores.jp || 0;
+                    const userEN = userScores.en || 0;
+                    minRatio = Math.min(userJP / baseJP || 0, userEN / baseEN || 0) || 0;
+                    jpDiff = userScores.jp - baseJP;
+                    enDiff = userScores.en - baseEN;
+                }
+                const scoreEffect = used > 0 ? Math.round(Math.min(minRatio, 2) * 1000) / 1000 : 0;
                 let status = 'reach';
                 if (scoreEffect >= 1.05) status = 'pass';
                 else if (scoreEffect >= 0.95 && scoreEffect < 1.05) status = 'close';
-                else status = 'reach';
-                
+
                 return {
                     ...uni,
                     matchStatus: status,
                     scoreEffect: scoreEffect,
                     jpDiff: jpDiff,
                     enDiff: enDiff,
-                    recJP: baseJP,
-                    recEN: baseEN,
-                    recJPUnknown: !useJP,
-                    recENUnknown: !useEN
+                    recJP: recJP,
+                    recEN: recEN,
+                    recJPUnknown: recJP <= 0,
+                    recENUnknown: recEN <= 0
                 };
-            }).filter(uni => uni.matchStatus !== 'unknown');
-            
+            }).filter(uni => uni.matchStatus !== 'unknown' && (uni.bunri === selectedBunri || uni.bunri === '文理皆可'));
+
             updateSummary();
             if (matchedResults.length > 0) {
                 document.getElementById('guide-overlay').classList.remove('hidden');
@@ -748,8 +1155,12 @@
             const passRate = total > 0 ? Math.round((passCount / total) * 100) : 0;
             
             document.getElementById('match-rate').textContent = passRate + '%';
-            document.getElementById('summary-jp').innerHTML = `<strong class="text-sky-700">日本語:</strong> ${userScores.jp}点`;
-            document.getElementById('summary-en').innerHTML = `<strong class="text-sky-700">英語:</strong> ${userScores.en}点`;
+            document.getElementById('summary-jp').innerHTML =
+                `<strong class="text-sky-700">日本語:</strong> ${userScores.jp}点 &nbsp; <strong class="text-sky-700">TOEFL:</strong> ${userScores.en}点`;
+            const otherParts = selectedBunri === '文'
+                ? [`数学1: ${userScores.math1}`, `综合: ${userScores.sogo}`]
+                : [`数学2: ${userScores.math2}`, `物: ${userScores.physics} 化: ${userScores.chemistry} 生: ${userScores.biology}`];
+            document.getElementById('summary-en').innerHTML = otherParts.join(' &nbsp; ') || '-';
             document.getElementById('summary-pass').innerHTML = `<span class="text-deep-600 font-medium" style="color: #1e4a7a;">✅ 合格圏: ${passCount}校</span>`;
             document.getElementById('summary-close').innerHTML = `<span class="text-sky-600 font-medium">⚠️ 接近圏: ${closeCount}校</span>`;
             document.getElementById('summary-reach').innerHTML = `<span class="text-slate-600 font-medium">👀 观望圈: ${reachCount}校</span>`;
@@ -917,8 +1328,15 @@
             fetch(Auth.getApiBase() + '/api/plan', { headers: Auth.authHeaders() })
                 .then(r => r.ok ? r.json() : [])
                 .then(data => {
-                    const plan = Array.isArray(data) ? data.map(({ id, payload }) => ({ _serverId: id, ...(payload || {}) })) : [];
-                    savePlan(plan);
+                    const serverPlan = Array.isArray(data) ? data.map(({ id, payload }) => ({ _serverId: id, ...(payload || {}) })) : [];
+                    const localPlan = getPlan();
+                    const serverIds = new Set(serverPlan.map(s => s.id || planId(s.name, s.department, s.major)));
+                    const merged = [...serverPlan];
+                    for (const item of localPlan) {
+                        const pid = item.id || planId(item.name, item.department, item.major);
+                        if (!serverIds.has(pid)) { merged.push(item); serverIds.add(pid); }
+                    }
+                    savePlan(merged);
                 })
                 .catch(() => {});
         }
@@ -1010,13 +1428,10 @@
         }
 
         function resetScores() {
-            document.getElementById('score-japanese').value = '';
-            document.getElementById('score-english').value = '';
-            
-            userScores = { jp: 0, en: 0 };
+            document.querySelectorAll('#score-inputs-dynamic input').forEach(el => { el.value = ''; });
+            userScores = { jp: 0, en: 0, math1: 0, math2: 0, sogo: 0, physics: 0, chemistry: 0, biology: 0 };
             matchedResults = [];
             currentFilter = 'all';
-            
             document.getElementById('empty-state').classList.remove('hidden');
             document.getElementById('results-grid').innerHTML = '';
             document.getElementById('score-summary').classList.add('hidden');

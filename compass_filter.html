@@ -6,6 +6,7 @@
     <title>条件筛选 | JI-日本留学ナビ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -31,8 +32,23 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-weight: 400;
-            letter-spacing: 0.03em;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+        html, body {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+        .init-overlay .card,
+        .init-overlay .factor-chip,
+        #filter-accordions,
+        #results-grid,
+        .school-group,
+        .summary-box {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.04em;
         }
         
         /* 呼吸感背景 - 与 index 一致的 Soft Mesh Gradients + 抹茶绿微调 */
@@ -275,34 +291,75 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 20px;
+            overflow: hidden;
             transition: all 0.3s ease;
             box-shadow: 0 4px 24px rgba(106, 130, 85, 0.03);
         }
-        
+        .school-group:has(.department-list:not(.expanded)) .school-header { border-radius: 20px; }
         .school-group:hover {
             border-color: rgba(255, 255, 255, 0.5);
             box-shadow: 0 12px 36px rgba(106, 130, 85, 0.06);
             transform: translateY(-4px);
         }
         
+        /* 検索結果：大学・学部・学科の見た目を明確に区別 */
+        .result-level-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .result-level-badge-university {
+            background: linear-gradient(135deg, rgba(82, 104, 65, 0.2), rgba(106, 130, 85, 0.15));
+            color: #526841;
+            border: 1px solid rgba(82, 104, 65, 0.35);
+        }
+        .result-level-badge-department {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(56, 189, 248, 0.1));
+            color: #0284c7;
+            border: 1px solid rgba(14, 165, 233, 0.35);
+        }
+        .result-level-badge-major {
+            background: rgba(148, 163, 184, 0.12);
+            color: #64748b;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+        }
         .school-header {
             cursor: pointer;
             transition: background 0.3s ease;
+            border-left: 4px solid #526841;
+            background: rgba(82, 104, 65, 0.06);
+            border-radius: 20px 20px 0 0;
         }
-        .school-header:hover { background: rgba(255, 255, 255, 0.4); }
+        .school-header:hover { background: rgba(82, 104, 65, 0.1); }
         
         .department-list { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
         .department-list.expanded { max-height: 3000px; }
-        .department-item { border-left: 3px solid transparent; transition: all 0.3s ease; }
+        .department-item {
+            border-left: 4px solid #0ea5e9;
+            transition: all 0.3s ease;
+            background: rgba(14, 165, 233, 0.04);
+        }
+        .department-list .department-item:last-child {
+            border-radius: 0 0 20px 20px;
+        }
         
         .department-group-header {
             cursor: pointer;
             transition: background 0.3s ease;
         }
-        .department-group-header:hover { background: rgba(255, 255, 255, 0.3); }
+        .department-group-header:hover { background: rgba(14, 165, 233, 0.08); }
         .major-list { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; }
         .major-list.expanded { max-height: 2000px; }
-        .major-item { border-left: 2px solid rgba(160, 181, 135, 0.2); transition: all 0.3s ease; }
+        .major-item {
+            border-left: none;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
         
         .accordion-item {
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -336,7 +393,7 @@
             transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .accordion-body-inner { padding: 0 18px 18px; }
-        .department-item:hover { background: rgba(247, 249, 245, 0.6); border-left-color: rgba(160, 181, 135, 0.6); }
+        .department-item:hover { background: rgba(14, 165, 233, 0.08); border-left-color: rgba(14, 165, 233, 0.7); }
         
         .child-bubbles { margin-left: 52px; margin-top: 16px; padding-left: 24px; border-left: 2px solid rgba(238,242,233,0.8); }
         
@@ -505,7 +562,7 @@
         <div class="max-w-7xl mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <a href="compass_index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
+                    <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
                         <div class="nav-logo-icon w-12 h-12 rounded-2xl flex items-center justify-center text-white">
                             <i class="fas fa-compass text-2xl"></i>
                         </div>
@@ -524,7 +581,7 @@
                     <a href="compass_application.html" class="btn-soft px-5 py-2.5 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-mint-600 hover:text-mint-700 transition-all">
                         <i class="fas fa-calendar-check mr-2"></i>出願管理
                     </a>
-                    <a href="compass_index.html" class="btn-soft px-5 py-2.5 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-mint-600 hover:text-mint-700 transition-all">
+                    <a href="index.html" class="btn-soft px-5 py-2.5 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-mint-600 hover:text-mint-700 transition-all">
                         <i class="fas fa-home mr-2"></i>ホーム
                     </a>
                 </div>
@@ -1000,9 +1057,9 @@
                     e.preventDefault();
                     e.stopPropagation();
                     if (c.classList.contains('excluded')) return;
-                    // 立即更新视觉状态，然后异步更新其他状态
                     c.classList.toggle('selected');
-                    updateMutualExclusion();
+                    // 先让浏览器绘制选中状态，再更新互斥/按钮，避免首点卡顿
+                    requestAnimationFrame(() => updateMutualExclusion());
                 }, { passive: true });
             });
             independentChips.forEach(c => {
@@ -1010,9 +1067,8 @@
                     e.preventDefault();
                     e.stopPropagation();
                     if (c.classList.contains('excluded')) return;
-                    // 立即更新视觉状态，然后异步更新其他状态
                     c.classList.toggle('selected');
-                    updateMutualExclusion();
+                    requestAnimationFrame(() => updateMutualExclusion());
                 }, { passive: true });
             });
 
@@ -1944,11 +2000,11 @@
         ];
 
         function initUI() {
-            // 文理分科
+            // 文理分科（仅显示图标+中文标签，不显示英文名）
             createMutuallyExclusiveBubbles('bunri', [
-                { label: '理科系', icon: 'flask', value: '理' },
-                { label: '文科系', icon: 'book-open', value: '文' },
-                { label: '文理不限', icon: 'lightbulb', value: '文理皆可' }
+                { label: '理科系', icon: 'flask', value: '理', useIcon: true },
+                { label: '文科系', icon: 'book-open', value: '文', useIcon: true },
+                { label: '文理不限', icon: 'lightbulb', value: '文理皆可', useIcon: true }
             ], 'bunri');
 
             // 英语：不需要|仅托福|仅托业|托福or托业
@@ -2053,7 +2109,8 @@
             otherGrid.className = 'eju-cards-grid';
             
             categories.forEach(category => {
-                const card = createEjuCategoryCard(category, bunri);
+                const rowCount = getCategoryRowCount(category.id, bunri);
+                const card = createEjuCategoryCard(category, bunri, rowCount);
                 if (category.popular || category.recommended) {
                     recommendedGrid.appendChild(card);
                 } else {
@@ -2076,9 +2133,27 @@
         }
 
         /**
-         * 创建EJU分类卡片
+         * 按「大学专业条数」统计：仅按文理 + EJU分类ID 匹配的条数（与右上角匹配数统一口径）
+         * 文科：兼容 u.bunri 为「文」或「文科」；理科：兼容「理」或「理科」
          */
-        function createEjuCategoryCard(category, bunri) {
+        function getCategoryRowCount(categoryId, bunri) {
+            if (!universitiesData || universitiesData.length === 0) return 0;
+            const wantBunri = (bunri || '').trim();
+            return universitiesData.filter(u => {
+                const uBunri = String(u.bunri || '').trim();
+                const normU = uBunri === '文科' ? '文' : uBunri === '理科' ? '理' : uBunri;
+                const normWant = wantBunri === '文科' ? '文' : wantBunri === '理科' ? '理' : wantBunri;
+                const matchBunri = normU === normWant;
+                const matchCategory = (u.EJU分类ID || '') === categoryId;
+                return matchBunri && matchCategory;
+            }).length;
+        }
+
+        /**
+         * 创建EJU分类卡片（数量统一为大学专业条数）
+         */
+        function createEjuCategoryCard(category, bunri, rowCount) {
+            const count = rowCount != null ? rowCount : getCategoryRowCount(category.id, bunri);
             const card = document.createElement('div');
             card.className = `eju-category-card ${category.popular || category.recommended ? 'recommended' : ''} ${activeFilters.ejuCategory === category.id ? 'active' : ''}`;
             card.dataset.categoryId = category.id;
@@ -2110,8 +2185,7 @@
                 <div class="eju-card-title font-semibold text-base mb-1">${category.label}</div>
                 <div class="eju-card-description text-xs text-mint-500 mb-3">${category.description}</div>
                 <div class="eju-card-stats flex items-center gap-3 text-xs text-mint-400 mb-2">
-                    <span>${category.universities}所大学</span>
-                    <span>${category.programs}个专业</span>
+                    <span>${count}条大学专业</span>
                 </div>
                 ${category.examples ? `<div class="eju-card-examples text-xs text-mint-400">包含: ${category.examples.slice(0, 3).join(', ')}</div>` : ''}
             `;
@@ -2319,7 +2393,7 @@
             
             document.getElementById('match-count').textContent = matches.length;
             document.getElementById('result-subtitle').textContent = 
-                matches.length > 0 ? `やったね！${matches.length}校が見つかりました✨` : '条件を選んで検索をスタート！';
+                matches.length > 0 ? `やったね！${matches.length}条大学专业が見つかりました✨` : '条件を選んで検索をスタート！';
         }
 
         function updateSummaryMessage(matches) {
@@ -2379,7 +2453,7 @@
             
             if (conditions.length > 0) {
                 message += conditions.join('、') + 'で探した結果…';
-                message += `<br>あなたのための <strong class="text-sakura-500 text-lg">${matches.length}校</strong> が見つかりました！🎉`;
+                message += `<br>あなたのための <strong class="text-sakura-500 text-lg">${matches.length}条大学专业</strong> が見つかりました！🎉`;
                 
                 const schoolNames = [...new Set(matches.map(m => m.name))].slice(0, 3);
                 if (schoolNames.length > 0) {
@@ -3008,7 +3082,7 @@
                         <div class="school-header p-5" onclick="toggleSchool('${schoolId}')">
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
-                                    <h3 class="font-bold text-xl text-mint-700 mb-1.5">${school.name}</h3>
+                                    <h3 class="font-bold text-xl text-mint-700 mb-1.5"><span class="result-level-badge result-level-badge-university">大学</span>${school.name}</h3>
                                     <div class="flex items-center gap-4 text-xs text-mint-600">
                                         <span class="flex items-center gap-1.5">
                                             <i class="fas fa-map-marker-alt text-sakura-400"></i>
@@ -3055,7 +3129,7 @@
                                         <div class="department-group-header p-4 ${needsCollapse ? 'cursor-pointer' : ''}" ${needsCollapse ? `onclick="toggleDepartment('${deptId}')"` : ''}>
                                             <div class="flex items-center justify-between">
                                                 <div class="flex-1">
-                                                    <h4 class="font-semibold text-base text-mint-800 mb-1">${deptName}</h4>
+                                                    <h4 class="font-semibold text-base text-mint-800 mb-1"><span class="result-level-badge result-level-badge-department">学部</span>${deptName}</h4>
                                                     ${needsCollapse ? `<p class="text-xs text-mint-500">${majors.length}学科</p>` : ''}
                                                 </div>
                                                 <div class="flex items-center gap-2">
@@ -3114,7 +3188,7 @@
                                                 <div class="major-item p-4 pl-6 ${majorIdx > 0 ? 'border-t border-mint-50' : ''}">
                                                     <div class="flex items-start justify-between mb-3">
                                                         <div class="flex-1">
-                                                            ${dept.major ? `<h5 class="font-medium text-sm text-mint-700 mb-1">${dept.major}</h5>` : `<h5 class="font-medium text-sm text-mint-600 mb-1">（未命名学科）</h5>`}
+                                                            ${dept.major ? `<h5 class="font-medium text-sm text-mint-700 mb-1"><span class="result-level-badge result-level-badge-major">学科</span>${dept.major}</h5>` : `<h5 class="font-medium text-sm text-mint-600 mb-1"><span class="result-level-badge result-level-badge-major">学科</span>（未命名学科）</h5>`}
                                                         </div>
                                                         <div class="flex items-center gap-2">
                                                             <button type="button" class="add-to-plan-btn flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all border border-mint-200 hover:border-mint-500 hover:bg-mint-50 text-mint-600 hover:text-mint-700 ${isInPlan ? 'added' : ''}" title="加入出愿计划" onclick="event.stopPropagation(); addToPlanDept(${idx}, ${dept.originalIdx})" data-school-idx="${idx}" data-dept-idx="${dept.originalIdx}" ${isInPlan ? 'disabled' : ''}>
@@ -3192,8 +3266,15 @@
             fetch(Auth.getApiBase() + '/api/plan', { headers: Auth.authHeaders() })
                 .then(r => r.ok ? r.json() : [])
                 .then(data => {
-                    const plan = Array.isArray(data) ? data.map(({ id, payload }) => ({ _serverId: id, ...(payload || {}) })) : [];
-                    savePlan(plan);
+                    const serverPlan = Array.isArray(data) ? data.map(({ id, payload }) => ({ _serverId: id, ...(payload || {}) })) : [];
+                    const localPlan = getPlan();
+                    const serverIds = new Set(serverPlan.map(s => s.id || planId(s.name, s.department, s.major)));
+                    const merged = [...serverPlan];
+                    for (const item of localPlan) {
+                        const pid = item.id || planId(item.name, item.department, item.major);
+                        if (!serverIds.has(pid)) { merged.push(item); serverIds.add(pid); }
+                    }
+                    savePlan(merged);
                 })
                 .catch(() => {});
         }
