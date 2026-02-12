@@ -1,5 +1,6 @@
 require('dotenv').config();
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 
@@ -23,6 +24,22 @@ app.use('/api', authRoutes);
 app.use('/api/schools', schoolsRoutes);
 app.use('/api/plan', planRoutes);
 app.use('/api/admin', adminRoutes);
+
+// 学校总览数据（公开，供 compass 搜索/筛选等使用，避免部署后中文路径静态文件不可用）
+const schoolMasterPath = path.join(__dirname, '学校总览.json');
+app.get('/api/school-master', (req, res) => {
+  if (!fs.existsSync(schoolMasterPath)) {
+    return res.status(404).json({ message: '学校总览数据未就绪' });
+  }
+  try {
+    const raw = fs.readFileSync(schoolMasterPath, 'utf8');
+    const data = JSON.parse(raw);
+    res.json(data);
+  } catch (err) {
+    console.error('school-master read error:', err);
+    res.status(500).json({ message: '读取失败' });
+  }
+});
 
 // 首页：优先显式返回，避免部署后 404
 app.get('/', (req, res) => {

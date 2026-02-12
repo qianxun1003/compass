@@ -459,6 +459,7 @@
         }
 
         function loadData() {
+            const base = (typeof Auth !== 'undefined' && Auth.getApiBase) ? Auth.getApiBase() : '';
             const tryEmbedded = () => {
                 if (typeof EMBEDDED_DATA !== 'undefined' && EMBEDDED_DATA?.data) {
                     universitiesData = EMBEDDED_DATA.data || [];
@@ -467,19 +468,23 @@
                 }
                 return false;
             };
-            fetch('学校总览.json').then(r => r.ok ? r.json() : Promise.reject()).then(data => {
+            const applyJson = (data) => {
                 universitiesData = (data?.data || []).filter(r => r.name);
-                console.log(`✅ 已加载 ${universitiesData.length} 条数据（JSON）`);
+                console.log(`✅ 已加载 ${universitiesData.length} 条数据`);
                 onDataLoaded();
-            }).catch(() => {
-                fetch('学校总览.csv').then(r => r.text()).then(txt => {
-                    const rows = parseCSV(txt);
-                    universitiesData = normalizeCsvToJs(rows);
-                    console.log(`✅ 已加载 ${universitiesData.length} 条数据（CSV）`);
-                    onDataLoaded();
-                }).catch(() => {
-                    if (tryEmbedded()) onDataLoaded();
-                    else console.warn('未加载到数据');
+            };
+            // 优先走 API（部署后中文路径静态文件可能不可用）
+            fetch(base + '/api/school-master').then(r => r.ok ? r.json() : Promise.reject()).then(applyJson).catch(() => {
+                fetch('学校总览.json').then(r => r.ok ? r.json() : Promise.reject()).then(applyJson).catch(() => {
+                    fetch('学校总览.csv').then(r => r.text()).then(txt => {
+                        const rows = parseCSV(txt);
+                        universitiesData = normalizeCsvToJs(rows);
+                        console.log(`✅ 已加载 ${universitiesData.length} 条数据（CSV）`);
+                        onDataLoaded();
+                    }).catch(() => {
+                        if (tryEmbedded()) onDataLoaded();
+                        else console.warn('未加载到数据');
+                    });
                 });
             });
 
