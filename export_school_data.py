@@ -33,6 +33,8 @@ COLUMN_MAP = {
     "校内考时间1": "examDate",
     "校内考时间2": "examDate2",
     "发榜时间": "announcementDate",
+    # 特殊成绩要求（硬性条件，格式：科目名:分数，多个要求用逗号分隔，如：数学1:150,日语:300）
+    "特殊成绩要求": "specialRequirements",
 }
 
 

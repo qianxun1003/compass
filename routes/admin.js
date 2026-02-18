@@ -5,6 +5,8 @@ const multer = require('multer');
 const XLSX = require('xlsx');
 const path = require('path');
 const fs = require('fs');
+const { exec } = require('child_process');
+const { promisify } = require('util');
 const { pool } = require('../db.js');
 const { JWT_SECRET } = require('../middleware/auth.js');
 const { requireAdmin } = require('../middleware/adminAuth.js');
@@ -389,6 +391,124 @@ router.get('/data-update/info', async (req, res) => {
     res.json({ currentCount: count, recentBackups: backups });
   } catch (err) {
     console.error('Admin data-update info error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// ---------- 合格实绩数据更新（Excel 上传 + Python 脚本处理） ----------
+const execAsync = promisify(exec);
+
+router.post('/admission-score-update', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file || !req.file.buffer) {
+      return res.status(400).json({ message: '请上传 Excel 文件' });
+    }
+
+    const excelPath = path.join(projectRoot, '合格实绩.xlsx');
+    const jsonPath = path.join(projectRoot, 'data', 'admission_score_model.json');
+    const scriptPath = path.join(projectRoot, 'scripts', 'analyze_admission_scores.py');
+
+    // 备份旧文件
+    if (!fs.existsSync(backupsDir)) fs.mkdirSync(backupsDir, { recursive: true });
+    const timestamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
+    
+    if (fs.existsSync(excelPath)) {
+      fs.copyFileSync(excelPath, path.join(backupsDir, `合格实绩_${timestamp}.xlsx`));
+    }
+    if (fs.existsSync(jsonPath)) {
+      fs.copyFileSync(jsonPath, path.join(backupsDir, `admission_score_model_${timestamp}.json`));
+    }
+
+    // 保存上传的文件
+    fs.writeFileSync(excelPath, req.file.buffer);
+
+    // 运行 Python 脚本
+    try {
+      const { stdout, stderr } = await execAsync(`python3 "${scriptPath}"`, {
+        cwd: projectRoot,
+        maxBuffer: 10 * 1024 * 1024, // 10MB
+      });
+      
+      if (stderr && !stderr.includes('已写入') && !stderr.includes('已生成')) {
+        console.warn('Python script stderr:', stderr);
+      }
+      
+      // 读取生成的结果文件统计信息
+      let bunkaCount = 0;
+      let rikaCount = 0;
+      if (fs.existsSync(jsonPath)) {
+        try {
+          const raw = fs.readFileSync(jsonPath, 'utf8');
+          const model = JSON.parse(raw);
+          bunkaCount = model.bunka ? Object.keys(model.bunka).length : 0;
+          rikaCount = model.rika ? Object.keys(model.rika).length : 0;
+        } catch (e) {
+          console.error('Failed to parse generated JSON:', e);
+        }
+      }
+
+      writeOperationLog(
+        req.adminUser.id,
+        req.adminUser.username,
+        'admission_score_update',
+        'admission_score_model',
+        null,
+        req.headers['x-forwarded-for'] || req.socket?.remoteAddress,
+        'success',
+        { bunkaCount, rikaCount, backup: `合格实绩_${timestamp}.xlsx` }
+      );
+
+      res.json({
+        message: '更新成功',
+        bunkaCount,
+        rikaCount,
+        backup: `合格实绩_${timestamp}`,
+      });
+    } catch (execErr) {
+      console.error('Python script execution error:', execErr);
+      // 即使脚本失败，也记录操作日志
+      writeOperationLog(
+        req.adminUser.id,
+        req.adminUser.username,
+        'admission_score_update',
+        'admission_score_model',
+        null,
+        req.headers['x-forwarded-for'] || req.socket?.remoteAddress,
+        'error',
+        { error: execErr.message }
+      );
+      res.status(500).json({
+        message: '脚本执行失败：' + (execErr.message || '未知错误'),
+        stderr: execErr.stderr || '',
+      });
+    }
+  } catch (err) {
+    console.error('Admin admission-score-update error:', err);
+    res.status(500).json({ message: err.message || '服务器错误' });
+  }
+});
+
+// 合格实绩模型信息（统计学校数量）
+router.get('/admission-score-update/info', async (req, res) => {
+  try {
+    const jsonPath = path.join(projectRoot, 'data', 'admission_score_model.json');
+    let bunkaCount = 0;
+    let rikaCount = 0;
+    
+    if (fs.existsSync(jsonPath)) {
+      try {
+        const raw = fs.readFileSync(jsonPath, 'utf8');
+        const model = JSON.parse(raw);
+        bunkaCount = model.bunka ? Object.keys(model.bunka).length : 0;
+        rikaCount = model.rika ? Object.keys(model.rika).length : 0;
+      } catch (e) {
+        console.error('Failed to parse admission_score_model.json:', e);
+      }
+    }
+    
+    res.json({ bunkaCount, rikaCount });
+  } catch (err) {
+    console.error('Admin admission-score-update info error:', err);
     res.status(500).json({ message: '服务器错误' });
   }
 });

@@ -159,11 +159,11 @@
 
             <!-- 数据库更新 -->
             <section id="section-data-update" class="page-section">
-                <div class="card mb-4">
+                <!-- 学校总览数据更新 -->
+                <div class="card mb-6">
+                    <h3 class="font-semibold text-slate-700 mb-3">学校总览数据更新</h3>
                     <p class="text-slate-600 text-sm mb-2">当前学校总览：<strong id="dataUpdateCount">-</strong> 条；最近备份：<span id="dataUpdateBackups" class="text-slate-500">-</span></p>
-                    <p class="text-slate-500 text-xs">上传与「学部学校一览表」格式一致的 Excel（表头含：大学、学部、学科、位置等），将覆盖 学校总览.json / 学校总览.csv，并自动备份。</p>
-                </div>
-                <div class="card">
+                    <p class="text-slate-500 text-xs mb-4">上传与「学部学校一览表」格式一致的 Excel（表头含：大学、学部、学科、位置等），将覆盖 学校总览.json / 学校总览.csv，并自动备份。</p>
                     <div id="uploadZone" class="upload-zone">
                         <i class="fas fa-file-excel text-4xl text-sky-500 mb-2"></i>
                         <p class="text-slate-600">点击或拖拽 Excel 文件到此处上传</p>
@@ -171,6 +171,20 @@
                     </div>
                     <input type="file" id="fileInput" accept=".xlsx,.xls" class="hidden">
                     <div id="uploadResult" class="mt-4 hidden p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- 合格实绩数据更新 -->
+                <div class="card">
+                    <h3 class="font-semibold text-slate-700 mb-3">合格实绩数据更新</h3>
+                    <p class="text-slate-600 text-sm mb-2">当前合格实绩模型：<strong id="admissionScoreModelInfo">-</strong></p>
+                    <p class="text-slate-500 text-xs mb-4">上传「合格实绩.xlsx」文件，将自动运行分析脚本生成 data/admission_score_model.json，并自动备份旧文件。</p>
+                    <div id="admissionUploadZone" class="upload-zone">
+                        <i class="fas fa-file-excel text-4xl text-emerald-500 mb-2"></i>
+                        <p class="text-slate-600">点击或拖拽「合格实绩.xlsx」文件到此处上传</p>
+                        <p class="text-slate-400 text-sm mt-1">支持 .xlsx / .xls</p>
+                    </div>
+                    <input type="file" id="admissionFileInput" accept=".xlsx,.xls" class="hidden">
+                    <div id="admissionUploadResult" class="mt-4 hidden p-3 rounded-lg text-sm"></div>
                 </div>
             </section>
         </main>
@@ -400,8 +414,23 @@
                     document.getElementById('dataUpdateCount').textContent = d.currentCount != null ? d.currentCount : '-';
                     document.getElementById('dataUpdateBackups').textContent = (d.recentBackups && d.recentBackups.length) ? d.recentBackups.slice(0, 3).join(', ') : '无';
                 });
+            fetch(apiBase + '/api/admin/admission-score-update/info', { headers: authHeaders() })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    var info = '';
+                    if (d.bunkaCount != null && d.rikaCount != null) {
+                        info = '文科 ' + d.bunkaCount + ' 校，理科 ' + d.rikaCount + ' 校';
+                    } else {
+                        info = '未生成';
+                    }
+                    document.getElementById('admissionScoreModelInfo').textContent = info;
+                })
+                .catch(function() {
+                    document.getElementById('admissionScoreModelInfo').textContent = '未生成';
+                });
         }
 
+        // 学校总览数据上传
         var fileInput = document.getElementById('fileInput');
         var uploadZone = document.getElementById('uploadZone');
         var uploadResult = document.getElementById('uploadResult');
@@ -437,6 +466,59 @@
                     uploadResult.textContent = d.message || '上传失败';
                 }
                 loadDataUpdateInfo();
+            });
+        }
+
+        // 合格实绩数据上传
+        var admissionFileInput = document.getElementById('admissionFileInput');
+        var admissionUploadZone = document.getElementById('admissionUploadZone');
+        var admissionUploadResult = document.getElementById('admissionUploadResult');
+        admissionUploadZone.onclick = function() { admissionFileInput.click(); };
+        admissionUploadZone.ondragover = function(e) { e.preventDefault(); admissionUploadZone.classList.add('dragover'); };
+        admissionUploadZone.ondragleave = function() { admissionUploadZone.classList.remove('dragover'); };
+        admissionUploadZone.ondrop = function(e) {
+            e.preventDefault();
+            admissionUploadZone.classList.remove('dragover');
+            var f = e.dataTransfer && e.dataTransfer.files[0];
+            if (f && (f.name.endsWith('.xlsx') || f.name.endsWith('.xls'))) doAdmissionUpload(f);
+        };
+        admissionFileInput.onchange = function() {
+            var f = admissionFileInput.files[0];
+            if (f) doAdmissionUpload(f);
+            admissionFileInput.value = '';
+        };
+        function doAdmissionUpload(file) {
+            admissionUploadResult.classList.add('hidden');
+            admissionUploadResult.className = 'mt-4 p-3 rounded-lg text-sm';
+            admissionUploadResult.textContent = '正在上传并处理中，请稍候...';
+            admissionUploadResult.classList.remove('hidden');
+            var form = new FormData();
+            form.append('file', file);
+            fetch(apiBase + '/api/admin/admission-score-update', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + AdminAuth.getToken() },
+                body: form
+            }).then(function(r) { return r.json(); }).then(function(d) {
+                admissionUploadResult.classList.remove('hidden');
+                if (d.message) {
+                    admissionUploadResult.className = 'mt-4 p-3 rounded-lg text-sm bg-green-50 text-green-800';
+                    var msg = d.message;
+                    if (d.bunkaCount != null && d.rikaCount != null) {
+                        msg += '（文科 ' + d.bunkaCount + ' 校，理科 ' + d.rikaCount + ' 校）';
+                    }
+                    if (d.backup) {
+                        msg += '；备份：' + d.backup;
+                    }
+                    admissionUploadResult.textContent = msg;
+                } else {
+                    admissionUploadResult.className = 'mt-4 p-3 rounded-lg text-sm bg-red-50 text-red-800';
+                    admissionUploadResult.textContent = d.message || '上传失败';
+                }
+                loadDataUpdateInfo();
+            }).catch(function(err) {
+                admissionUploadResult.classList.remove('hidden');
+                admissionUploadResult.className = 'mt-4 p-3 rounded-lg text-sm bg-red-50 text-red-800';
+                admissionUploadResult.textContent = '上传失败：' + (err.message || '网络错误');
             });
         }
 

@@ -61,25 +61,31 @@
             font-family: 'Courier New', 'Consolas', 'Monaco', monospace !important;
         }
         
+        /* 底层：薰衣草紫渐变，营造柔和背景 */
         body { 
-            background: linear-gradient(135deg, #f5eef8 0%, #f2ebf6 20%, #f0e8f5 40%, #f2ebf6 60%, #f0e8f5 80%, #f5eef8 100%);
+            background: linear-gradient(180deg, 
+                #faf8fc 0%, 
+                #f5f0fa 25%, 
+                #f0e8f5 50%, 
+                #ebe0f0 75%, 
+                #e8dcef 100%
+            );
             min-height: 100vh;
             position: relative;
             background-attachment: fixed;
             background-repeat: no-repeat;
         }
         
+        /* 前景玻璃面板：纯白/米白，与底层薰衣草紫形成清晰对比，不融合 */
         .glass { 
-            background: rgba(246, 238, 252, 0.9);
-            backdrop-filter: blur(30px) saturate(160%);
-            -webkit-backdrop-filter: blur(30px) saturate(160%);
-            border: 1px solid rgba(228, 215, 242, 0.5);
+            background: #fffefb;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(200, 185, 220, 0.45);
             box-shadow: 
-                0 12px 40px rgba(212, 198, 235, 0.14), 
-                inset 0 2px 4px rgba(255, 255, 255, 0.95),
-                0 4px 16px rgba(222, 208, 238, 0.12),
-                inset 0 -2px 4px rgba(235, 222, 250, 0.35),
-                0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+                0 8px 32px rgba(180, 155, 210, 0.12),
+                0 2px 8px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         
         @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
@@ -117,30 +123,23 @@
             border: 1px dashed rgba(202, 188, 222, 0.4);
             box-shadow: 0 4px 16px rgba(165, 152, 198, 0.12);
         }
+        /* 卡片：纯白/米白前景，与薰衣草紫背景明确分离 */
         .card-diary {
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.85) 0%,
-                rgba(240, 228, 248, 0.8) 50%,
-                rgba(248, 246, 252, 0.85) 100%
-            );
-            backdrop-filter: blur(20px) saturate(160%);
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1px solid rgba(236, 220, 248, 0.35);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.4);
             border-radius: 0.875rem;
             box-shadow: 
-                0 4px 16px rgba(218, 205, 238, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                0 2px 8px rgba(236, 220, 248, 0.06),
-                inset 0 -1px 0 rgba(230, 218, 248, 0.2);
+                0 4px 20px rgba(180, 155, 210, 0.1),
+                0 1px 4px rgba(0, 0, 0, 0.03),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
-        /* 时间表区域的卡片 - 使用稍微不同的背景色以区分 */
+        /* 时间表区域的卡片 - 同样保持白色前景 */
         .timeline-section-wrapper .card-diary {
-            background: linear-gradient(135deg, 
-                rgba(238, 224, 248, 0.75) 0%,
-                rgba(246, 242, 248, 0.7) 50%,
-                rgba(246, 240, 250, 0.75) 100%
-            );
-            border-color: rgba(224, 210, 238, 0.4);
+            background: #fefdfb;
+            border-color: rgba(200, 185, 220, 0.45);
+            box-shadow: 
+                0 4px 16px rgba(180, 155, 210, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         /* 全体タイムライン：左側縦線 + 過去/未来分区 */
         .timeline-flow {
@@ -358,36 +357,32 @@
             border: 1px dashed rgba(202, 188, 222, 0.35);
             box-shadow: 0 2px 10px rgba(165, 152, 198, 0.06);
         }
+        /* 标签：白色/米白前景，紫色描边点缀 */
         .label-start { 
-            background: linear-gradient(135deg, rgba(238, 224, 248, 0.6), rgba(248, 245, 252, 0.55)); 
-            color: #6a6578; 
-            backdrop-filter: blur(8px) saturate(140%);
-            -webkit-backdrop-filter: blur(8px) saturate(140%);
+            background: #fffefb; 
+            color: #5a5569; 
+            border: 1px solid rgba(200, 185, 220, 0.5);
         }
         .label-deadline { 
-            background: linear-gradient(135deg, rgba(236, 220, 248, 0.6), rgba(230, 218, 246, 0.55)); 
-            color: #6a6578; 
-            backdrop-filter: blur(8px) saturate(140%);
-            -webkit-backdrop-filter: blur(8px) saturate(140%);
+            background: #fffefb; 
+            color: #5a5569; 
+            border: 1px solid rgba(200, 185, 220, 0.5);
         }
         .label-deadline.required { 
-            border-color: rgba(200, 190, 215, 0.6); 
-            background: linear-gradient(135deg, rgba(238, 228, 245, 0.8), rgba(232, 222, 238, 0.75)); 
-            color: #7a6d82; 
-            backdrop-filter: blur(8px) saturate(140%);
-            -webkit-backdrop-filter: blur(8px) saturate(140%);
+            background: #fefdfb; 
+            border-color: rgba(190, 175, 210, 0.6); 
+            color: #6a6578; 
+            box-shadow: 0 1px 4px rgba(180, 155, 210, 0.08);
         }
         .label-exam { 
-            background: linear-gradient(135deg, rgba(242, 236, 248, 0.6), rgba(240, 228, 248, 0.55)); 
-            color: #656078; 
-            backdrop-filter: blur(8px) saturate(140%);
-            -webkit-backdrop-filter: blur(8px) saturate(140%);
+            background: #fffefb; 
+            color: #5a5569; 
+            border: 1px solid rgba(200, 185, 220, 0.5);
         }
         .label-announce { 
-            background: linear-gradient(135deg, rgba(238, 228, 245, 0.7), rgba(236, 220, 248, 0.65)); 
-            color: #726a82; 
-            backdrop-filter: blur(8px) saturate(140%);
-            -webkit-backdrop-filter: blur(8px) saturate(140%);
+            background: #fefdfb; 
+            color: #5a5569; 
+            border: 1px solid rgba(200, 185, 220, 0.5);
         }
         /* 同日の分岐配置 */
         .timeline-day-group {
@@ -435,7 +430,7 @@
                 0 0 0 3px rgba(236, 220, 248, 0.4),
                 0 3px 12px rgba(218, 205, 238, 0.25);
         }
-        /* ユーザーメモ（便箋・テープ風） */
+        /* ユーザーメモ（便箋・テープ風）- 白色前景，紫色左边条点缀 */
         .memo-sticker {
             position: relative;
             padding: 10px 14px;
@@ -443,20 +438,12 @@
             font-size: 13px;
             line-height: 1.5;
             border-radius: 6px;
-            border-left: 4px solid rgba(218, 205, 238, 0.7);
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.95) 0%,
-                rgba(248, 245, 252, 0.92) 50%,
-                rgba(250, 248, 252, 0.95) 100%
-            );
-            backdrop-filter: blur(16px) saturate(150%);
-            -webkit-backdrop-filter: blur(16px) saturate(150%);
-            border-right: 1px solid rgba(236, 220, 248, 0.4);
-            border-top: 1px solid rgba(236, 220, 248, 0.4);
-            border-bottom: 1px solid rgba(236, 220, 248, 0.4);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.35);
+            border-left: 4px solid rgba(180, 160, 210, 0.7);
             box-shadow: 
-                0 4px 16px rgba(218, 205, 238, 0.12),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+                0 2px 12px rgba(180, 155, 210, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
             transform: rotate(-0.5deg);
         }
         .memo-sticker::before {
@@ -476,25 +463,17 @@
             padding: 6px 12px;
             font-size: 12px;
             border-radius: 999px;
-            border: 1px solid rgba(236, 220, 248, 0.5);
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.9) 0%,
-                rgba(248, 245, 252, 0.85) 100%
-            );
-            backdrop-filter: blur(12px) saturate(140%);
-            -webkit-backdrop-filter: blur(12px) saturate(140%);
-            color: #6e697d;
+            border: 1px solid rgba(200, 185, 220, 0.5);
+            background: #fffefb;
+            color: #6a6578;
             cursor: pointer;
             transition: all 0.25s ease;
-            box-shadow: 0 2px 8px rgba(218, 205, 238, 0.1);
+            box-shadow: 0 1px 6px rgba(180, 155, 210, 0.08);
         }
         .memo-add-btn:hover {
-            background: linear-gradient(135deg, 
-                rgba(250, 248, 252, 0.95) 0%,
-                rgba(250, 248, 252, 0.9) 100%
-            );
-            border-color: rgba(218, 205, 238, 0.7);
-            box-shadow: 0 4px 12px rgba(218, 205, 238, 0.2);
+            background: #fff;
+            border-color: rgba(180, 160, 210, 0.6);
+            box-shadow: 0 3px 12px rgba(180, 155, 210, 0.12);
             transform: translateY(-1px);
         }
         .memo-modal-overlay {
@@ -511,20 +490,16 @@
         }
         .memo-modal-overlay.hidden { display: none !important; }
         .memo-modal {
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.98) 0%,
-                rgba(248, 245, 252, 0.96) 100%
-            );
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(236, 220, 248, 0.5);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.5);
             border-radius: 1.25rem;
             padding: 24px;
             max-width: 400px;
             width: 100%;
             box-shadow: 
-                0 20px 60px rgba(218, 205, 238, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+                0 24px 64px rgba(180, 155, 210, 0.18),
+                0 8px 24px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         /* 折りたたみドロワー */
         .drawer-header {
@@ -548,82 +523,59 @@
         .drawer-group:has(> .drawer-body.expanded) > .drawer-header .drawer-chevron {
             transform: rotate(180deg);
         }
-        /* 大抽屉 - 最深的颜色 */
+        /* 大抽屉 - 白色前景，紫色描边点缀 */
         .drawer-main .drawer-header { 
-            background: linear-gradient(135deg, 
-                rgba(236, 220, 248, 0.25), 
-                rgba(230, 218, 246, 0.2)
-            ); 
-            backdrop-filter: blur(16px) saturate(150%);
-            -webkit-backdrop-filter: blur(16px) saturate(150%);
-            border: 1px solid rgba(218, 205, 238, 0.4);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.45);
             border-radius: 1rem; 
             padding: 1rem 1.25rem;
             box-shadow: 
-                0 4px 12px rgba(218, 205, 238, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+                0 4px 16px rgba(180, 155, 210, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         .drawer-main .drawer-header:hover {
-            background: linear-gradient(135deg, 
-                rgba(236, 220, 248, 0.3), 
-                rgba(230, 218, 246, 0.25)
-            );
+            background: #fff;
             box-shadow: 
-                0 6px 16px rgba(218, 205, 238, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+                0 6px 20px rgba(180, 155, 210, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
-        /* 中抽屉 - 中等颜色 */
+        /* 中抽屉 */
         .drawer-univ .drawer-header { 
             padding-left: 1.5rem;
-            background: linear-gradient(135deg, 
-                rgba(238, 228, 245, 0.2), 
-                rgba(240, 232, 248, 0.15)
-            );
-            backdrop-filter: blur(14px) saturate(140%);
-            -webkit-backdrop-filter: blur(14px) saturate(140%);
-            border: 1px solid rgba(224, 210, 238, 0.35);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.4);
             box-shadow: 
-                0 3px 10px rgba(218, 205, 238, 0.12),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+                0 3px 12px rgba(180, 155, 210, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         .drawer-univ .drawer-header:hover {
-            background: linear-gradient(135deg, 
-                rgba(238, 228, 245, 0.25), 
-                rgba(240, 232, 248, 0.2)
-            );
+            background: #fff;
             box-shadow: 
-                0 4px 14px rgba(218, 205, 238, 0.18),
-                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+                0 4px 16px rgba(180, 155, 210, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
-        /* 小抽屉 - 最浅的颜色 */
+        /* 小抽屉 */
         .drawer-dept .drawer-header { 
             padding-left: 2.5rem;
-            background: linear-gradient(135deg, 
-                rgba(230, 218, 248, 0.15), 
-                rgba(242, 236, 248, 0.12)
-            );
-            backdrop-filter: blur(12px) saturate(130%);
-            -webkit-backdrop-filter: blur(12px) saturate(130%);
-            border: 1px solid rgba(236, 220, 248, 0.3);
+            background: #fefdfb;
+            border: 1px solid rgba(200, 185, 220, 0.35);
             box-shadow: 
-                0 2px 8px rgba(218, 205, 238, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+                0 2px 10px rgba(180, 155, 210, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         .drawer-dept .drawer-header:hover {
-            background: linear-gradient(135deg, 
-                rgba(230, 218, 248, 0.2), 
-                rgba(242, 236, 248, 0.17)
-            );
+            background: #fffefb;
             box-shadow: 
-                0 3px 12px rgba(218, 205, 238, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+                0 3px 14px rgba(180, 155, 210, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
-        /* 志望校マインドマップ：大学左揃え、右に展開 学部→学科 */
+        /* 志望校マインドマップ：白色前景，紫色描边点缀 */
         .mindmap-box {
-            background: #f2eef7;
+            background: #fffefb;
             border-radius: 1rem;
             padding: 0.75rem 1rem;
-            border: 1px dashed rgba(202,188,222,0.3);
+            border: 1px solid rgba(200, 185, 220, 0.4);
+            box-shadow: 0 2px 12px rgba(180, 155, 210, 0.08);
         }
         .mindmap-root {
             display: flex;
@@ -692,9 +644,10 @@
             gap: 8px;
             padding: 8px 12px;
             border-radius: 0.5rem;
-            border: 1px dashed rgba(202, 188, 222, 0.35);
-            background: rgba(250, 248, 252, 0.6);
+            border: 1px solid rgba(200, 185, 220, 0.4);
+            background: #fffefb;
             min-width: 140px;
+            box-shadow: 0 1px 6px rgba(180, 155, 210, 0.06);
         }
         .node-cell .node-icon {
             flex-shrink: 0;
@@ -705,22 +658,14 @@
         }
         .node-cell .node-label { font-size: 11px; color: #8a8595; }
         .node-cell .node-value { font-size: 13px; font-weight: 500; color: #6a6578; }
-        /* 今週Todo区域：米黄色/米白色系 */
+        /* 今週Todo区域：白色前景，与薰衣草背景明确分离 */
         .week-todo-box {
-            background: linear-gradient(135deg, 
-                rgba(248, 246, 252, 0.9) 0%, 
-                rgba(248, 244, 250, 0.85) 30%,
-                rgba(250, 248, 252, 0.9) 60%,
-                rgba(248, 246, 252, 0.85) 100%
-            );
-            backdrop-filter: blur(28px) saturate(180%);
-            -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border: 1px solid rgba(218, 212, 228, 0.5);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.45);
             box-shadow: 
-                0 12px 40px rgba(218, 212, 228, 0.12),
-                0 6px 20px rgba(225, 218, 235, 0.1),
-                inset 0 2px 4px rgba(255, 255, 255, 0.9),
-                inset 0 -2px 6px rgba(235, 230, 242, 0.15);
+                0 8px 32px rgba(180, 155, 210, 0.1),
+                0 2px 8px rgba(0, 0, 0, 0.03),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
             border-radius: 1rem;
             padding: 0.75rem 1rem !important;
         }
@@ -760,16 +705,16 @@
             font-weight: 600;
             font-size: 0.72rem;
             color: #6a6578;
-            border-bottom: 1px solid rgba(218, 212, 228, 0.3);
+            border-bottom: 1px solid rgba(200, 185, 220, 0.25);
             letter-spacing: 0.02em;
-            background: rgba(248, 246, 252, 0.5);
+            background: #fefdfb;
         }
         .week-todo-table td {
             padding: 0.3rem 0.4rem;
             vertical-align: middle;
-            border-bottom: 1px solid rgba(230, 220, 200, 0.2);
+            border-bottom: 1px solid rgba(200, 185, 220, 0.15);
             line-height: 1.25;
-            background: rgba(250, 248, 252, 0.3);
+            background: #fffefb;
         }
         .week-todo-table tr:last-child td {
             border-bottom: none;
@@ -909,18 +854,14 @@
         .week-todo-table tr.today-row .day-content .custom-todo-item {
             font-size: 0.75rem;
         }
-        /* 今天那一行突出显示 - 精致活力感 */
+        /* 今天那一行突出显示 - 纯白前景+紫色描边强调 */
         .week-todo-table tr.today-row {
-            background: linear-gradient(135deg, 
-                rgba(248, 244, 250, 0.95) 0%,
-                rgba(240, 228, 248, 0.9) 100%
-            );
-            border: 2px solid rgba(218, 212, 228, 0.6);
+            background: #fff;
+            border: 2px solid rgba(180, 160, 210, 0.5);
             border-radius: 0.5rem;
             box-shadow: 
-                0 4px 16px rgba(218, 212, 228, 0.2),
-                0 2px 6px rgba(225, 218, 235, 0.15),
-                inset 0 1px 2px rgba(255, 255, 255, 0.9);
+                0 4px 20px rgba(180, 155, 210, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         .week-todo-table tr.today-row td {
             padding: 0.4rem 0.5rem;
@@ -947,18 +888,12 @@
         .drawer-body.dept-level.expanded { max-height: 800px; }
         .drawer-body.univ-level.expanded { max-height: 2000px; }
         .drawer-body.main-level.expanded { max-height: 4000px; }
-        /* ボタン式展開区域 - 精致活力感 */
+        /* ボタン式展開区域 - 白色前景，紫色描边 */
         .section-button {
             width: 100%;
             padding: 1.15rem 1.4rem;
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.95) 0%,
-                rgba(248, 245, 252, 0.92) 50%,
-                rgba(250, 248, 252, 0.95) 100%
-            );
-            backdrop-filter: blur(20px) saturate(160%);
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1.5px solid rgba(236, 220, 248, 0.4);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.45);
             border-radius: 1rem;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -966,23 +901,15 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 
-                0 6px 20px rgba(218, 205, 238, 0.12),
-                0 3px 10px rgba(236, 220, 248, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                inset 0 -1px 0 rgba(230, 218, 248, 0.2);
+                0 4px 20px rgba(180, 155, 210, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         .section-button:hover {
-            background: linear-gradient(135deg, 
-                rgba(250, 248, 252, 0.98) 0%,
-                rgba(250, 248, 252, 0.95) 50%,
-                rgba(250, 248, 252, 0.98) 100%
-            );
-            border-color: rgba(218, 205, 238, 0.6);
+            background: #fff;
+            border-color: rgba(180, 160, 210, 0.55);
             box-shadow: 
-                0 8px 28px rgba(218, 205, 238, 0.18),
-                0 4px 14px rgba(236, 220, 248, 0.12),
-                inset 0 2px 2px rgba(255, 255, 255, 0.9),
-                inset 0 -2px 2px rgba(230, 218, 248, 0.25);
+                0 8px 28px rgba(180, 155, 210, 0.14),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
             transform: translateY(-2px);
         }
         .section-button.expanded {
@@ -994,13 +921,8 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.8) 0%,
-                rgba(248, 245, 252, 0.75) 100%
-            );
-            backdrop-filter: blur(20px) saturate(160%);
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1.5px solid rgba(236, 220, 248, 0.35);
+            background: #fefdfb;
+            border: 1px solid rgba(200, 185, 220, 0.4);
             border-top: none;
             border-radius: 0 0 1rem 1rem;
             box-shadow: 
@@ -1048,13 +970,8 @@
         }
         .future-applications-modal.hidden { display: none !important; }
         .future-applications-content {
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.98) 0%,
-                rgba(248, 245, 252, 0.96) 100%
-            );
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 2px solid rgba(236, 220, 248, 0.5);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.5);
             border-radius: 1.5rem;
             padding: 2rem;
             max-width: 800px;
@@ -1062,31 +979,24 @@
             max-height: 80vh;
             overflow-y: auto;
             box-shadow: 
-                0 24px 72px rgba(218, 205, 238, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+                0 24px 64px rgba(180, 155, 210, 0.2),
+                0 8px 24px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         .future-applications-item {
             padding: 0.75rem 1rem;
             margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.9) 0%,
-                rgba(248, 245, 252, 0.85) 100%
-            );
-            backdrop-filter: blur(12px) saturate(140%);
-            -webkit-backdrop-filter: blur(12px) saturate(140%);
-            border: 1px solid rgba(236, 220, 248, 0.4);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.4);
             border-radius: 0.75rem;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(218, 205, 238, 0.08);
+            box-shadow: 0 1px 6px rgba(180, 155, 210, 0.06);
         }
         .future-applications-item:hover {
-            background: linear-gradient(135deg, 
-                rgba(250, 248, 252, 0.95) 0%,
-                rgba(250, 248, 252, 0.9) 100%
-            );
-            border-color: rgba(218, 205, 238, 0.6);
+            background: #fff;
+            border-color: rgba(180, 160, 210, 0.55);
             transform: translateX(4px);
-            box-shadow: 0 4px 12px rgba(218, 205, 238, 0.15);
+            box-shadow: 0 4px 16px rgba(180, 155, 210, 0.12);
         }
         /* 工具箱模态框样式 */
         .toolbox-modal-overlay {
@@ -1102,14 +1012,191 @@
             padding: 24px;
         }
         .toolbox-modal-overlay.hidden { display: none !important; }
+        
+        /* 琉璃质感玻璃弹层：覆盖全屏（含导航栏），浅紫色透明背景 */
+        .glass-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+        .glass-overlay:not(.hidden) {
+            opacity: 1;
+            visibility: visible;
+        }
+        .glass-overlay.hidden { display: none !important; opacity: 0; visibility: hidden; }
+        /* 琉璃质感：浅紫色透明背景，覆盖全屏含导航栏 */
+        .glass-overlay-backdrop {
+            position: absolute;
+            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(210, 195, 230, 0.35);
+            backdrop-filter: blur(24px) saturate(160%);
+            -webkit-backdrop-filter: blur(24px) saturate(160%);
+        }
+        .glass-overlay-panel {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            max-height: 85vh;
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.5);
+            border-radius: 1.5rem;
+            box-shadow: 
+                0 32px 80px rgba(180, 155, 210, 0.2),
+                0 12px 32px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: glassPanelPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes glassPanelPop {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .glass-overlay-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.45);
+            color: #6a6578;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+        .glass-overlay-close:hover {
+            background: #fff;
+            border-color: rgba(180, 160, 210, 0.6);
+            color: #5a5569;
+        }
+        .glass-overlay-header {
+            padding: 1.5rem 2rem 1rem;
+            border-bottom: 1px solid rgba(200, 185, 220, 0.25);
+        }
+        .glass-overlay-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #5a5569;
+            letter-spacing: 0.04em;
+        }
+        .glass-overlay-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+        .glass-slot { display: block; }
+        .glass-slot.hidden { display: none !important; }
+        
+        /* 四区域：底色薰衣草紫，四个按钮形区块相互隔开 */
+        .four-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 1.5rem;
+            background: transparent;
+        }
+        .panel {
+            min-height: 100px;
+            border-radius: 1rem;
+            padding: 1.5rem 1.75rem;
+        }
+        /* 上左/上右：按钮形，浅米黄（比现在浅），无点击功能 */
+        .panel-cream {
+            background: linear-gradient(135deg, #fffef5 0%, #fffef0 50%, #fffef8 100%);
+            border: 1px solid rgba(220, 205, 195, 0.4);
+            box-shadow: 0 2px 12px rgba(200, 185, 220, 0.08);
+        }
+        .panel-cream.week-todo-box {
+            background: linear-gradient(135deg, #fffef5 0%, #fffef0 50%, #fffef8 100%);
+            border: 1px solid rgba(220, 205, 195, 0.4);
+            box-shadow: 0 2px 12px rgba(200, 185, 220, 0.08);
+        }
+        /* 中間：虚线分隔（上下两部分之间） */
+        .panel-divider-h {
+            grid-column: 1 / -1;
+            border: none;
+            border-top: 2px dashed rgba(200, 185, 220, 0.5);
+            align-self: center;
+            margin: 0.25rem 0;
+        }
+        /* 下左/下右：两个整块大按钮 */
+        .big-entry-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            min-height: 200px;
+            padding: 2rem 1.75rem;
+            background: #ffffff;
+            border: 1px solid rgba(200, 185, 220, 0.5);
+            border-radius: 1rem;
+            box-shadow: 0 2px 12px rgba(180, 155, 210, 0.1);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: center;
+            font: inherit;
+            color: inherit;
+        }
+        .big-entry-btn:hover {
+            background: #fdfcfa;
+            border-color: rgba(180, 160, 210, 0.7);
+            box-shadow: 
+                0 4px 20px rgba(180, 155, 210, 0.18),
+                0 2px 8px rgba(180, 155, 210, 0.1);
+            transform: translateY(-2px);
+        }
+        .big-entry-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 12px rgba(180, 155, 210, 0.1);
+        }
+        .big-btn-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #5a5569;
+            letter-spacing: 0.04em;
+            line-height: 1.4;
+        }
+        .big-btn-emoji {
+            font-size: 1.2rem;
+            margin-left: 0.35rem;
+            vertical-align: middle;
+        }
+        .big-btn-desc {
+            font-size: 0.9rem;
+            color: #8a8595;
+            line-height: 1.5;
+        }
+        .big-btn-arrow {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(180, 160, 210, 0.9);
+        }
         .toolbox-modal {
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.98) 0%,
-                rgba(248, 245, 252, 0.96) 100%
-            );
-            backdrop-filter: blur(28px) saturate(180%);
-            -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border: 2px solid rgba(236, 220, 248, 0.5);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.5);
             border-radius: 1.5rem;
             padding: 2rem;
             max-width: 900px;
@@ -1117,8 +1204,9 @@
             max-height: 85vh;
             overflow-y: auto;
             box-shadow: 
-                0 24px 72px rgba(218, 205, 238, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+                0 24px 64px rgba(180, 155, 210, 0.2),
+                0 8px 24px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
             position: relative;
         }
         .toolbox-header {
@@ -1144,26 +1232,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, 
-                rgba(238, 224, 248, 0.9) 0%,
-                rgba(248, 245, 252, 0.85) 100%
-            );
-            backdrop-filter: blur(12px) saturate(140%);
-            -webkit-backdrop-filter: blur(12px) saturate(140%);
-            border: 1px solid rgba(236, 220, 248, 0.4);
-            color: #6e697d;
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.45);
+            color: #6a6578;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(218, 205, 238, 0.1);
+            box-shadow: 0 2px 8px rgba(180, 155, 210, 0.08);
         }
         .toolbox-close-btn:hover {
-            background: linear-gradient(135deg, 
-                rgba(250, 248, 252, 0.95) 0%,
-                rgba(250, 248, 252, 0.9) 100%
-            );
-            border-color: rgba(218, 205, 238, 0.6);
+            background: #fff;
+            border-color: rgba(180, 160, 210, 0.55);
             transform: rotate(90deg);
-            box-shadow: 0 4px 12px rgba(218, 205, 238, 0.2);
+            box-shadow: 0 4px 12px rgba(180, 155, 210, 0.12);
         }
         .toolbox-grid {
             display: grid;
@@ -1173,23 +1253,15 @@
         }
         .toolbox-item {
             padding: 1.5rem;
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.98) 0%,
-                rgba(248, 245, 252, 0.95) 50%,
-                rgba(250, 248, 252, 0.98) 100%
-            );
-            backdrop-filter: blur(20px) saturate(160%);
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 2px solid rgba(236, 220, 248, 0.6);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.45);
             border-radius: 1rem;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
             box-shadow: 
-                0 8px 20px rgba(218, 205, 238, 0.2),
-                0 4px 12px rgba(236, 220, 248, 0.15),
-                inset 0 2px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -2px 0 rgba(230, 218, 248, 0.3);
+                0 4px 20px rgba(180, 155, 210, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
             position: relative;
             overflow: hidden;
         }
@@ -1211,16 +1283,12 @@
             left: 100%;
         }
         .toolbox-item:hover {
-            background: linear-gradient(135deg, 
-                rgba(250, 248, 252, 1) 0%,
-                rgba(250, 248, 252, 0.98) 50%,
-                rgba(250, 248, 252, 1) 100%
-            );
-            border-color: rgba(218, 205, 238, 0.85);
+            background: #fff;
+            border-color: rgba(180, 160, 210, 0.55);
             transform: translateY(-6px) scale(1.03);
             box-shadow: 
-                0 16px 40px rgba(218, 205, 238, 0.3),
-                0 10px 24px rgba(236, 220, 248, 0.25),
+                0 16px 40px rgba(180, 155, 210, 0.18),
+                0 8px 24px rgba(0, 0, 0, 0.05),
                 inset 0 3px 6px rgba(255, 255, 255, 1),
                 inset 0 -3px 6px rgba(230, 218, 248, 0.25);
         }
@@ -1262,17 +1330,10 @@
             display: none;
             margin-top: 1.5rem;
             padding: 1.5rem;
-            background: linear-gradient(135deg, 
-                rgba(244, 234, 250, 0.85) 0%,
-                rgba(248, 245, 252, 0.8) 100%
-            );
-            backdrop-filter: blur(20px) saturate(160%);
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1px solid rgba(236, 220, 248, 0.4);
+            background: #fffefb;
+            border: 1px solid rgba(200, 185, 220, 0.4);
             border-radius: 1rem;
-            box-shadow: 
-                inset 0 2px 4px rgba(255, 255, 255, 0.7),
-                inset 0 -2px 4px rgba(230, 218, 248, 0.2);
+            box-shadow: 0 2px 12px rgba(180, 155, 210, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         .toolbox-content-area.active {
             display: block;
@@ -1449,7 +1510,7 @@
                     <button id="toolbox-btn">
                         <i class="fas fa-toolbox mr-2 text-lg"></i>出願工具箱
                     </button>
-                    <a href="index.html" class="px-4 py-2 rounded-2xl text-sm font-medium transition-all" style="background:linear-gradient(135deg,rgba(248,245,252,0.85),rgba(250,248,252,0.8));backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%);border:1px solid rgba(235,228,245,0.4);color:#6e697d;box-shadow:0 2px 8px rgba(228,218,238,0.08)">
+                    <a href="index.html" class="px-4 py-2 rounded-2xl text-sm font-medium transition-all" style="background:#fffefb;border:1px solid rgba(200,185,220,0.45);color:#6a6578;box-shadow:0 2px 10px rgba(180,155,210,0.08)">
                         <i class="fas fa-home mr-2"></i>ホーム
                     </a>
                 </div>
@@ -1457,95 +1518,86 @@
         </div>
     </nav>
 
-    <main class="pt-28 pb-24 px-6 max-w-7xl mx-auto" style="position:relative;z-index:1;">
-        <!-- 当週出願Todo：当日 + その後数日 -->
-        <div id="week-todo-section" class="rounded-2xl p-7 mb-6 week-todo-box">
-            <h3 class="text-base font-bold mb-4 flex items-center gap-2 week-todo-title">
-                <span>📋</span>今週やること
-            </h3>
-            <div id="week-todo-content" class="week-todo-body"></div>
-        </div>
-
-        <!-- 今後出願可能な大学ボタン -->
-        <div class="mb-6">
-            <button id="future-applications-btn" class="section-button">
-                <div class="flex items-center gap-3">
-                    <span class="text-xl">📅</span>
-                    <div class="text-left">
-                        <h3 class="text-lg font-bold font-serif-title" style="color:#5a5569;letter-spacing:0.04em">今後出願可能な大学</h3>
-                        <p class="text-xs" style="color:#8a8595">今から受験終了までに出願できる大学を確認</p>
-                    </div>
+    <main class="pt-28 pb-24 px-6 max-w-7xl mx-auto main-layout" style="position:relative;z-index:1;">
+        <!-- 四个区域：上左/上右米黄，下左/下右白，中间虚线分隔 -->
+        <div class="four-panel-grid">
+            <!-- 区域1：志望校リスト（浅米黄，按钮形，无点击） -->
+            <div class="panel panel-cream">
+                <h3 class="text-sm font-bold mb-2 flex items-center gap-2 week-todo-title">
+                    <span>🏫</span>志望校リスト
+                </h3>
+                <div id="selected-schools" class="space-y-2">
+                    <p class="text-xs text-center py-4" style="color:#8a8595">検索モジュールから大学を追加してください</p>
                 </div>
-                <i class="fas fa-chevron-down section-chevron"></i>
+                <div class="mt-2 space-y-1.5">
+                    <a href="compass_filter.html" class="block w-full px-3 py-2 border border-dashed rounded-xl hover:bg-white/50 transition-all text-center text-sm" style="border-color:rgba(200,185,220,0.5);color:#6e697d">
+                        <i class="fas fa-plus mr-1.5"></i>条件筛选で追加
+                    </a>
+                    <a href="compass_score.html" class="block w-full px-3 py-2 border border-dashed rounded-xl hover:bg-white/50 transition-all text-center text-sm" style="border-color:rgba(200,185,220,0.5);color:#6e697d">
+                        <i class="fas fa-plus mr-1.5"></i>成績matchで追加
+                    </a>
+                    <a href="compass_search.html" class="block w-full px-3 py-2 border border-dashed rounded-xl hover:bg-white/50 transition-all text-center text-sm" style="border-color:rgba(200,185,220,0.5);color:#6e697d">
+                        <i class="fas fa-plus mr-1.5"></i>検索で追加
+                    </a>
+                </div>
+            </div>
+            <!-- 区域2：今週やること（浅米黄，按钮形，无点击） -->
+            <div id="week-todo-section" class="panel panel-cream week-todo-box">
+                <h3 class="text-sm font-bold mb-2 flex items-center gap-2 week-todo-title">
+                    <span>📋</span>今週やること
+                </h3>
+                <div id="week-todo-content" class="week-todo-body"></div>
+            </div>
+            <!-- 中间虚线：横切 -->
+            <div class="panel-divider-h"></div>
+            <!-- 区域3：出願タイムライン（整块大按钮） -->
+            <button type="button" id="timeline-modal-btn" class="big-entry-btn">
+                <span class="big-btn-title">出願タイムライン<span class="big-btn-emoji">📊</span></span>
+                <span class="big-btn-desc">スケジュールと重要なポイント</span>
+                <i class="fas fa-chevron-right big-btn-arrow" aria-hidden="true"></i>
             </button>
-            <div id="future-applications-content" class="section-content">
-                <div class="p-6">
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium mb-2" style="color:#6e697d">日付を選択（デフォルトは今日）</label>
-                        <input type="date" id="future-applications-date" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(202,188,222,0.4);color:#6e697d;background:rgba(250,248,252,0.8)">
-                        <p class="text-xs mt-2" style="color:#8a8595">選択した日付から翌年4月1日までに出願可能な大学を表示します</p>
-                    </div>
-                    <button id="search-future-applications" class="w-full px-4 py-3 rounded-xl text-white font-medium transition-all" style="background:linear-gradient(135deg,rgba(202,188,222,0.9),rgba(165,152,198,0.85));border:1px dashed rgba(255,255,255,0.35);box-shadow:0 4px 16px rgba(165,152,198,0.15)">
-                        <i class="fas fa-search mr-2"></i>出願可能な大学を検索
-                    </button>
-                    <div id="future-applications-results" class="mt-6"></div>
-                </div>
-            </div>
+            <!-- 区域4：今後出願可能な大学（整块大按钮） -->
+            <button type="button" id="future-applications-modal-btn" class="big-entry-btn">
+                <span class="big-btn-title">今後出願可能な大学<span class="big-btn-emoji">📅</span></span>
+                <span class="big-btn-desc">今から受験終了までに出願できる大学を確認</span>
+                <i class="fas fa-chevron-right big-btn-arrow" aria-hidden="true"></i>
+            </button>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-1">
-                <button class="section-button mb-0" id="schools-section-btn">
-                    <div class="flex items-center gap-3">
-                        <span class="text-xl">🏫</span>
-                        <div class="text-left">
-                            <h3 class="text-lg font-bold font-serif-title" style="color:#5a5569;letter-spacing:0.04em">志望校リスト</h3>
-                            <p class="text-xs" style="color:#8a8595">追加済みの学校リスト</p>
-                        </div>
-                    </div>
-                    <i class="fas fa-chevron-down section-chevron"></i>
-                </button>
-                <div id="schools-section-content" class="section-content">
-                    <div class="glass rounded-b-2xl p-6">
-                        <div id="selected-schools" class="space-y-3">
-                            <p class="text-sm text-center py-8" style="color:#8a8595">検索モジュールから大学を追加してください</p>
-                        </div>
-                        <div class="mt-4 space-y-2">
-                            <a href="compass_filter.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(202,188,222,0.4);color:#6e697d">
-                                <i class="fas fa-plus mr-2"></i>条件筛选で追加
-                            </a>
-                            <a href="compass_score.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(202,188,222,0.4);color:#6e697d">
-                                <i class="fas fa-plus mr-2"></i>成績matchで追加
-                            </a>
-                            <a href="compass_search.html" class="block w-full px-4 py-3 border border-dashed rounded-2xl hover:bg-white/40 transition-all text-center" style="border-color:rgba(202,188,222,0.4);color:#6e697d">
-                                <i class="fas fa-plus mr-2"></i>検索で追加
-                            </a>
-                        </div>
+    </main>
+
+    <!-- 琉璃质感玻璃弹层：覆盖全屏（含导航栏），浅紫色透明背景 -->
+    <div id="glass-overlay" class="glass-overlay hidden">
+        <div class="glass-overlay-backdrop"></div>
+        <div class="glass-overlay-panel">
+            <button type="button" class="glass-overlay-close" id="glass-overlay-close" aria-label="閉じる">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="glass-overlay-header">
+                <h2 id="glass-overlay-title" class="glass-overlay-title"></h2>
+            </div>
+            <div id="glass-overlay-body" class="glass-overlay-body">
+                <div id="glass-timeline-slot" class="glass-slot hidden">
+                    <div id="timeline-content" class="p-4">
+                        <p class="text-center py-12" style="color:#8a8595">志望校を追加するとタイムラインが表示されます</p>
                     </div>
                 </div>
-            </div>
-            
-            <div class="lg:col-span-2">
-                <button class="section-button mb-0" id="timeline-section-btn">
-                    <div class="flex items-center gap-3">
-                        <span class="text-xl">📊</span>
-                        <div class="text-left">
-                            <h3 class="text-lg font-bold font-serif-title" style="color:#5a5569;letter-spacing:0.04em">出願タイムライン</h3>
-                            <p class="text-xs" style="color:#8a8595">スケジュールと重要なポイント</p>
+                <div id="glass-future-slot" class="glass-slot hidden">
+                    <div class="p-4">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium mb-2" style="color:#6e697d">日付を選択（デフォルトは今日）</label>
+                            <input type="date" id="future-applications-date" class="w-full px-4 py-2 rounded-xl border focus:outline-none focus:ring-2" style="border:1px solid rgba(200,185,220,0.45);color:#6a6578;background:#fffefb">
+                            <p class="text-xs mt-2" style="color:#8a8595">選択した日付から翌年4月1日までに出願可能な大学を表示します</p>
                         </div>
-                    </div>
-                    <i class="fas fa-chevron-down section-chevron"></i>
-                </button>
-                <div id="timeline-section-content" class="section-content">
-                    <div class="glass rounded-b-2xl p-6">
-                        <div id="timeline-content">
-                            <p class="text-center py-12" style="color:#8a8595">志望校を追加するとタイムラインが表示されます</p>
-                        </div>
+                        <button id="search-future-applications" class="w-full px-4 py-3 rounded-xl text-white font-medium transition-all" style="background:linear-gradient(135deg,rgba(202,188,222,0.9),rgba(165,152,198,0.85));border:1px dashed rgba(255,255,255,0.35);box-shadow:0 4px 16px rgba(165,152,198,0.15)">
+                            <i class="fas fa-search mr-2"></i>出願可能な大学を検索
+                        </button>
+                        <div id="future-applications-results" class="mt-6"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
     <!-- メモ入力モーダル -->
     <div id="memo-modal-overlay" class="memo-modal-overlay hidden">
@@ -1555,21 +1607,21 @@
             
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-2" style="color:#6e697d">日付を選択</label>
-                <input type="date" id="memo-modal-date" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(202,188,222,0.4);color:#6e697d;background:rgba(250,248,252,0.8)">
+                <input type="date" id="memo-modal-date" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border:1px solid rgba(200,185,220,0.45);color:#6a6578;background:#fffefb">
             </div>
             
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-2" style="color:#6e697d">時間を選択（オプション）</label>
-                <input type="time" id="memo-modal-time" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border-color:rgba(202,188,222,0.4);color:#6e697d;background:rgba(250,248,252,0.8)">
+                <input type="time" id="memo-modal-time" class="w-full px-4 py-2 rounded-xl border border-dashed focus:outline-none focus:ring-2" style="border:1px solid rgba(200,185,220,0.45);color:#6a6578;background:#fffefb">
             </div>
             
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-2" style="color:#6e697d">メモ内容</label>
-                <textarea id="memo-modal-input" rows="4" class="w-full px-4 py-3 rounded-xl border border-dashed resize-none focus:outline-none focus:ring-2" style="border-color:rgba(202,188,222,0.4);color:#6e697d;background:rgba(250,248,252,0.8)" placeholder="例：志望理由書を準備、面接はスーツ必須..."></textarea>
+                <textarea id="memo-modal-input" rows="4" class="w-full px-4 py-3 rounded-xl border border-dashed resize-none focus:outline-none focus:ring-2" style="border:1px solid rgba(200,185,220,0.45);color:#6a6578;background:#fffefb" placeholder="例：志望理由書を準備、面接はスーツ必須..."></textarea>
             </div>
             
             <div class="flex gap-3 mt-4">
-                <button id="memo-modal-cancel" class="px-4 py-2 rounded-xl text-sm" style="color:#8a8595;border:1px dashed rgba(202,188,222,0.4);background:rgba(250,248,252,0.6)">キャンセル</button>
+                <button id="memo-modal-cancel" class="px-4 py-2 rounded-xl text-sm" style="color:#8a8595;border:1px solid rgba(200,185,220,0.45);background:#fffefb">キャンセル</button>
                 <button id="memo-modal-save" class="px-4 py-2 rounded-xl text-sm text-white" style="background:linear-gradient(135deg,rgba(202,188,222,0.9),rgba(165,152,198,0.85));border:1px dashed rgba(255,255,255,0.35)">保存</button>
             </div>
         </div>
@@ -2040,24 +2092,43 @@
                 return { btn, content, wasExpanded };
             };
             
-            const schoolsSection = setupSectionToggle('schools-section-btn', 'schools-section-content', true);
-            // 时间线section：默认展开，如果有内容则强制展开
             const plan = getPlan();
-            const timelineDefaultExpanded = plan.length > 0;
-            const timelineSection = setupSectionToggle('timeline-section-btn', 'timeline-section-content', timelineDefaultExpanded);
-            // 如果有内容，强制展开时间线section
-            if (plan.length > 0 && timelineSection) {
-                timelineSection.btn.classList.add('expanded');
-                timelineSection.content.classList.add('expanded');
-                // 强制设置样式确保内容可见
-                timelineSection.content.style.maxHeight = '5000px';
-                timelineSection.content.style.display = 'block';
-                timelineSection.content.style.visibility = 'visible';
-                timelineSection.content.style.opacity = '1';
-                timelineSection.content.style.overflow = 'visible';
-                localStorage.setItem('section_timeline-section-btn_expanded', '1');
+            
+            // 琉璃质感玻璃弹层：打开/关闭
+            const glassOverlay = document.getElementById('glass-overlay');
+            const glassOverlayClose = document.getElementById('glass-overlay-close');
+            const glassOverlayTitle = document.getElementById('glass-overlay-title');
+            const glassTimelineSlot = document.getElementById('glass-timeline-slot');
+            const glassFutureSlot = document.getElementById('glass-future-slot');
+            
+            function openGlassOverlay(mode) {
+                if (!glassOverlay || !glassOverlayTitle || !glassTimelineSlot || !glassFutureSlot) return;
+                glassOverlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                if (mode === 'timeline') {
+                    glassOverlayTitle.textContent = '📊 出願タイムライン';
+                    glassTimelineSlot.classList.remove('hidden');
+                    glassFutureSlot.classList.add('hidden');
+                } else {
+                    glassOverlayTitle.textContent = '📅 今後出願可能な大学';
+                    glassTimelineSlot.classList.add('hidden');
+                    glassFutureSlot.classList.remove('hidden');
+                }
             }
-            setupSectionToggle('future-applications-btn', 'future-applications-content', false);
+            
+            function closeGlassOverlay() {
+                if (glassOverlay) {
+                    glassOverlay.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            }
+            
+            document.getElementById('timeline-modal-btn')?.addEventListener('click', () => openGlassOverlay('timeline'));
+            document.getElementById('future-applications-modal-btn')?.addEventListener('click', () => openGlassOverlay('future'));
+            glassOverlayClose?.addEventListener('click', closeGlassOverlay);
+            glassOverlay?.addEventListener('click', (e) => {
+                if (e.target === glassOverlay || e.target.classList.contains('glass-overlay-backdrop')) closeGlassOverlay();
+            });
             
             // 工具箱功能
             const toolboxBtn = document.getElementById('toolbox-btn');
@@ -2127,26 +2198,6 @@
                 });
             });
             
-            // 确保时间线在有内容时自动展开
-            const checkAndExpandTimeline = () => {
-                const timelineContent = document.getElementById('timeline-content');
-                if (timelineContent && timelineContent.innerHTML.trim() !== '' && 
-                    timelineContent.innerHTML.indexOf('志望校を追加すると') === -1) {
-                    const btn = document.getElementById('timeline-section-btn');
-                    const content = document.getElementById('timeline-section-content');
-                    if (btn && content && !content.classList.contains('expanded')) {
-                        btn.classList.add('expanded');
-                        content.classList.add('expanded');
-                        // 强制设置样式确保内容可见
-                        content.style.maxHeight = '5000px';
-                        content.style.display = 'block';
-                        content.style.visibility = 'visible';
-                        content.style.opacity = '1';
-                        content.style.overflow = 'visible';
-                        localStorage.setItem('section_timeline-section-btn_expanded', '1');
-                    }
-                }
-            };
             
             // 之后还能出愿的大学功能
             document.getElementById('search-future-applications')?.addEventListener('click', async () => {
@@ -2226,7 +2277,7 @@
                             
                             html += `
                                 <div class="drawer-group drawer-univ mb-2">
-                                    <div class="drawer-header card-diary p-3 flex items-center justify-between cursor-pointer" data-drawer-toggle="${univKey}" style="background:rgba(250,248,252,0.8);border:1px dashed rgba(202,188,222,0.3);border-radius:0.75rem;">
+                                    <div class="drawer-header card-diary p-3 flex items-center justify-between cursor-pointer" data-drawer-toggle="${univKey}" style="background:#fffefb;border:1px solid rgba(200,185,220,0.4);border-radius:0.75rem;box-shadow:0 2px 10px rgba(180,155,210,0.06)">
                                         <div class="flex items-center gap-2">
                                             <span class="drawer-chevron text-sm" style="color:#6e697d;transition:transform 0.3s ease;transform:rotate(${univExpanded ? 180 : 0}deg);"><i class="fas fa-chevron-down"></i></span>
                                             <span class="font-semibold" style="color:#5a5569">🏫 ${escapeHtml(univName)}</span>
@@ -2897,7 +2948,7 @@
                     <section>
                         <div class="space-y-0">${track1}</div>
                     </section>
-                    <section class="pt-4 border-t timeline-section-wrapper" style="border-color:rgba(242,232,248,0.3);background:linear-gradient(135deg, rgba(246,242,250,0.4) 0%, rgba(248,246,252,0.35) 100%);backdrop-filter:blur(8px) saturate(120%);-webkit-backdrop-filter:blur(8px) saturate(120%);border-radius:0.75rem;padding:1rem;margin-top:1rem;">
+                    <section class="pt-4 border-t timeline-section-wrapper" style="border-color:rgba(200,185,220,0.25);background:#fffefb;border-radius:0.75rem;padding:1rem;margin-top:1rem;box-shadow:0 2px 12px rgba(180,155,210,0.06);">
                         <h4 class="text-sm font-bold mb-3 timeline-section-title" style="color:#5c5669;letter-spacing:0.04em;font-weight:700;font-size:0.95rem;">全体スケジュール（時系列）</h4>
                         ${track2}
                     </section>
@@ -2921,31 +2972,6 @@
                 timelineEl.innerHTML = timelineHTML;
                 console.log('时间线内容已设置，内容长度:', timelineEl.innerHTML.length);
                 
-                // 确保时间线section在有内容时自动展开（使用requestAnimationFrame确保DOM更新完成）
-                if (plan.length > 0) {
-                    requestAnimationFrame(() => {
-                        const btn = document.getElementById('timeline-section-btn');
-                        const content = document.getElementById('timeline-section-content');
-                        console.log('时间线section按钮存在:', !!btn);
-                        console.log('时间线section内容存在:', !!content);
-                        if (btn && content) {
-                            btn.classList.add('expanded');
-                            content.classList.add('expanded');
-                            // 强制设置样式，确保内容可见
-                            content.style.maxHeight = '5000px';
-                            content.style.display = 'block';
-                            content.style.visibility = 'visible';
-                            content.style.opacity = '1';
-                            content.style.overflow = 'visible';
-                            localStorage.setItem('section_timeline-section-btn_expanded', '1');
-                            console.log('时间线section已展开');
-                            console.log('按钮expanded类:', btn.classList.contains('expanded'));
-                            console.log('内容expanded类:', content.classList.contains('expanded'));
-                            console.log('内容max-height (计算后):', window.getComputedStyle(content).maxHeight);
-                            console.log('内容max-height (内联):', content.style.maxHeight);
-                        }
-                    });
-                }
             } else {
                 console.error('时间线元素不存在！');
             }
@@ -2995,30 +3021,6 @@
                 localStorage.setItem('timeline_past_middle_expanded', isExpanded ? '0' : '1');
             });
 
-            // 确保时间线在有内容时自动展开（延迟执行以确保DOM更新完成）
-            setTimeout(() => {
-                const timelineContent = document.getElementById('timeline-content');
-                const btn = document.getElementById('timeline-section-btn');
-                const content = document.getElementById('timeline-section-content');
-                
-                if (timelineContent && btn && content) {
-                    const hasContent = timelineContent.innerHTML.trim() !== '' && 
-                        timelineContent.innerHTML.indexOf('志望校を追加すると') === -1 &&
-                        timelineContent.innerHTML.indexOf('志望校を追加すると') === -1;
-                    
-                    if (hasContent && !content.classList.contains('expanded')) {
-                        btn.classList.add('expanded');
-                        content.classList.add('expanded');
-                        // 强制设置样式确保内容可见
-                        content.style.maxHeight = '5000px';
-                        content.style.display = 'block';
-                        content.style.visibility = 'visible';
-                        content.style.opacity = '1';
-                        content.style.overflow = 'visible';
-                        localStorage.setItem('section_timeline-section-btn_expanded', '1');
-                    }
-                }
-            }, 100);
 
         }
     </script>
