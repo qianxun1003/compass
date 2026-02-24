@@ -505,7 +505,25 @@
     </style>
 </head>
 <body class="min-h-screen">
-    <script src="js/auth.js"></script><script>Auth.requireAuth();</script>
+    <script src="js/auth.js"></script>
+    <script>if (!document.location.search.includes('from=admin')) Auth.requireAuth();</script>
+    <script>
+      (function(){
+        if (!document.location.search.includes('from=admin')) { window.fromAdmin = false; return; }
+        var s = document.createElement('script');
+        s.src = 'admin/js/admin-auth.js';
+        s.onload = function(){
+          window.fromAdmin = !!(typeof AdminAuth !== 'undefined' && AdminAuth.getToken());
+          var b = document.getElementById('from-admin-banner');
+          if (b) b.style.display = window.fromAdmin ? 'block' : 'none';
+        };
+        document.head.appendChild(s);
+      })();
+    </script>
+
+    <div id="from-admin-banner" style="display:none; background: linear-gradient(90deg, #e0f2fe 0%, #fce7f3 100%); border-bottom: 1px solid rgba(14,165,233,0.2); padding: 10px 16px; text-align: center; font-size: 13px; color: #475569;">
+      🔐 当前为代学生添加模式，选择学校后点击「选择学生并加入其计划」即可代学生加入出愿。
+    </div>
 
     <!-- 初始化浮层：选择筛选因素 -->
     <div id="init-overlay" class="init-overlay">
@@ -578,6 +596,9 @@
                         <div class="font-bold text-3xl bg-gradient-to-br from-mint-500 to-mint-600 bg-clip-text text-transparent" id="match-count">0</div>
                         <div class="text-xs text-mint-400 tracking-wider font-medium">マッチ校</div>
                     </div>
+                    <a href="admin/login.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all border shadow-sm no-underline hover:opacity-90" style="background: rgba(210,233,237,0.55); border-color: rgba(53,95,107,0.45); color: #355F6B;" title="班主任/管理员在此登录">
+                        <i class="fas fa-external-link-alt text-xs"></i>前往班主任/管理后台
+                    </a>
                     <a href="compass_application.html" class="btn-soft px-5 py-2.5 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-mint-600 hover:text-mint-700 transition-all">
                         <i class="fas fa-calendar-check mr-2"></i>出願管理
                     </a>
@@ -792,6 +813,16 @@
     </main>
 
     <div id="toast-container"></div>
+
+    <!-- 班主任/管理员：选择学生并加入其计划 -->
+    <div id="add-to-student-modal" style="display:none; position:fixed; inset:0; background: rgba(15,23,42,0.3); backdrop-filter: blur(4px); z-index: 300; align-items: center; justify-content: center;">
+        <div style="background: #fff; border-radius: 16px; padding: 24px; max-width: 400px; width: 90%; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.12);">
+            <h3 class="font-semibold text-lg mb-2" style="color: #475569;">选择学生</h3>
+            <p id="add-to-student-modal-desc" class="text-sm mb-3" style="color: #64748b;"></p>
+            <div id="add-to-student-list" class="flex-1 overflow-y-auto space-y-2 mb-4"></div>
+            <button type="button" id="add-to-student-modal-close" class="w-full py-2 rounded-xl border text-sm font-medium" style="border-color: #e2e8f0; color: #64748b;">取消</button>
+        </div>
+    </div>
 
     <script>
         // 数据占位符 - 将被替换
@@ -3135,8 +3166,8 @@
                                                 <div class="flex items-center gap-2">
                                                     ${firstDept.bunri ? `<span class="px-3 py-1 bg-mint-100 text-mint-700 text-xs font-medium rounded-full">${firstDept.bunri}</span>` : ''}
                                                     ${singleMajorNoName ? `
-                                                    <button type="button" class="add-to-plan-btn flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all border border-mint-200 hover:border-mint-500 hover:bg-mint-50 text-mint-600 hover:text-mint-700 ${firstIsInPlan ? 'added' : ''}" title="加入出愿计划" onclick="event.stopPropagation(); addToPlanDept(${idx}, ${firstDept.originalIdx})" data-school-idx="${idx}" data-dept-idx="${firstDept.originalIdx}" ${firstIsInPlan ? 'disabled' : ''}>
-                                                        ${firstIsInPlan ? '<i class="fas fa-check text-mint-600"></i><span>已添加</span>' : '<i class="fas fa-calendar-plus text-mint-500"></i><span>加入计划</span>'}
+                                                    <button type="button" class="add-to-plan-btn flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all border border-mint-200 hover:border-mint-500 hover:bg-mint-50 text-mint-600 hover:text-mint-700 ${firstIsInPlan ? 'added' : ''}" title="${window.fromAdmin ? '代学生加入出愿' : '加入出愿计划'}" onclick="event.stopPropagation(); ${window.fromAdmin ? 'openAddToStudentModal' : 'addToPlanDept'}(${idx}, ${firstDept.originalIdx})" data-school-idx="${idx}" data-dept-idx="${firstDept.originalIdx}" ${firstIsInPlan ? 'disabled' : ''}>
+                                                        ${firstIsInPlan ? '<i class="fas fa-check text-mint-600"></i><span>已添加</span>' : (window.fromAdmin ? '<i class="fas fa-user-plus text-mint-500"></i><span>选择学生并加入其计划</span>' : '<i class="fas fa-calendar-plus text-mint-500"></i><span>加入计划</span>')}
                                                     </button>
                                                     ` : ''}
                                                     ${needsCollapse ? `<i class="fas fa-chevron-down text-mint-400 text-xs transition-transform duration-300" id="${deptId}-icon" style="transform: rotate(180deg);"></i>` : ''}
@@ -3191,8 +3222,8 @@
                                                             ${dept.major ? `<h5 class="font-medium text-sm text-mint-700 mb-1"><span class="result-level-badge result-level-badge-major">学科</span>${dept.major}</h5>` : `<h5 class="font-medium text-sm text-mint-600 mb-1"><span class="result-level-badge result-level-badge-major">学科</span>（未命名学科）</h5>`}
                                                         </div>
                                                         <div class="flex items-center gap-2">
-                                                            <button type="button" class="add-to-plan-btn flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all border border-mint-200 hover:border-mint-500 hover:bg-mint-50 text-mint-600 hover:text-mint-700 ${isInPlan ? 'added' : ''}" title="加入出愿计划" onclick="event.stopPropagation(); addToPlanDept(${idx}, ${dept.originalIdx})" data-school-idx="${idx}" data-dept-idx="${dept.originalIdx}" ${isInPlan ? 'disabled' : ''}>
-                                                                ${isInPlan ? '<i class="fas fa-check text-mint-600"></i><span>已添加</span>' : '<i class="fas fa-calendar-plus text-mint-500"></i><span>加入计划</span>'}
+                                                            <button type="button" class="add-to-plan-btn flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all border border-mint-200 hover:border-mint-500 hover:bg-mint-50 text-mint-600 hover:text-mint-700 ${isInPlan ? 'added' : ''}" title="${window.fromAdmin ? '代学生加入出愿' : '加入出愿计划'}" onclick="event.stopPropagation(); ${window.fromAdmin ? 'openAddToStudentModal' : 'addToPlanDept'}(${idx}, ${dept.originalIdx})" data-school-idx="${idx}" data-dept-idx="${dept.originalIdx}" ${isInPlan ? 'disabled' : ''}>
+                                                                ${isInPlan ? '<i class="fas fa-check text-mint-600"></i><span>已添加</span>' : (window.fromAdmin ? '<i class="fas fa-user-plus text-mint-500"></i><span>选择学生并加入其计划</span>' : '<i class="fas fa-calendar-plus text-mint-500"></i><span>加入计划</span>')}
                                                             </button>
                                                         </div>
                                                     </div>
@@ -3303,8 +3334,76 @@
             setTimeout(() => el.remove(), 2200);
         }
 
+        /** 班主任/管理员：代学生添加时构建 payload */
+        function buildPlanItemFromDept(schoolIdx, deptIdx) {
+            const schools = window._filteredSchools;
+            if (!schools || !schools[schoolIdx]) return null;
+            const school = schools[schoolIdx];
+            const dept = school.departments[deptIdx];
+            if (!dept) return null;
+            return {
+                id: planId(school.name, dept.department, dept.major),
+                name: school.name,
+                department: dept.department || '',
+                major: dept.major || '',
+                region: school.region,
+                source: 'filter',
+                mailStart: dept.mailStart,
+                mailEnd: dept.mailEnd,
+                mailStartDate: dept.mailStartDate,
+                mailEndDate: dept.mailEndDate,
+                examDate: dept.examDate,
+                examStart: dept.examStart,
+                examDate2: dept.examDate2,
+                examFormat: dept.examFormat,
+                announcementDate: dept.announcementDate,
+                announcement: dept.announcement
+            };
+        }
+
+        /** 班主任/管理员：打开选择学生弹窗并代其加入出愿 */
+        function openAddToStudentModal(schoolIdx, deptIdx) {
+            var payload = buildPlanItemFromDept(schoolIdx, deptIdx);
+            if (!payload || typeof AdminAuth === 'undefined' || !AdminAuth.getToken()) return;
+            var modal = document.getElementById('add-to-student-modal');
+            var listEl = document.getElementById('add-to-student-list');
+            var descEl = document.getElementById('add-to-student-modal-desc');
+            descEl.textContent = '将「' + (payload.name || '') + (payload.department ? ' - ' + payload.department : '') + '」加入以下学生的出愿计划：';
+            listEl.innerHTML = '<span class="text-slate-400">加载中…</span>';
+            modal.style.display = 'flex';
+            var apiBase = AdminAuth.getApiBase();
+            var authHeaders = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + AdminAuth.getToken() };
+            fetch(apiBase + '/api/admin/teacher/my-students', { headers: authHeaders })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    var list = d.list || [];
+                    if (list.length === 0) { listEl.innerHTML = '<span class="text-slate-500">暂无学生</span>'; return; }
+                    listEl.innerHTML = list.map(function(s) {
+                        return '<button type="button" class="w-full text-left px-4 py-3 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors" data-id="' + s.id + '">' + (s.username || '') + ' <span class="text-slate-400 text-sm">' + (s.email || '') + '</span></button>';
+                    }).join('');
+                    listEl.querySelectorAll('button[data-id]').forEach(function(btn) {
+                        btn.onclick = function() {
+                            var id = btn.getAttribute('data-id');
+                            fetch(apiBase + '/api/admin/teacher/students/' + id + '/plan', { method: 'POST', headers: authHeaders, body: JSON.stringify({ payload: payload }) })
+                                .then(function(r) { return r.json(); })
+                                .then(function(res) {
+                                    modal.style.display = 'none';
+                                    showToast('已加入该学生的出愿计划 ✓');
+                                })
+                                .catch(function() { showToast('添加失败'); });
+                        };
+                    });
+                })
+                .catch(function() { listEl.innerHTML = '<span class="text-red-500">加载失败</span>'; });
+        }
+        document.getElementById('add-to-student-modal-close').onclick = function() { document.getElementById('add-to-student-modal').style.display = 'none'; };
+
         /** 添加单个学部（CSV 一整行）到计划 */
         function addToPlanDept(schoolIdx, deptIdx) {
+            if (window.fromAdmin && typeof AdminAuth !== 'undefined' && AdminAuth.getToken()) {
+                openAddToStudentModal(schoolIdx, deptIdx);
+                return;
+            }
             const schools = window._filteredSchools;
             if (!schools || !schools[schoolIdx]) return;
             const school = schools[schoolIdx];

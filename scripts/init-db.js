@@ -39,6 +39,29 @@ CREATE TABLE IF NOT EXISTS plan_items (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_plan_items_user_id ON plan_items(user_id);
+
+-- 班主任-学生关联
+CREATE TABLE IF NOT EXISTS teacher_students (
+  id SERIAL PRIMARY KEY,
+  teacher_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  student_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(teacher_id, student_id)
+);
+CREATE INDEX IF NOT EXISTS idx_teacher_students_teacher ON teacher_students(teacher_id);
+CREATE INDEX IF NOT EXISTS idx_teacher_students_student ON teacher_students(student_id);
+
+-- 班主任提醒
+CREATE TABLE IF NOT EXISTS reminders (
+  id SERIAL PRIMARY KEY,
+  teacher_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  student_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  message TEXT NOT NULL,
+  plan_item_id INTEGER REFERENCES plan_items(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_reminders_student ON reminders(student_id);
+CREATE INDEX IF NOT EXISTS idx_reminders_teacher ON reminders(teacher_id);
 `;
 
 async function main() {

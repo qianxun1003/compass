@@ -59,4 +59,23 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// GET /api/plan/reminders - 获取班主任发给当前学生的提醒列表
+router.get('/reminders', async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT r.id, r.message, r.plan_item_id, r.created_at, u.username AS teacher_name
+       FROM reminders r
+       JOIN users u ON u.id = r.teacher_id
+       WHERE r.student_id = $1
+       ORDER BY r.created_at DESC
+       LIMIT 50`,
+      [req.user.id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('GET /api/plan/reminders error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
 module.exports = router;

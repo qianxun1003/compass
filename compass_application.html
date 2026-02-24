@@ -1507,6 +1507,9 @@
                     </div>
                 </a>
                 <div class="flex items-center gap-3">
+                    <a href="admin/login.html" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all border shadow-sm no-underline hover:opacity-90" style="background: rgba(210,233,237,0.55); border-color: rgba(53,95,107,0.45); color: #355F6B;" title="班主任/管理员在此登录、切换回管理端">
+                        <i class="fas fa-external-link-alt text-xs"></i>前往班主任/管理后台
+                    </a>
                     <button id="toolbox-btn">
                         <i class="fas fa-toolbox mr-2 text-lg"></i>出願工具箱
                     </button>
@@ -1519,6 +1522,13 @@
     </nav>
 
     <main class="pt-28 pb-24 px-6 max-w-7xl mx-auto main-layout" style="position:relative;z-index:1;">
+        <!-- 班主任提醒（登录后可见） -->
+        <div id="teacher-reminders-wrap" class="hidden mb-4 p-4 rounded-xl border border-l-4" style="background:#faf5ff;border-color:#a78bfa;border-left-width:4px;">
+            <h3 class="text-sm font-bold mb-2 flex items-center gap-2" style="color:#6b21a8;">
+                <i class="fas fa-bell"></i> 班主任提醒
+            </h3>
+            <div id="teacher-reminders-list" class="space-y-2"></div>
+        </div>
         <!-- 四个区域：上左/上右米黄，下左/下右白，中间虚线分隔 -->
         <div class="four-panel-grid">
             <!-- 区域1：志望校リスト（浅米黄，按钮形，无点击） -->
@@ -1878,6 +1888,24 @@
             } catch (e) { /* ignore */ }
         }
 
+        /** 加载班主任提醒（仅登录后） */
+        async function loadTeacherReminders() {
+            const wrap = document.getElementById('teacher-reminders-wrap');
+            const listEl = document.getElementById('teacher-reminders-list');
+            if (!wrap || !listEl || typeof Auth === 'undefined' || !Auth.getToken()) return;
+            try {
+                const r = await fetch(Auth.getApiBase() + '/api/plan/reminders', { headers: Auth.authHeaders() });
+                if (!r.ok) return;
+                const rows = await r.json();
+                if (!Array.isArray(rows) || rows.length === 0) return;
+                listEl.innerHTML = rows.map(r => {
+                    const time = r.created_at ? new Date(r.created_at).toLocaleString('ja-JP') : '';
+                    return '<div class="p-2 rounded-lg text-sm" style="background:rgba(255,255,255,0.7);color:#5a5569;">' + (r.message || '') + (time ? ' <span class="text-xs opacity-75">' + time + '</span>' : '') + '</div>';
+                }).join('');
+                wrap.classList.remove('hidden');
+            } catch (e) { /* ignore */ }
+        }
+
         function getMemos() {
             try {
                 const raw = localStorage.getItem(MEMO_STORAGE_KEY);
@@ -2039,6 +2067,7 @@
 
         window.addEventListener('DOMContentLoaded', async () => {
             await loadPlanFromServer();
+            loadTeacherReminders();
             updateDisplay();
             loadFullData();
             

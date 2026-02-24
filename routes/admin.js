@@ -66,7 +66,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: '请提供用户名和密码' });
     }
     const result = await pool.query(
-      'SELECT id, username, email, password, role, status FROM users WHERE username = $1',
+      'SELECT id, username, email, password, "role", "status" FROM users WHERE username = $1',
       [String(username).trim()]
     );
     const user = result.rows[0];
@@ -75,8 +75,9 @@ router.post('/login', async (req, res) => {
     }
     const role = (user.role || '').toString().trim().toLowerCase();
     const status = (user.status || '').toString().trim().toLowerCase();
-    if (role !== 'admin') {
-      return res.status(403).json({ message: '该账号不是管理员' });
+    const allowedRoles = ['admin', 'super_admin', 'teacher'];
+    if (!allowedRoles.includes(role)) {
+      return res.status(403).json({ message: '该账号不是管理员或班主任' });
     }
     if (status !== 'active') {
       return res.status(403).json({ message: '账号已停用' });
@@ -90,7 +91,7 @@ router.post('/login', async (req, res) => {
       [user.id]
     );
     const token = jwt.sign(
-      { userId: user.id, username: user.username, role: 'admin' },
+      { userId: user.id, username: user.username, role: role },
       JWT_SECRET,
       { expiresIn: '7d' }
     );
@@ -98,7 +99,7 @@ router.post('/login', async (req, res) => {
     writeOperationLog(user.id, user.username, 'admin_login', 'user', String(user.id), ip, 'success', null);
     res.json({
       token,
-      user: { id: user.id, username: user.username, email: user.email, role: 'admin' },
+      user: { id: user.id, username: user.username, email: user.email, role: role },
     });
   } catch (err) {
     console.error('Admin login error:', err);
@@ -109,47 +110,392 @@ router.post('/login', async (req, res) => {
 // 以下路由均需管理员权限
 router.use(requireAdmin);
 
-// ---------- 数据概览 ----------
+// 权限检查：仅最高管理员可执行（admin 或 super_admin）
+function requireSuperAdmin(req, res, next) {
+  const role = (req.adminUser && req.adminUser.role) || '';
+  if (role === 'super_admin' || role === 'admin') return next();
+  return res.status(403).json({ message: '仅最高管理员可执行此操作' });
+}
+
+// 班主任或最高管理员
+function requireTeacherOrSuper(req, res, next) {
+  const role = (req.adminUser && req.adminUser.role) || '';
+  if (['teacher', 'super_admin', 'admin'].includes(role)) return next();
+  return res.status(403).json({ message: '需要班主任或管理员权限' });
+}
+
+// ---------- 当前登录者信息（用于前端根据 role 显示不同菜单） ----------
+router.get('/me', (req, res) => {
+  res.json({
+    id: req.adminUser.id,
+    username: req.adminUser.username,
+    email: req.adminUser.email,
+    role: req.adminUser.role || 'admin',
+  });
+});
+
+// ---------- 生成学生账号（班主任/管理员均可） ----------
+router.post('/users/create', async (req, res) => {
+  try {
+    const { username, password, email } = req.body || {};
+    if (!username || !password) {
+      return res.status(400).json({ message: '请提供用户名和密码' });
+    }
+    if (String(username).trim().length < 2) {
+      return res.status(400).json({ message: '用户名至少2个字符' });
+    }
+    if (String(password).length < 6) {
+      return res.status(400).json({ message: '密码至少6个字符' });
+    }
+    const uname = String(username).trim();
+    let emailVal = email != null && String(email).trim() ? String(email).trim().toLowerCase() : null;
+    if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+      return res.status(400).json({ message: '邮箱格式无效' });
+    }
+    if (!emailVal) emailVal = uname + '@account.local';
+    const hashed = await bcrypt.hash(String(password), 10);
+    const result = await pool.query(
+      'INSERT INTO users (username, email, password, "role", "status") VALUES ($1, $2, $3, $4, $5) RETURNING id, username, email, created_at',
+      [uname, emailVal, hashed, 'user', 'active']
+    );
+    const user = result.rows[0];
+    writeOperationLog(req.adminUser.id, req.adminUser.username, 'create_student_account', 'user', String(user.id), req.headers['x-forwarded-for'] || req.socket?.remoteAddress, 'success', { username: user.username });
+    res.status(201).json({
+      message: '账号已生成，请将用户名和密码告知学生',
+      user: { id: user.id, username: user.username, email: user.email || '' },
+    });
+  } catch (err) {
+    if (err.code === '23505') {
+      return res.status(400).json({ message: '用户名或邮箱已被使用' });
+    }
+    console.error('Admin create user error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// ---------- 添加班主任账号（仅最高管理员） ----------
+router.post('/users/create-teacher', requireSuperAdmin, async (req, res) => {
+  try {
+    const { username, password, email } = req.body || {};
+    if (!username || !password) {
+      return res.status(400).json({ message: '请提供用户名和密码' });
+    }
+    if (String(username).trim().length < 2) {
+      return res.status(400).json({ message: '用户名至少2个字符' });
+    }
+    if (String(password).length < 6) {
+      return res.status(400).json({ message: '密码至少6个字符' });
+    }
+    const uname = String(username).trim();
+    let emailVal = email != null && String(email).trim() ? String(email).trim().toLowerCase() : null;
+    if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+      return res.status(400).json({ message: '邮箱格式无效' });
+    }
+    if (!emailVal) emailVal = uname + '@teacher.local';
+    const hashed = await bcrypt.hash(String(password), 10);
+    const result = await pool.query(
+      'INSERT INTO users (username, email, password, "role", "status") VALUES ($1, $2, $3, $4, $5) RETURNING id, username, email, created_at',
+      [uname, emailVal, hashed, 'teacher', 'active']
+    );
+    const user = result.rows[0];
+    writeOperationLog(req.adminUser.id, req.adminUser.username, 'create_teacher_account', 'user', String(user.id), req.headers['x-forwarded-for'] || req.socket?.remoteAddress, 'success', { username: user.username });
+    res.status(201).json({
+      message: '班主任账号已创建，请将用户名和密码告知该同事',
+      user: { id: user.id, username: user.username, email: user.email || '', role: 'teacher' },
+    });
+  } catch (err) {
+    if (err.code === '23505') {
+      return res.status(400).json({ message: '用户名或邮箱已被使用' });
+    }
+    console.error('Admin create teacher error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// 学生角色：非管理员/班主任即视为学生（兼容 role 存 'user'/'学生'/'用户' 等，PostgreSQL 中 role 为保留字用 "role"）
+const STUDENT_ROLE_CONDITION = "(LOWER(TRIM(COALESCE(u.\"role\", 'user'))) NOT IN ('admin', 'super_admin', 'teacher'))";
+
+// ---------- 班主任：我的学生列表 ----------
+router.get('/teacher/my-students', requireTeacherOrSuper, async (req, res) => {
+  try {
+    const teacherId = req.adminUser.id;
+    const isSuper = ['super_admin', 'admin'].includes(req.adminUser.role || '');
+    let list;
+    if (isSuper) {
+      const r = await pool.query(
+        `SELECT u.id, u.username, u.email, u.created_at,
+         (SELECT COUNT(*) FROM plan_items WHERE user_id = u.id) AS plan_count,
+         (SELECT COUNT(*) FROM reminders WHERE student_id = u.id) AS reminder_count
+         FROM users u
+         WHERE ${STUDENT_ROLE_CONDITION} AND COALESCE(u."status", 'active') = 'active'
+         ORDER BY u.username`
+      );
+      list = r.rows;
+    } else {
+      const r = await pool.query(
+        `SELECT u.id, u.username, u.email, u.created_at,
+         (SELECT COUNT(*) FROM plan_items WHERE user_id = u.id) AS plan_count,
+         (SELECT COUNT(*) FROM reminders WHERE student_id = u.id) AS reminder_count
+         FROM teacher_students ts
+         JOIN users u ON u.id = ts.student_id
+         WHERE ts.teacher_id = $1 AND COALESCE(u."status", 'active') = 'active'
+         ORDER BY u.username`,
+        [teacherId]
+      );
+      list = r.rows;
+    }
+    const assignedIds = new Set();
+    if (!isSuper) {
+      const ar = await pool.query('SELECT student_id FROM teacher_students WHERE teacher_id = $1', [teacherId]);
+      ar.rows.forEach((row) => assignedIds.add(row.student_id));
+    }
+    res.json({ list, assignedIds: Array.from(assignedIds), isSuper });
+  } catch (err) {
+    console.error('Admin teacher my-students error:', err.message, err.stack);
+    res.status(500).json({
+      message: '服务器错误',
+      ...(process.env.NODE_ENV !== 'production' && { error: err.message, code: err.code }),
+    });
+  }
+});
+
+// ---------- 班主任：用户列表中的学生（全部学生角色），带 inPool 标记，用于「学生池」勾选添加 ----------
+// 与「用户管理」一致：凡非 admin/super_admin/teacher 均视为学生，且不按 status 过滤，避免与用户管理所见不一致
+router.get('/teacher/students/available', requireTeacherOrSuper, async (req, res) => {
+  try {
+    const teacherId = req.adminUser.id;
+    const isSuper = ['super_admin', 'admin'].includes(req.adminUser.role || '');
+    const r = await pool.query(
+      `SELECT u.id, u.username, u.email FROM users u
+       WHERE ${STUDENT_ROLE_CONDITION}
+       ORDER BY u.username`
+    );
+    let inPoolSet = new Set();
+    if (!isSuper) {
+      const poolRows = await pool.query(
+        'SELECT student_id FROM teacher_students WHERE teacher_id = $1',
+        [teacherId]
+      );
+      poolRows.rows.forEach((row) => inPoolSet.add(row.student_id));
+    } else {
+      r.rows.forEach((row) => inPoolSet.add(row.id));
+    }
+    const list = r.rows.map((row) => ({
+      id: row.id,
+      username: row.username,
+      email: row.email,
+      inPool: inPoolSet.has(row.id)
+    }));
+    res.json({ list });
+  } catch (err) {
+    console.error('Admin teacher available students error:', err.message, err.stack);
+    res.status(500).json({
+      message: '服务器错误',
+      ...(process.env.NODE_ENV !== 'production' && { error: err.message, code: err.code }),
+    });
+  }
+});
+
+// ---------- 班主任：将学生加入我的班级 ----------
+router.post('/teacher/students/:id', requireTeacherOrSuper, async (req, res) => {
+  try {
+    const studentId = parseInt(req.params.id, 10);
+    if (Number.isNaN(studentId)) return res.status(400).json({ message: '无效ID' });
+    const teacherId = req.adminUser.id;
+    await pool.query(
+      'INSERT INTO teacher_students (teacher_id, student_id) VALUES ($1, $2) ON CONFLICT (teacher_id, student_id) DO NOTHING',
+      [teacherId, studentId]
+    );
+    const u = await pool.query(
+      `SELECT id, username FROM users WHERE id = $1 AND (LOWER(TRIM(COALESCE("role", 'user'))) NOT IN ('admin', 'super_admin', 'teacher'))`,
+      [studentId]
+    );
+    if (u.rows.length === 0) return res.status(404).json({ message: '用户不存在或不是学生账号' });
+    res.json({ message: '已加入我的学生', student: u.rows[0] });
+  } catch (err) {
+    if (err.code === '23503') return res.status(404).json({ message: '用户不存在' });
+    console.error('Admin teacher add student error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// ---------- 班主任：从我的班级移除学生 ----------
+router.delete('/teacher/students/:id', requireTeacherOrSuper, async (req, res) => {
+  try {
+    const studentId = parseInt(req.params.id, 10);
+    if (Number.isNaN(studentId)) return res.status(400).json({ message: '无效ID' });
+    const teacherId = req.adminUser.id;
+    const result = await pool.query(
+      'DELETE FROM teacher_students WHERE teacher_id = $1 AND student_id = $2 RETURNING id',
+      [teacherId, studentId]
+    );
+    if (result.rowCount === 0) return res.status(404).json({ message: '该学生不在你的班级中' });
+    res.json({ message: '已移除' });
+  } catch (err) {
+    console.error('Admin teacher remove student error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// ---------- 班主任/管理员：查看某学生的出愿计划（仅班主任本人或超级管理员） ----------
+router.get('/teacher/students/:id/plans', requireTeacherOrSuper, async (req, res) => {
+  try {
+    const studentId = parseInt(req.params.id, 10);
+    if (Number.isNaN(studentId)) return res.status(400).json({ message: '无效ID' });
+    const teacherId = req.adminUser.id;
+    const isSuper = ['super_admin', 'admin'].includes(req.adminUser.role || '');
+    if (!isSuper) {
+      const check = await pool.query('SELECT 1 FROM teacher_students WHERE teacher_id = $1 AND student_id = $2', [teacherId, studentId]);
+      if (check.rows.length === 0) return res.status(403).json({ message: '只能查看自己班级学生的出愿' });
+    }
+    const result = await pool.query(
+      'SELECT id, payload, created_at FROM plan_items WHERE user_id = $1 ORDER BY created_at ASC',
+      [studentId]
+    );
+    res.json(result.rows.map((row) => ({ id: row.id, payload: row.payload, created_at: row.created_at })));
+  } catch (err) {
+    console.error('Admin teacher student plans error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// ---------- 班主任/管理员：代某学生添加一条出愿计划（学校管理里点「选择学生并加入其计划」） ----------
+router.post('/teacher/students/:id/plan', requireTeacherOrSuper, async (req, res) => {
+  try {
+    const studentId = parseInt(req.params.id, 10);
+    if (Number.isNaN(studentId)) return res.status(400).json({ message: '无效学生ID' });
+    const { payload } = req.body || {};
+    if (!payload || typeof payload !== 'object') return res.status(400).json({ message: '请提供 payload' });
+    const teacherId = req.adminUser.id;
+    const isSuper = ['super_admin', 'admin'].includes(req.adminUser.role || '');
+    if (!isSuper) {
+      const check = await pool.query('SELECT 1 FROM teacher_students WHERE teacher_id = $1 AND student_id = $2', [teacherId, studentId]);
+      if (check.rows.length === 0) return res.status(403).json({ message: '只能为自己班级学生添加出愿' });
+    }
+    const result = await pool.query(
+      'INSERT INTO plan_items (user_id, payload) VALUES ($1, $2) RETURNING id, payload',
+      [studentId, JSON.stringify(payload)]
+    );
+    const row = result.rows[0];
+    res.status(201).json({ id: row.id, payload: row.payload, message: '已加入该学生的出愿计划' });
+  } catch (err) {
+    console.error('Admin teacher add student plan error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// ---------- 班主任：给学生发提醒 ----------
+router.post('/teacher/remind', requireTeacherOrSuper, async (req, res) => {
+  try {
+    const { student_id, message, plan_item_id } = req.body || {};
+    const studentId = parseInt(student_id, 10);
+    if (Number.isNaN(studentId) || !message || !String(message).trim()) {
+      return res.status(400).json({ message: '请提供学生ID和提醒内容' });
+    }
+    const teacherId = req.adminUser.id;
+    const isSuper = ['super_admin', 'admin'].includes(req.adminUser.role || '');
+    if (!isSuper) {
+      const check = await pool.query('SELECT 1 FROM teacher_students WHERE teacher_id = $1 AND student_id = $2', [teacherId, studentId]);
+      if (check.rows.length === 0) return res.status(403).json({ message: '只能提醒自己班级的学生' });
+    }
+    const planId = plan_item_id != null ? parseInt(plan_item_id, 10) : null;
+    const result = await pool.query(
+      'INSERT INTO reminders (teacher_id, student_id, message, plan_item_id) VALUES ($1, $2, $3, $4) RETURNING id, created_at',
+      [teacherId, studentId, String(message).trim(), Number.isNaN(planId) ? null : planId]
+    );
+    const row = result.rows[0];
+    res.status(201).json({ message: '提醒已发送', id: row.id, created_at: row.created_at });
+  } catch (err) {
+    console.error('Admin teacher remind error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// ---------- 班主任：某学生的提醒记录 ----------
+router.get('/teacher/students/:id/reminders', requireTeacherOrSuper, async (req, res) => {
+  try {
+    const studentId = parseInt(req.params.id, 10);
+    if (Number.isNaN(studentId)) return res.status(400).json({ message: '无效ID' });
+    const teacherId = req.adminUser.id;
+    const isSuper = ['super_admin', 'admin'].includes(req.adminUser.role || '');
+    if (!isSuper) {
+      const check = await pool.query('SELECT 1 FROM teacher_students WHERE teacher_id = $1 AND student_id = $2', [teacherId, studentId]);
+      if (check.rows.length === 0) return res.status(403).json({ message: '只能查看自己班级学生的提醒' });
+    }
+    const result = await pool.query(
+      'SELECT r.id, r.message, r.plan_item_id, r.created_at, u.username AS teacher_name FROM reminders r JOIN users u ON u.id = r.teacher_id WHERE r.student_id = $1 ORDER BY r.created_at DESC LIMIT 50',
+      [studentId]
+    );
+    res.json({ list: result.rows });
+  } catch (err) {
+    console.error('Admin teacher reminders error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// ---------- 数据概览（容错：某表不存在或缺列时该统计为 0，不整段报错） ----------
+async function safeCount(sql, def = 0) {
+  try {
+    const res = await pool.query(sql);
+    return parseInt(res.rows[0]?.c || 0, 10);
+  } catch (e) {
+    console.error('Dashboard query error:', e.message);
+    return def;
+  }
+}
 router.get('/dashboard', async (req, res) => {
   try {
-    const [usersRes, schoolsRes, planRes, todayUsersRes, todaySchoolsRes] = await Promise.all([
-      pool.query("SELECT COUNT(*) AS c FROM users WHERE COALESCE(status, 'active') != 'deleted'"),
-      pool.query('SELECT COUNT(*) AS c FROM schools'),
-      pool.query('SELECT COUNT(*) AS c FROM plan_items'),
-      pool.query("SELECT COUNT(*) AS c FROM users WHERE created_at >= CURRENT_DATE AND COALESCE(status, 'active') != 'deleted'"),
-      pool.query('SELECT COUNT(*) AS c FROM schools WHERE added_at >= CURRENT_DATE'),
+    const [totalUsers, totalSchools, totalPlans, todayUsers, todaySchools] = await Promise.all([
+      safeCount('SELECT COUNT(*) AS c FROM users WHERE COALESCE("status", \'active\') != \'deleted\''),
+      safeCount('SELECT COUNT(*) AS c FROM schools'),
+      safeCount('SELECT COUNT(*) AS c FROM plan_items'),
+      safeCount('SELECT COUNT(*) AS c FROM users WHERE created_at >= CURRENT_DATE AND COALESCE("status", \'active\') != \'deleted\''),
+      safeCount('SELECT COUNT(*) AS c FROM schools WHERE added_at >= CURRENT_DATE'),
     ]);
     res.json({
-      totalUsers: parseInt(usersRes.rows[0]?.c || 0, 10),
-      totalSchools: parseInt(schoolsRes.rows[0]?.c || 0, 10),
-      totalPlans: parseInt(planRes.rows[0]?.c || 0, 10),
-      todayUsers: parseInt(todayUsersRes.rows[0]?.c || 0, 10),
-      todaySchools: parseInt(todaySchoolsRes.rows[0]?.c || 0, 10),
+      totalUsers,
+      totalSchools,
+      totalPlans,
+      todayUsers,
+      todaySchools,
     });
   } catch (err) {
     console.error('Admin dashboard error:', err);
-    res.status(500).json({ message: '服务器错误' });
+    res.status(500).json({
+      message: '服务器错误',
+      error: err.message,
+    });
   }
 });
 
 // 最近动态（最新用户、最新学校）
 router.get('/dashboard/recent', async (req, res) => {
   try {
-    const [usersRes, schoolsRes] = await Promise.all([
-      pool.query(
-        "SELECT id, username, email, created_at FROM users WHERE COALESCE(status, 'active') != 'deleted' ORDER BY created_at DESC LIMIT 10"
-      ),
-      pool.query(
+    let recentUsers = [];
+    let recentSchools = [];
+    try {
+      const usersRes = await pool.query(
+        'SELECT id, username, email, created_at FROM users WHERE COALESCE("status", \'active\') != \'deleted\' ORDER BY created_at DESC LIMIT 10'
+      );
+      recentUsers = usersRes.rows || [];
+    } catch (e) {
+      console.error('Dashboard recent users error:', e.message);
+    }
+    try {
+      const schoolsRes = await pool.query(
         'SELECT s.id, s.school_name, s.location, s.added_at, u.username AS added_by FROM schools s JOIN users u ON u.id = s.user_id ORDER BY s.added_at DESC LIMIT 20'
-      ),
-    ]);
-    res.json({
-      recentUsers: usersRes.rows,
-      recentSchools: schoolsRes.rows,
-    });
+      );
+      recentSchools = schoolsRes.rows || [];
+    } catch (e) {
+      console.error('Dashboard recent schools error:', e.message);
+    }
+    res.json({ recentUsers, recentSchools });
   } catch (err) {
     console.error('Admin dashboard recent error:', err);
-    res.status(500).json({ message: '服务器错误' });
+    res.status(500).json({
+      message: '服务器错误',
+      ...(process.env.NODE_ENV !== 'production' && { error: err.message }),
+    });
   }
 });
 
@@ -171,23 +517,23 @@ router.get('/users', async (req, res) => {
       params.push('%' + search + '%');
       n++;
     }
-    if (role === 'user' || role === 'admin') {
-      where += ` AND COALESCE(role, 'user') = $${n} `;
+    if (['user', 'admin', 'teacher', 'super_admin'].includes(role)) {
+      where += ` AND COALESCE(u."role", 'user') = $${n} `;
       params.push(role);
       n++;
     }
     if (statusFilter === 'active' || statusFilter === 'disabled' || statusFilter === 'deleted') {
-      where += ` AND COALESCE(status, 'active') = $${n} `;
+      where += ` AND COALESCE(u."status", 'active') = $${n} `;
       params.push(statusFilter);
       n++;
     }
 
-    const countRes = await pool.query('SELECT COUNT(*) AS c FROM users' + where, params);
+    const countRes = await pool.query('SELECT COUNT(*) AS c FROM users u' + where, params);
     const total = parseInt(countRes.rows[0]?.c || 0, 10);
 
     params.push(limit, offset);
     const listRes = await pool.query(
-      `SELECT u.id, u.username, u.email, COALESCE(u.role, 'user') AS role, COALESCE(u.status, 'active') AS status,
+      `SELECT u.id, u.username, u.email, COALESCE(u."role", 'user') AS role, COALESCE(u."status", 'active') AS status,
        u.created_at, u.last_login_at, COALESCE(u.login_count, 0) AS login_count,
        (SELECT COUNT(*) FROM schools WHERE user_id = u.id) AS school_count
        FROM users u ${where} ORDER BY u.created_at DESC LIMIT $${n} OFFSET $${n + 1}`,
@@ -205,7 +551,7 @@ router.get('/users/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
     if (Number.isNaN(id)) return res.status(400).json({ message: '无效ID' });
     const userRes = await pool.query(
-      "SELECT id, username, email, COALESCE(role, 'user') AS role, COALESCE(status, 'active') AS status, created_at, last_login_at, COALESCE(login_count, 0) AS login_count FROM users WHERE id = $1",
+      'SELECT id, username, email, COALESCE("role", \'user\') AS role, COALESCE("status", \'active\') AS status, created_at, last_login_at, COALESCE(login_count, 0) AS login_count FROM users WHERE id = $1',
       [id]
     );
     const user = userRes.rows[0];
@@ -236,19 +582,21 @@ router.patch('/users/:id', async (req, res) => {
       params.push(String(email).trim().toLowerCase());
       n++;
     }
-    if (role === 'user' || role === 'admin') {
-      updates.push(`role = $${n}`);
-      params.push(role);
+    const roleVal = role != null ? String(role).trim().toLowerCase() : '';
+    if (['user', 'admin', 'teacher', 'super_admin'].includes(roleVal)) {
+      updates.push(`"role" = $${n}`);
+      params.push(roleVal);
       n++;
     }
     if (status === 'active' || status === 'disabled' || status === 'deleted') {
-      updates.push(`status = $${n}`);
+      updates.push(`"status" = $${n}`);
       params.push(status);
       n++;
     }
-    if (updates.length === 0) return res.status(400).json({ message: '没有可更新字段' });
+    if (updates.length === 0) return res.status(400).json({ message: '没有可更新字段，请至少修改角色或状态' });
     params.push(id);
-    await pool.query('UPDATE users SET ' + updates.join(', ') + ' WHERE id = $' + n, params);
+    const result = await pool.query('UPDATE users SET ' + updates.join(', ') + ' WHERE id = $' + n, params);
+    if (result.rowCount === 0) return res.status(404).json({ message: '用户不存在' });
     writeOperationLog(req.adminUser.id, req.adminUser.username, 'update_user', 'user', String(id), req.headers['x-forwarded-for'] || req.socket?.remoteAddress, 'success', { updates: Object.keys(req.body || {}) });
     res.json({ message: '已更新' });
   } catch (err) {
