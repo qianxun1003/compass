@@ -261,16 +261,26 @@
             var el = document.getElementById('navAdminLink');
             if (!el) return;
             function setVisible(show) { el.classList.toggle('hidden', !show); }
-            function hasAdminRole(r) { return r && ['admin','super_admin','teacher'].indexOf(String(r).toLowerCase()) >= 0; }
-            if (user && hasAdminRole(user.role)) { setVisible(true); return; }
+            function hasAdminRole(r) { var s = r ? String(r).trim().toLowerCase() : ''; return s && ['admin','super_admin','teacher'].indexOf(s) >= 0; }
+            function isStaffPreview(u) { return u && String(u.username || '').toLowerCase() === 'staff_preview'; }
+            var user = Auth.getUser();
+            if (typeof console !== 'undefined' && console.log) { console.log('[学生端] 本地缓存的用户:', user, 'role=', user && user.role); }
+            var shownByCache = !!(user && (hasAdminRole(user.role) || isStaffPreview(user)));
+            if (shownByCache) { setVisible(true); }
             if (!Auth.getToken()) { setVisible(false); return; }
             fetch(apiBase + '/api/me', { headers: Auth.authHeaders() })
-                .then(function(r) { return r.ok ? r.json() : null; })
-                .then(function(data) {
-                    if (data && data.role) { Auth.setUser(data); }
-                    setVisible(data && hasAdminRole(data.role));
+                .then(function(r) {
+                    if (!r.ok) return null;
+                    return r.text().then(function(t) {
+                        try { return t ? JSON.parse(t) : null; } catch (e) { return null; }
+                    });
                 })
-                .catch(function() { setVisible(false); });
+                .then(function(data) {
+                    if (typeof console !== 'undefined' && console.log) { console.log('[学生端] /api/me 返回:', data, '是否显示按钮:', !!(data && (hasAdminRole(data.role) || isStaffPreview(data)))); }
+                    if (data) { Auth.setUser(data); }
+                    setVisible(!!(data && (hasAdminRole(data.role) || isStaffPreview(data))));
+                })
+                .catch(function(err) { if (typeof console !== 'undefined' && console.warn) { console.warn('[学生端] /api/me 请求失败:', err); } if (!shownByCache) setVisible(false); });
         })();
 
         document.getElementById('logoutBtn').addEventListener('click', function() {

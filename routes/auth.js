@@ -89,6 +89,7 @@ router.post('/login', async (req, res) => {
 // GET /api/me - 当前登录用户信息（含 role，用于学生端判断是否显示「前往管理后台」）
 router.get('/me', authMiddleware, async (req, res) => {
   try {
+    console.log('[api] GET /api/me 被请求, userId=', req.user && req.user.id);
     const result = await pool.query(
       'SELECT id, username, email, COALESCE("role", \'user\') AS role FROM users WHERE id = $1',
       [req.user.id]
@@ -98,6 +99,7 @@ router.get('/me', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: '用户不存在' });
     }
     const role = (user.role || 'user').toString().trim().toLowerCase();
+    console.log('[api] GET /api/me 返回 userId=', req.user.id, 'role=', role);
     res.json({
       id: user.id,
       username: user.username,

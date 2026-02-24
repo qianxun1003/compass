@@ -508,7 +508,7 @@
     <script src="js/auth.js"></script>
     <script>if (!document.location.search.includes('from=admin')) Auth.requireAuth();</script>
     <script>
-    (function(){ var el=document.getElementById('navAdminLink'); if(!el||typeof Auth==='undefined'||!Auth.getToken())return; function show(v){el.classList.toggle('hidden',!v);} function isStaff(r){return r&&['admin','super_admin','teacher'].indexOf(String(r).toLowerCase())>=0;} var u=Auth.getUser(); if(u&&isStaff(u.role)){show(true);return;} fetch((Auth.getApiBase?Auth.getApiBase():'')+'/api/me',{headers:Auth.authHeaders()}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.role)Auth.setUser(d); show(d&&isStaff(d.role));}).catch(function(){show(false);}); })();
+    (function(){ var el=document.getElementById('navAdminLink'); if(!el||typeof Auth==='undefined'||!Auth.getToken())return; function show(v){el.classList.toggle('hidden',!v);} function isStaff(r){var s=r?String(r).trim().toLowerCase():''; return s&&['admin','super_admin','teacher'].indexOf(s)>=0;} function isStaffPreview(u){return u&&String(u.username||'').toLowerCase()==='staff_preview';} var u=Auth.getUser(); var fromCache=!!(u&&(isStaff(u.role)||isStaffPreview(u))); if(fromCache)show(true); fetch((Auth.getApiBase?Auth.getApiBase():'')+'/api/me',{headers:Auth.authHeaders()}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d)Auth.setUser(d); show(!!(d&&(isStaff(d.role)||isStaffPreview(d))));}).catch(function(){if(!fromCache)show(false);}); })();
     </script>
     <script>
       (function(){
