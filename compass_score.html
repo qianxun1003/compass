@@ -448,6 +448,9 @@
     <script src="js/auth.js"></script>
     <script>if (!document.location.search.includes('from=admin')) Auth.requireAuth();</script>
     <script>
+    (function(){ var el=document.getElementById('navAdminLink'); if(!el||typeof Auth==='undefined'||!Auth.getToken())return; function show(v){el.classList.toggle('hidden',!v);} function isStaff(r){return r&&['admin','super_admin','teacher'].indexOf(String(r).toLowerCase())>=0;} var u=Auth.getUser(); if(u&&isStaff(u.role)){show(true);return;} fetch((Auth.getApiBase?Auth.getApiBase():'')+'/api/me',{headers:Auth.authHeaders()}).then(function(r){return r.ok?r.json():null;}).then(function(d){if(d&&d.role)Auth.setUser(d); show(d&&isStaff(d.role));}).catch(function(){show(false);}); })();
+    </script>
+    <script>
       (function(){ if (!document.location.search.includes('from=admin')) { window.fromAdmin = false; return; }
         var s = document.createElement('script'); s.src = 'admin/js/admin-auth.js';
         s.onload = function(){ window.fromAdmin = !!(typeof AdminAuth !== 'undefined' && AdminAuth.getToken()); var b = document.getElementById('from-admin-banner'); if (b) b.style.display = window.fromAdmin ? 'block' : 'none'; };
@@ -545,7 +548,7 @@
                         <i class="fas fa-list-check"></i>
                         <span>各大学分数要求</span>
                     </a>
-                    <a href="admin/login.html" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all border shadow-sm no-underline hover:opacity-90" style="background: rgba(210,233,237,0.55); border-color: rgba(53,95,107,0.45); color: #355F6B;" title="班主任/管理员在此登录">
+                    <a id="navAdminLink" href="admin/login.html" class="nav-admin-link hidden inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all border shadow-sm no-underline hover:opacity-90" style="background: rgba(210,233,237,0.55); border-color: rgba(53,95,107,0.45); color: #355F6B;" title="班主任/管理员在此登录">
                         <i class="fas fa-external-link-alt text-xs"></i>前往班主任/管理后台
                     </a>
                     <a href="compass_application.html" class="px-4 py-2 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-sky-600 hover:text-sky-800 transition-all">

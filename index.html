@@ -124,7 +124,7 @@
                     </a>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="admin/login.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all border no-underline shadow-sm hover:opacity-90" style="border-color: rgba(53,95,107,0.45); background: rgba(210,233,237,0.55); color: #355F6B;" title="班主任/管理员在此登录">前往班主任/管理后台</a>
+                    <a id="navAdminLink" href="admin/login.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all border no-underline shadow-sm hover:opacity-90 hidden" style="border-color: rgba(53,95,107,0.45); background: rgba(210,233,237,0.55); color: #355F6B;" title="班主任/管理员在此登录">前往班主任/管理后台</a>
                     <span class="text-slate-500 text-sm font-normal" id="navUsername"></span>
                     <button type="button" id="logoutBtn" class="btn-primary px-6 py-2.5 rounded-2xl text-sm">ログアウト</button>
                 </div>
@@ -255,6 +255,23 @@
         if (user && user.username) {
             document.getElementById('navUsername').textContent = user.username;
         }
+
+        (function showAdminLinkIfRole() {
+            var apiBase = (typeof Auth !== 'undefined' && Auth.getApiBase) ? Auth.getApiBase() : '';
+            var el = document.getElementById('navAdminLink');
+            if (!el) return;
+            function setVisible(show) { el.classList.toggle('hidden', !show); }
+            function hasAdminRole(r) { return r && ['admin','super_admin','teacher'].indexOf(String(r).toLowerCase()) >= 0; }
+            if (user && hasAdminRole(user.role)) { setVisible(true); return; }
+            if (!Auth.getToken()) { setVisible(false); return; }
+            fetch(apiBase + '/api/me', { headers: Auth.authHeaders() })
+                .then(function(r) { return r.ok ? r.json() : null; })
+                .then(function(data) {
+                    if (data && data.role) { Auth.setUser(data); }
+                    setVisible(data && hasAdminRole(data.role));
+                })
+                .catch(function() { setVisible(false); });
+        })();
 
         document.getElementById('logoutBtn').addEventListener('click', function() {
             Auth.clearToken();

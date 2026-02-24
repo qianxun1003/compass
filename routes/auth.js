@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { pool } = require('../db.js');
 const { JWT_SECRET } = require('../middleware/auth.js');
+const { authMiddleware } = require('../middleware/auth.js');
 
 const router = express.Router();
 
@@ -57,7 +58,7 @@ router.post('/login', async (req, res) => {
     }
 
     const result = await pool.query(
-      'SELECT id, username, email, password FROM users WHERE username = $1',
+      'SELECT id, username, email, password, COALESCE("role", \'user\') AS role FROM users WHERE username = $1',
       [String(username).trim()]
     );
     const user = result.rows[0];
@@ -69,6 +70,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: '用户名或密码错误' });
     }
 
+    const role = (user.role || 'user').toString().trim().toLowerCase();
     const token = jwt.sign(
       { userId: user.id, username: user.username },
       JWT_SECRET,
@@ -76,10 +78,34 @@ router.post('/login', async (req, res) => {
     );
     res.json({
       token,
-      user: { id: user.id, username: user.username, email: user.email }
+      user: { id: user.id, username: user.username, email: user.email, role: role }
     });
   } catch (err) {
     console.error('Login error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// GET /api/me - 当前登录用户信息（含 role，用于学生端判断是否显示「前往管理后台」）
+router.get('/me', authMiddleware, async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT id, username, email, COALESCE("role", \'user\') AS role FROM users WHERE id = $1',
+      [req.user.id]
+    );
+    const user = result.rows[0];
+    if (!user) {
+      return res.status(404).json({ message: '用户不存在' });
+    }
+    const role = (user.role || 'user').toString().trim().toLowerCase();
+    res.json({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: role
+    });
+  } catch (err) {
+    console.error('GET /api/me error:', err);
     res.status(500).json({ message: '服务器错误' });
   }
 });

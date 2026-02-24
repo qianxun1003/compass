@@ -9,7 +9,8 @@
     "start": "node server.js",
     "dev": "node server.js",
     "init-db": "node scripts/init-db.js",
-    "migrate-admin": "node scripts/migrate-admin.js"
+    "migrate-admin": "node scripts/migrate-admin.js",
+    "create-admin": "node scripts/create-admin.js"
   },
   "engines": {
     "node": ">=18"
