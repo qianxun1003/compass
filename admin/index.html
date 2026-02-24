@@ -522,11 +522,11 @@
 <body>
     <nav class="sidebar">
         <div class="pt-6 px-4 pb-8 border-b" style="border-color: var(--border-ice);">
-            <a href="../index.html" class="!p-0 !bg-transparent hover:!bg-transparent flex items-center gap-2" style="color: var(--text); font-weight: 600;">
+            <a id="linkToStudentIndex" href="../index.html" class="!p-0 !bg-transparent hover:!bg-transparent flex items-center gap-2" style="color: var(--text); font-weight: 600;">
                 <i class="fas fa-compass text-lg" style="color: var(--accent-sky);"></i>
                 <span class="font-semibold" id="sidebarTitle">班主任后台</span>
             </a>
-            <a href="../index.html" class="mt-10 flex items-center gap-2 rounded-xl px-4 py-3 text-sm transition-all duration-200 border" style="color: var(--text); border-color: var(--border-ice); background: rgba(210, 233, 237, 0.45);">
+            <a id="linkToStudentSide" href="../index.html" class="mt-10 flex items-center gap-2 rounded-xl px-4 py-3 text-sm transition-all duration-200 border" style="color: var(--text); border-color: var(--border-ice); background: rgba(210, 233, 237, 0.45);">
                 <i class="fas fa-external-link-alt text-xs"></i>
                 <span>去学生端（选校·出愿）</span>
             </a>
@@ -719,9 +719,9 @@
                         <p id="studentDetailSelectHint" class="text-slate-500 text-sm">选择上方学生后，将弹出其个人详情浮层。</p>
                     </div>
                     <div class="panel-side-nav-cabinet">
-                        <a href="../compass_filter.html?from=admin" target="_blank" rel="noopener">🔍 条件检索</a>
-                        <a href="../compass_search.html?from=admin" target="_blank" rel="noopener">⚡ 快速检索</a>
-                        <a href="../compass_score.html?from=admin" target="_blank" rel="noopener">📊 成绩匹配</a>
+                        <a id="linkToCompassFilter" href="../compass_filter.html?from=admin" target="_blank" rel="noopener">🔍 条件检索</a>
+                        <a id="linkToCompassSearch" href="../compass_search.html?from=admin" target="_blank" rel="noopener">⚡ 快速检索</a>
+                        <a id="linkToCompassScore" href="../compass_score.html?from=admin" target="_blank" rel="noopener">📊 成绩匹配</a>
                     </div>
                 </div>
             </div>
@@ -1067,6 +1067,24 @@
             AdminAuth.clearAdminAuth();
             window.location.href = 'login.html';
         };
+
+        // 班主任/管理员统一用「学生端预览」账号跳转学生端（同一账号，便于使用选校·出愿等功能）
+        function goToStudentSide(path) {
+            fetch(apiBase + '/api/admin/student-preview-token', { method: 'POST', headers: authHeaders() })
+                .then(function(r) { return r.ok ? r.json() : null; })
+                .then(function(data) {
+                    if (!data || !data.token) { alert('无法获取学生端预览'); return; }
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = path;
+                })
+                .catch(function(e) { alert('无法获取学生端预览：' + (e.message || '')); });
+        }
+        document.getElementById('linkToStudentIndex').addEventListener('click', function(e) { e.preventDefault(); goToStudentSide('/index.html'); });
+        document.getElementById('linkToStudentSide').addEventListener('click', function(e) { e.preventDefault(); goToStudentSide('/index.html'); });
+        document.getElementById('linkToCompassFilter').addEventListener('click', function(e) { e.preventDefault(); goToStudentSide('/compass_filter.html?from=admin'); });
+        document.getElementById('linkToCompassSearch').addEventListener('click', function(e) { e.preventDefault(); goToStudentSide('/compass_search.html?from=admin'); });
+        document.getElementById('linkToCompassScore').addEventListener('click', function(e) { e.preventDefault(); goToStudentSide('/compass_score.html?from=admin'); });
 
         // 导航
         var titles = { dashboard: '📅 出愿时间轴', 'my-students': '🎓 我的学生', 'account-mgmt': '🔑 账号管理', users: '👥 用户管理', schools: '学校管理', 'data-update': '🗄️ 数据库更新' };

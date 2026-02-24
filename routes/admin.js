@@ -5,6 +5,7 @@ const multer = require('multer');
 const XLSX = require('xlsx');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 const { exec } = require('child_process');
 const { promisify } = require('util');
 const { pool } = require('../db.js');
@@ -132,6 +133,41 @@ router.get('/me', (req, res) => {
     email: req.adminUser.email,
     role: req.adminUser.role || 'admin',
   });
+});
+
+// 班主任/管理员共用「学生端预览」账号用户名（跳转学生端时统一用此账号登录）
+const STAFF_PREVIEW_USERNAME = 'staff_preview';
+
+// ---------- 获取学生端预览 Token（班主任/管理员跳转学生端时用，统一登录为 staff_preview 账号） ----------
+router.post('/student-preview-token', async (req, res) => {
+  try {
+    let result = await pool.query(
+      'SELECT id, username, email FROM users WHERE username = $1',
+      [STAFF_PREVIEW_USERNAME]
+    );
+    let user = result.rows[0];
+    if (!user) {
+      const hashed = await bcrypt.hash(crypto.randomBytes(16).toString('hex'), 10);
+      const email = STAFF_PREVIEW_USERNAME + '@internal.local';
+      result = await pool.query(
+        'INSERT INTO users (username, email, password, "role", "status") VALUES ($1, $2, $3, \'user\', \'active\') RETURNING id, username, email',
+        [STAFF_PREVIEW_USERNAME, email, hashed]
+      );
+      user = result.rows[0];
+    }
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+    res.json({
+      token,
+      user: { id: user.id, username: user.username, email: user.email || '', role: 'user' },
+    });
+  } catch (err) {
+    console.error('student-preview-token error:', err);
+    res.status(500).json({ message: '获取学生端预览账号失败' });
+  }
 });
 
 // ---------- 生成学生账号（班主任/管理员均可） ----------
