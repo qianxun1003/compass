@@ -442,6 +442,28 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(14,165,233,0.15);
         }
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+        .nav-system-name { color: #334155; font-weight: 600; }
+        .nav-system-name:hover { color: #475569; }
+        .page-title-fluid { font-size: clamp(1rem, 3vw + 0.5rem, 1.5rem); }
+        .page-body-fluid { font-size: clamp(0.8125rem, 1.5vw + 0.4rem, 0.875rem); }
+        .btn-text-fluid { font-size: clamp(0.75rem, 1.8vw + 0.3rem, 0.875rem); }
+        .nav-inner .nav-right { margin-left: auto; }
+        @media (max-width: 768px) {
+            .nav-inner { flex-wrap: wrap; gap: 0.75rem; }
+            .nav-right { flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; gap: 0.4rem; }
+            .nav-right a { flex: 0 0 auto !important; white-space: nowrap; }
+            main { padding-left: 1rem !important; padding-right: 1rem !important; padding-top: 5.5rem !important; }
+            .nav-bar .max-w-7xl { padding-left: 1rem; padding-right: 1rem; }
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -523,39 +545,36 @@
         </div>
     </div>
 
-    <!-- 顶部导航 -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/30">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
-                        <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white" style="background:linear-gradient(135deg,rgba(59,130,246,0.85),rgba(45,95,160,0.8));border:1px solid rgba(255,255,255,0.35);box-shadow:0 4px 16px rgba(59,130,246,0.15)">
-                            <i class="fas fa-star text-xl"></i>
-                        </div>
-                        <div>
-                            <h1 class="font-medium text-xl font-serif-title text-deep-800" style="letter-spacing: 0.06em">成績評価 📊</h1>
-                            <p class="text-xs font-normal text-deep-600">Score Match</p>
-                        </div>
-                    </a>
-                </div>
-                
-                <div class="flex items-center gap-6">
-                    <div class="text-right">
-                        <div class="font-medium text-3xl bg-gradient-to-br from-deep-600 to-deep-700 bg-clip-text text-transparent" id="match-count" style="letter-spacing: 0.05em">0</div>
-                        <div class="text-xs tracking-wider font-normal text-deep-500">マッチング</div>
+    <!-- 顶部导航：与主界面一致的形状（白板感 + 毛玻璃） -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-bar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
+            <div class="flex items-center justify-between gap-3 sm:gap-4 nav-inner w-full">
+                <a href="index.html" class="flex items-center gap-3 min-w-0 flex-shrink-0 no-underline">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-white flex-shrink-0" style="background:linear-gradient(135deg,rgba(59,130,246,0.85),rgba(45,95,160,0.8));border:1px solid rgba(255,255,255,0.35);box-shadow:0 4px 16px rgba(59,130,246,0.15)">
+                        <i class="fas fa-star text-base sm:text-lg"></i>
                     </div>
-                    <a href="compass_score_guide.html" class="px-4 py-2 rounded-2xl text-sm font-medium flex items-center gap-2 transition-all text-white border shadow-md hover:shadow-lg" style="background: linear-gradient(135deg, rgba(251,191,36,0.6) 0%, rgba(245,158,11,0.5) 100%); backdrop-filter: blur(10px) saturate(120%); -webkit-backdrop-filter: blur(10px) saturate(120%); border-color: rgba(245,158,11,0.35); box-shadow: 0 4px 16px rgba(245,158,11,0.12), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.05);" onmouseover="this.style.background='linear-gradient(135deg, rgba(251,191,36,0.7) 0%, rgba(245,158,11,0.6) 100%)'; this.style.boxShadow='0 6px 20px rgba(245,158,11,0.18), inset 0 1px 0 rgba(255,255,255,0.45), inset 0 -1px 0 rgba(0,0,0,0.08)';" onmouseout="this.style.background='linear-gradient(135deg, rgba(251,191,36,0.6) 0%, rgba(245,158,11,0.5) 100%)'; this.style.boxShadow='0 4px 16px rgba(245,158,11,0.12), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.05)';" title="查看各大学每科所需分数">
+                    <div class="min-w-0">
+                        <h1 class="nav-system-name page-title-fluid font-serif-title truncate" style="letter-spacing: 0.06em">成績評価 📊</h1>
+                        <p class="page-body-fluid text-slate-500 hidden sm:block">Score Match</p>
+                    </div>
+                </a>
+                <div class="flex items-center gap-2 sm:gap-4 nav-right flex-shrink-0">
+                    <div class="text-right hidden sm:block">
+                        <div class="font-medium text-xl sm:text-2xl text-slate-600" id="match-count" style="letter-spacing: 0.05em">0</div>
+                        <div class="text-[10px] sm:text-xs tracking-wider font-normal text-slate-400">マッチング</div>
+                    </div>
+                    <a href="compass_score_guide.html" class="px-3 py-2 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-1.5 transition-all text-amber-800 border border-amber-200/80 bg-amber-50/90 hover:bg-amber-100/90 whitespace-nowrap shadow-sm" title="查看各大学每科所需分数">
                         <i class="fas fa-list-check"></i>
-                        <span>各大学分数要求</span>
+                        <span class="hidden sm:inline">分数要求</span>
                     </a>
-                    <a id="navAdminLink" href="admin/login.html" class="nav-admin-link hidden inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all border shadow-sm no-underline hover:opacity-90" style="background: rgba(210,233,237,0.55); border-color: rgba(53,95,107,0.45); color: #355F6B;" title="班主任/管理员在此登录">
-                        <i class="fas fa-external-link-alt text-xs"></i>前往班主任/管理后台
+                    <a id="navAdminLink" href="admin/login.html" class="nav-admin-link hidden inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium no-underline whitespace-nowrap transition-all border border-slate-200/80 bg-slate-50/80 text-slate-600 hover:bg-slate-100/90" title="班主任/管理员在此登录">
+                        <i class="fas fa-cog text-[10px] sm:text-xs"></i><span>管理后台</span>
                     </a>
-                    <a href="compass_application.html" class="px-4 py-2 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-sky-600 hover:text-sky-800 transition-all">
-                        <i class="fas fa-calendar-check mr-2"></i>出願管理
+                    <a href="compass_application.html" class="px-3 py-2 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap bg-white/60 hover:bg-white/80 border border-slate-200/60 text-sky-600 hover:text-sky-800">
+                        <i class="fas fa-calendar-check sm:mr-2"></i><span class="hidden sm:inline">出願管理</span>
                     </a>
-                    <a href="index.html" class="px-4 py-2 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-sky-600 hover:text-sky-800 transition-all">
-                        <i class="fas fa-home mr-2"></i>ホーム
+                    <a href="index.html" class="px-3 py-2 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap bg-white/60 hover:bg-white/80 border border-slate-200/60 text-sky-600 hover:text-sky-800">
+                        <i class="fas fa-home sm:mr-2"></i><span class="hidden sm:inline">ホーム</span>
                     </a>
                 </div>
             </div>
@@ -626,29 +645,29 @@
     </div>
 
     <!-- 主内容 -->
-    <main class="pt-28 pb-24 px-6 max-w-7xl mx-auto">
+    <main class="pt-24 sm:pt-28 pb-24 px-4 sm:px-6 max-w-7xl mx-auto">
 
         <!-- 成绩输入区（选完组合后才显示） -->
-        <section id="score-form-section" class="glass rounded-3xl p-8 shadow-lg mb-8 animate-slide-up border border-sky-100/50 hidden relative">
-            <div class="mb-6 flex items-start justify-between gap-4">
-                <div class="flex-1">
-                    <h2 class="font-medium text-3xl font-serif-title text-sky-800 mb-2" style="letter-spacing: 0.05em">あなたの成績を入力 📝</h2>
-                    <p class="font-normal text-sky-600">あなたの組合: <span id="chosen-combo-label" class="font-medium text-sky-700"></span>
-                        <button type="button" onclick="reopenComboModal()" class="ml-2 text-sm text-sky-500 hover:text-sky-700 underline">組み合わせを変更</button></p>
+        <section id="score-form-section" class="glass rounded-3xl p-4 sm:p-8 shadow-lg mb-6 sm:mb-8 animate-slide-up border border-sky-100/50 hidden relative">
+            <div class="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                <div class="flex-1 min-w-0">
+                    <h2 class="page-title-fluid font-medium text-2xl sm:text-3xl font-serif-title text-sky-800 mb-1 sm:mb-2" style="letter-spacing: 0.05em">あなたの成績を入力 📝</h2>
+                    <p class="page-body-fluid font-normal text-sky-600">あなたの組合: <span id="chosen-combo-label" class="font-medium text-sky-700"></span>
+                        <button type="button" onclick="reopenComboModal()" class="ml-2 text-xs sm:text-sm text-sky-500 hover:text-sky-700 underline">組み合わせを変更</button></p>
                 </div>
-                <button type="button" class="calc-info-btn shrink-0" onclick="openCalcModelModal()" title="マッチング計算方式">
+                <button type="button" class="calc-info-btn shrink-0 btn-text-fluid" onclick="openCalcModelModal()" title="マッチング計算方式">
                     <i class="fas fa-calculator text-sky-600"></i>
                     <span>計算モデル</span>
                 </button>
             </div>
-            <div id="score-inputs-dynamic" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"></div>
-            <div class="flex gap-4">
-                <button onclick="matchByScore()" class="flex-1 px-8 py-4 bg-gradient-to-r from-deep-600 to-deep-700 text-white rounded-xl font-medium text-lg hover:from-deep-700 hover:to-deep-800 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-3" style="letter-spacing: 0.05em">
-                    <i class="fas fa-search text-xl"></i>
+            <div id="score-inputs-dynamic" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8"></div>
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <button onclick="matchByScore()" class="btn-text-fluid flex-1 px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-deep-600 to-deep-700 text-white rounded-xl font-medium hover:from-deep-700 hover:to-deep-800 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 sm:gap-3 whitespace-nowrap" style="letter-spacing: 0.05em">
+                    <i class="fas fa-search text-lg sm:text-xl"></i>
                     マッチング開始
                 </button>
-                <button onclick="resetScores()" class="px-6 py-4 bg-white/80 hover:bg-white border-2 border-sky-200 rounded-xl text-sky-600 font-medium transition-all">
-                    <i class="fas fa-redo mr-2"></i>リセット
+                <button onclick="resetScores()" class="btn-text-fluid px-4 sm:px-6 py-3 sm:py-4 bg-white/80 hover:bg-white border-2 border-sky-200 rounded-xl text-sky-600 font-medium transition-all whitespace-nowrap">
+                    <i class="fas fa-redo sm:mr-2"></i>リセット
                 </button>
             </div>
         </section>

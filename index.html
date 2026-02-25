@@ -44,6 +44,89 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 4px 24px rgba(245, 101, 163, 0.04), 0 2px 12px rgba(14, 165, 233, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6);
         }
+        /* 导航栏：像从顶部吊下的白板，留足留白、分组清晰，避免拥挤 */
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+        .nav-inner { gap: 0.75rem; }
+        .nav-right {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .nav-right-divider {
+            width: 1px;
+            height: 1rem;
+            background: rgba(203, 213, 225, 0.6);
+            flex-shrink: 0;
+            margin: 0 0.15rem;
+        }
+        @media (min-width: 640px) {
+            .nav-inner { gap: 1rem; }
+            .nav-right-divider { height: 1.25rem; margin: 0 0.25rem; }
+        }
+        /* 系统名标题色：中性深色，不用蓝色 */
+        .nav-system-name { color: #334155; font-weight: 600; }
+        .nav-system-name:hover { color: #475569; }
+        .nav-username-label { color: #64748b; font-size: 0.7rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+        .nav-admin-link-style {
+            color: #475569;
+            background: rgba(248, 250, 252, 0.8);
+            border: 1px solid rgba(203, 213, 225, 0.8);
+            font-weight: 500;
+        }
+        .nav-admin-link-style:hover { background: rgba(241, 245, 249, 0.95); color: #334155; }
+        .nav-logout-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(248, 250, 252, 0.6) 100%) !important;
+            color: #475569 !important;
+            border: 1px solid rgba(203, 213, 225, 0.7);
+            font-weight: 500;
+        }
+        .nav-logout-btn:hover { color: #334155 !important; border-color: rgba(148, 163, 184, 0.8); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+        /* 帮助浮层：毛玻璃背景 + 居中卡片 */
+        #help-overlay {
+            position: fixed; inset: 0; z-index: 100;
+            background: rgba(248, 250, 252, 0.4);
+            backdrop-filter: blur(20px) saturate(120%);
+            -webkit-backdrop-filter: blur(20px) saturate(120%);
+            display: none; align-items: center; justify-content: center;
+            padding: 24px;
+            animation: helpFadeIn 0.3s ease-out;
+        }
+        #help-overlay.help-open { display: flex; }
+        @keyframes helpFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #help-overlay .help-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(24px) saturate(140%);
+            -webkit-backdrop-filter: blur(24px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 24px;
+            padding: 28px 32px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            position: relative;
+            animation: helpCardIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes helpCardIn { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        #help-overlay .help-close {
+            position: absolute; top: 12px; right: 12px;
+            width: 36px; height: 36px; border-radius: 12px;
+            border: none; background: rgba(248, 250, 252, 0.8);
+            color: #64748b; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s, color 0.2s;
+        }
+        #help-overlay .help-close:hover { background: rgba(226, 232, 240, 0.9); color: #334155; }
+        /* 模块卡片：淡淡一圈荧光，柔和模糊边界，不抢眼 */
         .module-card {
             position: relative;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -54,23 +137,26 @@
             -webkit-backdrop-filter: blur(15px) saturate(130%);
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 24px;
-            box-shadow: 0 4px 20px rgba(245, 101, 163, 0.03), 0 2px 8px rgba(14, 165, 233, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 32px rgba(245, 101, 163, 0.07), 0 0 56px rgba(245, 101, 163, 0.04), 0 4px 20px rgba(245, 101, 163, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
         .module-card:hover {
-            box-shadow: 0 12px 40px rgba(245, 101, 163, 0.06), 0 8px 24px rgba(14, 165, 233, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 40px rgba(245, 101, 163, 0.1), 0 0 64px rgba(245, 101, 163, 0.06), 0 8px 28px rgba(245, 101, 163, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.7);
             transform: translateY(-2px);
         }
         .feature-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
+            gap: 4px;
+            padding: 4px 10px;
             background: rgba(255, 255, 255, 0.25);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 14px;
-            font-size: 12px;
+            border-radius: 12px;
+            font-size: clamp(0.65rem, 2vw, 0.75rem);
             font-weight: 400;
             color: #475569;
+        }
+        @media (min-width: 640px) {
+            .feature-badge { gap: 6px; padding: 6px 12px; border-radius: 14px; font-size: 12px; }
         }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(254, 249, 242, 0.6); border-radius: 8px; }
@@ -90,7 +176,7 @@
             transform: translateY(-2px);
             box-shadow: 0 20px 48px rgba(99, 102, 241, 0.1), 0 12px 32px rgba(14, 165, 233, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
         }
-        .stat-number { font-weight: 500; letter-spacing: 0.05em; color: #0284c7; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5); }
+        .stat-number { font-weight: 500; letter-spacing: 0.05em; color: #0284c7; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5); font-size: clamp(1.5rem, 6vw, 2.25rem); }
         .title-backdrop { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .font-serif-title { font-family: 'Noto Serif JP', 'Noto Sans JP', serif; }
         .input-glass {
@@ -104,81 +190,109 @@
             border-color: rgba(14, 165, 233, 0.5);
             box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
         }
+        /* 小屏整体字体适度缩小：随视口自动缩放 */
+        .hero-title-fluid { font-size: clamp(1.25rem, 5vw + 0.5rem, 3rem); }
+        .section-title-fluid { font-size: clamp(1rem, 2.5vw + 0.5rem, 1.5rem); }
+        .body-fluid { font-size: clamp(0.8125rem, 1.5vw + 0.4rem, 0.875rem); }
+        .card-title-fluid { font-size: clamp(1rem, 2.2vw + 0.5rem, 1.5rem); }
+        .btn-text-fluid { font-size: clamp(0.75rem, 1.8vw + 0.3rem, 0.875rem); }
+        .nav-inner .nav-right { margin-left: auto; }
+        /* 移动端：导航与按钮不被拉长 */
+        @media (max-width: 768px) {
+            .nav-inner { flex-wrap: wrap; gap: 0.75rem; }
+            .nav-right { flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; margin-left: 0; }
+            .nav-right a, .nav-right button { flex: 0 0 auto !important; max-width: none; white-space: nowrap; }
+            .nav-bar .max-w-7xl { padding-left: 1rem; padding-right: 1rem; }
+            .main-grid-modules { grid-template-columns: 1fr !important; }
+            .main-grid-stats { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+            .card-btn { min-width: 0; flex-shrink: 0; }
+        }
+        @media (max-width: 480px) {
+            .nav-right .text-sm { font-size: 0.75rem; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- 顶部导航栏 -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-sky-200/30">
-        <div class="max-w-7xl mx-auto px-8 py-5">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <a href="index.html" class="flex items-center gap-4 no-underline text-[#0284c7]">
-                        <div class="w-12 h-12 rounded-2xl bg-[rgba(255,255,255,0.35)] backdrop-blur-sm border border-white/50 flex items-center justify-center" style="box-shadow: inset 0 1px 0 rgba(255,255,255,0.6)">
-                            <i class="fas fa-compass text-xl"></i>
-                        </div>
-                        <div>
-                            <h1 class="text-xl font-medium font-serif-title" style="letter-spacing: 0.06em">JI-日本留学ナビ</h1>
-                            <p class="text-xs text-slate-500 font-normal">JI-Japan Study Navigator</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="flex items-center gap-3">
-                    <a id="navAdminLink" href="admin/login.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all border no-underline shadow-sm hover:opacity-90 hidden" style="border-color: rgba(53,95,107,0.45); background: rgba(210,233,237,0.55); color: #355F6B;" title="班主任/管理员在此登录">前往班主任/管理后台</a>
-                    <span class="text-slate-500 text-sm font-normal" id="navUsername"></span>
-                    <button type="button" id="logoutBtn" class="btn-primary px-6 py-2.5 rounded-2xl text-sm">ログアウト</button>
+    <!-- 顶部导航栏：管理后台在左、Logo 居中、用户与帮助在右，不重叠 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-bar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
+            <div class="flex items-center justify-between gap-3 sm:gap-4 nav-inner w-full">
+                <a id="navAdminLink" href="admin/login.html" class="nav-admin-link-style inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm transition-all no-underline hidden whitespace-nowrap flex-shrink-0" title="班主任/管理员在此登录">
+                    <i class="fas fa-cog text-[10px] sm:text-xs"></i><span>管理后台</span>
+                </a>
+                <a href="index.html" class="flex items-center gap-2.5 min-w-0 flex-shrink no-underline nav-brand">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/50 backdrop-blur-sm border border-white/60 flex items-center justify-center flex-shrink-0" style="box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 1px 3px rgba(0,0,0,0.04)">
+                        <i class="fas fa-compass text-slate-600 text-base sm:text-lg"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <h1 class="nav-system-name font-serif-title truncate text-sm sm:text-base leading-tight" style="letter-spacing: 0.05em">JI-日本留学ナビ</h1>
+                        <p class="text-[10px] sm:text-xs text-slate-400 font-normal hidden sm:block leading-tight">JI-Japan Study Navigator</p>
+                    </div>
+                </a>
+                <div class="flex items-center gap-2 sm:gap-3 nav-right flex-shrink-0">
+                    <span class="nav-right-divider hidden sm:block" aria-hidden="true"></span>
+                    <span class="nav-username-label hidden sm:inline text-slate-500 text-xs">用户</span>
+                    <span class="text-slate-600 text-xs sm:text-sm font-medium truncate max-w-[72px] sm:max-w-[100px]" id="navUsername"></span>
+                    <button type="button" id="logoutBtn" class="nav-logout-btn px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm whitespace-nowrap transition-all">ログアウト</button>
+                    <button type="button" id="navHelpBtn" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap border border-slate-200/80 bg-slate-50/80 text-slate-600 hover:bg-slate-100/90 hover:text-slate-700 flex-shrink-0" title="志望校の追加について">
+                        <i class="fas fa-question-circle text-[10px] sm:text-xs"></i><span>帮助</span>
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- 主要内容区 -->
-    <main class="pt-32 pb-24 px-8">
+    <!-- 帮助浮层：志望校の追加说明 + 出願センター跳转 -->
+    <div id="help-overlay" class="help-overlay" onclick="if(event.target===this)closeHelpOverlay()">
+        <div class="help-card" onclick="event.stopPropagation()">
+            <button type="button" class="help-close" id="helpOverlayClose" aria-label="閉じる"><i class="fas fa-times"></i></button>
+            <h3 class="section-title-fluid font-medium text-slate-700 mb-3 font-serif-title" style="letter-spacing: 0.05em">志望校の追加</h3>
+            <p class="text-slate-600 body-fluid font-normal mb-5 leading-relaxed">志望校は「条件検索」「成績評価」「クイック検索」のいずれかで大学・学部を選び、「加入计划」で出願リストに追加してください。追加後は出願センターでタイムラインと書類を管理できます。</p>
+            <a href="compass_application.html" class="btn-primary btn-text-fluid inline-flex items-center justify-center gap-2 py-2.5 sm:py-3 px-4 sm:px-6 rounded-2xl no-underline">
+                <i class="fas fa-calendar-alt"></i> 出願センターで管理
+            </a>
+        </div>
+    </div>
+
+    <!-- 主要内容区：顶部多留一点，与导航栏下沿保持间距 -->
+    <main class="pt-24 sm:pt-28 pb-24 px-4 sm:px-8">
         <div class="max-w-6xl mx-auto">
 
             <!-- 欢迎横幅 -->
-            <div class="glass rounded-3xl p-16 mb-12 text-center relative overflow-visible">
+            <div class="glass rounded-3xl p-6 sm:p-12 md:p-16 mb-8 sm:mb-12 text-center relative overflow-visible">
                 <div class="relative inline-block mb-6">
                     <div class="absolute inset-0 -m-6 rounded-2xl bg-white/20 animate-breathes title-backdrop"></div>
-                    <h2 class="relative text-4xl md:text-5xl font-medium text-[#0284c7] leading-tight px-6 py-3 font-serif-title hero-title-animate" style="letter-spacing: 0.08em">
+                    <h2 class="relative hero-title-fluid font-medium text-[#0284c7] leading-tight px-4 py-2 sm:px-6 sm:py-3 font-serif-title hero-title-animate" style="letter-spacing: 0.08em">
                         JI-日本留学ナビへようこそ <span class="inline-block ml-1">☁️</span>
                     </h2>
                 </div>
-                <p class="text-base text-slate-500 font-medium mb-14 max-w-xl mx-auto animate-slide-up" style="animation-delay: 0.2s">
+                <p class="body-fluid text-slate-500 font-medium mb-8 sm:mb-14 max-w-xl mx-auto animate-slide-up" style="animation-delay: 0.2s">
                     日本大学申請管理プラットフォーム
                 </p>
-                <div class="grid grid-cols-2 gap-8 max-w-md mx-auto">
-                    <div class="glass rounded-2xl p-8 border border-white/50">
-                        <div class="stat-number text-4xl mb-1">160+</div>
-                        <div class="text-slate-500 font-normal text-sm">収録大学</div>
+                <div class="grid grid-cols-2 main-grid-stats gap-4 sm:gap-8 max-w-md mx-auto">
+                    <div class="glass rounded-2xl p-5 sm:p-8 border border-white/50">
+                        <div class="stat-number mb-1">160+</div>
+                        <div class="text-slate-500 font-normal body-fluid">収録大学</div>
                     </div>
-                    <div class="glass rounded-2xl p-8 border border-white/50">
-                        <div class="stat-number text-4xl mb-1">3031</div>
-                        <div class="text-slate-500 font-normal text-sm">学部データ</div>
+                    <div class="glass rounded-2xl p-5 sm:p-8 border border-white/50">
+                        <div class="stat-number mb-1">3031</div>
+                        <div class="text-slate-500 font-normal body-fluid">学部データ</div>
                     </div>
                 </div>
-            </div>
-
-            <!-- 志望校の追加について -->
-            <div class="glass rounded-3xl p-10 mb-20">
-                <h3 class="text-2xl font-medium text-[#0284c7] mb-4 font-serif-title" style="letter-spacing: 0.05em">志望校の追加</h3>
-                <p class="text-slate-600 text-sm font-normal mb-6 leading-relaxed">志望校は「条件検索」「成績評価」「クイック検索」のいずれかで大学・学部を選び、「加入计划」で出願リストに追加してください。追加後は出願センターでタイムラインと書類を管理できます。</p>
-                <a href="compass_application.html" class="btn-primary inline-flex items-center justify-center gap-2 py-3 px-6 rounded-2xl text-sm">
-                    <i class="fas fa-calendar-alt"></i> 出願センターで管理
-                </a>
             </div>
 
             <!-- 核心機能 -->
             <div class="mb-20">
-                <a href="compass_application.html" class="module-card glass p-12 block mb-8">
-                    <span class="block text-4xl mb-4 animate-float" style="animation-delay: 1s">📅</span>
-                    <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">出願センター</h3>
-                    <p class="text-slate-500 font-normal text-sm mb-6 leading-relaxed">タイムライン可視化で申請進捗を管理</p>
-                    <div class="flex flex-wrap gap-2 mb-6">
+                <a href="compass_application.html" class="module-card glass p-6 sm:p-12 block mb-6 sm:mb-8">
+                    <span class="block text-3xl sm:text-4xl mb-3 sm:mb-4 animate-float" style="animation-delay: 1s">📅</span>
+                    <h3 class="card-title-fluid font-medium text-[#0284c7] mb-2 sm:mb-3 font-serif-title" style="letter-spacing: 0.05em">出願センター</h3>
+                    <p class="text-slate-500 font-normal body-fluid mb-4 sm:mb-6 leading-relaxed">タイムライン可視化で申請進捗を管理</p>
+                    <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                         <span class="feature-badge">タイムライン生成</span>
                         <span class="feature-badge">書類リスト追跡</span>
                     </div>
-                    <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">管理開始</span>
+                    <span class="btn-primary card-btn btn-text-fluid inline-flex items-center justify-center w-full py-3 sm:py-3.5 rounded-2xl">管理開始</span>
                 </a>
                 <div class="relative mb-6" style="height: 80px;">
                     <svg class="absolute inset-0 w-full h-full" style="pointer-events: none; overflow: visible;">
@@ -192,55 +306,55 @@
                         <line x1="83.34%" y1="100%" x2="65%" y2="0%" stroke="rgba(14, 165, 233, 0.25)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
                     </svg>
                 </div>
-                <div class="grid grid-cols-3 gap-6 mb-12">
-                    <a href="compass_filter.html" class="module-card glass p-12 block">
-                        <span class="block text-4xl mb-4 animate-float">🔍</span>
-                        <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">条件検索</h3>
-                        <p class="text-slate-500 font-normal text-sm mb-6 leading-relaxed">地域・学費・入学条件で多次元フィルタリング</p>
-                        <div class="flex flex-wrap gap-2 mb-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12 main-grid-modules">
+                    <a href="compass_filter.html" class="module-card glass p-6 sm:p-12 block">
+                        <span class="block text-3xl sm:text-4xl mb-3 sm:mb-4 animate-float">🔍</span>
+                        <h3 class="card-title-fluid font-medium text-[#0284c7] mb-2 sm:mb-3 font-serif-title" style="letter-spacing: 0.05em">条件検索</h3>
+                        <p class="text-slate-500 font-normal body-fluid mb-4 sm:mb-6 leading-relaxed">地域・学費・入学条件で多次元フィルタリング</p>
+                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                             <span class="feature-badge">地域・都市選択</span>
                             <span class="feature-badge">入学要件マッチング</span>
                         </div>
-                        <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">検索を始める</span>
+                        <span class="btn-primary card-btn btn-text-fluid inline-flex items-center justify-center w-full py-3 sm:py-3.5 rounded-2xl">検索を始める</span>
                     </a>
-                    <a href="compass_search.html" class="module-card glass p-12 block">
-                        <span class="block text-4xl mb-4 animate-float" style="animation-delay: 1.5s">🔎</span>
-                        <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">クイック検索</h3>
-                        <p class="text-slate-500 font-normal text-sm mb-6 leading-relaxed">キーワードを入力して目標大学を瞬時に検索</p>
-                        <div class="flex flex-wrap gap-2 mb-6">
+                    <a href="compass_search.html" class="module-card glass p-6 sm:p-12 block">
+                        <span class="block text-3xl sm:text-4xl mb-3 sm:mb-4 animate-float" style="animation-delay: 1.5s">🔎</span>
+                        <h3 class="card-title-fluid font-medium text-[#0284c7] mb-2 sm:mb-3 font-serif-title" style="letter-spacing: 0.05em">クイック検索</h3>
+                        <p class="text-slate-500 font-normal body-fluid mb-4 sm:mb-6 leading-relaxed">キーワードを入力して目標大学を瞬時に検索</p>
+                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                             <span class="feature-badge">キーワード検索</span>
                             <span class="feature-badge">精密マッチング</span>
                         </div>
-                        <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">検索開始</span>
+                        <span class="btn-primary card-btn btn-text-fluid inline-flex items-center justify-center w-full py-3 sm:py-3.5 rounded-2xl">検索開始</span>
                     </a>
-                    <a href="compass_score.html" class="module-card glass p-12 block">
-                        <span class="block text-4xl mb-4 animate-float" style="animation-delay: 0.5s">📊</span>
-                        <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">成績評価</h3>
-                        <p class="text-slate-500 font-normal text-sm mb-6 leading-relaxed">成績を入力して最適な大学をマッチング</p>
-                        <div class="flex flex-wrap gap-2 mb-6">
+                    <a href="compass_score.html" class="module-card glass p-6 sm:p-12 block">
+                        <span class="block text-3xl sm:text-4xl mb-3 sm:mb-4 animate-float" style="animation-delay: 0.5s">📊</span>
+                        <h3 class="card-title-fluid font-medium text-[#0284c7] mb-2 sm:mb-3 font-serif-title" style="letter-spacing: 0.05em">成績評価</h3>
+                        <p class="text-slate-500 font-normal body-fluid mb-4 sm:mb-6 leading-relaxed">成績を入力して最適な大学をマッチング</p>
+                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                             <span class="feature-badge">EJU成績分析</span>
                             <span class="feature-badge">TOEFL・TOEIC評価</span>
                             <span class="feature-badge">AI大学推薦</span>
                         </div>
-                        <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">成績評価</span>
+                        <span class="btn-primary card-btn btn-text-fluid inline-flex items-center justify-center w-full py-3 sm:py-3.5 rounded-2xl">成績評価</span>
                     </a>
                 </div>
                 <div class="grid grid-cols-1 gap-10 max-w-2xl mx-auto">
-                    <a href="onboarding.html" class="module-card glass p-12 block">
-                        <span class="block text-4xl mb-4 animate-float">💬</span>
-                        <h3 class="text-2xl font-medium text-[#0284c7] mb-3 font-serif-title" style="letter-spacing: 0.05em">対話式スケジュール作成</h3>
-                        <p class="text-slate-500 font-normal text-sm mb-6 leading-relaxed">小さなスマートデバイスと対話し、出願スケジュールを把握。あなたのスケジュールに合わせて時間計画表を自動生成します。</p>
-                        <div class="flex flex-wrap gap-2 mb-6">
+                    <a href="onboarding.html" class="module-card glass p-6 sm:p-12 block">
+                        <span class="block text-3xl sm:text-4xl mb-3 sm:mb-4 animate-float">💬</span>
+                        <h3 class="card-title-fluid font-medium text-[#0284c7] mb-2 sm:mb-3 font-serif-title" style="letter-spacing: 0.05em">対話式スケジュール作成</h3>
+                        <p class="text-slate-500 font-normal body-fluid mb-4 sm:mb-6 leading-relaxed">小さなスマートデバイスと対話し、出願スケジュールを把握。あなたのスケジュールに合わせて時間計画表を自動生成します。</p>
+                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                             <span class="feature-badge">対話でスケジュール把握</span>
                             <span class="feature-badge">計画表自動生成</span>
                             <span class="feature-badge">出願タイムライン整理</span>
                         </div>
-                        <span class="btn-primary inline-flex items-center justify-center w-full py-3.5 rounded-2xl text-sm">対話を始める</span>
+                        <span class="btn-primary card-btn btn-text-fluid inline-flex items-center justify-center w-full py-3 sm:py-3.5 rounded-2xl">対話を始める</span>
                     </a>
                 </div>
             </div>
 
-            <div class="text-center text-slate-400 text-sm font-normal pt-8">
+            <div class="text-center text-slate-400 body-fluid font-normal pt-6 sm:pt-8">
                 <p>データ更新: 2025年2月 | バージョン: v2.0</p>
             </div>
 
@@ -286,6 +400,20 @@
         document.getElementById('logoutBtn').addEventListener('click', function() {
             Auth.clearToken();
             window.location.href = '/login.html';
+        });
+
+        function openHelpOverlay() {
+            var el = document.getElementById('help-overlay');
+            if (el) el.classList.add('help-open');
+        }
+        function closeHelpOverlay() {
+            var el = document.getElementById('help-overlay');
+            if (el) el.classList.remove('help-open');
+        }
+        document.getElementById('navHelpBtn').addEventListener('click', openHelpOverlay);
+        document.getElementById('helpOverlayClose').addEventListener('click', closeHelpOverlay);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('help-overlay').classList.contains('help-open')) closeHelpOverlay();
         });
     </script>
 </body>

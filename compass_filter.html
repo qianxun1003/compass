@@ -502,6 +502,33 @@
             border: 1px solid rgba(255,255,255,0.3);
             box-shadow: 0 4px 12px rgba(106, 130, 85, 0.08);
         }
+        /* 导航栏：白板感 + 毛玻璃，与背景区分 */
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+        .nav-system-name { color: #334155; font-weight: 600; }
+        .nav-system-name:hover { color: #475569; }
+        /* 全站移动端：导航与按钮不被拉长 + 文字随屏缩放 */
+        .page-title-fluid { font-size: clamp(1rem, 3vw + 0.5rem, 1.5rem); }
+        .page-body-fluid { font-size: clamp(0.8125rem, 1.5vw + 0.4rem, 0.875rem); }
+        .btn-text-fluid { font-size: clamp(0.75rem, 1.8vw + 0.3rem, 0.875rem); }
+        .nav-inner .nav-right { margin-left: auto; }
+        @media (max-width: 768px) {
+            .nav-inner { flex-wrap: wrap; gap: 0.75rem; }
+            .nav-right { flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; gap: 0.4rem; }
+            .nav-right a, .nav-right button { flex: 0 0 auto !important; white-space: nowrap; }
+            .nav-right .btn-soft, .nav-right .nav-admin-link { padding: 0.4rem 0.6rem !important; font-size: 0.75rem !important; }
+            main { padding-left: 1rem !important; padding-right: 1rem !important; padding-top: 5.5rem !important; }
+            .section-panel-mobile { padding: 1rem !important; }
+            .section-panel-mobile h2 { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; }
+            .nav-bar .max-w-7xl { padding-left: 1rem; padding-right: 1rem; }
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -578,35 +605,32 @@
         </div>
     </div>
 
-    <!-- 顶部导航 -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-white/30">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
-                        <div class="nav-logo-icon w-12 h-12 rounded-2xl flex items-center justify-center text-white">
-                            <i class="fas fa-compass text-2xl"></i>
-                        </div>
-                        <div>
-                            <h1 class="font-bold text-xl text-mint-700">条件筛选</h1>
-                            <p class="text-xs text-mint-500">🌿 Filter & Find</p>
-                        </div>
-                    </a>
-                </div>
-                
-                <div class="flex items-center gap-6">
-                    <div class="text-right">
-                        <div class="font-bold text-3xl bg-gradient-to-br from-mint-500 to-mint-600 bg-clip-text text-transparent" id="match-count">0</div>
-                        <div class="text-xs text-mint-400 tracking-wider font-medium">マッチ校</div>
+    <!-- 顶部导航：与主界面一致的形状（白板感 + 毛玻璃） -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-bar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
+            <div class="flex items-center justify-between gap-3 sm:gap-4 nav-inner w-full">
+                <a href="index.html" class="flex items-center gap-3 min-w-0 flex-shrink-0 no-underline">
+                    <div class="nav-logo-icon w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                        <i class="fas fa-compass text-lg sm:text-xl"></i>
                     </div>
-                    <a id="navAdminLink" href="admin/login.html" class="nav-admin-link hidden inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all border shadow-sm no-underline hover:opacity-90" style="background: rgba(210,233,237,0.55); border-color: rgba(53,95,107,0.45); color: #355F6B;" title="班主任/管理员在此登录">
-                        <i class="fas fa-external-link-alt text-xs"></i>前往班主任/管理后台
+                    <div class="min-w-0">
+                        <h1 class="nav-system-name page-title-fluid truncate">条件筛选</h1>
+                        <p class="page-body-fluid text-slate-500 hidden sm:block">🌿 Filter & Find</p>
+                    </div>
+                </a>
+                <div class="flex items-center gap-2 sm:gap-4 nav-right flex-shrink-0">
+                    <div class="text-right hidden sm:block">
+                        <div class="font-bold text-xl sm:text-2xl text-slate-600" id="match-count">0</div>
+                        <div class="text-[10px] sm:text-xs text-slate-400 tracking-wider font-medium">マッチ校</div>
+                    </div>
+                    <a id="navAdminLink" href="admin/login.html" class="nav-admin-link hidden inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-medium no-underline whitespace-nowrap transition-all border border-slate-200/80 bg-slate-50/80 text-slate-600 hover:bg-slate-100/90 hover:text-slate-700" title="班主任/管理员在此登录">
+                        <i class="fas fa-cog text-[10px] sm:text-xs"></i><span>管理后台</span>
                     </a>
-                    <a href="compass_application.html" class="btn-soft px-5 py-2.5 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-mint-600 hover:text-mint-700 transition-all">
-                        <i class="fas fa-calendar-check mr-2"></i>出願管理
+                    <a href="compass_application.html" class="btn-soft px-3 py-2 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium text-mint-600 hover:text-mint-700 transition-all whitespace-nowrap bg-white/60 hover:bg-white/80 border border-white/50">
+                        <i class="fas fa-calendar-check sm:mr-2"></i><span class="hidden sm:inline">出願管理</span>
                     </a>
-                    <a href="index.html" class="btn-soft px-5 py-2.5 bg-white/60 hover:bg-white/80 border border-white/30 rounded-2xl text-sm font-medium text-mint-600 hover:text-mint-700 transition-all">
-                        <i class="fas fa-home mr-2"></i>ホーム
+                    <a href="index.html" class="btn-soft px-3 py-2 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium text-mint-600 hover:text-mint-700 transition-all whitespace-nowrap bg-white/60 hover:bg-white/80 border border-white/50">
+                        <i class="fas fa-home sm:mr-2"></i><span class="hidden sm:inline">ホーム</span>
                     </a>
                 </div>
             </div>
@@ -614,21 +638,21 @@
     </nav>
 
     <!-- 主内容 -->
-    <main class="pt-28 pb-24 px-6 max-w-7xl mx-auto">
+    <main class="pt-24 sm:pt-28 pb-24 px-4 sm:px-6 max-w-7xl mx-auto">
 
         <!-- 筛选面板 -->
-        <section class="glass rounded-3xl p-8 mb-8 animate-slide-up border border-white/30">
-            <div class="flex items-center justify-between mb-8">
-                <div>
-                    <h2 class="font-bold text-3xl text-mint-700 mb-2">絞り込み条件 🍃</h2>
-                    <p class="text-sm text-mint-500">気になる条件をクリックして、理想の大学を見つけよう！</p>
+        <section class="glass rounded-3xl p-4 sm:p-8 mb-6 sm:mb-8 animate-slide-up border border-white/30 section-panel-mobile">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
+                <div class="min-w-0">
+                    <h2 class="page-title-fluid font-bold text-mint-700 mb-1 sm:mb-2">絞り込み条件 🍃</h2>
+                    <p class="page-body-fluid text-mint-500">気になる条件をクリックして、理想の大学を見つけよう！</p>
                 </div>
-                <div class="flex items-center gap-3">
-                    <button id="btn-add-filter" class="btn-soft px-5 py-2.5 bg-white/50 hover:bg-white/70 border border-white/30 rounded-2xl text-sm font-medium text-mint-600 hover:text-mint-700 flex items-center gap-2">
-                        <i class="fas fa-plus text-xs"></i> 条件を追加
+                <div class="flex flex-wrap gap-2 flex-shrink-0">
+                    <button id="btn-add-filter" class="btn-soft btn-text-fluid px-3 py-2 sm:px-5 sm:py-2.5 bg-white/50 hover:bg-white/70 border border-white/30 rounded-xl sm:rounded-2xl font-medium text-mint-600 hover:text-mint-700 flex items-center gap-2 whitespace-nowrap">
+                        <i class="fas fa-plus text-[10px] sm:text-xs"></i> 条件を追加
                     </button>
-                    <button onclick="resetAll()" class="btn-soft px-5 py-2.5 bg-white/50 hover:bg-white/70 border border-white/30 rounded-2xl text-sm font-medium text-mint-600 hover:text-mint-700 flex items-center gap-2">
-                        <i class="fas fa-sync-alt text-xs"></i> リセット
+                    <button onclick="resetAll()" class="btn-soft btn-text-fluid px-3 py-2 sm:px-5 sm:py-2.5 bg-white/50 hover:bg-white/70 border border-white/30 rounded-xl sm:rounded-2xl font-medium text-mint-600 hover:text-mint-700 flex items-center gap-2 whitespace-nowrap">
+                        <i class="fas fa-sync-alt text-[10px] sm:text-xs"></i> リセット
                     </button>
                 </div>
             </div>
