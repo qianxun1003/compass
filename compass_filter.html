@@ -328,6 +328,10 @@
             color: #64748b;
             border: 1px solid rgba(148, 163, 184, 0.25);
         }
+        .one-click-search-btn { border: none; cursor: pointer; }
+        .one-click-search-btn:disabled { background: #cbd5e1 !important; color: #94a3b8 !important; cursor: not-allowed; }
+        .one-click-search-btn:not(:disabled) { background: linear-gradient(135deg, #6a8255, #526841) !important; color: #fff !important; }
+        .one-click-search-btn:not(:disabled):hover { transform: scale(1.05); }
         .school-header {
             cursor: pointer;
             transition: background 0.3s ease;
@@ -812,6 +816,11 @@
             </div>
         </section>
 
+        <!-- 一键搜索：常時表示、未選択時はグレー無効・選択後は緑で有効 -->
+        <div id="one-click-search-wrap" class="text-center py-4 mb-6">
+            <button type="button" id="one-click-search-btn" class="one-click-search-btn px-8 py-3 rounded-2xl font-semibold shadow-lg transition-all" disabled>いちけん検索</button>
+        </div>
+
         <!-- 结果区 -->
         <section class="animate-slide-up" style="animation-delay: 0.2s;">
             
@@ -839,7 +848,7 @@
             <div id="empty-state" class="text-center py-24">
                 <div class="text-6xl mb-6">🧭</div>
                 <p class="font-bold text-2xl text-mint-700 mb-3">さあ、探そう！</p>
-                <p class="text-sm text-mint-500">上の条件をクリックして、あなたにぴったりの大学を見つけよう。</p>
+                <p class="text-sm text-mint-500" id="empty-state-hint">上の条件をクリックして、選択後に「いちけん検索」で結果を表示しよう。</p>
             </div>
         </section>
 
@@ -2452,13 +2461,44 @@
 
         function updateDisplay() {
             const matches = calculateMatches();
+            const matchCountEl = document.getElementById('match-count');
+            const subtitleEl = document.getElementById('result-subtitle');
+            const gridEl = document.getElementById('results-grid');
+            const emptyEl = document.getElementById('empty-state');
+            const oneClickWrap = document.getElementById('one-click-search-wrap');
+            const hasActiveFilter = Object.entries(activeFilters || {}).some(([k, v]) =>
+                Array.isArray(v) ? v.length > 0 : v !== null && v !== undefined && v !== ''
+            );
+            if (matchCountEl) matchCountEl.textContent = matches.length;
+            if (subtitleEl) {
+                if (!hasActiveFilter) {
+                    subtitleEl.textContent = '条件を選んで検索をスタート！';
+                } else {
+                    subtitleEl.textContent = `条件を選択しました（約 ${matches.length} 件）。下の「いちけん検索」で結果を表示`;
+                }
+            }
+            gridEl.innerHTML = '';
+            emptyEl.classList.remove('hidden');
+            const oneClickBtn = document.getElementById('one-click-search-btn');
+            if (oneClickBtn) {
+                oneClickBtn.disabled = !hasActiveFilter;
+            }
+        }
+        function doOneClickSearch() {
+            const matches = calculateMatches();
             renderResults(matches);
             updateSummaryMessage(matches);
-            
-            document.getElementById('match-count').textContent = matches.length;
-            document.getElementById('result-subtitle').textContent = 
+            const matchCountEl = document.getElementById('match-count');
+            const subtitleEl = document.getElementById('result-subtitle');
+            const oneClickWrap = document.getElementById('one-click-search-btn');
+            if (matchCountEl) matchCountEl.textContent = matches.length;
+            if (subtitleEl) subtitleEl.textContent = 
                 matches.length > 0 ? `やったね！${matches.length}条大学专业が見つかりました✨` : '条件を選んで検索をスタート！';
         }
+        document.getElementById('one-click-search-btn')?.addEventListener('click', function() {
+            if (this.disabled) return;
+            doOneClickSearch();
+        });
 
         function updateSummaryMessage(matches) {
             const summaryBox = document.getElementById('summary-message');

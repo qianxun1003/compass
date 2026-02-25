@@ -1,0 +1,147 @@
+{
+  "只有一期": [
+    {
+      "period": "只有一期",
+      "count": 1439
+    }
+  ],
+  "前期": [
+    {
+      "period": "前期",
+      "count": 414
+    },
+    {
+      "period": "前期 A方式",
+      "count": 62
+    },
+    {
+      "period": "前期 B方式",
+      "count": 61
+    }
+  ],
+  "后期": [
+    {
+      "period": "后期",
+      "count": 436
+    },
+    {
+      "period": "后期 A方式",
+      "count": 59
+    },
+    {
+      "period": "后期 B方式",
+      "count": 1
+    }
+  ],
+  "前期+后期": [],
+  "其他": [
+    {
+      "period": "第二期",
+      "count": 198
+    },
+    {
+      "period": "第一期",
+      "count": 194
+    },
+    {
+      "period": "第三期",
+      "count": 45
+    },
+    {
+      "period": "第四期",
+      "count": 13
+    },
+    {
+      "period": "２月実施",
+      "count": 13
+    },
+    {
+      "period": "渡日前入試",
+      "count": 12
+    },
+    {
+      "period": "３月実施",
+      "count": 12
+    },
+    {
+      "period": "入試I型",
+      "count": 8
+    },
+    {
+      "period": "入試II型",
+      "count": 8
+    },
+    {
+      "period": "A方式（本学独自入試）",
+      "count": 7
+    },
+    {
+      "period": "B方式（EJU利用入試）",
+      "count": 7
+    },
+    {
+      "period": "C方式（渡日前入試）",
+      "count": 6
+    },
+    {
+      "period": "4月入学第一期",
+      "count": 3
+    },
+    {
+      "period": "4月入学第二期",
+      "count": 3
+    },
+    {
+      "period": "4月入学第三期",
+      "count": 3
+    },
+    {
+      "period": "9月入学第一期",
+      "count": 3
+    },
+    {
+      "period": "9月入学第二期",
+      "count": 3
+    },
+    {
+      "period": "コミュニケーション方式Ⅰ期",
+      "count": 2
+    },
+    {
+      "period": "コミュニケーション方式Ⅱ期",
+      "count": 2
+    },
+    {
+      "period": "Ⅰ期",
+      "count": 2
+    },
+    {
+      "period": "Ⅲ期",
+      "count": 2
+    },
+    {
+      "period": "Ⅳ期",
+      "count": 1
+    },
+    {
+      "period": "v期",
+      "count": 1
+    },
+    {
+      "period": "コミュニケーション方式Ⅲ期コミュニケーション方式Ⅲ期",
+      "count": 1
+    },
+    {
+      "period": "Ⅱ期",
+      "count": 1
+    },
+    {
+      "period": "c方式",
+      "count": 1
+    },
+    {
+      "period": "d方式",
+      "count": 1
+    }
+  ]
+}

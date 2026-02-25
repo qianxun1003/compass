@@ -1,0 +1,178 @@
+{
+  "total_records": 3028,
+  "non_null_records": 3024,
+  "null_records": 4,
+  "unique_periods": 34,
+  "period_distribution": [
+    {
+      "period": "只有一期",
+      "count": 1439,
+      "percentage": 47.59
+    },
+    {
+      "period": "后期",
+      "count": 436,
+      "percentage": 14.42
+    },
+    {
+      "period": "前期",
+      "count": 414,
+      "percentage": 13.69
+    },
+    {
+      "period": "第二期",
+      "count": 198,
+      "percentage": 6.55
+    },
+    {
+      "period": "第一期",
+      "count": 194,
+      "percentage": 6.42
+    },
+    {
+      "period": "前期 A方式",
+      "count": 62,
+      "percentage": 2.05
+    },
+    {
+      "period": "前期 B方式",
+      "count": 61,
+      "percentage": 2.02
+    },
+    {
+      "period": "后期 A方式",
+      "count": 59,
+      "percentage": 1.95
+    },
+    {
+      "period": "第三期",
+      "count": 45,
+      "percentage": 1.49
+    },
+    {
+      "period": "第四期",
+      "count": 13,
+      "percentage": 0.43
+    },
+    {
+      "period": "２月実施",
+      "count": 13,
+      "percentage": 0.43
+    },
+    {
+      "period": "渡日前入試",
+      "count": 12,
+      "percentage": 0.4
+    },
+    {
+      "period": "３月実施",
+      "count": 12,
+      "percentage": 0.4
+    },
+    {
+      "period": "入試I型",
+      "count": 8,
+      "percentage": 0.26
+    },
+    {
+      "period": "入試II型",
+      "count": 8,
+      "percentage": 0.26
+    },
+    {
+      "period": "A方式（本学独自入試）",
+      "count": 7,
+      "percentage": 0.23
+    },
+    {
+      "period": "B方式（EJU利用入試）",
+      "count": 7,
+      "percentage": 0.23
+    },
+    {
+      "period": "C方式（渡日前入試）",
+      "count": 6,
+      "percentage": 0.2
+    },
+    {
+      "period": "4月入学第一期",
+      "count": 3,
+      "percentage": 0.1
+    },
+    {
+      "period": "4月入学第二期",
+      "count": 3,
+      "percentage": 0.1
+    },
+    {
+      "period": "4月入学第三期",
+      "count": 3,
+      "percentage": 0.1
+    },
+    {
+      "period": "9月入学第一期",
+      "count": 3,
+      "percentage": 0.1
+    },
+    {
+      "period": "9月入学第二期",
+      "count": 3,
+      "percentage": 0.1
+    },
+    {
+      "period": "コミュニケーション方式Ⅰ期",
+      "count": 2,
+      "percentage": 0.07
+    },
+    {
+      "period": "コミュニケーション方式Ⅱ期",
+      "count": 2,
+      "percentage": 0.07
+    },
+    {
+      "period": "Ⅰ期",
+      "count": 2,
+      "percentage": 0.07
+    },
+    {
+      "period": "Ⅲ期",
+      "count": 2,
+      "percentage": 0.07
+    },
+    {
+      "period": "后期 B方式",
+      "count": 1,
+      "percentage": 0.03
+    },
+    {
+      "period": "Ⅳ期",
+      "count": 1,
+      "percentage": 0.03
+    },
+    {
+      "period": "v期",
+      "count": 1,
+      "percentage": 0.03
+    },
+    {
+      "period": "コミュニケーション方式Ⅲ期コミュニケーション方式Ⅲ期",
+      "count": 1,
+      "percentage": 0.03
+    },
+    {
+      "period": "Ⅱ期",
+      "count": 1,
+      "percentage": 0.03
+    },
+    {
+      "period": "c方式",
+      "count": 1,
+      "percentage": 0.03
+    },
+    {
+      "period": "d方式",
+      "count": 1,
+      "percentage": 0.03
+    }
+  ]
+}

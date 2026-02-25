@@ -1,0 +1,6151 @@
+{
+  "extracted_at": "2026-02-17T19:06:52.478381",
+  "source": "学校总览.csv",
+  "total_records": 3028,
+  "periods": {
+    "unique_count": 34,
+    "distribution": {
+      "只有一期": 1439,
+      "后期": 436,
+      "前期": 414,
+      "第二期": 198,
+      "第一期": 194,
+      "前期 A方式": 62,
+      "前期 B方式": 61,
+      "后期 A方式": 59,
+      "第三期": 45,
+      "第四期": 13,
+      "２月実施": 13,
+      "渡日前入試": 12,
+      "３月実施": 12,
+      "入試I型": 8,
+      "入試II型": 8,
+      "A方式（本学独自入試）": 7,
+      "B方式（EJU利用入試）": 7,
+      "C方式（渡日前入試）": 6,
+      "4月入学第一期": 3,
+      "4月入学第二期": 3,
+      "4月入学第三期": 3,
+      "9月入学第一期": 3,
+      "9月入学第二期": 3,
+      "コミュニケーション方式Ⅰ期": 2,
+      "コミュニケーション方式Ⅱ期": 2,
+      "Ⅰ期": 2,
+      "Ⅲ期": 2,
+      "后期 B方式": 1,
+      "Ⅳ期": 1,
+      "v期": 1,
+      "コミュニケーション方式Ⅲ期コミュニケーション方式Ⅲ期": 1,
+      "Ⅱ期": 1,
+      "c方式": 1,
+      "d方式": 1
+    },
+    "details": {
+      "只有一期": [
+        {
+          "university": "東京大学",
+          "department": "理科一類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "理科二類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "理科三類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "文科一類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "文科二類",
+          "source": "existing_data"
+        }
+      ],
+      "前期": [
+        {
+          "university": "明治大学",
+          "department": "商学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "デザイン工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "デザイン工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "デザイン工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "情報科学部",
+          "source": "existing_data"
+        }
+      ],
+      "后期": [
+        {
+          "university": "明治大学",
+          "department": "商学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "デザイン工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "デザイン工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "デザイン工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "情報科学部",
+          "source": "existing_data"
+        }
+      ],
+      "第一期": [
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        }
+      ],
+      "第二期": [
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        }
+      ],
+      "前期 A方式": [
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "前期 B方式": [
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "后期 B方式": [
+        {
+          "university": "帝京大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "后期 A方式": [
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "渡日前入試": [
+        {
+          "university": "大東文化大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大東文化大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大東文化大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大東文化大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大東文化大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        }
+      ],
+      "A方式（本学独自入試）": [
+        {
+          "university": "亜細亜大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "国際関係学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "国際関係学部",
+          "source": "existing_data"
+        }
+      ],
+      "B方式（EJU利用入試）": [
+        {
+          "university": "亜細亜大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "国際関係学部",
+          "source": "existing_data"
+        }
+      ],
+      "C方式（渡日前入試）": [
+        {
+          "university": "亜細亜大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "国際関係学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "国際関係学部",
+          "source": "existing_data"
+        }
+      ],
+      "第三期": [
+        {
+          "university": "流通経済大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "流通経済大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "流通経済大学",
+          "department": "共創社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "流通経済大学",
+          "department": "共創社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "流通経済大学",
+          "department": "法学部",
+          "source": "existing_data"
+        }
+      ],
+      "コミュニケーション方式Ⅰ期": [
+        {
+          "university": "多摩大学",
+          "department": "経営情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "多摩大学",
+          "department": "グローバルスタディーズ学部",
+          "source": "existing_data"
+        }
+      ],
+      "コミュニケーション方式Ⅱ期": [
+        {
+          "university": "多摩大学",
+          "department": "経営情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "多摩大学",
+          "department": "グローバルスタディーズ学部",
+          "source": "existing_data"
+        }
+      ],
+      "Ⅰ期": [
+        {
+          "university": "多摩大学",
+          "department": "経営情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "多摩大学",
+          "department": "グローバルスタディーズ学部",
+          "source": "existing_data"
+        }
+      ],
+      "Ⅲ期": [
+        {
+          "university": "多摩大学",
+          "department": "経営情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "多摩大学",
+          "department": "グローバルスタディーズ学部",
+          "source": "existing_data"
+        }
+      ],
+      "Ⅳ期": [
+        {
+          "university": "多摩大学",
+          "department": "経営情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "v期": [
+        {
+          "university": "多摩大学",
+          "department": "経営情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "コミュニケーション方式Ⅲ期コミュニケーション方式Ⅲ期": [
+        {
+          "university": "多摩大学",
+          "department": "グローバルスタディーズ学部",
+          "source": "existing_data"
+        }
+      ],
+      "Ⅱ期": [
+        {
+          "university": "多摩大学",
+          "department": "グローバルスタディーズ学部",
+          "source": "existing_data"
+        }
+      ],
+      "4月入学第一期": [
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "アジア太平洋学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "国際経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "サステイナビリティ観光学部",
+          "source": "existing_data"
+        }
+      ],
+      "4月入学第二期": [
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "アジア太平洋学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "国際経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "サステイナビリティ観光学部",
+          "source": "existing_data"
+        }
+      ],
+      "4月入学第三期": [
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "アジア太平洋学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "国際経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "サステイナビリティ観光学部",
+          "source": "existing_data"
+        }
+      ],
+      "9月入学第一期": [
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "アジア太平洋学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "国際経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "サステイナビリティ観光学部",
+          "source": "existing_data"
+        }
+      ],
+      "9月入学第二期": [
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "アジア太平洋学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "国際経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "サステイナビリティ観光学部",
+          "source": "existing_data"
+        }
+      ],
+      "第四期": [
+        {
+          "university": "青森大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "ソフトウェア情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "基幹工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "基幹工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "基幹工学部",
+          "source": "existing_data"
+        }
+      ],
+      "２月実施": [
+        {
+          "university": "広島大学",
+          "department": "綜合科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "３月実施": [
+        {
+          "university": "広島大学",
+          "department": "綜合科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "入試I型": [
+        {
+          "university": "創価大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "創価大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "創価大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "創価大学",
+          "department": "経 済 経 営 学 部",
+          "source": "existing_data"
+        },
+        {
+          "university": "創価大学",
+          "department": "法 学 部",
+          "source": "existing_data"
+        }
+      ],
+      "入試II型": [
+        {
+          "university": "創価大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "創価大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "創価大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "創価大学",
+          "department": "経 済 経 営 学 部",
+          "source": "existing_data"
+        },
+        {
+          "university": "創価大学",
+          "department": "法 学 部",
+          "source": "existing_data"
+        }
+      ],
+      "c方式": [
+        {
+          "university": "松本歯科大学",
+          "department": "歯学部",
+          "source": "existing_data"
+        }
+      ],
+      "d方式": [
+        {
+          "university": "松本歯科大学",
+          "department": "歯学部",
+          "source": "existing_data"
+        }
+      ]
+    }
+  },
+  "methods": {
+    "unique_count": 23,
+    "distribution": {
+      "外国人入試": 2383,
+      "校内考加eju": 180,
+      "eju利用型": 124,
+      "纯校内考（不用提交成绩）": 87,
+      "総合評価型": 46,
+      "外国人入試　併願": 32,
+      "学校推薦": 24,
+      "外国人入試（日本国内からの出願）": 20,
+      "外国人入試（日本国外からの出願）": 20,
+      "本学受験型": 18,
+      "外国人入試　単願": 16,
+      "eju書類選考のみ": 15,
+      "自己推薦": 14,
+      "留学生一般選抜": 11,
+      "校内テストと「EJU又はN2」": 10,
+      "特定地域内部　総合評価型": 8,
+      "コミュニケーション方式": 5,
+      "jlptと学校試験": 5,
+      "英語のみ": 4,
+      "特定地域内部　学校推薦": 2,
+      "特定地域内部　留学生一般選抜": 2,
+      "EJUと事前課題": 1,
+      "渡日前入試": 1
+    },
+    "details": {
+      "外国人入試": [
+        {
+          "university": "東京大学",
+          "department": "理科一類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "理科二類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "理科三類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "文科一類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "文科二類",
+          "source": "existing_data"
+        }
+      ],
+      "eju書類選考のみ": [
+        {
+          "university": "中央大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中央大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中央大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中央大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中央大学",
+          "department": "商学部",
+          "source": "existing_data"
+        }
+      ],
+      "纯校内考（不用提交成绩）": [
+        {
+          "university": "日本大学",
+          "department": "生産工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生産工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生産工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生産工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生産工学部",
+          "source": "existing_data"
+        }
+      ],
+      "校内テストと「EJU又はN2」": [
+        {
+          "university": "江戸川大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "江戸川大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "江戸川大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "江戸川大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "江戸川大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        }
+      ],
+      "校内考加eju": [
+        {
+          "university": "お茶の水女子大学",
+          "department": "共創工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "生活科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "生活科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "生活科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "文教育学部",
+          "source": "existing_data"
+        }
+      ],
+      "外国人入試（日本国内からの出願）": [
+        {
+          "university": "専修大学",
+          "department": "人間科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "専修大学",
+          "department": "ネットワーク情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "専修大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "専修大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "専修大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        }
+      ],
+      "外国人入試（日本国外からの出願）": [
+        {
+          "university": "専修大学",
+          "department": "ネットワーク情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "専修大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "専修大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "専修大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "専修大学",
+          "department": "法学部",
+          "source": "existing_data"
+        }
+      ],
+      "自己推薦": [
+        {
+          "university": "拓殖大学",
+          "department": "商学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "商学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "政経学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "政経学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "政経学部",
+          "source": "existing_data"
+        }
+      ],
+      "総合評価型": [
+        {
+          "university": "関東学院大学",
+          "department": "建築環境学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "栄養学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "eju利用型": [
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "学校推薦": [
+        {
+          "university": "関東学院大学",
+          "department": "建築環境学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "栄養学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "EJUと事前課題": [
+        {
+          "university": "日本女子大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "コミュニケーション方式": [
+        {
+          "university": "多摩大学",
+          "department": "経営情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "多摩大学",
+          "department": "経営情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "多摩大学",
+          "department": "グローバルスタディーズ学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "多摩大学",
+          "department": "グローバルスタディーズ学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "多摩大学",
+          "department": "グローバルスタディーズ学部",
+          "source": "existing_data"
+        }
+      ],
+      "特定地域内部　総合評価型": [
+        {
+          "university": "青森大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "ソフトウェア情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "ソフトウェア情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        }
+      ],
+      "特定地域内部　学校推薦": [
+        {
+          "university": "青森大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "ソフトウェア情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "留学生一般選抜": [
+        {
+          "university": "青森大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "ソフトウェア情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "金城大学",
+          "department": "人間社会科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "金城大学",
+          "department": "総合経済学部",
+          "source": "existing_data"
+        }
+      ],
+      "特定地域内部　留学生一般選抜": [
+        {
+          "university": "青森大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "ソフトウェア情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "jlptと学校試験": [
+        {
+          "university": "筑波大学",
+          "department": "人文文化学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "筑波大学",
+          "department": "人文文化学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "筑波大学",
+          "department": "理工学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "筑波大学",
+          "department": "理工学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "筑波大学",
+          "department": "理工学群",
+          "source": "existing_data"
+        }
+      ],
+      "外国人入試　単願": [
+        {
+          "university": "日本工業大学",
+          "department": "基幹工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "基幹工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "基幹工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "先進工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "先進工学部",
+          "source": "existing_data"
+        }
+      ],
+      "外国人入試　併願": [
+        {
+          "university": "日本工業大学",
+          "department": "基幹工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "基幹工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "基幹工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "先進工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本工業大学",
+          "department": "先進工学部",
+          "source": "existing_data"
+        }
+      ],
+      "本学受験型": [
+        {
+          "university": "南山大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "外国語学科",
+          "source": "existing_data"
+        }
+      ],
+      "英語のみ": [
+        {
+          "university": "国際教養大学",
+          "department": "国際教養学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "国際教養大学",
+          "department": "国際教養学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "桜美林大学",
+          "department": "グローバル・コミュニケーション学群(E方式)",
+          "source": "existing_data"
+        },
+        {
+          "university": "桜美林大学",
+          "department": "グローバル・コミュニケーション学群(E方式)",
+          "source": "existing_data"
+        }
+      ],
+      "渡日前入試": [
+        {
+          "university": "東京外国語大学",
+          "department": "国際日本学部",
+          "source": "existing_data"
+        }
+      ]
+    }
+  },
+  "exams": {
+    "unique_count": 163,
+    "distribution": {
+      "面试（线下）": 512,
+      "面接": 337,
+      "口頭試問": 223,
+      "小论文, 面接": 184,
+      "小论文, 面试（线下）": 124,
+      "面试（线下）, 小论文": 105,
+      "面试（线上）": 82,
+      "書類選考, 面试（线下）": 81,
+      "纯书类": 72,
+      "書類選考": 69,
+      "面接, 学力試験": 56,
+      "面试（线下）, 学力試験": 53,
+      "小论文": 38,
+      "面接, 口頭試問": 37,
+      "面试（线下）, 筆記試験": 29,
+      "面接, 書類選考": 29,
+      "面试（线下）, 英語, 小論文": 25,
+      "面接, 小论文": 24,
+      "面试（线下）, 基礎学力検査（英語、数学）": 24,
+      "面试（线下）, 書類選考, 日本語": 24,
+      "面接, 日本語": 24,
+      "書類選考, 面试（线上）": 23,
+      "小论文, 口頭試問": 22,
+      "書類選考, 面试（线下）, 小论文": 20,
+      "論述（総合）問題, 面接": 17,
+      "面试（线下）, 英語": 16,
+      "面试（线下）, 口頭試問": 16,
+      "面接, 書類選考, 小论文": 16,
+      "面接, 筆記試験（数学）, 英語": 16,
+      "面接, 英語": 15,
+      "面接, 日本語, 筆記試験（数学）": 15,
+      "面接, 英語, 日本語": 14,
+      "面试（线下）, 日本語": 13,
+      "学力試験": 13,
+      "面接, 日本語, 英語": 13,
+      "会場でオンライン面接": 12,
+      "面接, 書類選考, 日本語": 12,
+      "口頭試問, 小论文": 11,
+      "口頭試問, 面接": 11,
+      "面试（线下）, 筆記試験（数学）": 11,
+      "日本語, 面试（线下）": 10,
+      "面试（线下）, 書類選考": 9,
+      "小论文, 面试（线下）, 書類選考": 9,
+      "筆記試験, 口頭試問": 8,
+      "口頭試問, 小論文": 8,
+      "面试（线下）, 小论文, 体育実技": 8,
+      "面接, 小论文, 日本語": 8,
+      "面接（英語能力の試問を含む）": 8,
+      "小论文, 面试（线下）, 学力検査": 8,
+      "面试（线下）, 筆記試験（数学）, 筆記試験（英語、理科「物理、化学、生物うちから2科目選択）": 7,
+      "筆記試験, 面试（线下）": 7,
+      "口頭試問, 学力試験": 6,
+      "英語, 面试（线下）": 6,
+      "面试（线下）, 小論文": 5,
+      "英語, 筆記試験（数学）, 理科, 面试（线下）": 5,
+      "面试（线下）, 日本語（筆記）, 英語": 5,
+      "学力試験, 口頭試問": 5,
+      "面试（线下）, 筆記試験（数学）, 筆記試験（理科「物理、化学、生物のうちから2科目選択）": 5,
+      "面试（线下）, 理科, 筆記試験（数学）": 5,
+      "学力試験, 面试（线下）": 5,
+      "面接, 英語, 理科, 日本語": 5,
+      "口頭試問（英語と日本語併用）": 5,
+      "日本語, 面接": 5,
+      "面试（线上）, 書類選考": 4,
+      "口頭試問, 実技試験（デッサン）": 4,
+      "面试（线下）, 物理、化学、生物から2科目, 筆記試験（数学）": 4,
+      "口頭試問, 面试（线下）": 4,
+      "書類選考, 英語か数学か実技, 面试（线下）": 4,
+      "面试（线下）, 英語面接": 4,
+      "実技試験（デッサン）, 面接": 4,
+      "面接, 英語, 日本語, 筆記試験（数学）": 4,
+      "面接, 小论文, 英語": 4,
+      "小论文, 面试（线下）, 口頭試問": 4,
+      "筆記試験（数学）, 面试（线下）": 3,
+      "面试（线上）, 論述（総合）問題": 3,
+      "論述（総合）問題, 面试（线下）": 3,
+      "面试（线下）, 小论文, 英語": 3,
+      "筆記試験（数学）, 筆記試験（英語、理科「物理、化学、生物うちから2科目選択）": 3,
+      "面试（线下）, 理科": 3,
+      "面接, 小论文, 実技試験（デッサン）": 3,
+      "筆記試験（数学）, 英語, 面接": 3,
+      "口頭試問, 英語面接": 3,
+      "面接, 筆記試験（数学）, 日本語": 3,
+      "面接, 実技試験（デッサン）, 小论文": 3,
+      "面接, 実技試験（デッサン）": 2,
+      "面试（线下）, 物理、生物から1科目, 化学": 2,
+      "小论文, 口頭試問, 面接": 2,
+      "面试（线下）, 筆記試験（数学）, 英語": 2,
+      "学力試験, 口頭試問, 面试（线下）": 2,
+      "面试（线下）, 筆記試験（数学）, 理科": 2,
+      "面试（线下）, 筆記試験（数学）, 物理, 化学": 2,
+      "小论文+口头试问+presentation": 2,
+      "面试（线下）, 小论文, 実技試験（デッサン）": 2,
+      "面试（线下）, 学力試験, 小论文": 2,
+      "日本語, 英語": 2,
+      "日本語, 英語, 面接": 2,
+      "面接, 学力試験, 英語": 2,
+      "口頭試問, 日本語, 書類選考": 2,
+      "小论文, 面试（线下）, 共通試験, 音楽実技": 2,
+      "小论文, 面试（线下）, 体育実技": 2,
+      "面试（线下）, 校内テスト": 1,
+      "小论文+面试": 1,
+      "口頭試問, 筆記試験（英語、日本語）": 1,
+      "筆記試験（数学）, 口頭試問": 1,
+      "筆記試験（英語、理科「物理、化学、生物うちから2科目選択）": 1,
+      "口頭試問, 筆記試験（理科「物理、化学、生物のうちから2科目選択）": 1,
+      "面接, 筆記試験（英語、理科）": 1,
+      "面试（线下）, 小论文, 化学、生物から1科目": 1,
+      "英語, 美術実技, 音楽実技, 面试（线下）": 1,
+      "面试（线下）, 小论文, 筆記試験（生物基礎の基礎知識）": 1,
+      "面试（线下）, 書道実技": 1,
+      "面试（线下）, 日本語（筆記）": 1,
+      "面试（线下）, 模擬講義": 1,
+      "面试（线下）, 地理歴史数学": 1,
+      "面试（线下）, 造形表現": 1,
+      "地理歴史, 面接": 1,
+      "面试（线下）, 筆記試験（英語、理科）, 筆記試験（数学）": 1,
+      "学力試験, 口頭試問, 小论文": 1,
+      "日本語, 筆記試験（数学）": 1,
+      "面试（线下）, 口頭試問, 小论文": 1,
+      "面试（线下）, 筆記試験（数学）, 理科「物理, 化学, 生物二选一」, 英語": 1,
+      "面试（线下）, 筆記試験（数学）, 物理、生物から1科目, 英語": 1,
+      "面试（线下）, 筆記試験（数学）, 物理, 英語": 1,
+      "面试（线下）, 化学, 英語, 筆記試験（数学）": 1,
+      "面试（线下）, 生物, 英語": 1,
+      "面试（线下）, 筆記試験（数学）, 筆記試験（英語、理科）": 1,
+      "面试（线下）, 化学、生物から1科目, 筆記試験（数学）, 小论文": 1,
+      "面试（线下）, 小论文, 物理、化学、生物から2科目, 筆記試験（数学）": 1,
+      "小论文, 面接, 口頭試問": 1,
+      "面试（线下）, 日本語, 筆記試験（数学）, 筆記試験（英語、日本語）": 1,
+      "面试（线下）, 実技試験（デッサン）": 1,
+      "面试（线下）, 数学、理科から1": 1,
+      "面试（线下）, 小论文, 基礎学力検査（英語、数学）": 1,
+      "小論文または実技試験, 面试（线下）": 1,
+      "面试（线下）, 筆記試験（数学）, 物理": 1,
+      "面试（线下）, 化学, 筆記試験（数学）": 1,
+      "面试（线下）, 理科「物理, 化学, 生物二选一」, 筆記試験（数学）": 1,
+      "面试（线下）, 物理、化学、生物から2科目, 英語, 筆記試験（数学）": 1,
+      "小论文, 面试（线下）, 英語": 1,
+      "面接, 書類選考, 小论文, 英語": 1,
+      "英語, 筆記試験（数学）, 面试（线下）": 1,
+      "英語, 日本語": 1,
+      "書類選考（録画面接＋書類）": 1,
+      "小论文+口头试问+presentation, 筆記試験（数学）, 化学, 日本語": 1,
+      "面试（线下）, 日本語（筆記）, 総合科目": 1,
+      "面试（线下）, 筆記試験, 筆記試験（数学）": 1,
+      "日本語, 面试（线下）, 化学, 筆記試験": 1,
+      "小论文, 面试（线下）, 筆記試験（数学）": 1,
+      "小论文, 面接, 英語": 1,
+      "小论文, 実技試験（デッサン）, 面接": 1,
+      "小论文, 面接, 書類選考": 1,
+      "理科, 面接, 筆記試験": 1,
+      "小论文, 面接, 筆記試験": 1,
+      "日本語": 1,
+      "英語, 小论文外其他笔试": 1,
+      "学力試験, 小论文, 面接": 1,
+      "面接, 英作文, 小论文": 1,
+      "デザイン綜合問題, 面试（线下）": 1,
+      "小论文, 面试（线下）, 図工美術実技": 1,
+      "小论文, 面试（线下）, 美術実技": 1,
+      "小论文, 面试（线下）, 書道実技": 1,
+      "小论文, 面试（线下）, 学力検査, 口頭試問": 1,
+      "小论文, 面试（线下）, 口頭試問, 学力検査": 1
+    },
+    "details": {
+      "小论文, 面试（线下）": [
+        {
+          "university": "東京大学",
+          "department": "理科一類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "理科二類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "理科三類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "文科一類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "文科二類",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）": [
+        {
+          "university": "名古屋大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 小论文": [
+        {
+          "university": "名古屋大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "駒澤大学",
+          "department": "医療健康科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大東文化大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 校内テスト": [
+        {
+          "university": "名古屋大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "纯书类": [
+        {
+          "university": "九州大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "商学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立教大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立教大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立教大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接": [
+        {
+          "university": "九州大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "日本語, 面试（线下）": [
+        {
+          "university": "九州大学",
+          "department": "共 創 学 部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "文 学 部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "法 学 部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线上）": [
+        {
+          "university": "北海道大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "商学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 学力試験": [
+        {
+          "university": "東北大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東北大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東北大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東北大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東北大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "筆記試験（数学）, 面试（线下）": [
+        {
+          "university": "東北大学",
+          "department": "歯学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東北大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東北大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問, 学力試験": [
+        {
+          "university": "大阪大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "筆記試験, 口頭試問": [
+        {
+          "university": "大阪大学",
+          "department": "基礎工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "基礎工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "基礎工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "基礎工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "基礎工学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 口頭試問": [
+        {
+          "university": "大阪大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "金沢大学",
+          "department": "人間社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文+面试": [
+        {
+          "university": "大阪大学",
+          "department": "人間科学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問, 筆記試験（英語、日本語）": [
+        {
+          "university": "大阪大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        }
+      ],
+      "筆記試験（数学）, 口頭試問": [
+        {
+          "university": "大阪大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        }
+      ],
+      "筆記試験（英語、理科「物理、化学、生物うちから2科目選択）": [
+        {
+          "university": "大阪大学",
+          "department": "歯学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問, 筆記試験（理科「物理、化学、生物のうちから2科目選択）": [
+        {
+          "university": "大阪大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面接": [
+        {
+          "university": "大阪大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中央大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中央大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中央大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中央大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 筆記試験（英語、理科）": [
+        {
+          "university": "大阪大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問": [
+        {
+          "university": "京都大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "京都大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "京都大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "京都大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "京都大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問, 小論文": [
+        {
+          "university": "明治大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "法学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 小論文": [
+        {
+          "university": "明治大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "情報コミュニケーション学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 小论文": [
+        {
+          "university": "青山学院大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "総合文化政策学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文": [
+        {
+          "university": "青山学院大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生物資源学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生物資源学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生物資源学部",
+          "source": "existing_data"
+        }
+      ],
+      "書類選考, 面试（线上）": [
+        {
+          "university": "法政大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线上）, 論述（総合）問題": [
+        {
+          "university": "早稲田大学",
+          "department": "人間科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "人間科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "人間科学部",
+          "source": "existing_data"
+        }
+      ],
+      "論述（総合）問題, 面试（线下）": [
+        {
+          "university": "早稲田大学",
+          "department": "政治経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "政治経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "政治経済学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 書類選考": [
+        {
+          "university": "早稲田大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "商学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线上）, 書類選考": [
+        {
+          "university": "早稲田大学",
+          "department": "社会科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "文化構想学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京外国語大学",
+          "department": "国際日本学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 基礎学力検査（英語、数学）": [
+        {
+          "university": "日本大学",
+          "department": "生産工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生産工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生産工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生産工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "生産工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 小论文, 化学、生物から1科目": [
+        {
+          "university": "日本大学",
+          "department": "歯学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 日本語": [
+        {
+          "university": "江戸川大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "江戸川大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "江戸川大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "江戸川大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "江戸川大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        }
+      ],
+      "英語, 面试（线下）": [
+        {
+          "university": "お茶の水女子大学",
+          "department": "共創工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "生活科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "生活科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "文教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "文教育学部",
+          "source": "existing_data"
+        }
+      ],
+      "英語, 筆記試験（数学）, 理科, 面试（线下）": [
+        {
+          "university": "お茶の水女子大学",
+          "department": "生活科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "共創工学部",
+          "source": "existing_data"
+        }
+      ],
+      "英語, 美術実技, 音楽実技, 面试（线下）": [
+        {
+          "university": "お茶の水女子大学",
+          "department": "文教育学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 実技試験（デッサン）": [
+        {
+          "university": "東洋大学",
+          "department": "福祉社会デザイン学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東洋大学",
+          "department": "福祉社会デザイン学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 小论文, 筆記試験（生物基礎の基礎知識）": [
+        {
+          "university": "東海大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 英語": [
+        {
+          "university": "大東文化大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "法学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問, 小论文": [
+        {
+          "university": "大東文化大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "文芸学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "文芸学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 小论文, 英語": [
+        {
+          "university": "大東文化大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大東文化大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "富山大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 書道実技": [
+        {
+          "university": "大東文化大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "会場でオンライン面接": [
+        {
+          "university": "大東文化大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大東文化大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大東文化大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大東文化大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大東文化大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 日本語（筆記）": [
+        {
+          "university": "亜細亜大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 日本語（筆記）, 英語": [
+        {
+          "university": "亜細亜大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "国際関係学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "国際関係学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 小论文, 体育実技": [
+        {
+          "university": "国士舘大学",
+          "department": "体育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "国士舘大学",
+          "department": "体育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "国士舘大学",
+          "department": "体育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "国士舘大学",
+          "department": "体育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "国士舘大学",
+          "department": "体育学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問, 実技試験（デッサン）": [
+        {
+          "university": "近畿大学",
+          "department": "建築学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "文芸学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "建築学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "文芸学部",
+          "source": "existing_data"
+        }
+      ],
+      "学力試験": [
+        {
+          "university": "上智大学",
+          "department": "神学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "上智大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "上智大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "上智大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "上智大学",
+          "department": "総合人間科学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問, 面接": [
+        {
+          "university": "上智大学",
+          "department": "総合人間科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "上智大学",
+          "department": "総合人間科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋工業大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋工業大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋工業大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 模擬講義": [
+        {
+          "university": "慶應義塾大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "書類選考": [
+        {
+          "university": "慶應義塾大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "慶應義塾大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "慶應義塾大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "慶應義塾大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "慶應義塾大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 地理歴史数学": [
+        {
+          "university": "東京都立大学",
+          "department": "都市環境学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 造形表現": [
+        {
+          "university": "東京都立大学",
+          "department": "システムデザイン学部",
+          "source": "existing_data"
+        }
+      ],
+      "地理歴史, 面接": [
+        {
+          "university": "東京都立大学",
+          "department": "法学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）": [
+        {
+          "university": "横浜国立大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "横浜国立大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "横浜国立大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "長崎大学",
+          "department": "情報データ科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "静冈大学",
+          "department": "情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（英語、理科）, 筆記試験（数学）": [
+        {
+          "university": "神戸大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "筆記試験（数学）, 筆記試験（英語、理科「物理、化学、生物うちから2科目選択）": [
+        {
+          "university": "神戸大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "神戸大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "神戸大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）, 筆記試験（英語、理科「物理、化学、生物うちから2科目選択）": [
+        {
+          "university": "神戸大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "熊本大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "熊本大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "熊本大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "熊本大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "学力試験, 口頭試問": [
+        {
+          "university": "大阪公立大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本女子大学",
+          "department": "家政学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本女子大学",
+          "department": "家政学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本女子大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本女子大学",
+          "department": "人間社会学部",
+          "source": "existing_data"
+        }
+      ],
+      "学力試験, 口頭試問, 小论文": [
+        {
+          "university": "大阪公立大学",
+          "department": "法学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 口頭試問": [
+        {
+          "university": "大阪公立大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪公立大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪公立大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪公立大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪公立大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日本語, 筆記試験（数学）": [
+        {
+          "university": "大阪公立大学",
+          "department": "生活科学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 口頭試問, 小论文": [
+        {
+          "university": "大阪公立大学",
+          "department": "獣医学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）, 理科「物理, 化学, 生物二选一」, 英語": [
+        {
+          "university": "岡山大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）, 物理、生物から1科目, 英語": [
+        {
+          "university": "岡山大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）, 物理, 英語": [
+        {
+          "university": "岡山大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 化学, 英語, 筆記試験（数学）": [
+        {
+          "university": "岡山大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 生物, 英語": [
+        {
+          "university": "岡山大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 物理、化学、生物から2科目, 筆記試験（数学）": [
+        {
+          "university": "岡山大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山大学",
+          "department": "歯学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）, 筆記試験（英語、理科）": [
+        {
+          "university": "岡山大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 物理、生物から1科目, 化学": [
+        {
+          "university": "岡山大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 化学、生物から1科目, 筆記試験（数学）, 小论文": [
+        {
+          "university": "岡山大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 小论文, 物理、化学、生物から2科目, 筆記試験（数学）": [
+        {
+          "university": "岡山大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面接, 口頭試問": [
+        {
+          "university": "岡山大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 口頭試問, 面接": [
+        {
+          "university": "岡山大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 日本語, 筆記試験（数学）, 筆記試験（英語、日本語）": [
+        {
+          "university": "熊本大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）, 筆記試験（理科「物理、化学、生物のうちから2科目選択）": [
+        {
+          "university": "熊本大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "熊本大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "熊本大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "熊本大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "熊本大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）, 英語": [
+        {
+          "university": "熊本大学",
+          "department": "情報融合学環",
+          "source": "existing_data"
+        },
+        {
+          "university": "秋田大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 実技試験（デッサン）": [
+        {
+          "university": "長崎大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 数学、理科から1": [
+        {
+          "university": "長崎大学",
+          "department": "歯学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問, 面试（线下）": [
+        {
+          "university": "信州大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "信州大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "信州大学",
+          "department": "繊維学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "信州大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 小论文, 基礎学力検査（英語、数学）": [
+        {
+          "university": "信州大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        }
+      ],
+      "学力試験, 口頭試問, 面试（线下）": [
+        {
+          "university": "信州大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "千葉大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "小論文または実技試験, 面试（线下）": [
+        {
+          "university": "静冈大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）, 理科": [
+        {
+          "university": "静冈大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "静冈大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）, 物理": [
+        {
+          "university": "静冈大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 化学, 筆記試験（数学）": [
+        {
+          "university": "静冈大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 理科「物理, 化学, 生物二选一」, 筆記試験（数学）": [
+        {
+          "university": "静冈大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 物理、化学、生物から2科目, 英語, 筆記試験（数学）": [
+        {
+          "university": "富山大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験（数学）, 物理, 化学": [
+        {
+          "university": "富山大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "富山大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 口頭試問": [
+        {
+          "university": "山形大学",
+          "department": "人文社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山形大学",
+          "department": "人文社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山形大学",
+          "department": "人文社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山形大学",
+          "department": "人文社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京農工大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 理科, 筆記試験（数学）": [
+        {
+          "university": "山口大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山口大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山口大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山口大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山口大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験": [
+        {
+          "university": "山口大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山口大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "城西大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "城西大学",
+          "department": "総合政策学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "城西大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 理科": [
+        {
+          "university": "山口大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山口大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山口大学",
+          "department": "共同獣医学部",
+          "source": "existing_data"
+        }
+      ],
+      "書類選考, 面试（线下）": [
+        {
+          "university": "拓殖大学",
+          "department": "商学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "商学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "商学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "政経学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "政経学部",
+          "source": "existing_data"
+        }
+      ],
+      "書類選考, 英語か数学か実技, 面试（线下）": [
+        {
+          "university": "拓殖大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 英語": [
+        {
+          "university": "明治学院大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 書類選考, 小论文": [
+        {
+          "university": "中京大学",
+          "department": "心理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "総合政策学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 書類選考, 日本語": [
+        {
+          "university": "中京大学",
+          "department": "スポーツ科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "スポーツ科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "スポーツ科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "スポーツ科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "スポーツ科学部",
+          "source": "existing_data"
+        }
+      ],
+      "書類選考, 面试（线下）, 小论文": [
+        {
+          "university": "関東学院大学",
+          "department": "建築環境学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "栄養学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 書類選考, 小论文, 英語": [
+        {
+          "university": "関東学院大学",
+          "department": "国際文化学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 書類選考": [
+        {
+          "university": "関東学院大学",
+          "department": "社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "国際文化学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "国際文化学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 書類選考, 日本語": [
+        {
+          "university": "流通経済大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "流通経済大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "流通経済大学",
+          "department": "共創社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "流通経済大学",
+          "department": "共創社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "流通経済大学",
+          "department": "法学部",
+          "source": "existing_data"
+        }
+      ],
+      "英語, 筆記試験（数学）, 面试（线下）": [
+        {
+          "university": "お茶の水女子大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 英語面接": [
+        {
+          "university": "東京女子大学",
+          "department": "現代教養学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京女子大学",
+          "department": "現代教養学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京女子大学",
+          "department": "現代教養学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京女子大学",
+          "department": "現代教養学部",
+          "source": "existing_data"
+        }
+      ],
+      "英語, 日本語": [
+        {
+          "university": "東京女子大学",
+          "department": "現代教養学部",
+          "source": "existing_data"
+        }
+      ],
+      "書類選考（録画面接＋書類）": [
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "アジア太平洋学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文+口头试问+presentation": [
+        {
+          "university": "青森大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文+口头试问+presentation, 筆記試験（数学）, 化学, 日本語": [
+        {
+          "university": "青森大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 日本語（筆記）, 総合科目": [
+        {
+          "university": "青森大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 筆記試験, 筆記試験（数学）": [
+        {
+          "university": "青森大学",
+          "department": "ソフトウェア情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "日本語, 面试（线下）, 化学, 筆記試験": [
+        {
+          "university": "青森大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 筆記試験（数学）": [
+        {
+          "university": "青森大学",
+          "department": "ソフトウェア情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面接, 英語": [
+        {
+          "university": "弘前大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 実技試験（デッサン）, 面接": [
+        {
+          "university": "筑波大学",
+          "department": "体育専門学群",
+          "source": "existing_data"
+        }
+      ],
+      "実技試験（デッサン）, 面接": [
+        {
+          "university": "筑波大学",
+          "department": "芸術専門学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山県立大学",
+          "department": "デザイン学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山県立大学",
+          "department": "デザイン学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山県立大学",
+          "department": "デザイン学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面接, 書類選考": [
+        {
+          "university": "筑波大学",
+          "department": "生命環境学群",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 学力試験": [
+        {
+          "university": "電気通信大学",
+          "department": "情報系",
+          "source": "existing_data"
+        },
+        {
+          "university": "電気通信大学",
+          "department": "情報系",
+          "source": "existing_data"
+        },
+        {
+          "university": "電気通信大学",
+          "department": "情報系",
+          "source": "existing_data"
+        },
+        {
+          "university": "電気通信大学",
+          "department": "情報系",
+          "source": "existing_data"
+        },
+        {
+          "university": "電気通信大学",
+          "department": "情報系",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 小论文, 実技試験（デッサン）": [
+        {
+          "university": "福島大学",
+          "department": "人文社会学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "福島大学",
+          "department": "人文社会学群",
+          "source": "existing_data"
+        }
+      ],
+      "学力試験, 面试（线下）": [
+        {
+          "university": "千葉大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "奈良女子大学",
+          "department": "理学院",
+          "source": "existing_data"
+        },
+        {
+          "university": "奈良女子大学",
+          "department": "理学院",
+          "source": "existing_data"
+        },
+        {
+          "university": "愛媛大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "愛媛大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 学力試験, 小论文": [
+        {
+          "university": "群馬大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "群馬大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "理科, 面接, 筆記試験": [
+        {
+          "university": "横浜市立大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面接, 筆記試験": [
+        {
+          "university": "横浜市立大学",
+          "department": "国際商学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 小论文, 実技試験（デッサン）": [
+        {
+          "university": "静岡大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋市立大学",
+          "department": "芸術工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋市立大学",
+          "department": "芸術工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 英語, 理科, 日本語": [
+        {
+          "university": "東京海洋大学",
+          "department": "海洋生命科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京海洋大学",
+          "department": "海洋生命科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京海洋大学",
+          "department": "海洋生命科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京海洋大学",
+          "department": "海洋資源環境学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京海洋大学",
+          "department": "海洋資源環境学部",
+          "source": "existing_data"
+        }
+      ],
+      "筆記試験（数学）, 英語, 面接": [
+        {
+          "university": "東京海洋大学",
+          "department": "海洋工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京海洋大学",
+          "department": "海洋工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京海洋大学",
+          "department": "海洋工学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問（英語と日本語併用）": [
+        {
+          "university": "豊橋技術科学大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "豊橋技術科学大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "豊橋技術科学大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "豊橋技術科学大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "豊橋技術科学大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日本語": [
+        {
+          "university": "広島大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 日本語": [
+        {
+          "university": "広島大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "北陸大学",
+          "department": "経済経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "北陸大学",
+          "department": "経済経営学部",
+          "source": "existing_data"
+        }
+      ],
+      "面试（线下）, 英語, 小論文": [
+        {
+          "university": "福岡大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "福岡大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "福岡大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "福岡大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "福岡大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問, 英語面接": [
+        {
+          "university": "名城大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名城大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名城大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 英語, 日本語": [
+        {
+          "university": "南山大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "外国語学科",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 英語, 日本語, 筆記試験（数学）": [
+        {
+          "university": "南山大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "南山大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 英語": [
+        {
+          "university": "立正大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "応用生物科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "応用生物科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "応用生物科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "生命健康科学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 日本語, 英語": [
+        {
+          "university": "北陸大学",
+          "department": "国際コミュニケーション学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "北陸大学",
+          "department": "国際コミュニケーション学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "応用生物科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "応用生物科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "応用生物科学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 小论文, 日本語": [
+        {
+          "university": "金城大学",
+          "department": "人間社会科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "金城大学",
+          "department": "総合経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "金城大学",
+          "department": "医療健康学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "金城大学",
+          "department": "医療健康学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "金城大学",
+          "department": "人間社会科学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 筆記試験（数学）, 英語": [
+        {
+          "university": "大阪工業大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪工業大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪工業大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪工業大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪工業大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 小论文, 英語": [
+        {
+          "university": "大阪工業大学",
+          "department": "知的財産学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "昭和女子大学",
+          "department": "人間社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "昭和女子大学",
+          "department": "グローバルビジネス学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "昭和女子大学",
+          "department": "グローバルビジネス学部",
+          "source": "existing_data"
+        }
+      ],
+      "論述（総合）問題, 面接": [
+        {
+          "university": "神奈川大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "神奈川大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "神奈川大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "神奈川大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "神奈川大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 日本語, 筆記試験（数学）": [
+        {
+          "university": "中部大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 筆記試験（数学）, 日本語": [
+        {
+          "university": "中部大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日本語, 英語": [
+        {
+          "university": "中部大学",
+          "department": "経営情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "国際関係学部",
+          "source": "existing_data"
+        }
+      ],
+      "日本語, 面接": [
+        {
+          "university": "中部大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        }
+      ],
+      "日本語, 英語, 面接": [
+        {
+          "university": "中部大学",
+          "department": "経営情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中部大学",
+          "department": "国際関係学部",
+          "source": "existing_data"
+        }
+      ],
+      "英語, 小论文外其他笔试": [
+        {
+          "university": "昭和女子大学",
+          "department": "人間社会学部",
+          "source": "existing_data"
+        }
+      ],
+      "学力試験, 小论文, 面接": [
+        {
+          "university": "昭和女子大学",
+          "department": "環境デザイン学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 英作文, 小论文": [
+        {
+          "university": "順天堂大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 学力試験, 英語": [
+        {
+          "university": "順天堂大学",
+          "department": "国際教養学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "順天堂大学",
+          "department": "国際教養学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接, 実技試験（デッサン）, 小论文": [
+        {
+          "university": "名古屋市立大学",
+          "department": "芸術工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋市立大学",
+          "department": "芸術工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋市立大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        }
+      ],
+      "デザイン綜合問題, 面试（线下）": [
+        {
+          "university": "札幌市立大学",
+          "department": "デザイン学部",
+          "source": "existing_data"
+        }
+      ],
+      "面接（英語能力の試問を含む）": [
+        {
+          "university": "富山県立大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "富山県立大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "富山県立大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "富山県立大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "富山県立大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "筆記試験, 面试（线下）": [
+        {
+          "university": "立教大学",
+          "department": "異文化コミュニケーション学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "秀明大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "秀明大学",
+          "department": "グローバルマネジメント学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "秀明大学",
+          "department": "観光ビジネス学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "秀明大学",
+          "department": "総合経営学部",
+          "source": "existing_data"
+        }
+      ],
+      "口頭試問, 日本語, 書類選考": [
+        {
+          "university": "文教大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "文教大学",
+          "department": "文学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 書類選考": [
+        {
+          "university": "神戸市外国語大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "神戸市外国語大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "神戸市外国語大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "神戸市外国語大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "神戸市外国語大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 学力検査": [
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 共通試験, 音楽実技": [
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 図工美術実技": [
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 体育実技": [
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 口頭試問": [
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 美術実技": [
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 書道実技": [
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 学力検査, 口頭試問": [
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        }
+      ],
+      "小论文, 面试（线下）, 口頭試問, 学力検査": [
+        {
+          "university": "東京学芸大学",
+          "department": "教育支援課程",
+          "source": "existing_data"
+        }
+      ]
+    }
+  },
+  "eju_subjects": {
+    "unique_count": 96,
+    "distribution": {
+      "日语": 631,
+      "日语, 数学コース2, 理科2科目選択": 458,
+      "日语, 綜合科目": 340,
+      "日语, 数学コース2, 物理（必須）, 化学（必須）": 251,
+      "日语, 数学コース2": 122,
+      "日语, 数学コース1, 綜合科目": 109,
+      "不需要EJU": 103,
+      "日语, 数学コース1or2都可以, 綜合科目": 98,
+      "日语, 数学コース1or2都可以, 理科2科目選択": 80,
+      "日语, 数学コース2, 物理（必須）, 化学または生物": 49,
+      "日语, 综合科目和数学1那个分数高用哪个": 46,
+      "日语, 数学コース2, 化学または生物, 物理（必須）": 39,
+      "数学コース2, 日语, 物理（必須）, 化学（必須）": 38,
+      "日语, 数学コース2, 物理（必須）": 37,
+      "日语, 理科2科目選択, 文科2科目選択, 数学コース1or2都可以": 37,
+      "日语, 綜合科目, 数学コース1": 35,
+      "日语, 数学コース2, 物理（必須）, 化学（必須）, 生物（必須）": 31,
+      "日语, 数学コース1or2都可以": 28,
+      "日语, 綜合科目, 数学コース1or2都可以": 26,
+      "日语, 数学コース2, 化学（必須）, 物理または生物": 21,
+      "綜合科目": 21,
+      "数学コース2, 理科2科目選択": 18,
+      "日语, 総合科目または数学コース1または数学コース2または理科": 16,
+      "日语, 数学コース2, 物理または生物, 化学（必須）": 15,
+      "日语, 理科1科目選択": 14,
+      "日语, 物理（必須）, 化学（必須）": 14,
+      "日语, 化学（必須）, 生物（必須）": 12,
+      "日语, 物理（必須）, 化学（必須）, 生物（必須）": 12,
+      "日语, 理科2科目選択, 数学コース2": 11,
+      "日语, 化学（必須）, 物理または生物": 11,
+      "日语, 理科2科目選択, 数学コース1or2都可以": 10,
+      "日语, 数学コース2, 物理または化学": 10,
+      "日语, 数学コース2, 理科1科目選択": 9,
+      "日语, 数学コース2, 生物（必須）, 化学（必須）, 物理（必須）": 9,
+      "日语, 数学コース2, 化学（必須）, 生物（必須）": 9,
+      "数学コース2, 物理（必須）, 化学（必須）": 9,
+      "日语, 数学コース1or2都可以, 物理（必須）, 化学（必須）": 9,
+      "数学コース2, 日语, 化学または生物, 物理（必須）": 8,
+      "日语, 理科2科目選択": 8,
+      "日语, 化学または生物": 8,
+      "数学コース2, 理科2科目選択, 日语": 8,
+      "日语, 数学コース2, 生物（必須）, 物理または化学": 6,
+      "日语, 総合科目または数学": 6,
+      "日语, 数学コース2, 綜合科目": 5,
+      "数学コース1or2都可以": 5,
+      "日语, 数学コース2, 理科自由选择": 5,
+      "日语, 数学コース2, 数学コース1, 綜合科目, 理科2科目選択": 5,
+      "日语, 数学コース1, 理科2科目選択": 4,
+      "日语, 数学コース2, 化学または生物": 4,
+      "数学コース2, 理科1科目選択": 4,
+      "日语, 数学コース1or2都可以, 綜合科目, 理科2科目選択": 4,
+      "日语, 綜合科目, 理科2科目選択, 数学コース1or2都可以": 4,
+      "日语, 数学コース1": 3,
+      "日语, 数学コース1or2都可以, 化学（必須）, 生物（必須）": 3,
+      "日语, 数学コース2, 化学（必須）": 3,
+      "日语, 理科2科目選択, 数学コース1or2都可以, 綜合科目": 3,
+      "日语, 数学コース1or2都可以, 生物（必須）, 物理または化学": 3,
+      "日语, 総合科目または数学コース1、２のうち1科目": 3,
+      "日语, 綜合科目, 数学コース1or2都可以, 理科自由选择": 3,
+      "日语, 物理（必須）, 化学または生物": 3,
+      "数学コース2, 物理（必須）, 化学または生物": 3,
+      "日语, 数学コース1, 綜合科目, 理科2科目選択": 3,
+      "日语, 総合科目また理科": 3,
+      "日语, 化学（必須）": 2,
+      "日语, 数学コース2, 化学（必須）, 物理（必須）": 2,
+      "数学コース2, 日语, 物理または生物, 化学（必須）": 2,
+      "日语, 数学コース1, 理科1科目選択": 2,
+      "物理（必須）, 化学または生物, 数学コース1or2都可以": 2,
+      "数学コース1or2都可以, 理科2科目選択, 綜合科目, 日语": 2,
+      "数学コース1or2都可以, 理科2科目選択": 2,
+      "数学コース2, 物理（必須）, 化学（必須）, 日语": 2,
+      "日语, 数学コース1or2都可以, 化学（必須）, 物理または生物": 2,
+      "日语, 数学コース2, 化学（必須）, 理科2科目選択": 2,
+      "日语, 数学コース2, 生物（必須）": 1,
+      "日语, 化学（必須）, 物理または生物, 数学コース2": 1,
+      "日语, 物理または生物, 化学（必須）": 1,
+      "数学コース2, 物理（必須）": 1,
+      "数学コース1or2都可以, 綜合科目": 1,
+      "日语, 理科2科目選択, 数学コース1": 1,
+      "日语, 数学コース1or2都可以, 理科2科目選択, 総合科目または数学コース1または数学コース2または理科": 1,
+      "日语, 数学コース2, 生物（必須）, 化学（必須）": 1,
+      "日语, 数学コース2, 理科2科目選択, 綜合科目, 数学コース1": 1,
+      "日语, 数学コース1or2都可以, 綜合科目, 数学コース2, 物理または化学": 1,
+      "日语, 数学コース2, 綜合科目, 理科1科目選択": 1,
+      "綜合科目, 数学コース1, 数学コース2, 理科自由选择": 1,
+      "日语, 綜合科目, 理科自由选择, 数学コース1or2都可以": 1,
+      "日语, 数学コース1or2都可以, 生物（必須）, 化学（必須）": 1,
+      "日语, 数学コース1or2都可以, 物理（必須）, 化学（必須）, 生物（必須）, 綜合科目": 1,
+      "数学コース2, 化学（必須）, 物理または生物": 1,
+      "数学コース2, 生物（必須）, 物理または化学": 1,
+      "数学コース2": 1,
+      "総合科目または数学コース1または数学コース2または理科, 日语": 1,
+      "数学コース1or2都可以, 化学（必須）, 物理または生物": 1,
+      "日语, 数学コース2, 数学コース1, 綜合科目": 1,
+      "数学コース2, 日语, 化学（必須）, 物理または生物": 1,
+      "化学（必須）, 生物（必須）": 1
+    },
+    "details": {
+      "日语, 数学コース2": [
+        {
+          "university": "東京大学",
+          "department": "理科一類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "理科二類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "理科三類",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "歯学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1, 綜合科目": [
+        {
+          "university": "東京大学",
+          "department": "文科一類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "文科二類",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京大学",
+          "department": "文科三類",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "人間科学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 理科2科目選択": [
+        {
+          "university": "名古屋大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 綜合科目, 数学コース1": [
+        {
+          "university": "名古屋大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "法学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 理科2科目選択, 数学コース2": [
+        {
+          "university": "名古屋大学",
+          "department": "情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 物理（必須）, 化学（必須）, 生物（必須）": [
+        {
+          "university": "九州大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 物理（必須）, 化学（必須）": [
+        {
+          "university": "九州大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "九州大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 総合科目または数学コース1または数学コース2または理科": [
+        {
+          "university": "九州大学",
+          "department": "共 創 学 部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関西大学",
+          "department": "総合情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関西大学",
+          "department": "政策創造学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "慶應義塾大学",
+          "department": "総合政策学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "慶應義塾大学",
+          "department": "環境情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 綜合科目": [
+        {
+          "university": "北海道大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "北海道大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "北海道大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "北海道大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "外国語学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 化学または生物, 物理（必須）": [
+        {
+          "university": "北海道大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "北海道大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "北海道大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 綜合科目": [
+        {
+          "university": "東北大学",
+          "department": "文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東北大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東北大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東北大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本女子大学",
+          "department": "建築デザイン",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 物理（必須）, 化学または生物": [
+        {
+          "university": "大阪大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 生物（必須）": [
+        {
+          "university": "明治大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 化学（必須）": [
+        {
+          "university": "明治大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青森大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 化学（必須）, 生物（必須）": [
+        {
+          "university": "明治大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東洋大学",
+          "department": "生命科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東洋大学",
+          "department": "生命科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東洋大学",
+          "department": "生命科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東洋大学",
+          "department": "生命科学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 理科1科目選択": [
+        {
+          "university": "明治大学",
+          "department": "総合数理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "総合数理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "総合数理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "帝京大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "帝京大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 综合科目和数学1那个分数高用哪个": [
+        {
+          "university": "明治大学",
+          "department": "法学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "政治経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "政治経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "政治経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "国際文化学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 綜合科目": [
+        {
+          "university": "明治大学",
+          "department": "商学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明治大学",
+          "department": "情報コミュニケーション学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语": [
+        {
+          "university": "青山学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "青山学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 化学（必須）, 物理または生物, 数学コース2": [
+        {
+          "university": "立教大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 物理（必須）": [
+        {
+          "university": "法政大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "法政大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 化学（必須）, 物理または生物": [
+        {
+          "university": "関西大学",
+          "department": "化学生命工",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京都立大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "横浜国立大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 物理または生物, 化学（必須）": [
+        {
+          "university": "関西大学",
+          "department": "化学生命工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "理学部第一部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京理科大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 化学（必須）, 物理（必須）": [
+        {
+          "university": "関西学院大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "琉球大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 日语, 物理または生物, 化学（必須）": [
+        {
+          "university": "早稲田大学",
+          "department": "先進理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以": [
+        {
+          "university": "早稲田大学",
+          "department": "人間科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "人間科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "早稲田大学",
+          "department": "人間科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東洋大学",
+          "department": "綜合情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東洋大学",
+          "department": "綜合情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1": [
+        {
+          "university": "早稲田大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "大阪公立大学",
+          "department": "生活科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山県立大学",
+          "department": "デザイン学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 日语, 化学または生物, 物理（必須）": [
+        {
+          "university": "日本大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "日本大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1, 理科1科目選択": [
+        {
+          "university": "日本大学",
+          "department": "文理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "徳島大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 理科2科目選択": [
+        {
+          "university": "日本大学",
+          "department": "文理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "甲南大学",
+          "department": "フロンティアサイエンス学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "甲南大学",
+          "department": "フロンティアサイエンス学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "龍谷大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "龍谷大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 物理または生物, 化学（必須）": [
+        {
+          "university": "日本大学",
+          "department": "文理学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 綜合科目, 数学コース1or2都可以": [
+        {
+          "university": "お茶の水女子大学",
+          "department": "生活科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "お茶の水女子大学",
+          "department": "生活科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "弘前大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "金沢大学",
+          "department": "人間社会学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "金沢大学",
+          "department": "人間社会学部",
+          "source": "existing_data"
+        }
+      ],
+      "物理（必須）, 化学または生物, 数学コース1or2都可以": [
+        {
+          "university": "専修大学",
+          "department": "ネットワーク情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "専修大学",
+          "department": "ネットワーク情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 理科2科目選択": [
+        {
+          "university": "東海大学",
+          "department": "教養学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "情報通信学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東海大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "不需要EJU": [
+        {
+          "university": "帝京大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "帝京大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "亜細亜大学",
+          "department": "法学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 生物（必須）, 化学（必須）, 物理（必須）": [
+        {
+          "university": "近畿大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 物理（必須）, 化学（必須）, 生物（必須）": [
+        {
+          "university": "近畿大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 理科1科目選択": [
+        {
+          "university": "近畿大学",
+          "department": "生物理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "生物理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "生物理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "生物理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "生物理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース1or2都可以": [
+        {
+          "university": "近畿大学",
+          "department": "産業理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "近畿大学",
+          "department": "産業理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明星大学",
+          "department": "情報学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明星大学",
+          "department": "データサイエンス学環",
+          "source": "existing_data"
+        },
+        {
+          "university": "宇都宮大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 化学または生物": [
+        {
+          "university": "京都産業大学",
+          "department": "生命科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "京都産業大学",
+          "department": "生命科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "京都産業大学",
+          "department": "生命科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "京都産業大学",
+          "department": "生命科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "長崎大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 化学（必須）, 生物（必須）": [
+        {
+          "university": "上智大学",
+          "department": "総合人間学科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "上智大学",
+          "department": "総合人間科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "弘前大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 化学（必須）": [
+        {
+          "university": "甲南大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "福岡大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "福岡大学",
+          "department": "理学科",
+          "source": "existing_data"
+        }
+      ],
+      "綜合科目": [
+        {
+          "university": "龍谷大学",
+          "department": "国際学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明星大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明星大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明星大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明星大学",
+          "department": "人文学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 化学（必須）, 生物（必須）": [
+        {
+          "university": "神戸大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "長崎大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "埼玉大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京農工大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 物理（必須）": [
+        {
+          "university": "金沢大学",
+          "department": "理工学域",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 物理（必須）, 化学（必須）": [
+        {
+          "university": "金沢大学",
+          "department": "理工学域",
+          "source": "existing_data"
+        },
+        {
+          "university": "金沢大学",
+          "department": "理工学域",
+          "source": "existing_data"
+        },
+        {
+          "university": "金沢大学",
+          "department": "理工学域",
+          "source": "existing_data"
+        },
+        {
+          "university": "茨城大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "茨城大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース1or2都可以, 綜合科目": [
+        {
+          "university": "金沢大学",
+          "department": "人間社会学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1, 理科2科目選択": [
+        {
+          "university": "岡山大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "熊本大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山県立大学",
+          "department": "保健福祉学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岡山県立大学",
+          "department": "保健福祉学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 理科2科目選択, 数学コース1": [
+        {
+          "university": "熊本大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 理科2科目選択, 総合科目または数学コース1または数学コース2または理科": [
+        {
+          "university": "信州大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 理科2科目選択, 数学コース1or2都可以": [
+        {
+          "university": "信州大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "山形大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "鳥取大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "秋田大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "琉球大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 理科2科目選択, 数学コース1or2都可以, 綜合科目": [
+        {
+          "university": "新潟大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 生物（必須）, 化学（必須）": [
+        {
+          "university": "山口大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 理科2科目選択, 綜合科目, 数学コース1": [
+        {
+          "university": "山口大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 綜合科目, 数学コース2, 物理または化学": [
+        {
+          "university": "秋田大学",
+          "department": "国際資源学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 生物（必須）, 物理または化学": [
+        {
+          "university": "島根大学",
+          "department": "生物資源科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "弘前大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "愛知県立大学",
+          "department": "看護学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 物理（必須）, 化学（必須）": [
+        {
+          "university": "拓殖大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "拓殖大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 物理（必須）, 化学（必須）": [
+        {
+          "university": "中京大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "中京大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 化学（必須）, 物理または生物": [
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "関東学院大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 生物（必須）, 物理または化学": [
+        {
+          "university": "お茶の水女子大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "芝浦工業大学",
+          "department": "システム理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "芝浦工業大学",
+          "department": "システム理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "福岡大学",
+          "department": "理学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "福岡大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 化学または生物": [
+        {
+          "university": "城西大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "城西大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "京都工芸繊維大学",
+          "department": "工芸科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "酪農学園大学",
+          "department": "獣医学類",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 綜合科目, 理科1科目選択": [
+        {
+          "university": "城西大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 総合科目または数学コース1、２のうち1科目": [
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "アジア太平洋学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "国際経営学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "立命館アジア太平洋大学",
+          "department": "サステイナビリティ観光学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 理科1科目選択": [
+        {
+          "university": "明星大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明星大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明星大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "明星大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "綜合科目, 数学コース1, 数学コース2, 理科自由选择": [
+        {
+          "university": "筑波大学",
+          "department": "生命環境学群",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 理科自由选择": [
+        {
+          "university": "筑波大学",
+          "department": "情報学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "筑波大学",
+          "department": "医学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "筑波大学",
+          "department": "生命環境学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "筑波大学",
+          "department": "情報学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "筑波大学",
+          "department": "情報学群",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 綜合科目, 理科自由选择, 数学コース1or2都可以": [
+        {
+          "university": "筑波大学",
+          "department": "芸術専門学群",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 綜合科目, 数学コース1or2都可以, 理科自由选择": [
+        {
+          "university": "筑波大学",
+          "department": "人間学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "筑波大学",
+          "department": "人間学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "筑波大学",
+          "department": "人間学群",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 日语, 物理（必須）, 化学（必須）": [
+        {
+          "university": "東京科学大学",
+          "department": "理学院",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京科学大学",
+          "department": "理学院",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京科学大学",
+          "department": "理学院",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京科学大学",
+          "department": "理学院",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京科学大学",
+          "department": "工学院",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 生物（必須）, 化学（必須）": [
+        {
+          "university": "宮城大学",
+          "department": "看護学群",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 物理または化学": [
+        {
+          "university": "東京電機大学",
+          "department": "システムデザイン工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京電機大学",
+          "department": "システムデザイン工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京電機大学",
+          "department": "未来科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京電機大学",
+          "department": "未来科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京電機大学",
+          "department": "工学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 物理（必須）, 化学（必須）, 生物（必須）, 綜合科目": [
+        {
+          "university": "宮崎大学",
+          "department": "地域資源創成学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 物理（必須）, 化学または生物": [
+        {
+          "university": "室蘭工業大学",
+          "department": "理工学部 [昼間コース]",
+          "source": "existing_data"
+        },
+        {
+          "university": "室蘭工業大学",
+          "department": "理工学部 [夜間主コース]",
+          "source": "existing_data"
+        },
+        {
+          "university": "岩手大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース1or2都可以, 理科2科目選択, 綜合科目, 日语": [
+        {
+          "university": "岩手大学",
+          "department": "人文社会科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岩手大学",
+          "department": "人文社会科学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 理科2科目選択, 日语": [
+        {
+          "university": "岩手大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岩手大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岩手大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岩手大学",
+          "department": "農学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岩手大学",
+          "department": "獣医学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 理科2科目選択": [
+        {
+          "university": "岩手大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岩手大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岩手大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岩手大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岩手大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース1or2都可以, 理科2科目選択": [
+        {
+          "university": "福島大学",
+          "department": "人文社会学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "宇都宮大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 化学（必須）, 物理または生物": [
+        {
+          "university": "千葉大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 生物（必須）, 物理または化学": [
+        {
+          "university": "千葉大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2": [
+        {
+          "university": "千葉大学",
+          "department": "園芸学部",
+          "source": "existing_data"
+        }
+      ],
+      "総合科目または数学コース1または数学コース2または理科, 日语": [
+        {
+          "university": "群馬大学",
+          "department": "情報学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 物理（必須）, 化学（必須）, 日语": [
+        {
+          "university": "群馬大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "群馬大学",
+          "department": "理工学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 物理（必須）, 化学または生物": [
+        {
+          "university": "宇都宮大学",
+          "department": "地域デザイン科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "宇都宮大学",
+          "department": "地域デザイン科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "宇都宮大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース1or2都可以, 化学（必須）, 物理または生物": [
+        {
+          "university": "宇都宮大学",
+          "department": "農学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 数学コース1, 綜合科目": [
+        {
+          "university": "横浜市立大学",
+          "department": "ﾃﾞｰﾀｻｲｴﾝｽ学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 数学コース1, 綜合科目, 理科2科目選択": [
+        {
+          "university": "福島大学",
+          "department": "人文社会学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "福島大学",
+          "department": "人文社会学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "福島大学",
+          "department": "人文社会学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "岐阜大学",
+          "department": "地域科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "岐阜大学",
+          "department": "地域科学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 綜合科目, 理科2科目選択": [
+        {
+          "university": "福島大学",
+          "department": "人文社会学群",
+          "source": "existing_data"
+        },
+        {
+          "university": "静岡大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "綜合科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "綜合科学部",
+          "source": "existing_data"
+        }
+      ],
+      "数学コース2, 日语, 化学（必須）, 物理または生物": [
+        {
+          "university": "静岡大学",
+          "department": "理学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1, 綜合科目, 理科2科目選択": [
+        {
+          "university": "広島大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "広島大学",
+          "department": "医学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース1or2都可以, 化学（必須）, 物理または生物": [
+        {
+          "university": "福岡大学",
+          "department": "医学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "福岡大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 総合科目または数学": [
+        {
+          "university": "名城大学",
+          "department": "人間科学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名城大学",
+          "department": "都市情報",
+          "source": "existing_data"
+        },
+        {
+          "university": "名城大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名城大学",
+          "department": "経済学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京工科大学",
+          "department": "メディア学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 総合科目また理科": [
+        {
+          "university": "鹿児島大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "鹿児島大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "鹿児島大学",
+          "department": "教育学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 綜合科目, 理科2科目選択, 数学コース1or2都可以": [
+        {
+          "university": "愛媛大学",
+          "department": "社会共創学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "愛媛大学",
+          "department": "社会共創学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "愛媛大学",
+          "department": "社会共創学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "愛媛大学",
+          "department": "社会共創学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 数学コース2, 化学（必須）, 理科2科目選択": [
+        {
+          "university": "名古屋市立大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        },
+        {
+          "university": "名古屋市立大学",
+          "department": "薬学部",
+          "source": "existing_data"
+        }
+      ],
+      "化学（必須）, 生物（必須）": [
+        {
+          "university": "滋賀県立大学",
+          "department": "人間文化学部",
+          "source": "existing_data"
+        }
+      ],
+      "日语, 理科2科目選択, 文科2科目選択, 数学コース1or2都可以": [
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        },
+        {
+          "university": "東京学芸大学",
+          "department": "学校教育教員養成課程",
+          "source": "existing_data"
+        }
+      ]
+    }
+  }
+}

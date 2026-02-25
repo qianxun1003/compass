@@ -59,11 +59,11 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// GET /api/plan/reminders - 获取班主任发给当前学生的提醒列表
+// GET /api/plan/reminders - 获取班主任发给当前学生的提醒列表（含 read_at）
 router.get('/reminders', async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT r.id, r.message, r.plan_item_id, r.created_at, u.username AS teacher_name
+      `SELECT r.id, r.message, r.plan_item_id, r.created_at, r.read_at, u.username AS teacher_name
        FROM reminders r
        JOIN users u ON u.id = r.teacher_id
        WHERE r.student_id = $1
@@ -74,6 +74,23 @@ router.get('/reminders', async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error('GET /api/plan/reminders error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// PATCH /api/plan/reminders/:id/read - 学生标记某条提醒为已读
+router.patch('/reminders/:id/read', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    if (Number.isNaN(id)) return res.status(400).json({ message: '无效ID' });
+    const result = await pool.query(
+      'UPDATE reminders SET read_at = NOW() WHERE id = $1 AND student_id = $2 RETURNING id, read_at',
+      [id, req.user.id]
+    );
+    if (result.rowCount === 0) return res.status(404).json({ message: '提醒不存在或无权操作' });
+    res.json({ message: '已标记为已读', read_at: result.rows[0].read_at });
+  } catch (err) {
+    console.error('PATCH /api/plan/reminders/:id/read error:', err);
     res.status(500).json({ message: '服务器错误' });
   }
 });

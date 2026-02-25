@@ -1,0 +1,45 @@
+{
+  "_说明": "这是大学URL映射表模板。请填写各大学的招生页面URL。",
+  "_填写说明": [
+    "1. 找到每个大学的官网",
+    "2. 找到留学生入試或外国人入試的页面",
+    "3. 复制页面URL填写到对应的admission_url字段",
+    "4. 如果找不到，可以留空，后续手动补充",
+    "5. 可以分批填写，不需要一次性完成所有"
+  ],
+  "東京大学": {
+    "base_url": "https://www.u-tokyo.ac.jp",
+    "admission_url": "https://www.u-tokyo.ac.jp/admission/undergraduate/foreign.html",
+    "notes": "外国人入試页面，需要填写实际URL"
+  },
+  "京都大学": {
+    "base_url": "https://www.kyoto-u.ac.jp",
+    "admission_url": "",
+    "notes": "需要填写实际URL"
+  },
+  "大阪大学": {
+    "base_url": "https://www.osaka-u.ac.jp",
+    "admission_url": "",
+    "notes": "需要填写实际URL"
+  },
+  "名古屋大学": {
+    "base_url": "https://www.nagoya-u.ac.jp",
+    "admission_url": "",
+    "notes": "需要填写实际URL"
+  },
+  "九州大学": {
+    "base_url": "https://www.kyushu-u.ac.jp",
+    "admission_url": "",
+    "notes": "需要填写实际URL"
+  },
+  "早稲田大学": {
+    "base_url": "https://www.waseda.jp",
+    "admission_url": "",
+    "notes": "需要填写实际URL"
+  },
+  "慶應義塾大学": {
+    "base_url": "https://www.keio.ac.jp",
+    "admission_url": "",
+    "notes": "需要填写实际URL"
+  }
+}

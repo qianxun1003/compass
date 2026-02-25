@@ -53,7 +53,7 @@
             -webkit-backdrop-filter: blur(32px);
             border-right: 1px solid var(--border-celadon);
             border-radius: 0 24px 24px 0;
-            box-shadow: 4px 0 40px rgba(47, 72, 88, 0.06), inset 1px 0 0 var(--glass-edge);
+            box-shadow: 2px 0 24px rgba(47, 72, 88, 0.04), inset 1px 0 0 var(--glass-edge);
             min-height: 100vh;
             position: fixed;
             left: 0;
@@ -63,7 +63,7 @@
             transition: width .25s ease;
             z-index: 100;
         }
-        .sidebar.expanded { width: min(240px, 50vw); }
+        .sidebar.expanded { width: 50vw; }
         .sidebar .sidebar-toggle {
             position: absolute;
             top: 1rem;
@@ -100,7 +100,7 @@
         .sidebar:not(.expanded) .sidebar-header,
         .sidebar:not(.expanded) .sidebar-nav a,
         .sidebar:not(.expanded) .sidebar-user-card { justify-content: center; padding-left: 0; padding-right: 0; }
-        .sidebar:not(.expanded) .sidebar-nav a { padding: 10px; }
+        .sidebar:not(.expanded) .sidebar-nav a { padding: 10px; font-size: 1.35rem; }
         .sidebar:not(.expanded) .sidebar-header-wrap { padding: 0.75rem 0.5rem !important; }
         .sidebar:not(.expanded) .sidebar-footer .sidebar-user-card { padding: 8px 6px; }
         .sidebar:not(.expanded) .sidebar-footer .sidebar-user-avatar { margin: 0 auto; }
@@ -111,6 +111,7 @@
         .sidebar.expanded .sidebar-nav a { width: fit-content; max-width: 100%; }
         .sidebar.expanded .sidebar-header-wrap { display: flex; flex-direction: column; align-items: flex-start; }
         .sidebar.expanded #linkToStudentSide { width: fit-content; align-self: flex-start; }
+        .link-to-student-side { margin-top: 2.5rem; }
         .sidebar.expanded .sidebar-footer .btn { width: auto; min-width: 10rem; }
         .sidebar a {
             color: var(--text);
@@ -139,7 +140,7 @@
             box-shadow: 0 2px 14px rgba(184, 220, 226, 0.25), inset 0 1px 0 rgba(255,255,255,0.5);
         }
         .main-wrap { margin-left: 64px; min-height: 100vh; display: flex; flex-direction: column; transition: margin-left .25s ease; }
-        .sidebar.expanded ~ .main-wrap { margin-left: min(240px, 50vw); }
+        .sidebar.expanded ~ .main-wrap { margin-left: 50vw; }
         .topbar {
             display: none; /* 去掉顶部横条，直接显示内容 */
         }
@@ -208,6 +209,11 @@
             cursor: pointer;
             transition: all .28s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
+        .upload-zone-compact {
+            padding: 20px 24px;
+            border-radius: 16px;
+        }
+        .upload-zone-compact p { margin: 0; }
         .upload-zone:hover, .upload-zone.dragover {
             border-color: var(--ink-2);
             background: linear-gradient(135deg, rgba(210, 233, 237, 0.5) 0%, rgba(240, 222, 212, 0.3) 100%);
@@ -303,13 +309,22 @@
         .grade-section { background: linear-gradient(135deg, rgba(210, 233, 237, 0.4) 0%, rgba(240, 222, 212, 0.25) 100%); border-radius: 18px; padding: 18px; border: 1px solid var(--border-celadon); margin-top: 16px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.4); }
         .grade-section h6 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
         .grade-placeholder { font-size: 13px; color: var(--text-muted); padding: 16px; text-align: center; border: 1px dashed var(--border-celadon); border-radius: 14px; background: rgba(250,248,244,0.8); }
+        /* 成绩情况：笔记本式，一页一页、可展开填写、实时保存 */
+        .grade-notebook-wrap { margin-top: 8px; }
+        .grade-notebook-pages { display: flex; flex-direction: column; gap: 16px; }
+        .grade-notebook-page { background: linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(252,250,248,0.9) 100%); border: 1px solid var(--border-celadon); border-radius: 16px; padding: 16px 18px; box-shadow: 0 2px 12px rgba(47, 72, 88, 0.06), inset 0 1px 0 rgba(255,255,255,0.8); position: relative; }
+        .grade-notebook-page-header { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(184, 220, 226, 0.4); display: flex; align-items: center; justify-content: space-between; }
+        .grade-notebook-page textarea { width: 100%; min-height: 100px; padding: 12px 14px; border: 1px solid var(--border-celadon); border-radius: 12px; font-size: 14px; line-height: 1.6; color: var(--text); resize: vertical; background: rgba(255,255,255,0.9); transition: box-shadow .2s; }
+        .grade-notebook-page textarea:focus { outline: none; border-color: var(--ink-2); box-shadow: 0 0 0 3px rgba(53, 95, 107, 0.1); }
+        .grade-notebook-page .saved-hint { font-size: 11px; color: var(--celadon-bright); margin-top: 6px; }
+        .grade-notebook-add-row { margin-top: 12px; }
         .grade-table { width: 100%; border-collapse: collapse; font-size: 13px; }
         .grade-table th, .grade-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-celadon); color: var(--text); }
         .grade-table th { font-weight: 500; background: linear-gradient(180deg, rgba(210, 233, 237, 0.45) 0%, rgba(248, 245, 242, 0.35) 100%); }
         .school-tool-card { transition: all .28s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 20px; }
         .school-tool-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 14px 36px rgba(53, 95, 107, 0.12); }
-        /* 侧栏底部「当前登录」 */
-        .sidebar-footer { background: linear-gradient(0deg, rgba(248, 245, 242, 0.75) 0%, rgba(232, 245, 248, 0.55) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.5); }
+        /* 侧栏底部「当前登录」：底部圆角与侧栏一致，避免遮住收起箭头故侧栏不用 overflow:hidden */
+        .sidebar-footer { background: linear-gradient(0deg, rgba(248, 245, 242, 0.75) 0%, rgba(232, 245, 248, 0.55) 100%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.4); border-radius: 0 0 24px 0; }
         .sidebar-footer-label { font-size: 11px; font-weight: 500; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; }
         .sidebar-user-card { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(248, 245, 242, 0.55) 100%); border: 1px solid var(--border-celadon); box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); min-height: 48px; }
         .sidebar-user-avatar { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--celadon-2) 0%, var(--apricot) 100%); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--ink-2); flex-shrink: 0; }
@@ -476,6 +491,11 @@
         .dashboard-feature-head .title { font-size: 16px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 10px; }
         .dashboard-feature-head .title i { font-size: 18px; color: var(--accent-sky); }
         .dashboard-feature-head .chevron { color: var(--text-muted); font-size: 16px; }
+        /* 侧栏展开时右侧内容区变窄，功能按钮与区块标题文字适当缩小 */
+        .sidebar.expanded ~ .main-wrap .page-section > h3 { font-size: 0.95rem; }
+        .sidebar.expanded ~ .main-wrap .dashboard-feature-head .title { font-size: 13px; }
+        .sidebar.expanded ~ .main-wrap .dashboard-feature-head .title i { font-size: 14px; }
+        .sidebar.expanded ~ .main-wrap .dashboard-feature-head .chevron { font-size: 13px; }
         /* 本周表：曜日 + 予定（参考附图） */
         .week-schedule-table { width: 100%; border-collapse: collapse; font-size: 13px; border-radius: 14px; overflow: hidden; background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(250,248,245,0.8) 100%); border: 1px solid var(--border-celadon); }
         .week-schedule-table th, .week-schedule-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(184, 220, 226, 0.4); color: var(--text); }
@@ -550,14 +570,34 @@
         /* 我的学生：四宫格按钮 */
         .dashboard-feature-grid-four { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 100%; }
         @media (max-width: 700px) { .dashboard-feature-grid-four { grid-template-columns: 1fr; } }
-        /* 学生个人详情浮层：占屏约 2/3 高、右侧竖导航、顶部小叉关闭 */
-        .glass-overlay-panel.with-side-nav { position: relative; overflow: hidden; max-height: 66.67vh; height: 66.67vh; width: 94vw; max-width: 1000px; }
-        .glass-overlay-panel.with-side-nav .panel-main {
-            overflow: auto; overflow-x: hidden; padding: 28px; min-width: 0;
-            background: linear-gradient(180deg, rgba(248,252,253,0.5) 0%, rgba(252,250,248,0.4) 100%);
-            border-radius: 0 24px 24px 0;
+        /* 学生个人详情浮层：与其它功能一致的全屏毛玻璃覆盖（含导航栏） */
+        #overlayStudentDetail {
+            z-index: 9999;
+            position: fixed !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: linear-gradient(135deg, rgba(210, 233, 237, 0.12) 0%, rgba(47, 72, 88, 0.22) 50%, rgba(240, 222, 212, 0.1) 100%) !important;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
         }
-        .glass-overlay-panel.with-side-nav .panel-main h3 { padding-right: 48px; }
+        #overlayStudentDetail .glass-overlay-panel.student-detail-panel {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: min(520px, 96vw);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        #overlayStudentDetail .student-detail-panel .panel-main {
+            overflow: visible;
+            padding: 28px;
+        }
+        #overlayStudentDetail .student-detail-panel h3 { padding-right: 48px; }
         /* 学生个人详情：主内容区分块、带背景与边框，更精致 */
         .panel-main .panel-main-section {
             background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(248,250,252,0.7) 100%);
@@ -588,6 +628,18 @@
         .my-students-today-table .btn-quote-gen:active { transform: scale(0.98); }
         #myStudentsBoardTodayBlock.my-students-today-block { background: linear-gradient(135deg, rgba(210, 233, 237, 0.45) 0%, rgba(248, 245, 242, 0.55) 100%); }
         #myStudentsBoardTodayBlock .my-students-today-table-wrap { background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(252,252,250,0.9) 100%); border: 1px solid rgba(184,220,226,0.5); }
+        /* 我的学生·今日要提醒：只保留一个图钉图标；手机端标题只保留图标避免被挡 */
+        #myStudentsBoardTodayBlock h4::before { content: '📌 '; }
+        @media (max-width: 768px) {
+            #myStudentsBoardTodayBlock h4 { font-size: 0; padding: 8px 0 6px; margin-bottom: 4px; }
+            #myStudentsBoardTodayBlock h4::before { font-size: 18px; line-height: 1; }
+            #myStudentsBoardTodayBlock h4 .my-students-today-title-text { display: none; }
+            #overlayMyStudentsRemind .remind-board { grid-template-columns: 1fr; }
+            .my-students-today-table th, .my-students-today-table td { padding: 6px 8px; font-size: 12px; white-space: nowrap; }
+            .my-students-today-table-wrap { font-size: 11px; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .my-students-today-table { min-width: 480px; table-layout: auto; }
+            .my-students-today-table .btn-quote-gen { padding: 4px 8px; font-size: 10px; }
+        }
         /* 我的学生今日语录弹窗 */
         .quote-modal-overlay-extra { position: fixed; inset: 0; z-index: 350; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(47, 72, 88, 0.25); backdrop-filter: blur(20px); }
         .quote-modal-overlay-extra.show { display: flex; }
@@ -608,16 +660,37 @@
         .week-timeline-student-children { margin-left: 14px; padding-left: 12px; border-left: 2px solid var(--border-celadon); }
         .week-timeline-item { padding: 4px 8px 4px 12px; margin: 4px 0; font-size: 12px; color: var(--text); border-radius: 8px; background: linear-gradient(90deg, rgba(234, 212, 204, 0.25) 0%, transparent 100%); border-left: 3px solid var(--apricot-2); }
         .week-timeline-item .item-label { color: var(--ink-2); font-weight: 500; }
-        /* 学生个人详情：右上角玻璃柜（竖排三格、无缝隙一体） */
-        .glass-overlay-panel.with-side-nav { position: relative; }
-        .panel-side-nav-cabinet { position: absolute; top: 52px; right: 16px; width: 100px; display: flex; flex-direction: column; gap: 0; z-index: 10; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 16px rgba(47, 72, 88, 0.08), inset 0 1px 0 rgba(255,255,255,0.8); border: 1px solid var(--border-celadon); background: linear-gradient(145deg, rgba(255,255,255,0.7) 0%, rgba(210, 233, 237, 0.35) 100%); }
-        .panel-side-nav-cabinet-hint { font-size: 10px; color: var(--text-muted); padding: 10px 8px 8px; line-height: 1.35; text-align: center; border-bottom: 1px solid rgba(184, 220, 226, 0.5); flex-shrink: 0; }
-        .panel-side-nav-cabinet a { display: flex; align-items: center; justify-content: center; padding: 12px 8px; border-radius: 0; font-size: 11px; font-weight: 500; color: var(--text); text-decoration: none; text-align: center; border: none; border-bottom: 1px solid rgba(184, 220, 226, 0.5); box-shadow: none; transition: all .2s; flex: 1; min-height: 40px; }
-        .panel-side-nav-cabinet a:last-child { border-bottom: none; }
-        .panel-side-nav-cabinet a:hover { background: linear-gradient(145deg, rgba(210, 233, 237, 0.5) 0%, rgba(248, 245, 242, 0.6) 100%); color: var(--ink-2); transform: none; box-shadow: none; }
-        /* 学生个人详情卡（二层浮层）：占屏约 2/3 高、顶部小叉关闭 */
+        /* 学生个人详情：关闭叉在浮层框外右上方（勿改 position，保持 fixed 以便与详情卡正确叠层） */
+        #overlayStudentDetail .glass-overlay-panel-close-x { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(248,245,242,0.9) 100%); border: 1px solid var(--border-celadon); box-shadow: 0 2px 12px rgba(47, 72, 88, 0.1); color: var(--text-muted); font-size: 14px; z-index: 20; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        #overlayStudentDetail .glass-overlay-panel-close-x:hover { color: var(--ink-2); background: rgba(210, 233, 237, 0.5); }
+        /* 学生个人详情：选择学生 + 三个入口按钮（与其它浮层同风格） */
+        .student-detail-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .student-detail-actions a { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 20px; border-radius: 16px; font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; border: 1px solid var(--border-celadon); background: linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(210, 233, 237, 0.25) 100%); transition: all .2s; }
+        .student-detail-actions a:hover { background: linear-gradient(145deg, rgba(210, 233, 237, 0.4) 0%, rgba(248, 245, 242, 0.5) 100%); color: var(--ink-2); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(47, 72, 88, 0.1); }
+        /* 学生个人详情：搜索 + 档案袋列表 */
+        #studentDetailSearch { width: 100%; min-height: 44px; border-radius: 14px; padding: 10px 16px; border: 1px solid var(--border-celadon); background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.9) 100%); font-size: 15px; color: var(--text); transition: box-shadow .2s, border-color .2s; }
+        #studentDetailSearch::placeholder { color: var(--text-muted); }
+        #studentDetailSearch:focus { outline: none; border-color: var(--celadon-bright); box-shadow: 0 0 0 3px rgba(53, 95, 107, 0.12); }
+        .student-detail-list { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; max-height: 42vh; overflow-y: auto; padding-right: 4px; }
+        .student-detail-folder { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; border: 1px solid rgba(184, 220, 226, 0.5); background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(248,250,252,0.8) 100%); cursor: pointer; transition: all .2s; box-shadow: 0 1px 6px rgba(47, 72, 88, 0.06); }
+        .student-detail-folder:hover { border-color: var(--celadon-bright); background: linear-gradient(135deg, rgba(210, 233, 237, 0.35) 0%, rgba(248,250,252,0.9) 100%); box-shadow: 0 4px 14px rgba(53, 95, 107, 0.12); transform: translateY(-1px); }
+        .student-detail-folder .folder-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(145deg, rgba(210, 233, 237, 0.6) 0%, rgba(184, 220, 226, 0.4) 100%); display: flex; align-items: center; justify-content: center; color: var(--ink-2); font-size: 16px; flex-shrink: 0; }
+        .student-detail-folder .folder-name { font-weight: 600; color: var(--text); font-size: 15px; }
+        .student-detail-folder .folder-id { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
+        .student-detail-list-expand { margin-top: 10px; text-align: center; }
+        .student-detail-list-expand .btn-expand { padding: 8px 20px; font-size: 13px; border-radius: 12px; border: 1px solid var(--border-celadon); background: rgba(210, 233, 237, 0.3); color: var(--ink-2); cursor: pointer; transition: all .2s; }
+        .student-detail-list-expand .btn-expand:hover { background: rgba(210, 233, 237, 0.5); }
+        .panel-main .panel-main-section { border-radius: 18px; padding: 20px 22px; box-shadow: 0 4px 20px rgba(47, 72, 88, 0.06), inset 0 1px 0 rgba(255,255,255,0.85); }
+        /* 学生个人详情卡（二层浮层）：层级必须高于学生列表浮层，点学生后立即盖在列表之上 */
+        #overlayStudentDetailCard.student-detail-card-layer { z-index: 10002 !important; position: fixed !important; }
+        #overlayStudentDetail.hidden-by-detail-card { visibility: hidden !important; pointer-events: none !important; }
         #overlayStudentDetailCard .glass-overlay-panel { max-height: 66.67vh; height: 66.67vh; position: relative; }
-        #overlayStudentDetailCard .glass-overlay-panel h3 { padding-right: 44px; }
+        #overlayStudentDetailCard .glass-overlay-panel h3 { padding-right: 44px; min-width: 0; }
+        #overlayStudentDetailCard .glass-overlay-panel h3 span { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; word-break: break-all; }
+        @media (max-width: 480px) {
+            #overlayStudentDetailCard .glass-overlay-panel h3 { font-size: 0.95rem; padding-right: 44px; }
+            #overlayStudentDetailCard .glass-overlay-panel h3 span { white-space: normal; word-break: break-all; line-height: 1.35; }
+        }
         #addStudentModal { align-items: flex-start; z-index: 250; }
         /* 我的学生 · 今日和本周提醒：加载中沙漏（滴沙动画） */
         .my-students-remind-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 280px; padding: 32px; text-align: center; }
@@ -635,20 +708,23 @@
         .btn-text-fluid { font-size: clamp(0.75rem, 1.8vw + 0.3rem, 0.875rem); }
         @media (max-width: 768px) {
             .sidebar { width: 64px; padding: 0.5rem 0; border-radius: 0 16px 16px 0; }
-            .sidebar.expanded { width: min(240px, 50vw); }
-            .sidebar .sidebar-header-wrap { padding: 0.5rem 0.25rem !important; }
-            .sidebar-nav a { padding: 8px 6px; font-size: 0.7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-shrink: 0; }
+            .sidebar.expanded { width: 50vw; }
+            .sidebar .sidebar-header-wrap { padding: 0.5rem 0.35rem !important; }
+            .sidebar-nav a { padding: 10px 8px; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-shrink: 0; min-width: 0; }
             .sidebar .sidebar-user-card { justify-content: center; min-height: 40px; padding: 8px 6px; }
-            .sidebar .btn { font-size: 0.7rem; padding: 6px 8px; }
+            .sidebar .btn { font-size: 0.875rem; padding: 8px 10px; }
             .main-wrap { margin-left: 64px !important; }
-            .sidebar.expanded ~ .main-wrap { margin-left: min(240px, 50vw) !important; }
+            .sidebar.expanded ~ .main-wrap { margin-left: 50vw !important; }
             .content { padding: 1rem !important; }
             .card { padding: 1rem !important; }
+            /* 去学生端：文字不缩小，占半屏不压缩按钮 */
+            .sidebar.expanded #linkToStudentSide { max-width: 100%; min-width: 0; padding: 8px 10px; font-size: 14px; white-space: normal; word-break: keep-all; line-height: 1.35; }
+            .sidebar.expanded #linkToStudentSide span { white-space: normal; word-break: keep-all; }
         }
     </style>
 </head>
 <body>
-    <nav class="sidebar" id="adminSidebar">
+    <nav class="sidebar expanded" id="adminSidebar">
         <div class="sidebar-header-wrap pt-6 px-4 pb-8 border-b relative" style="border-color: var(--border-ice);">
             <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="展开/收起导航"><i class="fas fa-chevron-left"></i></button>
             <div class="sidebar-header flex items-center gap-2">
@@ -657,9 +733,9 @@
                     <span class="font-semibold" id="sidebarTitle">班主任后台</span>
                 </a>
             </div>
-            <a id="linkToStudentSide" href="../index.html" class="mt-10 flex items-center gap-2 rounded-xl px-4 py-3 text-sm transition-all duration-200 border" style="color: var(--text); border-color: var(--border-ice); background: rgba(210, 233, 237, 0.45);">
-                <i class="fas fa-external-link-alt text-xs"></i>
-                <span>去学生端（选校·出愿）</span>
+            <a id="linkToStudentSide" href="../index.html" class="link-to-student-side flex items-center gap-2 justify-center rounded-xl px-3 py-2 text-xs transition-all duration-200 border flex-shrink-0 min-w-0 max-w-full" style="color: var(--text); border-color: var(--border-ice); background: rgba(210, 233, 237, 0.45);">
+                <i class="fas fa-external-link-alt text-xs flex-shrink-0"></i>
+                <span class="min-w-0">去学生端</span>
             </a>
         </div>
         <div class="sidebar-nav p-2 pt-5 space-y-1">
@@ -748,7 +824,7 @@
                     <p class="text-slate-500 text-sm mb-4">数据来自你已加入学生池的学生的出愿清单。</p>
                     <div class="remind-board">
                         <div class="remind-board-block my-students-today-block" id="myStudentsBoardTodayBlock">
-                            <h4>📌 今日要提醒</h4>
+                            <h4 class="my-students-today-title-text">今日要提醒</h4>
                             <div class="table-wrap my-students-today-table-wrap">
                                 <table class="my-students-today-table" id="myStudentsBoardTodayTable">
                                     <thead><tr><th>学生名字</th><th>事项</th><th>大学</th><th>学部</th><th>学科</th><th>操作</th></tr></thead>
@@ -834,29 +910,51 @@
                     </div>
                 </div>
             </div>
-            <!-- 浮层：学生个人详情（右上角玻璃柜跳转 + 选择学生，选后弹出二层浮层） -->
-            <div id="overlayStudentDetail" class="glass-overlay glass-overlay-fullscreen">
-                <div class="glass-overlay-panel with-side-nav">
-                    <button type="button" class="glass-overlay-panel-close-x" id="closeOverlayStudentDetail" title="关闭"><i class="fas fa-times"></i></button>
-                    <div class="panel-main" style="padding-right: 116px;">
-                        <h3><span>学生个人详情</span></h3>
-                        <div class="panel-main-section">
-                            <label class="text-sm font-medium block" style="color: var(--text);">选择学生</label>
-                            <select id="studentDetailSelect" class="input-field max-w-xs mt-1 w-full">
-                                <option value="">— 请选择 —</option>
-                            </select>
+            <!-- 浮层：发送提醒（选择学生、填写内容、发送；下方已发消息可展开看已读/未读） -->
+            <div id="overlaySendRemind" class="glass-overlay glass-overlay-fullscreen">
+                <div class="glass-overlay-panel">
+                    <h3><span>发送提醒</span><button type="button" class="btn btn-ghost btn-sm" id="closeOverlaySendRemind"><i class="fas fa-times"></i> 关闭</button></h3>
+                    <p class="text-slate-500 text-sm mb-4">选择学生池中的学生，填写提醒内容后发送。学生将在学生端右下角信封中收到。</p>
+                    <div class="mb-4">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <input type="text" id="sendRemindStudentSearch" class="input-field flex-1 min-w-[160px]" placeholder="搜索学生姓名…">
+                            <button type="button" class="btn btn-ghost btn-sm" id="sendRemindSelectAll">全选</button>
+                            <button type="button" class="btn btn-ghost btn-sm" id="sendRemindSelectNone">取消全选</button>
+                            <span class="text-slate-500 text-sm" id="sendRemindSelectedCount">已选 0 人</span>
                         </div>
+                        <div id="sendRemindStudentCheckboxes" class="flex flex-wrap gap-2 mb-3 max-h-40 overflow-y-auto p-2 rounded-xl border" style="border-color: var(--border-celadon); background: rgba(255,255,255,0.5);"></div>
+                        <textarea id="sendRemindMessage" class="input-field mb-2" rows="3" placeholder="输入要发送的提醒内容…"></textarea>
+                        <button type="button" class="btn btn-primary" id="btnSendRemindBatch"><i class="fas fa-paper-plane"></i> 发送</button>
                     </div>
-                    <div class="panel-side-nav-cabinet">
-                        <p class="panel-side-nav-cabinet-hint">帮学生添加出愿：点击下方入口可为该学生添加学校</p>
-                        <a id="linkToCompassFilter" href="../compass_filter.html?from=admin" target="_blank" rel="noopener" title="条件筛选后可为学生加入志望校">条件检索</a>
-                        <a id="linkToCompassSearch" href="../compass_search.html?from=admin" target="_blank" rel="noopener" title="快速搜索后可为学生加入志望校">快速检索</a>
-                        <a id="linkToCompassScore" href="../compass_score.html?from=admin" target="_blank" rel="noopener" title="成绩匹配后可为学生加入志望校">成绩匹配</a>
+                    <div class="border-t pt-4" style="border-color: var(--border-celadon);">
+                        <h5 class="text-sm font-medium text-slate-600 mb-2">已发送的提醒（点击可展开查看学生已读/未读）</h5>
+                        <div id="sendRemindSentList" class="space-y-2"></div>
                     </div>
                 </div>
             </div>
-            <!-- 浮层二层：选中学生的个人详情卡（毛玻璃） -->
-            <div id="overlayStudentDetailCard" class="glass-overlay glass-overlay-fullscreen" style="z-index: 210;">
+            <!-- 浮层：学生个人详情（全屏毛玻璃，与其它功能一致） -->
+            <div id="overlayStudentDetail" class="glass-overlay glass-overlay-fullscreen">
+                <div class="glass-overlay-panel student-detail-panel">
+                    <button type="button" class="glass-overlay-panel-close-x" id="closeOverlayStudentDetail" title="关闭"><i class="fas fa-times"></i></button>
+                    <div class="panel-main">
+                        <h3><span>学生个人详情</span></h3>
+                        <div class="panel-main-section">
+                            <label class="text-sm font-medium block mb-2" style="color: var(--text);">搜索学生</label>
+                            <input type="text" id="studentDetailSearch" class="input-field w-full" placeholder="输入学生姓名搜索…" autocomplete="off">
+                            <div id="studentDetailList" class="student-detail-list"></div>
+                            <div id="studentDetailListExpand" class="student-detail-list-expand hidden"></div>
+                        </div>
+                        <p class="text-sm mt-4 mb-2" style="color: var(--text-muted);">为该学生添加志望校：</p>
+                        <div class="student-detail-actions">
+                            <a id="linkToCompassFilter" href="../compass_filter.html?from=admin" target="_blank" rel="noopener" title="条件筛选后可为学生加入志望校"><i class="fas fa-filter"></i> 条件检索</a>
+                            <a id="linkToCompassSearch" href="../compass_search.html?from=admin" target="_blank" rel="noopener" title="快速搜索后可为学生加入志望校"><i class="fas fa-search"></i> 快速检索</a>
+                            <a id="linkToCompassScore" href="../compass_score.html?from=admin" target="_blank" rel="noopener" title="成绩匹配后可为学生加入志望校"><i class="fas fa-chart-line"></i> 成绩匹配</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 浮层二层：选中学生的个人详情卡（毛玻璃，层级高于学生列表浮层） -->
+            <div id="overlayStudentDetailCard" class="glass-overlay glass-overlay-fullscreen student-detail-card-layer">
                 <div class="glass-overlay-panel">
                     <button type="button" class="glass-overlay-panel-close-x" id="closeOverlayStudentDetailCard" title="关闭"><i class="fas fa-times"></i></button>
                     <h3><span id="studentDetailName">— 学生详情</span></h3>
@@ -868,22 +966,15 @@
                         <div id="studentMindmapWrap" class="mindmap-box"><div id="studentMindmapRoot" class="mindmap-root"></div></div>
                         <div id="studentPlansListFallback" class="hidden"></div>
                     </div>
-                    <div class="mb-4">
-                        <h5 class="text-sm font-medium text-slate-600 mb-2">本周要做的事情</h5>
-                        <div id="studentWeekTodo" class="student-plan-card"></div>
-                    </div>
-                    <div class="grade-section">
+                    <div class="grade-section grade-notebook-section">
                         <h6><i class="fas fa-chart-line mr-1"></i> 成绩情况</h6>
-                        <div id="studentGradeArea">
-                            <div class="grade-placeholder">此处用于记录该生的 EJU、校内考等成绩，后续可在此录入与修改。</div>
+                        <div id="studentGradeArea" class="grade-notebook-wrap">
+                            <div class="grade-notebook-pages" id="studentGradePages"></div>
+                            <div class="grade-notebook-add-row">
+                                <button type="button" class="btn btn-ghost btn-sm" id="btnAddGradePage"><i class="fas fa-plus"></i> 新的一页</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <h5 class="text-sm font-medium text-slate-600 mb-2">发送提醒</h5>
-                        <textarea id="remindMessage" class="input-field mb-2" rows="2" placeholder="输入提醒内容，学生将在出愿中心看到"></textarea>
-                        <button type="button" class="btn btn-primary" id="btnSendRemind"><i class="fas fa-bell"></i> 发送提醒</button>
-                    </div>
-                    <div class="mt-4" id="studentRemindersList"></div>
                 </div>
             </div>
             <!-- 浮层2：智能出愿时间轴（全屏琉璃毛玻璃） -->
@@ -977,6 +1068,12 @@
                             <i class="fas fa-chevron-right chevron"></i>
                         </div>
                     </div>
+                    <div class="dashboard-feature-card dashboard-feature-btn" id="featureSendRemindCard" role="button" tabindex="0">
+                        <div class="dashboard-feature-head">
+                            <span class="title">发送提醒</span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -1052,29 +1149,25 @@
                 <!-- 学校总览数据更新 -->
                 <div class="card mb-6">
                     <h3 class="font-semibold text-slate-700 mb-3">🗄️ 学校总览数据更新</h3>
-                    <p class="text-slate-600 text-sm mb-2">当前学校总览：<strong id="dataUpdateCount">-</strong> 条；最近备份：<span id="dataUpdateBackups" class="text-slate-500">-</span></p>
-                    <p class="text-slate-500 text-xs mb-4">上传与「学部学校一览表」格式一致的 Excel（表头含：大学、学部、学科、位置等），将覆盖 学校总览.json / 学校总览.csv，并自动备份。</p>
-                    <div id="uploadZone" class="upload-zone">
-                        <i class="fas fa-file-excel text-4xl text-sky-500 mb-2"></i>
-                        <p class="text-slate-600">点击或拖拽 Excel 文件到此处上传</p>
-                        <p class="text-slate-400 text-sm mt-1">支持 .xlsx / .xls</p>
+                    <p class="text-slate-600 text-sm mb-3">当前学校总览：<strong id="dataUpdateCount">-</strong> 条；最近备份：<span id="dataUpdateBackups" class="text-slate-500">-</span></p>
+                    <div id="uploadZone" class="upload-zone upload-zone-compact">
+                        <i class="fas fa-file-excel text-2xl text-sky-500 mb-1"></i>
+                        <p class="text-slate-600 text-sm">点击或拖拽 Excel 到此处上传</p>
                     </div>
                     <input type="file" id="fileInput" accept=".xlsx,.xls" class="hidden">
-                    <div id="uploadResult" class="mt-4 hidden p-3 rounded-lg text-sm"></div>
+                    <div id="uploadResult" class="mt-3 hidden p-3 rounded-lg text-sm"></div>
                 </div>
 
                 <!-- 合格实绩数据更新 -->
                 <div class="card">
                     <h3 class="font-semibold text-slate-700 mb-3">合格实绩数据更新</h3>
-                    <p class="text-slate-600 text-sm mb-2">当前合格实绩模型：<strong id="admissionScoreModelInfo">-</strong></p>
-                    <p class="text-slate-500 text-xs mb-4">上传「合格实绩.xlsx」文件，将自动运行分析脚本生成 data/admission_score_model.json，并自动备份旧文件。</p>
-                    <div id="admissionUploadZone" class="upload-zone">
-                        <i class="fas fa-file-excel text-4xl text-emerald-500 mb-2"></i>
-                        <p class="text-slate-600">点击或拖拽「合格实绩.xlsx」文件到此处上传</p>
-                        <p class="text-slate-400 text-sm mt-1">支持 .xlsx / .xls</p>
+                    <p class="text-slate-600 text-sm mb-3">当前合格实绩模型：<strong id="admissionScoreModelInfo">-</strong></p>
+                    <div id="admissionUploadZone" class="upload-zone upload-zone-compact">
+                        <i class="fas fa-file-excel text-2xl text-emerald-500 mb-1"></i>
+                        <p class="text-slate-600 text-sm">点击或拖拽「合格实绩.xlsx」到此处上传</p>
                     </div>
                     <input type="file" id="admissionFileInput" accept=".xlsx,.xls" class="hidden">
-                    <div id="admissionUploadResult" class="mt-4 hidden p-3 rounded-lg text-sm"></div>
+                    <div id="admissionUploadResult" class="mt-3 hidden p-3 rounded-lg text-sm"></div>
                 </div>
             </section>
         </main>
@@ -1155,8 +1248,9 @@
             var toggle = document.getElementById('sidebarToggle');
             var key = 'adminSidebarExpanded';
             if (sidebar && toggle) {
-                var expanded = localStorage.getItem(key) === '1';
-                if (expanded) sidebar.classList.add('expanded');
+                /* 默认展开侧栏；仅当用户曾手动收起过才记为收起 */
+                var saved = localStorage.getItem(key);
+                if (saved === '0') sidebar.classList.remove('expanded'); else sidebar.classList.add('expanded');
                 toggle.addEventListener('click', function() {
                     sidebar.classList.toggle('expanded');
                     localStorage.setItem(key, sidebar.classList.contains('expanded') ? '1' : '0');
@@ -1243,8 +1337,9 @@
                 if (page === 'dashboard') { ensureSchoolMasterThenFillBoard(); }
                 if (page === 'my-students') {
                     loadMyStudents();
-                    var sel = document.getElementById('studentDetailSelect');
-                    if (sel) sel.value = '';
+                    var searchEl = document.getElementById('studentDetailSearch');
+                    if (searchEl) searchEl.value = '';
+                    studentDetailListExpanded = false;
                 }
                 if (page === 'account-mgmt') { var r1 = document.getElementById('addTeacherResult'); var r2 = document.getElementById('createAccountResult'); if (r1) r1.classList.add('hidden'); if (r2) r2.classList.add('hidden'); }
                 if (page === 'users') loadUsers(1);
@@ -1303,16 +1398,34 @@
             if (startEl && !startEl.value) startEl.value = getTodayKey();
             if (endEl && !endEl.value) { var e = new Date(); e.setMonth(e.getMonth() + 3); var y = e.getFullYear(), m = e.getMonth() + 1, d = e.getDate(); endEl.value = y + '-' + (m < 10 ? '0' : '') + m + '-' + (d < 10 ? '0' : '') + d; }
         });
-        document.getElementById('featureStudentDetailCard').addEventListener('click', function() {
-            document.getElementById('overlayStudentDetail').classList.add('show');
-            loadMyStudents();
+        document.getElementById('featureStudentDetailCard').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            studentDetailListExpanded = false;
+            var overlay = document.getElementById('overlayStudentDetail');
+            if (overlay) {
+                overlay.style.display = 'flex';
+                overlay.classList.add('show');
+            }
+            try { loadMyStudents(); } catch (err) { console.warn('loadMyStudents', err); }
         });
+        document.getElementById('featureSendRemindCard').addEventListener('click', function() {
+            document.getElementById('overlaySendRemind').classList.add('show');
+            loadSendRemindOverlay();
+        });
+        document.getElementById('closeOverlaySendRemind').addEventListener('click', function() { document.getElementById('overlaySendRemind').classList.remove('show'); });
+        document.getElementById('overlaySendRemind').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
         document.getElementById('closeOverlayPool').addEventListener('click', function() { document.getElementById('overlayPool').classList.remove('show'); });
         document.getElementById('overlayPool').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
         document.getElementById('closeOverlayPoolTimeline').addEventListener('click', function() { document.getElementById('overlayPoolTimeline').classList.remove('show'); });
         document.getElementById('overlayPoolTimeline').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
-        document.getElementById('closeOverlayStudentDetail').addEventListener('click', function() { document.getElementById('overlayStudentDetail').classList.remove('show'); });
-        document.getElementById('overlayStudentDetail').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
+        document.getElementById('closeOverlayStudentDetail').addEventListener('click', function() {
+            var o = document.getElementById('overlayStudentDetail');
+            if (o) { o.classList.remove('show'); o.style.display = ''; }
+        });
+        document.getElementById('overlayStudentDetail').addEventListener('click', function(e) {
+            if (e.target === this) { this.classList.remove('show'); this.style.display = ''; }
+        });
         document.getElementById('featureAddTeacherCard').addEventListener('click', function() {
             var r = document.getElementById('addTeacherResult'); if (r) { r.classList.add('hidden'); r.textContent = ''; }
             document.getElementById('overlayAddTeacher').classList.add('show');
@@ -1327,8 +1440,8 @@
         document.getElementById('overlayCreateAccount').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
         document.getElementById('closeOverlayStudentDetailCard').addEventListener('click', function() {
             document.getElementById('overlayStudentDetailCard').classList.remove('show');
-            var sel = document.getElementById('studentDetailSelect');
-            if (sel) sel.value = '';
+            var listOverlay = document.getElementById('overlayStudentDetail');
+            if (listOverlay) listOverlay.classList.remove('hidden-by-detail-card');
             currentDetailStudentId = null;
         });
         document.getElementById('overlayStudentDetailCard').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('show'); });
@@ -1541,10 +1654,10 @@
                 assistantEl.innerHTML = '<div class="today-assistant-avatar"><i class="fas fa-robot"></i></div><div class="today-assistant-text"><span class="quote">' + summaryHtml + '</span></div>';
             }
             var html = '';
-            labels.forEach(function(label) {
+            labels.forEach(function(label, idx) {
                 var univs = tree[label];
                 var univNames = Object.keys(univs).sort();
-                var collapsedClass = (label === '出愿开始') ? '' : ' collapsed';
+                var collapsedClass = (idx === 0) ? '' : ' collapsed';
                 html += '<div class="tree-date' + collapsedClass + '" data-label="' + escapeHtml(label) + '">';
                 html += '<div class="tree-date-header"><span class="tree-toggle"><i class="fas fa-chevron-down"></i></span><span>' + escapeHtml(label) + '</span><span class="text-slate-400 text-xs font-normal ml-1">' + univNames.length + ' 校</span><button type="button" class="btn-quote-gen" data-label="' + escapeHtml(label) + '"><i class="fas fa-comment-dots"></i> 提醒语录生成</button></div>';
                 html += '<div class="tree-date-children">';
@@ -1557,7 +1670,8 @@
                     deptKeys.forEach(function(deptName) {
                         var majors = depts[deptName];
                         var majorKeys = Object.keys(majors).sort();
-                        html += '<div class="tree-dept" data-dept="' + escapeHtml(deptName) + '">';
+                        var deptCollapsed = (idx === 0) ? ' collapsed' : '';
+                        html += '<div class="tree-dept' + deptCollapsed + '" data-dept="' + escapeHtml(deptName) + '">';
                         html += '<div class="tree-dept-header"><span class="tree-toggle"><i class="fas fa-chevron-down"></i></span><span>' + escapeHtml(deptName) + '</span><span class="text-slate-400 text-xs font-normal ml-1">' + majorKeys.length + ' 学科</span></div>';
                         html += '<div class="tree-dept-children">';
                         majorKeys.forEach(function(majorName) {
@@ -1607,31 +1721,36 @@
             });
             return byDate;
         }
-        /** 本周看板：按日期折叠，每天下为 事项→大学→学部→学科 树（与今日看板一致） */
+        /** 本周看板：按日期折叠，每天下为 事项→大学→学部→学科 树（与今日看板一致）；当天默认展开且当天第一层级展开 */
         function renderWeekBoardTree(container, events) {
             if (!container) return;
+            var todayKey = getTodayKey();
             var rows = getWeekDayRows();
             var byDate = groupWeekEventsByDateAndCategory(events || []);
             var html = '';
             rows.forEach(function(row) {
                 var dayEventsTree = byDate[row.dateStr] || {};
                 var labels = Object.keys(dayEventsTree).sort();
-                html += '<div class="tree-date week-day-block collapsed" data-date="' + escapeHtml(row.dateStr) + '">';
+                var isTodayRow = (row.dateStr === todayKey);
+                var dayCollapsedClass = isTodayRow ? '' : ' collapsed';
+                html += '<div class="tree-date week-day-block' + dayCollapsedClass + '" data-date="' + escapeHtml(row.dateStr) + '">';
                 html += '<div class="tree-date-header"><span class="tree-toggle"><i class="fas fa-chevron-down"></i></span><span>' + escapeHtml(row.dayName) + ' ' + row.shortDate + '</span>' + (labels.length ? '<span class="text-slate-400 text-xs font-normal ml-1">' + labels.length + ' 类事项</span>' : '') + '</div>';
                 html += '<div class="tree-date-children">';
                 if (labels.length === 0) {
                     html += '<div class="tree-empty">予定なし</div>';
                 } else {
-                    labels.forEach(function(label) {
+                    labels.forEach(function(label, labelIdx) {
                         var univs = dayEventsTree[label];
                         var univNames = Object.keys(univs).sort();
-                        html += '<div class="tree-date collapsed" data-label="' + escapeHtml(label) + '">';
+                        var labelCollapsedClass = (isTodayRow && labelIdx === 0) ? '' : ' collapsed';
+                        html += '<div class="tree-date' + labelCollapsedClass + '" data-label="' + escapeHtml(label) + '">';
                         html += '<div class="tree-date-header"><span class="tree-toggle"><i class="fas fa-chevron-down"></i></span><span>' + escapeHtml(label) + '</span><span class="text-slate-400 text-xs font-normal ml-1">' + univNames.length + ' 校</span></div>';
                         html += '<div class="tree-date-children">';
                         univNames.forEach(function(univName) {
                             var depts = univs[univName];
                             var deptKeys = Object.keys(depts).sort();
-                            html += '<div class="tree-univ collapsed" data-univ="' + escapeHtml(univName) + '">';
+                            var univCollapsed = (isTodayRow && labelIdx === 0) ? '' : ' collapsed';
+                            html += '<div class="tree-univ' + univCollapsed + '" data-univ="' + escapeHtml(univName) + '">';
                             html += '<div class="tree-univ-header"><span class="tree-toggle"><i class="fas fa-chevron-down"></i></span><span>' + escapeHtml(univName) + '</span><span class="text-slate-400 text-xs font-normal ml-1">' + deptKeys.length + ' 学部</span></div>';
                             html += '<div class="tree-univ-children">';
                             deptKeys.forEach(function(deptName) {
@@ -2270,6 +2389,8 @@
 
         var currentDetailStudentId = null;
         var myStudentsPoolList = [];
+        var studentDetailListExpanded = false;
+        var studentDetailListFoldLimit = 8;
         var isSuper = function() { var r = (adminMe && adminMe.role) || ''; return r === 'super_admin' || r === 'admin'; };
         function escapeHtml(s) { if (s == null) return ''; var div = document.createElement('div'); div.textContent = s; return div.innerHTML; }
         function renderMyStudentsList(list) {
@@ -2301,6 +2422,46 @@
                 };
             });
         }
+        function renderStudentDetailList(list) {
+            var container = document.getElementById('studentDetailList');
+            var expandWrap = document.getElementById('studentDetailListExpand');
+            var searchEl = document.getElementById('studentDetailSearch');
+            var q = (searchEl && searchEl.value) ? String(searchEl.value).trim().toLowerCase() : '';
+            var filtered = !q ? list : list.filter(function(s) { return (s.username || '').toLowerCase().indexOf(q) >= 0; });
+            if (!container) return;
+            if (list.length === 0) {
+                container.innerHTML = '<p class="text-slate-500 text-sm">学生池暂无学生。请先在「学生池」中加入学生。</p>';
+                if (expandWrap) { expandWrap.classList.add('hidden'); expandWrap.innerHTML = ''; }
+                return;
+            }
+            if (filtered.length === 0) {
+                container.innerHTML = '<p class="text-slate-500 text-sm">未找到匹配「' + escapeHtml(q) + '」的学生。</p>';
+                if (expandWrap) { expandWrap.classList.add('hidden'); expandWrap.innerHTML = ''; }
+                return;
+            }
+            var showAll = studentDetailListExpanded || filtered.length <= studentDetailListFoldLimit;
+            var toShow = showAll ? filtered : filtered.slice(0, studentDetailListFoldLimit);
+            var hasMore = filtered.length > studentDetailListFoldLimit && !studentDetailListExpanded;
+            container.innerHTML = toShow.map(function(s) {
+                var initial = (s.username || '?').charAt(0).toUpperCase();
+                return '<div class="student-detail-folder" data-id="' + s.id + '" role="button" tabindex="0"><span class="folder-icon"><i class="fas fa-folder-open"></i></span><span class="folder-name">' + escapeHtml(s.username || '') + '<span class="folder-id">(ID:' + s.id + ')</span></span></div>';
+            }).join('');
+            if (expandWrap) {
+                if (hasMore) {
+                    expandWrap.classList.remove('hidden');
+                    expandWrap.innerHTML = '<button type="button" class="btn-expand" id="studentDetailBtnExpand">展开显示全部 ' + filtered.length + ' 人</button>';
+                    var btn = document.getElementById('studentDetailBtnExpand');
+                    if (btn) btn.onclick = function() { studentDetailListExpanded = true; renderStudentDetailList(myStudentsPoolList); };
+                } else {
+                    expandWrap.classList.add('hidden');
+                    expandWrap.innerHTML = '';
+                }
+            }
+            container.querySelectorAll('.student-detail-folder').forEach(function(el) {
+                el.addEventListener('click', function() { viewStudentDetail(parseInt(this.getAttribute('data-id'), 10)); });
+                el.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); viewStudentDetail(parseInt(this.getAttribute('data-id'), 10)); } });
+            });
+        }
         function loadMyStudents(onDone) {
             fetch(apiBase + '/api/admin/teacher/my-students', { headers: authHeaders() })
                 .then(function(r) { return r.json(); })
@@ -2309,10 +2470,7 @@
                     myStudentsPoolList = list;
                     var countEl = document.getElementById('poolCountNum');
                     if (countEl) countEl.textContent = list.length;
-                    var sel = document.getElementById('studentDetailSelect');
-                    if (sel) {
-                        sel.innerHTML = '<option value="">— 请选择 —</option>' + list.map(function(s) { return '<option value="' + s.id + '">' + escapeHtml(s.username || '') + ' (ID:' + s.id + ')</option>'; }).join('');
-                    }
+                    renderStudentDetailList(list);
                     var poolSel = document.getElementById('poolTimelineStudents');
                     if (poolSel) {
                         poolSel.innerHTML = '<option value="">— 全部学生 —</option>' + list.map(function(s) { return '<option value="' + s.id + '">' + escapeHtml(s.username || 'ID:' + s.id) + '</option>'; }).join('');
@@ -2327,6 +2485,128 @@
                 });
         }
         if (document.getElementById('myStudentsSearch')) document.getElementById('myStudentsSearch').addEventListener('input', function() { renderMyStudentsList(myStudentsPoolList); });
+
+        var sendRemindStudentListCache = [];
+        function loadSendRemindOverlay() {
+            var container = document.getElementById('sendRemindStudentCheckboxes');
+            var countEl = document.getElementById('sendRemindSelectedCount');
+            if (!container) return;
+            fetch(apiBase + '/api/admin/teacher/my-students', { headers: authHeaders() })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    var list = d.list || [];
+                    sendRemindStudentListCache = list;
+                    renderSendRemindStudentCheckboxes(list);
+                    updateSendRemindSelectedCount();
+                    loadSendRemindSentList();
+                })
+                .catch(function() {
+                    container.innerHTML = '<span class="text-slate-500 text-sm">加载失败</span>';
+                });
+        }
+        function renderSendRemindStudentCheckboxes(list) {
+            var container = document.getElementById('sendRemindStudentCheckboxes');
+            var searchEl = document.getElementById('sendRemindStudentSearch');
+            var q = (searchEl && searchEl.value) ? String(searchEl.value).trim().toLowerCase() : '';
+            var checkedIds = {};
+            container && container.querySelectorAll('.send-remind-cb:checked').forEach(function(cb) { checkedIds[cb.getAttribute('data-id')] = true; });
+            var filtered = !q ? list : list.filter(function(s) { return (s.username || '').toLowerCase().indexOf(q) >= 0; });
+            if (!container) return;
+            container.innerHTML = filtered.length === 0
+                ? (list.length === 0 ? '<span class="text-slate-500 text-sm">学生池暂无学生，请先在「学生池」中加入学生。</span>' : '<span class="text-slate-500 text-sm">未匹配到「' + escapeHtml(q) + '」</span>')
+                : filtered.map(function(s) {
+                    var checked = checkedIds[s.id] ? ' checked' : '';
+                    return '<label class="inline-flex items-center gap-2 cursor-pointer send-remind-label" data-id="' + s.id + '"><input type="checkbox" class="send-remind-cb rounded border" data-id="' + s.id + '" style="border-color: var(--border-celadon);"' + checked + '> <span class="send-remind-name">' + escapeHtml(s.username || '') + '</span></label>';
+                }).join('');
+            container.querySelectorAll('.send-remind-cb').forEach(function(cb) {
+                cb.addEventListener('change', function() { updateSendRemindSelectedCount(); });
+            });
+            updateSendRemindSelectedCount();
+        }
+        document.getElementById('sendRemindStudentSearch').addEventListener('input', function() {
+            renderSendRemindStudentCheckboxes(sendRemindStudentListCache);
+        });
+        function updateSendRemindSelectedCount() {
+            var list = document.querySelectorAll('.send-remind-cb:checked');
+            var el = document.getElementById('sendRemindSelectedCount');
+            if (el) el.textContent = '已选 ' + list.length + ' 人';
+        }
+        document.getElementById('sendRemindSelectAll').addEventListener('click', function() {
+            document.querySelectorAll('.send-remind-cb').forEach(function(cb) { cb.checked = true; });
+            updateSendRemindSelectedCount();
+        });
+        document.getElementById('sendRemindSelectNone').addEventListener('click', function() {
+            document.querySelectorAll('.send-remind-cb').forEach(function(cb) { cb.checked = false; });
+            updateSendRemindSelectedCount();
+        });
+        document.getElementById('btnSendRemindBatch').addEventListener('click', function() {
+            var ids = [];
+            document.querySelectorAll('.send-remind-cb:checked').forEach(function(cb) { ids.push(cb.getAttribute('data-id')); });
+            var msg = (document.getElementById('sendRemindMessage') || {}).value;
+            if (typeof msg !== 'string') msg = '';
+            msg = msg.trim();
+            if (ids.length === 0) { alert('请至少选择一名学生'); return; }
+            if (!msg) { alert('请输入提醒内容'); return; }
+            var btn = this;
+            btn.disabled = true;
+            fetch(apiBase + '/api/admin/teacher/remind', {
+                method: 'POST',
+                headers: authHeaders(),
+                body: JSON.stringify({ student_ids: ids, message: msg })
+            }).then(function(r) { return r.json(); }).then(function(d) {
+                btn.disabled = false;
+                if (d.message) {
+                    document.getElementById('sendRemindMessage').value = '';
+                    loadSendRemindSentList();
+                    alert('已发送给 ' + (d.count || ids.length) + ' 名学生');
+                } else alert(d.message || '发送失败');
+            }).catch(function() { btn.disabled = false; alert('发送失败'); });
+        });
+        function loadSendRemindSentList() {
+            var container = document.getElementById('sendRemindSentList');
+            if (!container) return;
+            container.innerHTML = '<p class="text-slate-500 text-sm">加载中…</p>';
+            fetch(apiBase + '/api/admin/teacher/reminders/sent', { headers: authHeaders() })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    var list = d.list || [];
+                    if (list.length === 0) { container.innerHTML = '<p class="text-slate-500 text-sm">暂无已发送的提醒</p>'; return; }
+                    var grouped = {};
+                    list.forEach(function(row) {
+                        var key = (row.message || '') + '\n' + (row.created_at || '');
+                        if (!grouped[key]) grouped[key] = { message: row.message, created_at: row.created_at, recipients: [] };
+                        grouped[key].recipients.push({ student_id: row.student_id, student_name: row.student_name, read_at: row.read_at });
+                    });
+                    var keys = Object.keys(grouped);
+                    var html = '';
+                    keys.forEach(function(k) {
+                        var g = grouped[k];
+                        var createdStr = g.created_at ? new Date(g.created_at).toLocaleString() : '';
+                        var recList = g.recipients.map(function(r) {
+                            var status = r.read_at ? '<span class="text-green-600 font-medium">已读</span>' : '<span class="text-amber-600 font-medium">未读</span>';
+                            return '<div class="flex justify-between py-1 px-2 rounded" style="background: rgba(255,255,255,0.5);"><span>' + escapeHtml(r.student_name || '') + '</span>' + status + '</div>';
+                        }).join('');
+                        html += '<div class="send-remind-sent-item border rounded-xl overflow-hidden mb-2" style="border-color: var(--border-celadon); background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(248,245,242,0.6) 100%);">';
+                        html += '<div class="send-remind-sent-header flex items-center justify-between cursor-pointer px-4 py-3" style="color: var(--text);">';
+                        html += '<span class="font-medium">' + escapeHtml((g.message || '').substring(0, 80)) + (g.message && g.message.length > 80 ? '…' : '') + '</span>';
+                        html += '<span class="text-slate-500 text-xs">' + escapeHtml(createdStr) + ' <i class="fas fa-chevron-down send-remind-chevron ml-1"></i></span>';
+                        html += '</div>';
+                        html += '<div class="send-remind-sent-body hidden px-4 pb-3"><div class="space-y-1">' + recList + '</div></div>';
+                        html += '</div>';
+                    });
+                    container.innerHTML = html;
+                    container.querySelectorAll('.send-remind-sent-header').forEach(function(h) {
+                        h.addEventListener('click', function() {
+                            var body = h.nextElementSibling;
+                            var chev = h.querySelector('.send-remind-chevron');
+                            body.classList.toggle('hidden');
+                            if (chev) chev.classList.toggle('fa-chevron-down', body.classList.contains('hidden'));
+                            if (chev) chev.classList.toggle('fa-chevron-up', !body.classList.contains('hidden'));
+                        });
+                    });
+                })
+                .catch(function() { container.innerHTML = '<p class="text-slate-500 text-sm">加载失败</p>'; });
+        }
 
         var poolTimelineEventsCache = [];
         var poolTimelineDimensionLabels = { mailStart: '出愿开始', mailEnd: '出愿截止', mailStartDate: '邮寄开始', mailEndDate: '邮寄截止', examDate: '校内考', examDate2: '校内考2', announcementDate: '放榜' };
@@ -2454,13 +2734,16 @@
             } else setTimeout(doReveal, 420);
         };
 
-        if (document.getElementById('studentDetailSelect')) document.getElementById('studentDetailSelect').addEventListener('change', function() {
-            var v = this.value;
-            if (!v) { currentDetailStudentId = null; return; }
-            viewStudentDetail(parseInt(v, 10));
+        if (document.getElementById('studentDetailSearch')) document.getElementById('studentDetailSearch').addEventListener('input', function() {
+            renderStudentDetailList(myStudentsPoolList);
+        });
+        if (document.getElementById('studentDetailSearch')) document.getElementById('studentDetailSearch').addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { this.value = ''; renderStudentDetailList(myStudentsPoolList); }
         });
         function viewStudentDetail(studentId) {
             currentDetailStudentId = studentId;
+            var listOverlay = document.getElementById('overlayStudentDetail');
+            if (listOverlay) listOverlay.classList.add('hidden-by-detail-card');
             document.getElementById('overlayStudentDetailCard').classList.add('show');
             var nameEl = document.getElementById('studentDetailName');
             if (nameEl) nameEl.textContent = '— 加载中…';
@@ -2471,7 +2754,7 @@
                     if (nameEl) nameEl.textContent = s ? (s.username + ' (ID:' + s.id + ')') : '—';
                 });
             loadStudentPlansAndWeekTodo(studentId);
-            loadStudentReminders(studentId);
+            loadStudentGradeNotebook(studentId);
         }
         function loadStudentPlansAndWeekTodo(studentId) {
             var mindmapRoot = document.getElementById('studentMindmapRoot');
@@ -2534,45 +2817,73 @@
                     if (weekTodoEl) weekTodoEl.textContent = '加载失败';
                 });
         }
-        function loadStudentReminders(studentId) {
-            var wrap = document.getElementById('studentRemindersList');
-            wrap.innerHTML = '';
-            fetch(apiBase + '/api/admin/teacher/students/' + studentId + '/reminders', { headers: authHeaders() })
-                .then(function(r) { return r.json(); })
-                .then(function(d) {
-                    var list = d.list || [];
-                    if (list.length === 0) return;
-                    var h5 = document.createElement('h5');
-                    h5.className = 'text-sm font-medium text-slate-600 mb-2';
-                    h5.textContent = '已发提醒';
-                    wrap.appendChild(h5);
-                    list.forEach(function(r) {
-                        var div = document.createElement('div');
-                        div.className = 'remind-bubble';
-                        div.innerHTML = (r.message || '') + ' <span class="text-slate-400 text-xs">' + (r.created_at ? new Date(r.created_at).toLocaleString() : '') + '</span>';
-                        wrap.appendChild(div);
+        var gradeNotebookSaveTimer = null;
+        function loadStudentGradeNotebook(studentId) {
+            var container = document.getElementById('studentGradePages');
+            if (!container) return;
+            var raw = localStorage.getItem('admin_grade_' + studentId);
+            var pages = [];
+            try { if (raw) pages = JSON.parse(raw); } catch (e) {}
+            if (!Array.isArray(pages) || pages.length === 0) pages = [{ content: '' }];
+            container.innerHTML = '';
+            pages.forEach(function(p, i) {
+                var pageDiv = document.createElement('div');
+                pageDiv.className = 'grade-notebook-page';
+                pageDiv.dataset.pageIndex = i;
+                var header = document.createElement('div');
+                header.className = 'grade-notebook-page-header';
+                header.innerHTML = '<span>第 ' + (i + 1) + ' 页</span><span class="saved-hint"></span>';
+                var ta = document.createElement('textarea');
+                ta.placeholder = '在此记录 EJU、校内考等成绩与备注…';
+                ta.value = p.content || '';
+                ta.dataset.pageIndex = i;
+                var saveHint = header.querySelector('.saved-hint');
+                function savePage() {
+                    var idx = parseInt(ta.dataset.pageIndex, 10);
+                    var all = [];
+                    container.querySelectorAll('.grade-notebook-page').forEach(function(el) {
+                        var t = el.querySelector('textarea');
+                        if (t) all[parseInt(t.dataset.pageIndex, 10)] = { content: t.value };
                     });
+                    for (var j = 0; j < all.length; j++) if (!all[j]) all[j] = { content: '' };
+                    localStorage.setItem('admin_grade_' + studentId, JSON.stringify(all));
+                    if (saveHint) { saveHint.textContent = '已保存'; setTimeout(function() { saveHint.textContent = ''; }, 1500); }
+                }
+                ta.addEventListener('input', function() {
+                    clearTimeout(gradeNotebookSaveTimer);
+                    gradeNotebookSaveTimer = setTimeout(savePage, 600);
                 });
+                ta.addEventListener('blur', savePage);
+                pageDiv.appendChild(header);
+                pageDiv.appendChild(ta);
+                container.appendChild(pageDiv);
+            });
         }
         document.getElementById('btnBackToList').onclick = function() {
             document.getElementById('overlayStudentDetailCard').classList.remove('show');
-            var sel = document.getElementById('studentDetailSelect');
-            if (sel) sel.value = '';
+            var listOverlay = document.getElementById('overlayStudentDetail');
+            if (listOverlay) listOverlay.classList.remove('hidden-by-detail-card');
             currentDetailStudentId = null;
         };
-        document.getElementById('btnSendRemind').onclick = function() {
-            var sid = currentDetailStudentId;
-            var msg = document.getElementById('remindMessage').value.trim();
-            if (!sid || !msg) { alert('请输入提醒内容'); return; }
-            fetch(apiBase + '/api/admin/teacher/remind', {
-                method: 'POST',
-                headers: authHeaders(),
-                body: JSON.stringify({ student_id: sid, message: msg })
-            }).then(function(r) { return r.json(); }).then(function(d) {
-                if (d.message) { document.getElementById('remindMessage').value = ''; loadStudentReminders(sid); alert('提醒已发送'); }
-                else alert(d.message || '发送失败');
-            }).catch(function() { alert('发送失败'); });
-        };
+        (function() {
+            var btn = document.getElementById('btnAddGradePage');
+            if (!btn) return;
+            btn.onclick = function() {
+                var sid = currentDetailStudentId;
+                if (!sid) return;
+                var container = document.getElementById('studentGradePages');
+                var pages = [];
+                if (container) {
+                    container.querySelectorAll('.grade-notebook-page textarea').forEach(function(t) {
+                        pages.push({ content: t.value || '' });
+                    });
+                }
+                if (pages.length === 0) pages = [{ content: '' }];
+                pages.push({ content: '' });
+                localStorage.setItem('admin_grade_' + sid, JSON.stringify(pages));
+                loadStudentGradeNotebook(sid);
+            };
+        })();
         document.getElementById('btnAddStudent').onclick = function() {
             document.getElementById('noAvailableStudents').classList.add('hidden');
             document.getElementById('availableStudentsList').innerHTML = '<div class="pool-loading-wrap"><div class="pool-loading-hourglass"><i class="fas fa-hourglass-half"></i></div><p class="pool-loading-text">稍等…</p></div>';

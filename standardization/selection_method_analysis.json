@@ -1,0 +1,123 @@
+{
+  "total_records": 3028,
+  "non_null_records": 3028,
+  "null_records": 0,
+  "unique_methods": 23,
+  "method_distribution": [
+    {
+      "method": "外国人入試",
+      "count": 2383,
+      "percentage": 78.7
+    },
+    {
+      "method": "校内考加eju",
+      "count": 180,
+      "percentage": 5.94
+    },
+    {
+      "method": "eju利用型",
+      "count": 124,
+      "percentage": 4.1
+    },
+    {
+      "method": "纯校内考（不用提交成绩）",
+      "count": 87,
+      "percentage": 2.87
+    },
+    {
+      "method": "総合評価型",
+      "count": 46,
+      "percentage": 1.52
+    },
+    {
+      "method": "外国人入試　併願",
+      "count": 32,
+      "percentage": 1.06
+    },
+    {
+      "method": "学校推薦",
+      "count": 24,
+      "percentage": 0.79
+    },
+    {
+      "method": "外国人入試（日本国内からの出願）",
+      "count": 20,
+      "percentage": 0.66
+    },
+    {
+      "method": "外国人入試（日本国外からの出願）",
+      "count": 20,
+      "percentage": 0.66
+    },
+    {
+      "method": "本学受験型",
+      "count": 18,
+      "percentage": 0.59
+    },
+    {
+      "method": "外国人入試　単願",
+      "count": 16,
+      "percentage": 0.53
+    },
+    {
+      "method": "eju書類選考のみ",
+      "count": 15,
+      "percentage": 0.5
+    },
+    {
+      "method": "自己推薦",
+      "count": 14,
+      "percentage": 0.46
+    },
+    {
+      "method": "留学生一般選抜",
+      "count": 11,
+      "percentage": 0.36
+    },
+    {
+      "method": "校内テストと「EJU又はN2」",
+      "count": 10,
+      "percentage": 0.33
+    },
+    {
+      "method": "特定地域内部　総合評価型",
+      "count": 8,
+      "percentage": 0.26
+    },
+    {
+      "method": "コミュニケーション方式",
+      "count": 5,
+      "percentage": 0.17
+    },
+    {
+      "method": "jlptと学校試験",
+      "count": 5,
+      "percentage": 0.17
+    },
+    {
+      "method": "英語のみ",
+      "count": 4,
+      "percentage": 0.13
+    },
+    {
+      "method": "特定地域内部　学校推薦",
+      "count": 2,
+      "percentage": 0.07
+    },
+    {
+      "method": "特定地域内部　留学生一般選抜",
+      "count": 2,
+      "percentage": 0.07
+    },
+    {
+      "method": "EJUと事前課題",
+      "count": 1,
+      "percentage": 0.03
+    },
+    {
+      "method": "渡日前入試",
+      "count": 1,
+      "percentage": 0.03
+    }
+  ]
+}

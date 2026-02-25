@@ -1,0 +1,13 @@
+node_modules
+.env
+.env.*
+!.env.example
+.git
+.gitignore
+*.md
+docs
+crawled_data
+terminals
+.cursor
+*.log
+.DS_Store

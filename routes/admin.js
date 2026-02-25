@@ -420,27 +420,36 @@ router.post('/teacher/students/:id/plan', requireTeacherOrSuper, async (req, res
   }
 });
 
-// ---------- 班主任：给学生发提醒 ----------
+// ---------- 班主任：给学生发提醒（支持单人或多人：student_id 或 student_ids 数组） ----------
 router.post('/teacher/remind', requireTeacherOrSuper, async (req, res) => {
   try {
-    const { student_id, message, plan_item_id } = req.body || {};
-    const studentId = parseInt(student_id, 10);
-    if (Number.isNaN(studentId) || !message || !String(message).trim()) {
-      return res.status(400).json({ message: '请提供学生ID和提醒内容' });
+    const { student_id, student_ids, message, plan_item_id } = req.body || {};
+    const msg = String(message || '').trim();
+    if (!msg) return res.status(400).json({ message: '请提供提醒内容' });
+    let ids = [];
+    if (Array.isArray(student_ids) && student_ids.length > 0) {
+      ids = student_ids.map((id) => parseInt(id, 10)).filter((n) => !Number.isNaN(n));
+    } else if (student_id != null) {
+      const one = parseInt(student_id, 10);
+      if (!Number.isNaN(one)) ids = [one];
     }
+    if (ids.length === 0) return res.status(400).json({ message: '请选择至少一名学生' });
     const teacherId = req.adminUser.id;
     const isSuper = ['super_admin', 'admin'].includes(req.adminUser.role || '');
-    if (!isSuper) {
-      const check = await pool.query('SELECT 1 FROM teacher_students WHERE teacher_id = $1 AND student_id = $2', [teacherId, studentId]);
-      if (check.rows.length === 0) return res.status(403).json({ message: '只能提醒自己班级的学生' });
-    }
     const planId = plan_item_id != null ? parseInt(plan_item_id, 10) : null;
-    const result = await pool.query(
-      'INSERT INTO reminders (teacher_id, student_id, message, plan_item_id) VALUES ($1, $2, $3, $4) RETURNING id, created_at',
-      [teacherId, studentId, String(message).trim(), Number.isNaN(planId) ? null : planId]
-    );
-    const row = result.rows[0];
-    res.status(201).json({ message: '提醒已发送', id: row.id, created_at: row.created_at });
+    const inserted = [];
+    for (const studentId of ids) {
+      if (!isSuper) {
+        const check = await pool.query('SELECT 1 FROM teacher_students WHERE teacher_id = $1 AND student_id = $2', [teacherId, studentId]);
+        if (check.rows.length === 0) continue;
+      }
+      const result = await pool.query(
+        'INSERT INTO reminders (teacher_id, student_id, message, plan_item_id) VALUES ($1, $2, $3, $4) RETURNING id, created_at',
+        [teacherId, studentId, msg, Number.isNaN(planId) ? null : planId]
+      );
+      inserted.push(result.rows[0]);
+    }
+    res.status(201).json({ message: '提醒已发送', count: inserted.length, ids: inserted.map((r) => r.id) });
   } catch (err) {
     console.error('Admin teacher remind error:', err);
     res.status(500).json({ message: '服务器错误' });
@@ -459,12 +468,32 @@ router.get('/teacher/students/:id/reminders', requireTeacherOrSuper, async (req,
       if (check.rows.length === 0) return res.status(403).json({ message: '只能查看自己班级学生的提醒' });
     }
     const result = await pool.query(
-      'SELECT r.id, r.message, r.plan_item_id, r.created_at, u.username AS teacher_name FROM reminders r JOIN users u ON u.id = r.teacher_id WHERE r.student_id = $1 ORDER BY r.created_at DESC LIMIT 50',
+      'SELECT r.id, r.message, r.plan_item_id, r.created_at, r.read_at, u.username AS teacher_name FROM reminders r JOIN users u ON u.id = r.teacher_id WHERE r.student_id = $1 ORDER BY r.created_at DESC LIMIT 50',
       [studentId]
     );
     res.json({ list: result.rows });
   } catch (err) {
     console.error('Admin teacher reminders error:', err);
+    res.status(500).json({ message: '服务器错误' });
+  }
+});
+
+// ---------- 班主任：我发出的提醒列表（含每条的学生与已读状态，用于发送提醒浮层） ----------
+router.get('/teacher/reminders/sent', requireTeacherOrSuper, async (req, res) => {
+  try {
+    const teacherId = req.adminUser.id;
+    const result = await pool.query(
+      `SELECT r.id, r.message, r.created_at, r.read_at, r.student_id, u.username AS student_name
+       FROM reminders r
+       JOIN users u ON u.id = r.student_id
+       WHERE r.teacher_id = $1
+       ORDER BY r.created_at DESC, r.id DESC
+       LIMIT 200`,
+      [teacherId]
+    );
+    res.json({ list: result.rows });
+  } catch (err) {
+    console.error('Admin teacher reminders/sent error:', err);
     res.status(500).json({ message: '服务器错误' });
   }
 });

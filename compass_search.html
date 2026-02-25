@@ -70,11 +70,11 @@
         .search-input {
             border: 1px solid rgba(255, 250, 242, 0.8);
             border-radius: 20px;
-            padding: 20px 60px;
+            padding: 16px 52px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             background: #fdfbf7;
             box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.9);
-            font-size: 20px;
+            font-size: 15px;
             font-weight: 530;
             letter-spacing: 0.04em;
         }
@@ -86,31 +86,31 @@
             transform: translateY(-2px);
         }
         
-        /* 大学・学部・学科 折叠层次结构（与 filter 一致） */
+        /* 大学・学部・学科 折叠层次结构：默认全折叠，圆润饱满、收起时无露出 */
         .school-group {
-            background: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.72);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(180, 150, 130, 0.2);
-            border-radius: 20px;
+            border: 1px solid rgba(180, 150, 130, 0.25);
+            border-radius: 24px;
             overflow: hidden;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 24px rgba(180, 130, 100, 0.05);
+            box-shadow: 0 4px 24px rgba(180, 130, 100, 0.06), inset 0 1px 0 rgba(255,255,255,0.6);
             isolation: isolate;
             margin-bottom: 16px;
         }
         .school-group:last-child { margin-bottom: 0; }
-        .school-group:has(.department-list:not(.expanded)) .school-header { border-radius: 20px; }
+        .school-group:has(.department-list:not(.expanded)) .school-header { border-radius: 24px; }
         .school-group:hover {
-            border-color: rgba(180, 150, 130, 0.35);
-            box-shadow: 0 12px 36px rgba(180, 130, 100, 0.08);
+            border-color: rgba(180, 150, 130, 0.4);
+            box-shadow: 0 12px 36px rgba(180, 130, 100, 0.1), inset 0 1px 0 rgba(255,255,255,0.7);
             transform: translateY(-2px);
         }
         
         .result-level-badge {
             display: inline-block;
-            padding: 2px 8px;
-            border-radius: 6px;
+            padding: 4px 10px;
+            border-radius: 12px;
             font-size: 10px;
             font-weight: 600;
             letter-spacing: 0.05em;
@@ -118,58 +118,78 @@
             vertical-align: middle;
         }
         .result-level-badge-university {
-            background: linear-gradient(135deg, rgba(140, 74, 74, 0.18), rgba(159, 93, 93, 0.12));
+            background: linear-gradient(135deg, rgba(140, 74, 74, 0.2), rgba(159, 93, 93, 0.14));
             color: #8c4a4a;
             border: 1px solid rgba(140, 74, 74, 0.35);
         }
         .result-level-badge-department {
-            background: linear-gradient(135deg, rgba(139, 115, 85, 0.2), rgba(180, 150, 130, 0.15));
+            background: linear-gradient(135deg, rgba(139, 115, 85, 0.22), rgba(180, 150, 130, 0.16));
             color: #6b5344;
             border: 1px solid rgba(139, 115, 85, 0.4);
         }
         .result-level-badge-major {
-            background: rgba(180, 150, 130, 0.12);
+            background: rgba(180, 150, 130, 0.14);
             color: #7d6b5c;
-            border: 1px solid rgba(180, 150, 130, 0.3);
+            border: 1px solid rgba(180, 150, 130, 0.32);
+            border-radius: 10px;
         }
         .school-header {
             cursor: pointer;
             transition: background 0.3s ease;
-            border-left: 4px solid #8c4a4a;
-            background: rgba(140, 74, 74, 0.05);
-            border-radius: 20px 20px 0 0;
+            background: rgba(140, 74, 74, 0.06);
+            border-radius: 24px 24px 0 0;
         }
-        .school-header:hover { background: rgba(140, 74, 74, 0.09); }
+        .school-header:hover { background: rgba(140, 74, 74, 0.1); }
+        .school-header-layout { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+        .school-header-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+        .school-name-line { font-size: 1.15rem; font-weight: 700; color: #8c4a4a; margin: 0; line-height: 1.35; }
+        .school-meta-line { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; color: #9f5d5d; }
+        .school-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+        .school-meta-item i { color: #8b7355; opacity: 0.9; }
+        .school-header-main .analytics-open-btn { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 12px; font-size: 13px; font-weight: 600; border: 1px solid rgba(140,74,74,0.4); color: #8c4a4a; background: rgba(140,74,74,0.08); cursor: pointer; transition: all 0.2s; }
+        .school-header-main .analytics-open-btn:hover { background: rgba(140,74,74,0.14); transform: scale(1.02); }
+        .school-header-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .school-dept-count { font-size: 1.5rem; font-weight: 700; color: #8c4a4a; line-height: 1; }
+        .school-dept-label { font-size: 11px; color: #9f5d5d; }
+        .school-header-right .fa-chevron-down { color: #8b7355; font-size: 12px; }
+        @media (max-width: 768px) {
+            .school-header h3, .school-name-line { font-size: 0.9375rem; line-height: 1.4; word-break: keep-all; white-space: normal; }
+            .school-header-layout { flex-direction: column; align-items: flex-start; }
+            .school-header-right { width: 100%; justify-content: flex-end; }
+        }
         
         .department-list { 
-            max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; 
-            padding: 0 12px 16px 12px; 
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+            padding: 0;
             background: inherit;
         }
-        .department-list.expanded { max-height: 4000px; }
+        .department-list.expanded { max-height: 4000px; padding: 0 14px 18px 14px; }
         .department-item {
             transition: all 0.3s ease;
-            background: rgba(253, 248, 242, 0.9);
+            background: rgba(253, 248, 242, 0.92);
             margin: 8px 0;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            border: 1px solid rgba(180, 150, 130, 0.22);
+            border: 1px solid rgba(180, 150, 130, 0.24);
             border-left: 4px solid rgba(139, 115, 85, 0.65);
-            box-shadow: 0 2px 8px rgba(140, 100, 80, 0.04);
+            box-shadow: 0 2px 10px rgba(140, 100, 80, 0.05), inset 0 1px 0 rgba(255,255,255,0.5);
         }
-        .department-list .department-item:first-child { margin-top: 4px; }
-        .department-list .department-item:last-child { margin-bottom: 0; border-radius: 0 0 20px 20px; }
+        .department-list .department-item:first-child { margin-top: 6px; }
+        .department-list .department-item:last-child { margin-bottom: 0; border-radius: 0 0 24px 24px; }
         
         .department-group-header { 
             cursor: pointer; 
             transition: background 0.3s ease; 
-            background: rgba(255, 250, 245, 0.6);
+            background: rgba(255, 250, 245, 0.7);
+            border-radius: 14px;
         }
-        .department-group-header:hover { background: rgba(180, 150, 130, 0.1); }
-        .major-list { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; }
+        .department-group-header:hover { background: rgba(180, 150, 130, 0.12); }
+        .major-list { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-in-out; padding: 0; }
         .major-list.expanded { max-height: 2000px; }
-        .major-item { border-left: none; transition: all 0.3s ease; background: transparent; }
-        .department-item:hover { background: rgba(253, 245, 235, 0.95); border-left-color: rgba(139, 115, 85, 0.85); box-shadow: 0 3px 12px rgba(140, 100, 80, 0.06); }
+        .major-item { border-left: none; transition: all 0.3s ease; background: transparent; border-radius: 12px; }
+        .department-item:hover { background: rgba(253, 245, 235, 0.96); border-left-color: rgba(139, 115, 85, 0.85); box-shadow: 0 3px 12px rgba(140, 100, 80, 0.08), inset 0 1px 0 rgba(255,255,255,0.6); }
         
         /* 检索详情表格：展示大学全部字段 */
         .detail-info-table {
@@ -1116,26 +1136,21 @@
                 return `
                 <div class="school-group animate-pop" style="animation-delay: ${idx * 0.05}s">
                     <div class="school-header p-5" onclick="toggleSearchSchool('${schoolId}')">
-                        <div class="flex items-center justify-between">
-                            <div class="flex-1 flex items-center gap-4">
-                                <div>
-                                    <h3 class="font-bold text-xl mb-1.5" style="color:#8c4a4a"><span class="result-level-badge result-level-badge-university">大学</span>${highlightKeyword(school.name, keyword)}</h3>
-                                    <div class="flex items-center gap-4 text-xs" style="color:#9f5d5d">
-                                        <span class="flex items-center gap-1.5"><i class="fas fa-map-marker-alt" style="color:#8b7355"></i>${school.region || ''}</span>
-                                        <span class="flex items-center gap-1.5"><i class="fas fa-layer-group" style="color:#8b7355"></i>${school.departments.length}学部</span>
-                                    </div>
+                        <div class="school-header-layout">
+                            <div class="school-header-main">
+                                <h3 class="school-name-line"><span class="result-level-badge result-level-badge-university">大学</span>${highlightKeyword(school.name, keyword)}</h3>
+                                <div class="school-meta-line">
+                                    <span class="school-meta-item"><i class="fas fa-map-marker-alt"></i>${school.region || '—'}</span>
+                                    <span class="school-meta-item"><i class="fas fa-layer-group"></i>${school.departments.length}学部</span>
                                 </div>
-                                <button type="button" class="analytics-open-btn flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold border-2 border-current transition-all duration-300 hover:scale-105" style="color:#8c4a4a;border-color:#8c4a4a;background:rgba(140,74,74,0.06)" data-analytics-school="${String(school.name || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}" title="スコア可視化">
-                                    <i class="fas fa-chart-bar text-lg"></i>
-                                    <span>スコア分析</span>
+                                <button type="button" class="analytics-open-btn" data-analytics-school="${String(school.name || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}" title="スコア可視化" onclick="event.stopPropagation()">
+                                    <i class="fas fa-chart-bar"></i><span>スコア分析</span>
                                 </button>
                             </div>
-                            <div class="flex items-center gap-4">
-                                <div class="text-right">
-                                    <div class="text-2xl font-bold" style="color:#8c4a4a">${school.departments.length}</div>
-                                    <div class="text-xs" style="color:#9f5d5d">学部</div>
-                                </div>
-                                <i class="fas fa-chevron-down transition-transform duration-300" id="${schoolId}-icon" style="color:#8b7355"></i>
+                            <div class="school-header-right">
+                                <span class="school-dept-count">${school.departments.length}</span>
+                                <span class="school-dept-label">学部</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300" id="${schoolId}-icon"></i>
                             </div>
                         </div>
                     </div>
@@ -1159,14 +1174,7 @@
                 </button>`;
             }
             grid.innerHTML = fullHtml;
-            
-            // 默认展开第一所大学
-            const firstList = document.getElementById('search-school-0-list');
-            const firstIcon = document.getElementById('search-school-0-icon');
-            if (firstList && firstIcon) {
-                firstList.classList.add('expanded');
-                firstIcon.style.transform = 'rotate(180deg)';
-            }
+            // 全部默认折叠，不展开任何大学/学部
         }
         
         function toggleSearchSchool(schoolId) {
