@@ -361,6 +361,23 @@
         </div>
     </main>
 
+    <!-- 首页右下角：班主任提醒信封（仅个人首页显示；有未读时显示小红数字；点击弹出毛玻璃弹窗） -->
+    <div id="student-envelope-wrap" class="hidden" style="position:fixed;bottom:24px;right:24px;z-index:90;">
+        <button type="button" id="student-envelope-btn" aria-label="先生からのメッセージ" style="position:relative;width:48px;height:48px;border-radius:50%;background:linear-gradient(145deg,rgba(255,255,255,0.92),rgba(248,250,252,0.88));border:1px solid rgba(203,213,225,0.8);box-shadow:0 4px 16px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;color:#475569;cursor:pointer;">
+            <i class="fas fa-envelope" style="font-size:1.2rem;"></i>
+            <span id="student-envelope-badge" class="absolute flex items-center justify-center rounded-full text-white font-bold bg-red-500 border border-white" style="min-width:14px;height:14px;padding:0 3px;top:0;right:0;font-size:10px;line-height:1;display:none;"></span>
+        </button>
+    </div>
+    <div id="student-envelope-overlay" class="hidden" style="position:fixed;inset:0;z-index:95;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(15,23,42,0.2);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);">
+        <div id="student-envelope-panel" class="hidden" style="width:min(360px,100%);max-height:75vh;border-radius:20px;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.8);box-shadow:0 24px 56px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.9);overflow:hidden;display:flex;flex-direction:column;">
+            <div class="px-4 py-3 border-b flex items-center justify-between" style="border-color:rgba(203,213,225,0.5);background:rgba(248,250,252,0.7);">
+                <h3 class="font-semibold text-slate-700 text-sm">先生からのメッセージ</h3>
+                <button type="button" id="student-envelope-panel-close" aria-label="閉じる" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:bg-slate-100"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="student-envelope-list" class="flex-1 overflow-y-auto p-3 space-y-3" style="min-height:120px;"></div>
+        </div>
+    </div>
+
     <script src="js/auth.js"></script>
     <script>
         if (!Auth.requireAuth()) throw new Error('redirect');
@@ -415,6 +432,67 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && document.getElementById('help-overlay').classList.contains('help-open')) closeHelpOverlay();
         });
+
+        /** 首页右下角信封：班主任提醒（仅首页显示）；有未读时显示小红数字，点击弹出消息列表 */
+        (function initStudentEnvelope() {
+            var wrap = document.getElementById('student-envelope-wrap');
+            var btn = document.getElementById('student-envelope-btn');
+            var badge = document.getElementById('student-envelope-badge');
+            var overlay = document.getElementById('student-envelope-overlay');
+            var panel = document.getElementById('student-envelope-panel');
+            var listEl = document.getElementById('student-envelope-list');
+            var closeBtn = document.getElementById('student-envelope-panel-close');
+            if (!wrap || !btn || !badge || !panel || !listEl || typeof Auth === 'undefined' || !Auth.getToken()) return;
+            wrap.classList.remove('hidden');
+            wrap.style.display = '';
+            function setBadge(n) {
+                if (n > 0) { badge.textContent = n > 99 ? '99+' : n; badge.style.display = 'flex'; }
+                else { badge.style.display = 'none'; }
+            }
+            function loadReminders() {
+                fetch((Auth.getApiBase && Auth.getApiBase()) + '/api/plan/reminders', { headers: Auth.authHeaders() })
+                    .then(function(r) { return r.ok ? r.json() : []; })
+                    .then(function(rows) {
+                        var unread = (rows || []).filter(function(r) { return !r.read_at; });
+                        setBadge(unread.length);
+                    })
+                    .catch(function() { setBadge(0); });
+            }
+            loadReminders();
+            function openPanel() {
+                if (overlay) { overlay.classList.remove('hidden'); overlay.style.display = 'flex'; }
+                panel.classList.remove('hidden');
+                panel.style.display = 'flex';
+                fetch((Auth.getApiBase && Auth.getApiBase()) + '/api/plan/reminders', { headers: Auth.authHeaders() })
+                    .then(function(r) { return r.ok ? r.json() : []; })
+                    .then(function(rows) {
+                        if (!rows || rows.length === 0) { listEl.innerHTML = '<p class="text-slate-500 text-sm py-4 text-center">メッセージはありません</p>'; return; }
+                        var escapeHtml = function(s) { if (s == null) return ''; var d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
+                        listEl.innerHTML = rows.map(function(r) {
+                            var time = r.created_at ? new Date(r.created_at).toLocaleString() : '';
+                            var fromLabel = r.teacher_name ? escapeHtml(r.teacher_name) + ' 先生から：' : '先生から：';
+                            var readBtn = !r.read_at ? '<button type="button" class="mt-2 px-3 py-1 rounded-lg text-xs font-medium bg-sky-100 text-sky-700 hover:bg-sky-200" data-id="' + r.id + '">既読にする</button>' : '<span class="mt-2 text-xs text-green-600">既読</span>';
+                            return '<div class="p-3 rounded-xl border border-slate-200/80 bg-slate-50/50" data-id="' + r.id + '"><p class="text-xs text-slate-500 mb-1">' + fromLabel + '</p><p class="text-sm text-slate-700">' + escapeHtml(r.message || '') + '</p><p class="text-xs text-slate-400 mt-1">' + time + '</p>' + readBtn + '</div>';
+                        }).join('');
+                        listEl.querySelectorAll('[data-id] button').forEach(function(b) {
+                            b.addEventListener('click', function() {
+                                var id = this.getAttribute('data-id');
+                                fetch((Auth.getApiBase && Auth.getApiBase()) + '/api/plan/reminders/' + id + '/read', { method: 'PATCH', headers: Auth.authHeaders() })
+                                    .then(function(res) { if (res.ok) { openPanel(); loadReminders(); } });
+                            });
+                        });
+                    })
+                    .catch(function() { listEl.innerHTML = '<p class="text-slate-500 text-sm py-4 text-center">読み込みに失敗しました</p>'; });
+            }
+            function closePanel() {
+                if (overlay) { overlay.classList.add('hidden'); overlay.style.display = 'none'; }
+                panel.classList.add('hidden');
+                panel.style.display = 'none';
+            }
+            btn.addEventListener('click', function() { if (!overlay || overlay.classList.contains('hidden')) openPanel(); else closePanel(); });
+            if (closeBtn) closeBtn.addEventListener('click', closePanel);
+            if (overlay) overlay.addEventListener('click', function(e) { if (e.target === overlay) closePanel(); });
+        })();
     </script>
 </body>
 </html>
