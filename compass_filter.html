@@ -444,24 +444,27 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             display: flex; align-items: center; justify-content: center;
-            padding: 24px;
+            padding: 16px;
             animation: fadeIn 0.4s ease-out;
         }
         .init-overlay.hidden { display: none !important; }
         .init-overlay .card {
-            max-width: 560px; max-height: 90vh; overflow-y: auto;
+            max-width: 520px; max-height: 92vh; overflow-y: auto;
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-radius: 24px; padding: 32px;
+            border-radius: 20px; padding: 20px 24px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 24px 64px rgba(106, 130, 85, 0.08);
         }
-        .init-overlay .zone-title { font-size: 15px; font-weight: 500; color: #526841; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; letter-spacing: 0.04em; }
+        .init-overlay .card .init-overlay-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+        .init-overlay .card .init-overlay-desc { font-size: 0.8rem; margin-bottom: 16px; }
+        .init-overlay .zone-title { font-size: 12px; font-weight: 500; color: #526841; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.04em; }
         .init-overlay .factor-chip {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 10px 16px; margin: 6px 6px 6px 0;
-            border-radius: 14px; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 12px; margin: 4px 4px 4px 0;
+            border-radius: 12px; cursor: pointer;
+            font-size: 13px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             background: rgba(255,255,255,0.5);
             backdrop-filter: blur(8px);
@@ -473,7 +476,10 @@
         .init-overlay .factor-chip.selected { border-color: rgba(106,130,85,0.5); background: linear-gradient(135deg, rgba(132,156,108,0.35), rgba(106,130,85,0.28)); }
         .init-overlay .factor-chip.excluded { opacity: 0.5; pointer-events: none; }
         .init-overlay .factor-chip:active { transform: scale(0.98); }
-        .init-overlay .factor-chip .hint { font-size: 11px; color: #6a8255; margin-left: 4px; }
+        .init-overlay .factor-chip .hint { font-size: 10px; color: #6a8255; margin-left: 2px; }
+        .init-overlay .zone-desc { font-size: 10px; margin-bottom: 8px; }
+        .init-overlay .init-footer { padding-top: 12px; margin-top: 12px; }
+        .init-overlay .init-footer .btn-soft { padding: 8px 16px; font-size: 13px; border-radius: 14px; }
         
         /* 按钮：圆润 R 角 + 发光感，无生硬阴影 */
         .btn-soft {
@@ -558,12 +564,12 @@
     <!-- 初始化浮层：选择筛选因素 -->
     <div id="init-overlay" class="init-overlay">
         <div class="card">
-            <h2 class="font-bold text-2xl text-mint-700 mb-2">絞り込み条件を選ぼう 🍃</h2>
-            <p class="text-sm text-mint-500 mb-6">まず「連動エリア」か「独立エリア」のどちらかから選んでね。選んだ後、具体的な条件を細かく設定できます。</p>
+            <h2 class="init-overlay-title font-bold text-mint-700">絞り込み条件を選ぼう 🍃</h2>
+            <p class="init-overlay-desc text-mint-500">まず「連動エリア」か「独立エリア」のどちらかから選んでね。選んだ後、具体的な条件を細かく設定できます。</p>
             
-            <div class="mb-6">
+            <div class="mb-4">
                 <div class="zone-title"><i class="fas fa-link text-mint-500"></i> 連動エリア（複数選択可）</div>
-                <p class="text-xs text-mint-400 mb-3">条件同士が連動して絞り込みます</p>
+                <p class="zone-desc text-mint-400">条件同士が連動して絞り込みます</p>
                 <div id="factors-combined">
                     <div class="factor-chip" data-zone="combined" data-factor="bunri" title="文・理・文理皆可">
                         <span>文理分科</span><span class="hint">文/理でEJU科目が変わる</span>
@@ -586,9 +592,9 @@
                 </div>
             </div>
             
-            <div class="mb-6">
+            <div class="mb-4">
                 <div class="zone-title"><i class="fas fa-hand-pointer text-sunset-500"></i> 独立エリア（複数選択可）</div>
-                <p class="text-xs text-mint-400 mb-3">こちらだけの条件で絞り込み</p>
+                <p class="zone-desc text-mint-400">こちらだけの条件で絞り込み</p>
                 <div id="factors-independent">
                     <div class="factor-chip" data-zone="independent" data-factor="examFormat" title="校内考形式">
                         <span>選考方式</span><span class="hint">校内考形式</span>
@@ -596,9 +602,9 @@
                 </div>
             </div>
             
-            <div class="flex items-center justify-between pt-4 border-t border-white/30">
+            <div class="init-footer flex items-center justify-between border-t border-white/30">
                 <p class="text-xs text-mint-500" id="init-hint">どちらかのエリアから1つ以上選んでね</p>
-                <button id="init-confirm" disabled class="btn-soft px-6 py-3 rounded-2xl font-medium bg-mint-200/60 text-mint-500 cursor-not-allowed">
+                <button id="init-confirm" disabled class="btn-soft rounded-2xl font-medium bg-mint-200/60 text-mint-500 cursor-not-allowed">
                     確認して続ける
                 </button>
             </div>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新規登録 | JI-日本留学ナビ</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script>
@@ -34,11 +34,11 @@
             padding: 24px;
         }
         .glass {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(15px) saturate(130%);
             -webkit-backdrop-filter: blur(15px) saturate(130%);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 24px rgba(245, 101, 163, 0.04), 0 2px 12px rgba(14, 165, 233, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.08), 0 2px 12px rgba(14, 165, 233, 0.06);
         }
         .btn-primary {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0.45) 100%) !important;
@@ -57,66 +57,115 @@
         }
         .font-serif-title { font-family: 'Noto Serif JP', 'Noto Sans JP', serif; }
         .input-glass {
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: #fff;
+            border: 1px solid #94a3b8;
             border-radius: 16px;
             padding: 12px 16px;
         }
         .input-glass:focus {
             outline: none;
-            border-color: rgba(14, 165, 233, 0.5);
-            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            border-color: #0284c7;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
         }
         .text-error { color: #e94689; font-size: 13px; font-weight: 400; }
+        .page-title-fluid { font-size: clamp(1.1rem, 4vw + 0.5rem, 1.5rem); }
+        .page-body-fluid { font-size: clamp(0.8125rem, 1.5vw + 0.4rem, 0.875rem); }
+        .btn-text-fluid { font-size: clamp(0.75rem, 1.8vw + 0.3rem, 0.875rem); }
+        /* 品牌区：浅蓝灰底 + 可见底边 */
+        .auth-brand {
+            padding: 1rem 1.25rem;
+            margin: -1.5rem -1.5rem 1.25rem -1.5rem;
+            border-radius: 1rem 1rem 0 0;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #e8f4fc 100%);
+            border-bottom: 2px solid #bae6fd;
+        }
+        @media (min-width: 640px) {
+            .auth-brand { margin: -2.5rem -2.5rem 1.25rem -2.5rem; }
+        }
+        /* 标题区：左侧色条 + 浅底 */
+        .auth-heading {
+            margin-bottom: 1.25rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            background: linear-gradient(90deg, rgba(14, 165, 233, 0.08) 0%, rgba(241, 245, 249, 0.9) 100%);
+            border-left: 4px solid #0284c7;
+        }
+        /* 表单区：明显浅灰底 + 灰色边框 */
+        .auth-form-box {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #cbd5e1;
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.8);
+        }
+        /* 提示区：浅灰底 + 深一点边框 */
+        .auth-hints {
+            background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            border: 1px solid #94a3b8;
+        }
+        .auth-hints p { margin: 0.35rem 0; font-family: 'Noto Sans SC', 'Noto Sans JP', sans-serif; font-size: 0.8125rem; color: #475569; }
+        .auth-hints p:first-child { margin-top: 0; }
+        .auth-hints p:last-child { margin-bottom: 0; }
+        .auth-hints a { color: #0284c7; font-weight: 500; text-decoration: none; }
+        .auth-hints a:hover { text-decoration: underline; }
+        @media (max-width: 768px) { body { padding: 16px; } }
     </style>
 </head>
 <body>
     <div class="w-full max-w-md">
-        <div class="glass rounded-3xl p-10">
-            <a href="index.html" class="flex items-center gap-3 mb-8 text-[#0284c7] no-underline">
-                <div class="w-12 h-12 rounded-2xl bg-[rgba(255,255,255,0.35)] backdrop-blur-sm border border-white/50 flex items-center justify-center">
-                    <i class="fas fa-compass text-xl"></i>
+        <div class="glass rounded-3xl p-6 sm:p-10">
+            <a href="index.html" class="auth-brand flex items-center gap-2 sm:gap-3 text-[#0284c7] no-underline">
+                <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[rgba(255,255,255,0.35)] backdrop-blur-sm border border-white/50 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-compass text-base sm:text-xl"></i>
                 </div>
-                <div>
-                    <h1 class="text-xl font-medium font-serif-title" style="letter-spacing: 0.06em">JI-日本留学ナビ</h1>
-                    <p class="text-xs text-slate-500 font-normal">JI-Japan Study Navigator</p>
+                <div class="min-w-0">
+                    <h1 class="page-title-fluid font-medium font-serif-title truncate" style="letter-spacing: 0.06em">JI-日本留学ナビ</h1>
+                    <p class="page-body-fluid text-slate-500 font-normal hidden sm:block">JI-Japan Study Navigator</p>
                 </div>
             </a>
-            <h2 class="text-2xl font-medium text-[#0284c7] font-serif-title mb-2" style="letter-spacing: 0.05em">新規登録</h2>
-            <p class="text-slate-500 text-sm font-normal mb-6">新しいアカウントを作成</p>
+
+            <div class="auth-heading">
+                <h2 class="page-title-fluid font-medium text-[#0284c7] font-serif-title mb-1" style="letter-spacing: 0.05em">新規登録</h2>
+                <p class="page-body-fluid text-slate-500 font-normal">新しいアカウントを作成</p>
+            </div>
 
             <div id="message" class="hidden mb-4 p-3 rounded-xl text-sm"></div>
 
-            <form id="registerForm" class="space-y-5">
-                <div>
-                    <label class="block text-slate-600 text-sm font-normal mb-2">ユーザー名</label>
-                    <input type="text" id="username" name="username" class="input-glass w-full" placeholder="3文字以上" required autocomplete="username" minlength="3">
-                    <p id="usernameError" class="text-error mt-1 hidden"></p>
-                </div>
-                <div>
-                    <label class="block text-slate-600 text-sm font-normal mb-2">メールアドレス</label>
-                    <input type="email" id="email" name="email" class="input-glass w-full" placeholder="example@email.com" required autocomplete="email">
-                    <p id="emailError" class="text-error mt-1 hidden"></p>
-                </div>
-                <div>
-                    <label class="block text-slate-600 text-sm font-normal mb-2">パスワード</label>
-                    <input type="password" id="password" name="password" class="input-glass w-full" placeholder="6文字以上" required autocomplete="new-password" minlength="6">
-                    <p id="passwordError" class="text-error mt-1 hidden"></p>
-                </div>
-                <div>
-                    <label class="block text-slate-600 text-sm font-normal mb-2">パスワード（確認）</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" class="input-glass w-full" placeholder="もう一度入力" required autocomplete="new-password">
-                    <p id="confirmError" class="text-error mt-1 hidden"></p>
-                </div>
-                <button type="submit" id="submitBtn" class="btn-primary w-full py-3.5 rounded-2xl text-sm">
-                    登録する
-                </button>
-            </form>
+            <div class="auth-form-box">
+                <form id="registerForm" class="space-y-5">
+                    <div>
+                        <label class="block text-slate-600 page-body-fluid font-normal mb-2">ユーザー名</label>
+                        <input type="text" id="username" name="username" class="input-glass w-full" placeholder="3文字以上" required autocomplete="username" minlength="3">
+                        <p id="usernameError" class="text-error mt-1 hidden"></p>
+                    </div>
+                    <div>
+                        <label class="block text-slate-600 page-body-fluid font-normal mb-2">メールアドレス</label>
+                        <input type="email" id="email" name="email" class="input-glass w-full" placeholder="example@email.com" required autocomplete="email">
+                        <p id="emailError" class="text-error mt-1 hidden"></p>
+                    </div>
+                    <div>
+                        <label class="block text-slate-600 page-body-fluid font-normal mb-2">パスワード</label>
+                        <input type="password" id="password" name="password" class="input-glass w-full" placeholder="6文字以上" required autocomplete="new-password" minlength="6">
+                        <p id="passwordError" class="text-error mt-1 hidden"></p>
+                    </div>
+                    <div>
+                        <label class="block text-slate-600 page-body-fluid font-normal mb-2">パスワード（確認）</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="input-glass w-full" placeholder="もう一度入力" required autocomplete="new-password">
+                        <p id="confirmError" class="text-error mt-1 hidden"></p>
+                    </div>
+                    <button type="submit" id="submitBtn" class="btn-primary btn-text-fluid w-full py-3 sm:py-3.5 rounded-2xl">
+                        登録する
+                    </button>
+                </form>
+            </div>
 
-            <p class="text-center text-slate-500 text-sm font-normal mt-6">
-                すでにアカウントをお持ちの方は
-                <a href="login.html" class="text-[#0284c7] font-medium hover:underline">ログイン</a>
-            </p>
+            <div class="auth-hints">
+                <p>已有账号？请先 <a href="login.html">登录</a>。</p>
+                <p>班主任/管理员请使用 <a href="admin/login.html">管理后台</a> 登录。</p>
+            </div>
         </div>
     </div>
 

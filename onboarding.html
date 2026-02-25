@@ -394,12 +394,20 @@
             content: '...';
             animation: typingDots 1.4s steps(1) infinite;
         }
+        .page-title-fluid { font-size: clamp(1rem, 3vw + 0.5rem, 1.25rem); }
+        .page-body-fluid { font-size: clamp(0.8125rem, 1.5vw + 0.4rem, 0.875rem); }
+        .btn-text-fluid { font-size: clamp(0.75rem, 1.8vw + 0.3rem, 0.875rem); }
+        @media (max-width: 768px) {
+            #onboarding-root { padding: 0 1rem; }
+            .dialog-glass { padding: 1rem !important; }
+            .nav-btn { flex-shrink: 0; white-space: nowrap; padding: 0.5rem 0.75rem !important; font-size: 0.8125rem !important; }
+        }
     </style>
 </head>
 <body>
     <script src="js/auth.js"></script><script>Auth.requireAuth();</script>
-    <div id="onboarding-root" class="w-full max-w-6xl relative">
-        <a href="index.html" class="absolute top-0 right-0 text-sm text-slate-400 hover:text-slate-600 transition-colors">
+    <div id="onboarding-root" class="w-full max-w-6xl relative mx-auto px-4 sm:px-6 py-4">
+        <a href="index.html" class="absolute top-0 right-0 page-body-fluid text-slate-400 hover:text-slate-600 transition-colors whitespace-nowrap">
             <i class="fas fa-home mr-1"></i>ホームへ
         </a>
         
@@ -418,12 +426,12 @@
             <div id="input-area"></div>
             
             <!-- 导航按钮 -->
-            <div class="flex gap-3 mt-6 pt-4 border-t border-slate-200/40 items-center justify-end">
-                <button type="button" id="btn-prev" class="nav-btn nav-glass px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-white/50 transition-all">
-                    <i class="fas fa-chevron-left mr-1.5"></i>← 戻る
+            <div class="flex gap-2 sm:gap-3 mt-4 sm:mt-6 pt-4 border-t border-slate-200/40 items-center justify-end flex-wrap">
+                <button type="button" id="btn-prev" class="nav-btn nav-glass btn-text-fluid px-3 py-2 sm:px-4 sm:py-2 rounded-xl font-medium text-slate-600 hover:bg-white/50 transition-all whitespace-nowrap">
+                    <i class="fas fa-chevron-left mr-1 sm:mr-1.5"></i>← 戻る
                 </button>
-                <button type="button" id="btn-next" class="nav-btn nav-glass px-4 py-2 rounded-xl text-sm font-medium transition-all" disabled>
-                    <i class="fas fa-chevron-right mr-1.5"></i>次へ →
+                <button type="button" id="btn-next" class="nav-btn nav-glass btn-text-fluid px-3 py-2 sm:px-4 sm:py-2 rounded-xl font-medium transition-all whitespace-nowrap" disabled>
+                    <i class="fas fa-chevron-right mr-1 sm:mr-1.5"></i>次へ →
                 </button>
             </div>
         </div>

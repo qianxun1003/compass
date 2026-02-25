@@ -81,22 +81,26 @@
         .btn-primary:hover { background: linear-gradient(180deg, var(--celadon-bright) 0%, #7ec5ce 100%); color: var(--ink); box-shadow: 0 8px 28px rgba(142, 209, 217, 0.4); transform: translateY(-3px) scale(1.04); }
         .btn-primary:active { transform: translateY(0) scale(0.96); box-shadow: 0 2px 8px rgba(47, 72, 88, 0.2) inset; transition-duration: .12s; }
         .text-error { color: #b91c1c; font-size: 13px; }
+        .page-title-fluid { font-size: clamp(1rem, 4vw + 0.5rem, 1.25rem); }
+        .page-body-fluid { font-size: clamp(0.8125rem, 1.5vw + 0.4rem, 0.875rem); }
+        .btn-text-fluid { font-size: clamp(0.75rem, 1.8vw + 0.3rem, 0.875rem); }
+        @media (max-width: 768px) { body { padding: 16px; } }
     </style>
 </head>
 <body>
     <div class="w-full max-w-md">
-        <div class="glass rounded-3xl p-8">
-            <a href="../index.html" class="flex items-center gap-3 mb-6 no-underline text-sm font-medium transition-all duration-200 active:scale-[0.98] rounded-xl py-2 px-1 -ml-1" style="color: var(--text);">
-                <i class="fas fa-compass text-xl" style="color: var(--accent-sky);"></i>
+        <div class="glass rounded-3xl p-6 sm:p-8">
+            <a href="../index.html" class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 no-underline page-body-fluid font-medium transition-all duration-200 active:scale-[0.98] rounded-xl py-2 px-1 -ml-1 whitespace-nowrap" style="color: var(--text);">
+                <i class="fas fa-compass text-lg sm:text-xl flex-shrink-0" style="color: var(--accent-sky);"></i>
                 <span>返回首页</span>
             </a>
-            <div class="flex items-center gap-4 mb-8">
-                <div class="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, var(--celadon) 0%, var(--apricot) 100%); border: 1px solid var(--border-celadon); box-shadow: 0 8px 24px rgba(47, 72, 88, 0.08), inset 0 1px 0 rgba(255,255,255,0.5);">
-                    <span class="text-3xl">🔐</span>
+            <div class="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, var(--celadon) 0%, var(--apricot) 100%); border: 1px solid var(--border-celadon); box-shadow: 0 8px 24px rgba(47, 72, 88, 0.08), inset 0 1px 0 rgba(255,255,255,0.5);">
+                    <span class="text-2xl sm:text-3xl">🔐</span>
                 </div>
-                <div>
-                    <h1 class="text-xl font-semibold tracking-tight" style="color: var(--text);">班主任 / 管理后台</h1>
-                    <p class="text-sm mt-0.5" style="color: var(--text-muted);">老师由此登录，学生请从首页登录～</p>
+                <div class="min-w-0">
+                    <h1 class="page-title-fluid font-semibold tracking-tight truncate" style="color: var(--text);">班主任 / 管理后台</h1>
+                    <p class="page-body-fluid mt-0.5 hidden sm:block" style="color: var(--text-muted);">老师由此登录，学生请从首页登录～</p>
                 </div>
             </div>
 
@@ -104,14 +108,14 @@
 
             <form id="loginForm" class="space-y-4">
                 <div>
-                    <label class="block text-sm mb-1" style="color: var(--text);">用户名</label>
+                    <label class="block page-body-fluid mb-1" style="color: var(--text);">用户名</label>
                     <input type="text" id="username" name="username" class="input-glass w-full" placeholder="输入用户名" required autocomplete="username">
                 </div>
                 <div>
-                    <label class="block text-sm mb-1" style="color: var(--text);">密码</label>
+                    <label class="block page-body-fluid mb-1" style="color: var(--text);">密码</label>
                     <input type="password" id="password" name="password" class="input-glass w-full" placeholder="输入密码" required autocomplete="current-password">
                 </div>
-                <button type="submit" id="submitBtn" class="btn-primary w-full py-3 rounded-2xl text-sm">
+                <button type="submit" id="submitBtn" class="btn-primary btn-text-fluid w-full py-2.5 sm:py-3 rounded-2xl">
                     登录
                 </button>
             </form>

@@ -37,13 +37,17 @@
             --glass-edge: rgba(255, 255, 255, 0.5);
         }
         * { font-family: 'Noto Sans SC', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif; margin: 0; padding: 0; box-sizing: border-box; font-weight: 400; }
+        html { overflow-x: hidden; width: 100%; max-width: 100vw; }
         body {
             background: linear-gradient(165deg, #E2F0F3 0%, #D2E9ED 18%, #E8EDEA 35%, #F3EBE4 50%, #F0E4DC 65%, #D8E8EB 82%, #E5F0F2 100%);
             min-height: 100vh;
             background-attachment: fixed;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
         }
         .sidebar {
-            width: 248px;
+            width: 64px;
             background: linear-gradient(180deg, rgba(232, 245, 248, 0.55) 0%, rgba(248, 242, 238, 0.5) 100%);
             backdrop-filter: blur(32px);
             -webkit-backdrop-filter: blur(32px);
@@ -56,21 +60,76 @@
             top: 0;
             display: flex;
             flex-direction: column;
+            transition: width .25s ease;
+            z-index: 100;
         }
+        .sidebar.expanded { width: min(240px, 50vw); }
+        .sidebar .sidebar-toggle {
+            position: absolute;
+            top: 1rem;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid var(--border-celadon);
+            background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(248, 245, 242, 0.9) 100%);
+            box-shadow: 0 2px 8px rgba(47, 72, 88, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 10px;
+            z-index: 10;
+            transition: transform .2s ease, background .2s ease;
+        }
+        .sidebar .sidebar-toggle:hover {
+            background: rgba(210, 233, 237, 0.6);
+            color: var(--ink-2);
+        }
+        .sidebar:not(.expanded) .sidebar-toggle i { transform: rotate(180deg); }
+        .sidebar.expanded .sidebar-toggle i { transform: rotate(0deg); }
+        .sidebar:not(.expanded) #sidebarTitle,
+        .sidebar:not(.expanded) .sidebar-footer-label,
+        .sidebar:not(.expanded) .sidebar-user-info,
+        .sidebar:not(.expanded) .nav-link-text,
+        .sidebar:not(.expanded) .btn span,
+        .sidebar:not(.expanded) #linkToStudentSide span {
+            display: none !important;
+        }
+        .sidebar:not(.expanded) .sidebar-header,
+        .sidebar:not(.expanded) .sidebar-nav a,
+        .sidebar:not(.expanded) .sidebar-user-card { justify-content: center; padding-left: 0; padding-right: 0; }
+        .sidebar:not(.expanded) .sidebar-nav a { padding: 10px; }
+        .sidebar:not(.expanded) .sidebar-header-wrap { padding: 0.75rem 0.5rem !important; }
+        .sidebar:not(.expanded) .sidebar-footer .sidebar-user-card { padding: 8px 6px; }
+        .sidebar:not(.expanded) .sidebar-footer .sidebar-user-avatar { margin: 0 auto; }
+        .sidebar:not(.expanded) #linkToStudentSide { display: none !important; }
         .sidebar-nav { flex: 1; overflow-y: auto; }
+        /* 展开时侧栏内按钮/链接保持正常宽度，不拉满整条 */
+        .sidebar.expanded .sidebar-nav { align-items: flex-start; }
+        .sidebar.expanded .sidebar-nav a { width: fit-content; max-width: 100%; }
+        .sidebar.expanded .sidebar-header-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+        .sidebar.expanded #linkToStudentSide { width: fit-content; align-self: flex-start; }
+        .sidebar.expanded .sidebar-footer .btn { width: auto; min-width: 10rem; }
         .sidebar a {
             color: var(--text);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 16px;
-            margin: 0 10px;
+            margin: 0 12px;
             transition: all .25s cubic-bezier(0.34, 1.56, 0.64, 1);
             font-weight: 500;
             letter-spacing: 0.02em;
+            min-width: 0;
+            font-size: 14px;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
+        .sidebar a span { overflow: visible; text-overflow: unset; white-space: normal; word-break: keep-all; }
         .sidebar a:hover { background: rgba(210, 233, 237, 0.5); color: var(--text); transform: translateX(4px) scale(1.01); }
         .sidebar a.active {
             background: linear-gradient(135deg, rgba(210, 233, 237, 0.55) 0%, rgba(240, 222, 212, 0.3) 100%);
@@ -79,7 +138,8 @@
             border: 1px solid var(--border-celadon);
             box-shadow: 0 2px 14px rgba(184, 220, 226, 0.25), inset 0 1px 0 rgba(255,255,255,0.5);
         }
-        .main-wrap { margin-left: 248px; min-height: 100vh; display: flex; flex-direction: column; }
+        .main-wrap { margin-left: 64px; min-height: 100vh; display: flex; flex-direction: column; transition: margin-left .25s ease; }
+        .sidebar.expanded ~ .main-wrap { margin-left: min(240px, 50vw); }
         .topbar {
             display: none; /* 去掉顶部横条，直接显示内容 */
         }
@@ -196,20 +256,29 @@
         .pool-count { font-size: 14px; color: var(--text-muted); font-weight: 500; }
         .pool-count strong { color: var(--ink-2); font-size: 1.1em; }
         .student-pool-card {
-            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
             padding: 14px 18px; margin-bottom: 10px; border-radius: 18px;
             background: linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(250,246,242,0.5) 100%);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-celadon);
             box-shadow: 0 4px 20px rgba(47, 72, 88, 0.05), inset 0 1px 0 rgba(255,255,255,0.6); transition: all .28s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-wrap: nowrap;
+            min-width: 0;
         }
         .student-pool-card:hover { transform: translateY(-3px) scale(1.008); box-shadow: 0 10px 28px rgba(53, 95, 107, 0.1); }
-        .student-pool-card .info { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+        .student-pool-card .info { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; overflow: hidden; }
         .student-pool-card .avatar { width: 40px; height: 40px; border-radius: 14px; background: linear-gradient(135deg, var(--celadon-2) 0%, var(--apricot) 100%); display: flex; align-items: center; justify-content: center; color: var(--ink-2); font-weight: 600; font-size: 1rem; flex-shrink: 0; }
-        .student-pool-card .meta .name { font-weight: 600; color: var(--text); }
-        .student-pool-card .meta .email { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-        .student-pool-card .plan-badge { font-size: 12px; color: var(--ink-2); background: linear-gradient(180deg, rgba(210, 233, 237, 0.6) 0%, rgba(248, 245, 242, 0.5) 100%); padding: 5px 12px; border-radius: 12px; }
+        .student-pool-card .meta { min-width: 0; flex: 1; }
+        .student-pool-card .meta .name { font-weight: 600; color: var(--text); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; }
+        .student-pool-card .meta .email { font-size: 10px; color: var(--text-muted); margin-top: 4px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.3; }
+        .student-pool-card .pool-card-right { display: flex; align-items: center; flex-shrink: 0; }
+        .student-pool-card .btn-remove-from-pool { white-space: nowrap; flex-shrink: 0; }
+        /* 从用户列表加入池子：加载中沙漏动画 */
+        .pool-loading-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; gap: 14px; }
+        .pool-loading-hourglass { font-size: 36px; color: var(--ink-2); animation: poolHourglassFlip 1.4s ease-in-out infinite; }
+        @keyframes poolHourglassFlip { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(180deg); } }
+        .pool-loading-text { font-size: 14px; color: var(--text-muted); }
         .pool-candidate-card {
             display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin-bottom: 8px; border-radius: 16px;
             background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(248,245,242,0.55) 100%);
@@ -222,9 +291,8 @@
         .pool-candidate-card:hover { background: linear-gradient(135deg, rgba(210, 233, 237, 0.45) 0%, rgba(248, 245, 242, 0.5) 100%); border-color: var(--ink-2); transform: scale(1.01); }
         .pool-candidate-card.in-pool { opacity: 0.82; background: rgba(210, 233, 237, 0.25); }
         .pool-candidate-card input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--ink-2); cursor: pointer; }
-        .pool-candidate-card .candidate-name { font-weight: 500; color: var(--text); }
-        .pool-candidate-card .candidate-email { font-size: 12px; color: var(--text-muted); margin-left: 8px; }
-        .pool-badge-in { font-size: 11px; padding: 3px 10px; border-radius: 10px; background: rgba(245, 216, 200, 0.65); color: #9a6b5a; font-weight: 500; margin-left: auto; }
+        .pool-candidate-card .candidate-name { font-weight: 500; color: var(--text); flex: 1; min-width: 0; }
+        .pool-badge-in { font-size: 11px; padding: 3px 10px; border-radius: 10px; background: rgba(245, 216, 200, 0.65); color: #9a6b5a; font-weight: 500; flex-shrink: 0; }
         .mindmap-box { background: linear-gradient(145deg, rgba(255,255,255,0.6) 0%, rgba(250,248,245,0.55) 100%); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 18px; padding: 0.75rem 1rem; border: 1px solid var(--border-celadon); box-shadow: 0 6px 20px rgba(47, 72, 88, 0.05), inset 0 1px 0 rgba(255,255,255,0.6); }
         .mindmap-root { display: flex; flex-direction: column; gap: 0.6rem; }
         .mindmap-row { display: flex; flex-direction: row; align-items: flex-start; gap: 0.5rem; }
@@ -283,11 +351,38 @@
         .glass-overlay { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; padding: 24px; overflow: auto; }
         .glass-overlay.show { display: flex; }
         /* 琉璃毛玻璃背景：全屏模糊质感 */
-        .glass-overlay.glass-overlay-fullscreen { background: linear-gradient(135deg, rgba(210, 233, 237, 0.12) 0%, rgba(47, 72, 88, 0.22) 50%, rgba(240, 222, 212, 0.1) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
-        .glass-overlay-panel { width: 100%; max-width: 900px; max-height: 92vh; overflow: auto; background: linear-gradient(145deg, rgba(255,255,255,0.92) 0%, rgba(252,250,248,0.88) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: 24px; border: 1px solid var(--border-celadon); box-shadow: 0 24px 56px rgba(47, 72, 88, 0.2), inset 0 1px 0 rgba(255,255,255,0.85); padding: 28px; }
-        .glass-overlay-panel h3 { margin-bottom: 20px; font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: space-between; }
-        /* 全屏一屏浮层：内容区占满视口 */
-        .glass-overlay-fullscreen .glass-overlay-panel { max-width: 96vw; max-height: 94vh; width: 100%; }
+        .glass-overlay.glass-overlay-fullscreen { background: linear-gradient(135deg, rgba(210, 233, 237, 0.12) 0%, rgba(47, 72, 88, 0.22) 50%, rgba(240, 222, 212, 0.1) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); overflow-x: hidden; }
+        .glass-overlay-panel { width: 100%; max-width: min(900px, 96vw); max-height: 92vh; overflow: auto; overflow-x: hidden; background: linear-gradient(145deg, rgba(255,255,255,0.92) 0%, rgba(252,250,248,0.88) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-radius: 24px; border: 1px solid var(--border-celadon); box-shadow: 0 24px 56px rgba(47, 72, 88, 0.2), inset 0 1px 0 rgba(255,255,255,0.85); padding: 28px; box-sizing: border-box; }
+        .glass-overlay-panel h3 { margin-bottom: 20px; font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+        /* 全屏一屏浮层：内容区占满视口，禁止横向滚动 */
+        .glass-overlay-fullscreen .glass-overlay-panel { max-width: min(96vw, 900px); max-height: 94vh; width: 100%; }
+        /* 今日和本周提醒看板：左右 50/50，窄屏上下排布；字体随视口缩放 */
+        #overlayRemind .glass-overlay-panel { max-height: 90vh; overflow: auto; overflow-x: hidden; }
+        #overlayRemind .glass-overlay-panel h3 { font-size: clamp(0.9rem, 2vw + 0.5rem, 1.1rem); margin-bottom: 12px; }
+        #overlayRemind .remind-board { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-bottom: 12px; width: 100%; min-width: 0; }
+        #overlayRemind .remind-board-block { padding: 12px; border-radius: 12px; min-width: 0; overflow: auto; }
+        #overlayRemind .remind-board-block h4 { font-size: clamp(10px, 1.5vw + 9px, 13px); margin-bottom: 6px; padding-bottom: 6px; }
+        #overlayRemind .timeline-tree, #overlayRemind .tree-date-header { font-size: clamp(10px, 1.2vw + 9px, 12px); }
+        #overlayRemind .tree-date-header { padding: 6px 10px; }
+        #overlayRemind .tree-item { font-size: clamp(9px, 1vw + 8px, 11px); padding: 2px 6px 2px 14px; }
+        #overlayRemind .tree-univ-header { padding: 4px 8px; font-size: clamp(10px, 1.2vw + 9px, 12px); }
+        #overlayRemind .tree-dept-header { font-size: clamp(9px, 1vw + 8px, 11px); padding: 2px 6px; }
+        /* 我的学生 · 今日和本周提醒：同结构，桌面 50/50，窄屏上下排布 */
+        #overlayMyStudentsRemind .glass-overlay-panel { max-height: 90vh; overflow: auto; overflow-x: hidden; }
+        #overlayMyStudentsRemind .glass-overlay-panel h3 { font-size: clamp(0.9rem, 2vw + 0.5rem, 1.1rem); margin-bottom: 12px; }
+        #overlayMyStudentsRemind .remind-board { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-bottom: 12px; max-width: 100%; width: 100%; min-width: 0; }
+        #overlayMyStudentsRemind .remind-board-block { padding: 12px; border-radius: 12px; min-width: 0; overflow: auto; }
+        #overlayMyStudentsRemind .remind-board-block h4 { font-size: clamp(10px, 1.5vw + 9px, 13px); margin-bottom: 6px; padding-bottom: 6px; }
+        #overlayMyStudentsRemind .my-students-today-table { font-size: clamp(10px, 1.2vw + 9px, 12px); }
+        #overlayMyStudentsRemind .my-students-today-table th, #overlayMyStudentsRemind .my-students-today-table td { padding: 6px 8px; }
+        #overlayMyStudentsRemind .week-timeline-day-left { width: 100px; font-size: clamp(10px, 1.2vw + 9px, 12px); padding: 6px 10px; }
+        #overlayMyStudentsRemind .week-timeline-student-name { font-size: clamp(10px, 1.2vw + 9px, 12px); }
+        /* 窄屏：今日/本周两模块上下排布，一眼看到左右不横向滚动 */
+        @media (max-width: 640px) {
+            #overlayRemind .remind-board { grid-template-columns: 1fr; }
+            #overlayMyStudentsRemind .remind-board { grid-template-columns: 1fr; }
+            .glass-overlay-fullscreen .glass-overlay-panel { padding: 16px; max-width: 100vw; border-radius: 16px; }
+        }
         /* 每日/每周提醒看板 */
         .remind-board { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
         .remind-board-block { background: linear-gradient(135deg, rgba(210, 233, 237, 0.4) 0%, rgba(248, 245, 242, 0.5) 100%); border: 1px solid var(--border-celadon); border-radius: 16px; padding: 16px; }
@@ -369,18 +464,18 @@
         .dashboard-feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 100%; }
         @media (max-width: 900px) { .dashboard-feature-grid { grid-template-columns: 1fr; } }
         .dashboard-feature-card {
-            min-height: 200px; border-radius: 22px; border: 1px solid var(--border-celadon);
+            min-height: 72px; border-radius: 16px; border: 1px solid var(--border-celadon);
             background: linear-gradient(145deg, rgba(255,255,255,0.6) 0%, rgba(252,250,248,0.55) 100%);
             backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
             box-shadow: 0 12px 40px rgba(47, 72, 88, 0.08), inset 0 1px 0 rgba(255,255,255,0.7);
             overflow: hidden; transition: all .3s ease; cursor: pointer;
         }
-        .dashboard-feature-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(53, 95, 107, 0.12); border-color: var(--celadon-2); }
+        .dashboard-feature-card:hover { transform: translateY(-2px); box-shadow: 0 16px 48px rgba(53, 95, 107, 0.12); border-color: var(--celadon-2); }
         .dashboard-feature-card.dashboard-feature-btn { cursor: pointer; }
-        .dashboard-feature-head { padding: 28px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-        .dashboard-feature-head .title { font-size: 18px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 12px; }
-        .dashboard-feature-head .title i { font-size: 22px; color: var(--accent-sky); }
-        .dashboard-feature-head .chevron { color: var(--text-muted); }
+        .dashboard-feature-head { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 72px; box-sizing: border-box; }
+        .dashboard-feature-head .title { font-size: 16px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 10px; }
+        .dashboard-feature-head .title i { font-size: 18px; color: var(--accent-sky); }
+        .dashboard-feature-head .chevron { color: var(--text-muted); font-size: 16px; }
         /* 本周表：曜日 + 予定（参考附图） */
         .week-schedule-table { width: 100%; border-collapse: collapse; font-size: 13px; border-radius: 14px; overflow: hidden; background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(250,248,245,0.8) 100%); border: 1px solid var(--border-celadon); }
         .week-schedule-table th, .week-schedule-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(184, 220, 226, 0.4); color: var(--text); }
@@ -457,8 +552,25 @@
         @media (max-width: 700px) { .dashboard-feature-grid-four { grid-template-columns: 1fr; } }
         /* 学生个人详情浮层：占屏约 2/3 高、右侧竖导航、顶部小叉关闭 */
         .glass-overlay-panel.with-side-nav { position: relative; overflow: hidden; max-height: 66.67vh; height: 66.67vh; width: 94vw; max-width: 1000px; }
-        .glass-overlay-panel.with-side-nav .panel-main { overflow: auto; padding: 28px; min-width: 0; }
+        .glass-overlay-panel.with-side-nav .panel-main {
+            overflow: auto; overflow-x: hidden; padding: 28px; min-width: 0;
+            background: linear-gradient(180deg, rgba(248,252,253,0.5) 0%, rgba(252,250,248,0.4) 100%);
+            border-radius: 0 24px 24px 0;
+        }
         .glass-overlay-panel.with-side-nav .panel-main h3 { padding-right: 48px; }
+        /* 学生个人详情：主内容区分块、带背景与边框，更精致 */
+        .panel-main .panel-main-section {
+            background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(248,250,252,0.7) 100%);
+            border: 1px solid rgba(184, 220, 226, 0.5);
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(47, 72, 88, 0.04), inset 0 1px 0 rgba(255,255,255,0.8);
+        }
+        .panel-main .panel-main-section:last-child { margin-bottom: 0; }
+        .panel-main .panel-main-section label { color: var(--ink-2); font-weight: 500; }
+        .panel-main .panel-main-section .input-field { margin-top: 6px; }
+        .panel-main h3 { font-size: clamp(1rem, 2vw + 0.5rem, 1.2rem); color: var(--ink-2); padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid rgba(184, 220, 226, 0.5); }
         /* 弹窗顶部小叉（与玻璃柜区分） */
         .glass-overlay-panel-close-x { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--text-muted); cursor: pointer; z-index: 20; transition: color .2s, background .2s; }
         .glass-overlay-panel-close-x:hover { color: var(--ink-2); background: rgba(210, 233, 237, 0.4); }
@@ -498,8 +610,9 @@
         .week-timeline-item .item-label { color: var(--ink-2); font-weight: 500; }
         /* 学生个人详情：右上角玻璃柜（竖排三格、无缝隙一体） */
         .glass-overlay-panel.with-side-nav { position: relative; }
-        .panel-side-nav-cabinet { position: absolute; top: 52px; right: 16px; width: 72px; display: flex; flex-direction: column; gap: 0; z-index: 10; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 16px rgba(47, 72, 88, 0.08), inset 0 1px 0 rgba(255,255,255,0.8); border: 1px solid var(--border-celadon); background: linear-gradient(145deg, rgba(255,255,255,0.7) 0%, rgba(210, 233, 237, 0.35) 100%); }
-        .panel-side-nav-cabinet a { display: flex; align-items: center; justify-content: center; padding: 14px 8px; border-radius: 0; font-size: 12px; font-weight: 500; color: var(--text); text-decoration: none; text-align: center; border: none; border-bottom: 1px solid rgba(184, 220, 226, 0.5); box-shadow: none; transition: all .2s; flex: 1; min-height: 44px; }
+        .panel-side-nav-cabinet { position: absolute; top: 52px; right: 16px; width: 100px; display: flex; flex-direction: column; gap: 0; z-index: 10; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 16px rgba(47, 72, 88, 0.08), inset 0 1px 0 rgba(255,255,255,0.8); border: 1px solid var(--border-celadon); background: linear-gradient(145deg, rgba(255,255,255,0.7) 0%, rgba(210, 233, 237, 0.35) 100%); }
+        .panel-side-nav-cabinet-hint { font-size: 10px; color: var(--text-muted); padding: 10px 8px 8px; line-height: 1.35; text-align: center; border-bottom: 1px solid rgba(184, 220, 226, 0.5); flex-shrink: 0; }
+        .panel-side-nav-cabinet a { display: flex; align-items: center; justify-content: center; padding: 12px 8px; border-radius: 0; font-size: 11px; font-weight: 500; color: var(--text); text-decoration: none; text-align: center; border: none; border-bottom: 1px solid rgba(184, 220, 226, 0.5); box-shadow: none; transition: all .2s; flex: 1; min-height: 40px; }
         .panel-side-nav-cabinet a:last-child { border-bottom: none; }
         .panel-side-nav-cabinet a:hover { background: linear-gradient(145deg, rgba(210, 233, 237, 0.5) 0%, rgba(248, 245, 242, 0.6) 100%); color: var(--ink-2); transform: none; box-shadow: none; }
         /* 学生个人详情卡（二层浮层）：占屏约 2/3 高、顶部小叉关闭 */
@@ -517,26 +630,44 @@
         .pool-timeline-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
         .pool-timeline-label { min-width: 88px; font-size: 14px; font-weight: 500; color: var(--text); }
         .pool-timeline-input { min-width: 200px; max-width: 320px; }
+        .page-title-fluid { font-size: clamp(0.95rem, 2.5vw + 0.5rem, 1.25rem); }
+        .page-body-fluid { font-size: clamp(0.8125rem, 1.5vw + 0.4rem, 0.875rem); }
+        .btn-text-fluid { font-size: clamp(0.75rem, 1.8vw + 0.3rem, 0.875rem); }
+        @media (max-width: 768px) {
+            .sidebar { width: 64px; padding: 0.5rem 0; border-radius: 0 16px 16px 0; }
+            .sidebar.expanded { width: min(240px, 50vw); }
+            .sidebar .sidebar-header-wrap { padding: 0.5rem 0.25rem !important; }
+            .sidebar-nav a { padding: 8px 6px; font-size: 0.7rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-shrink: 0; }
+            .sidebar .sidebar-user-card { justify-content: center; min-height: 40px; padding: 8px 6px; }
+            .sidebar .btn { font-size: 0.7rem; padding: 6px 8px; }
+            .main-wrap { margin-left: 64px !important; }
+            .sidebar.expanded ~ .main-wrap { margin-left: min(240px, 50vw) !important; }
+            .content { padding: 1rem !important; }
+            .card { padding: 1rem !important; }
+        }
     </style>
 </head>
 <body>
-    <nav class="sidebar">
-        <div class="pt-6 px-4 pb-8 border-b" style="border-color: var(--border-ice);">
-            <a id="linkToStudentIndex" href="../index.html" class="!p-0 !bg-transparent hover:!bg-transparent flex items-center gap-2" style="color: var(--text); font-weight: 600;">
-                <i class="fas fa-compass text-lg" style="color: var(--accent-sky);"></i>
-                <span class="font-semibold" id="sidebarTitle">班主任后台</span>
-            </a>
+    <nav class="sidebar" id="adminSidebar">
+        <div class="sidebar-header-wrap pt-6 px-4 pb-8 border-b relative" style="border-color: var(--border-ice);">
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="展开/收起导航"><i class="fas fa-chevron-left"></i></button>
+            <div class="sidebar-header flex items-center gap-2">
+                <a id="linkToStudentIndex" href="../index.html" class="!p-0 !bg-transparent hover:!bg-transparent flex items-center gap-2" style="color: var(--text); font-weight: 600;">
+                    <i class="fas fa-compass text-lg" style="color: var(--accent-sky);"></i>
+                    <span class="font-semibold" id="sidebarTitle">班主任后台</span>
+                </a>
+            </div>
             <a id="linkToStudentSide" href="../index.html" class="mt-10 flex items-center gap-2 rounded-xl px-4 py-3 text-sm transition-all duration-200 border" style="color: var(--text); border-color: var(--border-ice); background: rgba(210, 233, 237, 0.45);">
                 <i class="fas fa-external-link-alt text-xs"></i>
                 <span>去学生端（选校·出愿）</span>
             </a>
         </div>
         <div class="sidebar-nav p-2 pt-5 space-y-1">
-            <a href="#" class="nav-link active" data-page="dashboard">📅 出愿时间轴</a>
-            <a href="#" class="nav-link" data-page="users">👥 用户管理</a>
-            <a href="#" class="nav-link nav-super" data-page="account-mgmt" style="display:none">🔑 账号管理</a>
-            <a href="#" class="nav-link" data-page="my-students">🎓 我的学生</a>
-            <a href="#" class="nav-link" data-page="data-update">🗄️ 数据库更新</a>
+            <a href="#" class="nav-link active" data-page="dashboard">📅 <span class="nav-link-text">出愿时间轴</span></a>
+            <a href="#" class="nav-link" data-page="users">👥 <span class="nav-link-text">用户管理</span></a>
+            <a href="#" class="nav-link nav-super" data-page="account-mgmt" style="display:none">🔑 <span class="nav-link-text">账号管理</span></a>
+            <a href="#" class="nav-link" data-page="my-students">🎓 <span class="nav-link-text">我的学生</span></a>
+            <a href="#" class="nav-link" data-page="data-update">🗄️ <span class="nav-link-text">数据库更新</span></a>
         </div>
         <div class="sidebar-footer mt-auto flex-shrink-0 p-4 border-t" style="border-color: var(--border-ice);">
             <p class="sidebar-footer-label">当前登录</p>
@@ -547,7 +678,7 @@
                     <span class="sidebar-user-role" id="adminRoleLabel">班主任</span>
                 </div>
             </div>
-            <button type="button" class="btn btn-ghost w-full mt-3 text-sm" id="btnLogout"><i class="fas fa-sign-out-alt"></i> 退出登录</button>
+            <button type="button" class="btn btn-ghost w-full mt-3 text-sm" id="btnLogout"><i class="fas fa-sign-out-alt"></i><span>退出登录</span></button>
         </div>
     </nav>
 
@@ -563,13 +694,13 @@
                 <div class="dashboard-feature-grid">
                     <div class="dashboard-feature-card dashboard-feature-btn" id="featureRemindCard" role="button" tabindex="0">
                         <div class="dashboard-feature-head">
-                            <span class="title">📋 今日和本周提醒看板</span>
+                            <span class="title">今日和本周提醒看板</span>
                             <i class="fas fa-chevron-right chevron"></i>
                         </div>
                     </div>
                     <div class="dashboard-feature-card dashboard-feature-btn" id="featureTimelineCard" role="button" tabindex="0">
                         <div class="dashboard-feature-head">
-                            <span class="title">⏱️ 智能出愿时间轴</span>
+                            <span class="title">智能出愿时间轴</span>
                             <i class="fas fa-chevron-right chevron"></i>
                         </div>
                     </div>
@@ -579,8 +710,8 @@
             <!-- 浮层1：今日和本周提醒看板（全屏琉璃毛玻璃） -->
             <div id="overlayRemind" class="glass-overlay glass-overlay-fullscreen">
                 <div class="glass-overlay-panel">
-                    <h3><span>📋 今日和本周提醒看板</span><button type="button" class="btn btn-ghost btn-sm" id="closeOverlayRemind"><i class="fas fa-times"></i> 关闭</button></h3>
-                    <div class="remind-board" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <h3><span>今日和本周提醒看板</span><button type="button" class="btn btn-ghost btn-sm" id="closeOverlayRemind"><i class="fas fa-times"></i> 关闭</button></h3>
+                    <div class="remind-board">
                         <div class="remind-board-block" id="boardTodayBlock">
                             <h4>📌 今日要提醒</h4>
                             <div id="boardTodayAssistant" class="today-assistant" style="display: none;"></div>
@@ -606,7 +737,7 @@
             <!-- 浮层：我的学生 · 今日和本周提醒（全屏琉璃毛玻璃） -->
             <div id="overlayMyStudentsRemind" class="glass-overlay glass-overlay-fullscreen">
                 <div class="glass-overlay-panel">
-                    <h3><span>📋 我的学生 · 今日和本周提醒</span><button type="button" class="btn btn-ghost btn-sm" id="closeOverlayMyStudentsRemind"><i class="fas fa-times"></i> 关闭</button></h3>
+                    <h3><span>我的学生 · 今日和本周提醒</span><button type="button" class="btn btn-ghost btn-sm" id="closeOverlayMyStudentsRemind"><i class="fas fa-times"></i> 关闭</button></h3>
                     <div id="myStudentsRemindLoading" class="my-students-remind-loading">
                         <div class="hourglass-drip">
                             <i class="fas fa-hourglass-half hourglass-icon"></i>
@@ -615,7 +746,7 @@
                     </div>
                     <div id="myStudentsRemindContent" class="hidden">
                     <p class="text-slate-500 text-sm mb-4">数据来自你已加入学生池的学生的出愿清单。</p>
-                    <div class="remind-board" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="remind-board">
                         <div class="remind-board-block my-students-today-block" id="myStudentsBoardTodayBlock">
                             <h4>📌 今日要提醒</h4>
                             <div class="table-wrap my-students-today-table-wrap">
@@ -648,7 +779,7 @@
             <!-- 浮层：学生池（查看/增删学生） -->
             <div id="overlayPool" class="glass-overlay glass-overlay-fullscreen">
                 <div class="glass-overlay-panel">
-                    <h3><span>👥 学生池</span><button type="button" class="btn btn-ghost btn-sm" id="closeOverlayPool"><i class="fas fa-times"></i> 关闭</button></h3>
+                    <h3><span>学生池</span><button type="button" class="btn btn-ghost btn-sm" id="closeOverlayPool"><i class="fas fa-times"></i> 关闭</button></h3>
                     <p class="text-slate-500 text-sm mb-4">查看学生用户，从用户列表加入或移出学生池。</p>
                     <div class="flex flex-wrap gap-3 items-center mb-4">
                         <input type="text" id="myStudentsSearch" class="input-field max-w-xs" placeholder="按学生姓名搜索">
@@ -661,7 +792,7 @@
             <!-- 浮层：智能时间轴（四条件：维度、学生、开始、截止，填完后点开始生成） -->
             <div id="overlayPoolTimeline" class="glass-overlay glass-overlay-fullscreen">
                 <div class="glass-overlay-panel">
-                    <h3><span>⏱️ 智能时间轴</span><button type="button" class="btn btn-ghost btn-sm" id="closeOverlayPoolTimeline"><i class="fas fa-times"></i> 关闭</button></h3>
+                    <h3><span>智能时间轴</span><button type="button" class="btn btn-ghost btn-sm" id="closeOverlayPoolTimeline"><i class="fas fa-times"></i> 关闭</button></h3>
                     <p class="text-slate-500 text-sm mb-4">请依次选择以下四个条件，然后点击最下方「开始生成时间轴」。</p>
                     <div class="pool-timeline-conditions">
                         <div class="pool-timeline-row">
@@ -707,21 +838,20 @@
             <div id="overlayStudentDetail" class="glass-overlay glass-overlay-fullscreen">
                 <div class="glass-overlay-panel with-side-nav">
                     <button type="button" class="glass-overlay-panel-close-x" id="closeOverlayStudentDetail" title="关闭"><i class="fas fa-times"></i></button>
-                    <div class="panel-main" style="padding-right: 92px;">
-                        <h3><span>👤 学生个人详情</span></h3>
-                        <p class="text-slate-500 text-sm mb-4">选择学生后，将弹出该生的详情（出愿一览、本周待办、成绩、发送提醒）。右上角可跳转条件检索、快速检索、成绩匹配为学生添加学校。</p>
-                        <div class="mb-4">
-                            <label class="text-sm font-medium" style="color: var(--text);">选择学生：</label>
-                            <select id="studentDetailSelect" class="input-field max-w-xs mt-1">
+                    <div class="panel-main" style="padding-right: 116px;">
+                        <h3><span>学生个人详情</span></h3>
+                        <div class="panel-main-section">
+                            <label class="text-sm font-medium block" style="color: var(--text);">选择学生</label>
+                            <select id="studentDetailSelect" class="input-field max-w-xs mt-1 w-full">
                                 <option value="">— 请选择 —</option>
                             </select>
                         </div>
-                        <p id="studentDetailSelectHint" class="text-slate-500 text-sm">选择上方学生后，将弹出其个人详情浮层。</p>
                     </div>
                     <div class="panel-side-nav-cabinet">
-                        <a id="linkToCompassFilter" href="../compass_filter.html?from=admin" target="_blank" rel="noopener">🔍 条件检索</a>
-                        <a id="linkToCompassSearch" href="../compass_search.html?from=admin" target="_blank" rel="noopener">⚡ 快速检索</a>
-                        <a id="linkToCompassScore" href="../compass_score.html?from=admin" target="_blank" rel="noopener">📊 成绩匹配</a>
+                        <p class="panel-side-nav-cabinet-hint">帮学生添加出愿：点击下方入口可为该学生添加学校</p>
+                        <a id="linkToCompassFilter" href="../compass_filter.html?from=admin" target="_blank" rel="noopener" title="条件筛选后可为学生加入志望校">条件检索</a>
+                        <a id="linkToCompassSearch" href="../compass_search.html?from=admin" target="_blank" rel="noopener" title="快速搜索后可为学生加入志望校">快速检索</a>
+                        <a id="linkToCompassScore" href="../compass_score.html?from=admin" target="_blank" rel="noopener" title="成绩匹配后可为学生加入志望校">成绩匹配</a>
                     </div>
                 </div>
             </div>
@@ -787,7 +917,6 @@
             </div>
             <!-- 用户管理 -->
             <section id="section-users" class="page-section">
-                <p id="sectionUsersIntro" class="text-slate-500 text-xs mb-2">可将现有用户改为学生、班主任或管理员：在下方表格每一行最右侧<strong>「操作」</strong>列点击<strong>「编辑」</strong>按钮，在弹窗中修改「角色」（学生/班主任/管理员）后点保存即可。若看不到用户列表：请用 <strong>http://localhost:3000/admin/</strong> 打开本页。</p>
                 <p id="sectionUsersIntroTeacher" class="text-slate-500 text-xs mb-2 hidden">此处仅可查看用户列表与角色信息；修改用户角色（学生/班主任/管理员）或状态需由管理员在后台操作。</p>
                 <div class="card mb-4">
                     <div class="flex flex-wrap gap-3 items-center">
@@ -820,31 +949,31 @@
                 </div>
             </section>
 
-            <!-- 我的学生：四宫格按钮入口，点击弹出对应浮层 -->
+            <!-- 我的学生：四宫格按钮入口（学生池放第一），点击弹出对应浮层 -->
             <section id="section-my-students" class="page-section">
                 <h3 class="font-semibold mb-5" style="color: var(--text);">🎓 我的学生</h3>
                 <div class="dashboard-feature-grid-four">
-                    <div class="dashboard-feature-card dashboard-feature-btn" id="featureMyStudentsRemindCard" role="button" tabindex="0">
+                    <div class="dashboard-feature-card dashboard-feature-btn" id="featurePoolCard" role="button" tabindex="0">
                         <div class="dashboard-feature-head">
-                            <span class="title">📋 今日和本周提醒</span>
+                            <span class="title">学生池</span>
                             <i class="fas fa-chevron-right chevron"></i>
                         </div>
                     </div>
-                    <div class="dashboard-feature-card dashboard-feature-btn" id="featurePoolCard" role="button" tabindex="0">
+                    <div class="dashboard-feature-card dashboard-feature-btn" id="featureMyStudentsRemindCard" role="button" tabindex="0">
                         <div class="dashboard-feature-head">
-                            <span class="title">👥 学生池</span>
+                            <span class="title">今日和本周提醒</span>
                             <i class="fas fa-chevron-right chevron"></i>
                         </div>
                     </div>
                     <div class="dashboard-feature-card dashboard-feature-btn" id="featurePoolTimelineCard" role="button" tabindex="0">
                         <div class="dashboard-feature-head">
-                            <span class="title">⏱️ 智能时间轴</span>
+                            <span class="title">智能时间轴</span>
                             <i class="fas fa-chevron-right chevron"></i>
                         </div>
                     </div>
                     <div class="dashboard-feature-card dashboard-feature-btn" id="featureStudentDetailCard" role="button" tabindex="0">
                         <div class="dashboard-feature-head">
-                            <span class="title">👤 学生个人详情</span>
+                            <span class="title">学生个人详情</span>
                             <i class="fas fa-chevron-right chevron"></i>
                         </div>
                     </div>
@@ -858,13 +987,13 @@
                 <div class="dashboard-feature-grid-four" style="max-width: 560px;">
                     <div class="dashboard-feature-card dashboard-feature-btn" id="featureAddTeacherCard" role="button" tabindex="0">
                         <div class="dashboard-feature-head">
-                            <span class="title">👤 添加班主任</span>
+                            <span class="title">添加班主任</span>
                             <i class="fas fa-chevron-right chevron"></i>
                         </div>
                     </div>
                     <div class="dashboard-feature-card dashboard-feature-btn" id="featureCreateAccountCard" role="button" tabindex="0">
                         <div class="dashboard-feature-head">
-                            <span class="title">✏️ 生成学生账号</span>
+                            <span class="title">生成学生账号</span>
                             <i class="fas fa-chevron-right chevron"></i>
                         </div>
                     </div>
@@ -1021,6 +1150,19 @@
     <script src="js/admin-auth.js"></script>
     <script>
         if (!AdminAuth.requireAdmin()) throw new Error('redirect');
+        (function() {
+            var sidebar = document.getElementById('adminSidebar');
+            var toggle = document.getElementById('sidebarToggle');
+            var key = 'adminSidebarExpanded';
+            if (sidebar && toggle) {
+                var expanded = localStorage.getItem(key) === '1';
+                if (expanded) sidebar.classList.add('expanded');
+                toggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('expanded');
+                    localStorage.setItem(key, sidebar.classList.contains('expanded') ? '1' : '0');
+                });
+            }
+        })();
         var apiBase = AdminAuth.getApiBase();
         var adminUser = AdminAuth.getUser();
         var adminMe = { role: adminUser && adminUser.role ? adminUser.role : 'admin' };
@@ -1035,7 +1177,7 @@
             var isSuper = role === 'super_admin' || role === 'admin';
             document.querySelectorAll('.nav-super').forEach(function(el) { el.style.display = isSuper ? '' : 'none'; });
             var btnAdd = document.getElementById('btnAddStudent');
-            if (btnAdd) btnAdd.style.display = isSuper ? 'none' : '';
+            if (btnAdd) btnAdd.style.display = ''; /* 管理员与班主任均显示「从用户列表加入池子」 */
             var label = isSuper ? '管理员' : '班主任';
             var labelEl = document.getElementById('adminRoleLabel');
             if (labelEl) labelEl.textContent = label;
@@ -2144,12 +2286,10 @@
                 container.innerHTML = '<p class="text-slate-500">未找到匹配「' + escapeHtml(searchVal) + '」的学生。</p>';
                 return;
             }
-            var superAdmin = isSuper();
             container.innerHTML = filtered.map(function(s) {
-                var planCount = s.plan_count != null ? s.plan_count : 0;
                 var initial = (s.username || '?').charAt(0).toUpperCase();
-                var removeBtn = superAdmin ? '' : '<button type="button" class="btn btn-ghost btn-sm btn-remove-from-pool" data-id="' + s.id + '" title="从学生池中移出该用户"><i class="fas fa-user-minus mr-1"></i>移出池子</button>';
-                return '<div class="student-pool-card"><div class="info"><div class="avatar">' + escapeHtml(initial) + '</div><div class="meta"><div class="name">' + escapeHtml(s.username || '') + '</div><div class="email">' + escapeHtml(s.email || '') + '</div></div><span class="plan-badge">出愿 ' + planCount + ' 条</span></div><div class="flex items-center gap-2">' + removeBtn + '</div></div>';
+                var removeBtn = '<button type="button" class="btn btn-ghost btn-sm btn-remove-from-pool" data-id="' + s.id + '" title="从学生池中移出该用户"><i class="fas fa-user-minus mr-1"></i>移出池子</button>';
+                return '<div class="student-pool-card"><div class="info"><div class="avatar">' + escapeHtml(initial) + '</div><div class="meta"><div class="name">' + escapeHtml(s.username || '') + '</div><div class="email">' + escapeHtml(s.email || '') + '</div></div></div><div class="pool-card-right">' + removeBtn + '</div></div>';
             }).join('');
             container.querySelectorAll('.btn-remove-from-pool').forEach(function(btn) {
                 btn.onclick = function() {
@@ -2435,7 +2575,7 @@
         };
         document.getElementById('btnAddStudent').onclick = function() {
             document.getElementById('noAvailableStudents').classList.add('hidden');
-            document.getElementById('availableStudentsList').innerHTML = '<span class="text-slate-400">加载中…</span>';
+            document.getElementById('availableStudentsList').innerHTML = '<div class="pool-loading-wrap"><div class="pool-loading-hourglass"><i class="fas fa-hourglass-half"></i></div><p class="pool-loading-text">稍等…</p></div>';
             document.getElementById('addStudentModal').style.display = 'flex';
             document.getElementById('addStudentModal').classList.remove('hidden');
             fetch(apiBase + '/api/admin/teacher/students/available', { headers: authHeaders() })
@@ -2461,7 +2601,7 @@
                         var inPool = s.inPool === true;
                         var check = !inPool ? '<input type="checkbox" class="pool-candidate-check" data-id="' + s.id + '">' : '';
                         var badge = inPool ? '<span class="pool-badge-in">已在池中</span>' : '';
-                        return '<label class="pool-candidate-card' + (inPool ? ' in-pool' : '') + '">' + check + '<span class="candidate-name">' + escapeHtml(s.username || '') + '</span><span class="candidate-email">' + escapeHtml(s.email || '') + '</span>' + badge + '</label>';
+                        return '<label class="pool-candidate-card' + (inPool ? ' in-pool' : '') + '">' + check + '<span class="candidate-name">' + escapeHtml(s.username || '') + '</span>' + badge + '</label>';
                     }).join('');
                 });
         };

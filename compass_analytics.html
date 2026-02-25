@@ -297,19 +297,25 @@
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: rgba(226, 232, 240, 0.6); border-radius: 8px; }
         ::-webkit-scrollbar-thumb { background: var(--warm-beige); border-radius: 8px; }
+        .page-title-fluid { font-size: clamp(0.95rem, 2.5vw + 0.5rem, 1.25rem); }
+        .page-body-fluid { font-size: clamp(0.8125rem, 1.5vw + 0.4rem, 0.875rem); }
+        @media (max-width: 768px) {
+            .nav-inner-analytics { flex-wrap: wrap; gap: 0.5rem; }
+            main { padding-left: 1rem !important; padding-right: 1rem !important; }
+        }
     </style>
 </head>
 <body>
     <script src="js/auth.js"></script><script>Auth.requireAuth();</script>
     <nav class="sticky top-0 z-50 glass border-b border-slate-200 rounded-none">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-4">
-            <div class="flex items-center gap-3">
-                <a href="index.html" class="w-10 h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-all" title="戻る">
-                    <i class="fas fa-arrow-left text-base"></i>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+            <div class="flex items-center gap-2 sm:gap-3 nav-inner-analytics">
+                <a href="index.html" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-all flex-shrink-0" title="戻る">
+                    <i class="fas fa-arrow-left text-sm sm:text-base"></i>
                 </a>
-                <div>
-                    <h1 class="text-lg" style="color: var(--text-primary)">データ分析</h1>
-                    <p class="text-xs" style="color: var(--text-secondary)">Analytics</p>
+                <div class="min-w-0">
+                    <h1 class="page-title-fluid font-medium truncate" style="color: var(--text-primary)">データ分析</h1>
+                    <p class="page-body-fluid hidden sm:block" style="color: var(--text-secondary)">Analytics</p>
                 </div>
             </div>
         </div>
