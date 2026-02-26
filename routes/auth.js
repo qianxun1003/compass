@@ -4,6 +4,11 @@ const jwt = require('jsonwebtoken');
 const { pool } = require('../db.js');
 const { JWT_SECRET } = require('../middleware/auth.js');
 const { authMiddleware } = require('../middleware/auth.js');
+const { writeOperationLog } = require('../lib/operationLog.js');
+
+function getIp(req) {
+  return req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || null;
+}
 
 const router = express.Router();
 
@@ -36,6 +41,13 @@ router.post('/register', async (req, res) => {
       [String(username).trim(), String(email).trim().toLowerCase(), hashed]
     );
     const user = result.rows[0];
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 19).replace('T', ' ');
+    writeOperationLog(pool, user.id, user.username, 'user_register', 'user', String(user.id), getIp(req), 'success', {
+      user_id: user.id,
+      username: user.username,
+      description_zh: `用户 ${user.username} 于 ${dateStr} 自行注册（学生账号）`,
+    });
     res.status(201).json({
       message: '注册成功',
       user: { id: user.id, username: user.username, email: user.email }

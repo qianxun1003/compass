@@ -63,7 +63,7 @@
             transition: width .25s ease;
             z-index: 100;
         }
-        .sidebar.expanded { width: 50vw; }
+        .sidebar.expanded { width: 33.33vw; max-width: 33.33vw; }
         .sidebar .sidebar-toggle {
             position: absolute;
             top: 1rem;
@@ -140,7 +140,7 @@
             box-shadow: 0 2px 14px rgba(184, 220, 226, 0.25), inset 0 1px 0 rgba(255,255,255,0.5);
         }
         .main-wrap { margin-left: 64px; min-height: 100vh; display: flex; flex-direction: column; transition: margin-left .25s ease; }
-        .sidebar.expanded ~ .main-wrap { margin-left: 50vw; }
+        .sidebar.expanded ~ .main-wrap { margin-left: 33.33vw; }
         .topbar {
             display: none; /* 去掉顶部横条，直接显示内容 */
         }
@@ -256,6 +256,28 @@
         }
         .btn-edit-user:hover { background: rgba(210, 233, 237, 0.6); transform: scale(1.03); }
         .table-wrap th:last-child, .table-wrap td:last-child { white-space: nowrap; min-width: 100px; }
+        /* 操作日志表格：时间/操作人/动作/结果/IP 优先保证可见，描述列窄+内部滚动条 */
+        .log-table-wrap .log-table { font-size: 12px; table-layout: fixed; width: 100%; }
+        .log-table-wrap .log-table th,
+        .log-table-wrap .log-table td { padding: 6px 8px; font-size: 12px; vertical-align: top; }
+        .log-table-wrap .log-table th:nth-child(1), .log-table-wrap .log-table td:nth-child(1) { width: 18%; min-width: 110px; white-space: nowrap; }
+        .log-table-wrap .log-table th:nth-child(2), .log-table-wrap .log-table td:nth-child(2) { width: 12%; min-width: 64px; white-space: nowrap; }
+        .log-table-wrap .log-table th:nth-child(3), .log-table-wrap .log-table td:nth-child(3) { width: 20%; min-width: 100px; white-space: nowrap; }
+        .log-table-wrap .log-table th:nth-child(4), .log-table-wrap .log-table td:nth-child(4) { width: 18%; min-width: 100px; }
+        .log-table-wrap .log-table th:nth-child(5), .log-table-wrap .log-table td:nth-child(5) { width: 10%; min-width: 52px; white-space: nowrap; }
+        .log-table-wrap .log-table th:nth-child(6), .log-table-wrap .log-table td:nth-child(6) { width: 22%; min-width: 90px; white-space: nowrap; font-size: 11px; }
+        .log-table-wrap .log-table .log-cell-time,
+        .log-table-wrap .log-table .log-cell-operator,
+        .log-table-wrap .log-table .log-cell-action,
+        .log-table-wrap .log-table .log-cell-result,
+        .log-table-wrap .log-table .log-cell-ip { overflow: hidden; text-overflow: ellipsis; }
+        .log-table-wrap .log-table .log-cell-desc { padding: 4px 6px; overflow: hidden; }
+        .log-table-wrap .log-table .log-cell-desc .log-desc-inner { max-height: 3.6em; overflow-y: auto; overflow-x: hidden; word-break: break-word; white-space: normal; line-height: 1.3; font-size: 11px; padding-right: 2px; }
+        .log-table-wrap .log-table .log-cell-desc .log-desc-inner::-webkit-scrollbar { width: 6px; }
+        .log-table-wrap .log-table .log-cell-desc .log-desc-inner::-webkit-scrollbar-thumb { background: rgba(184, 220, 226, 0.6); border-radius: 3px; }
+        .log-table-wrap { -webkit-overflow-scrolling: touch; max-width: 100%; }
+        .log-table-wrap .log-table { min-width: 580px; }
+        .log-table-hint { display: none; }
         .table-wrap th:last-child { position: sticky; right: 0; background: linear-gradient(90deg, rgba(210, 233, 237, 0.85) 0%, rgba(252, 250, 248, 0.9) 100%); z-index: 1; box-shadow: -4px 0 8px rgba(0,0,0,0.04), inset 1px 0 0 rgba(255,255,255,0.5); }
         .table-wrap td:last-child { position: sticky; right: 0; background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(250,248,244,0.92) 100%); z-index: 0; box-shadow: -4px 0 8px rgba(0,0,0,0.03); }
         .pool-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
@@ -708,18 +730,30 @@
         .btn-text-fluid { font-size: clamp(0.75rem, 1.8vw + 0.3rem, 0.875rem); }
         @media (max-width: 768px) {
             .sidebar { width: 64px; padding: 0.5rem 0; border-radius: 0 16px 16px 0; }
-            .sidebar.expanded { width: 50vw; }
+            .sidebar.expanded { width: 33.33vw; max-width: 33.33vw; }
             .sidebar .sidebar-header-wrap { padding: 0.5rem 0.35rem !important; }
             .sidebar-nav a { padding: 10px 8px; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-shrink: 0; min-width: 0; }
             .sidebar .sidebar-user-card { justify-content: center; min-height: 40px; padding: 8px 6px; }
             .sidebar .btn { font-size: 0.875rem; padding: 8px 10px; }
             .main-wrap { margin-left: 64px !important; }
-            .sidebar.expanded ~ .main-wrap { margin-left: 50vw !important; }
+            .sidebar.expanded ~ .main-wrap { margin-left: 33.33vw !important; }
             .content { padding: 1rem !important; }
             .card { padding: 1rem !important; }
             /* 去学生端：文字不缩小，占半屏不压缩按钮 */
             .sidebar.expanded #linkToStudentSide { max-width: 100%; min-width: 0; padding: 8px 10px; font-size: 14px; white-space: normal; word-break: keep-all; line-height: 1.35; }
             .sidebar.expanded #linkToStudentSide span { white-space: normal; word-break: keep-all; }
+            /* 操作日志：手机端横向滚动查看表格 */
+            .log-table-wrap { margin-left: -0.5rem; margin-right: -0.5rem; padding-left: 0.5rem; padding-right: 0.5rem; }
+            .log-table-wrap .log-table { font-size: 11px; min-width: 520px; }
+            .log-table-wrap .log-table th,
+            .log-table-wrap .log-table td { padding: 5px 6px; font-size: 11px; }
+            .log-table-wrap .log-table th:nth-child(1), .log-table-wrap .log-table td:nth-child(1) { width: 100px; }
+            .log-table-wrap .log-table th:nth-child(2), .log-table-wrap .log-table td:nth-child(2) { width: 56px; }
+            .log-table-wrap .log-table th:nth-child(3), .log-table-wrap .log-table td:nth-child(3) { width: 95px; }
+            .log-table-wrap .log-table th:nth-child(4), .log-table-wrap .log-table td:nth-child(4) { width: 100px; }
+            .log-table-wrap .log-table th:nth-child(5), .log-table-wrap .log-table td:nth-child(5) { width: 44px; }
+            .log-table-wrap .log-table th:nth-child(6), .log-table-wrap .log-table td:nth-child(6) { width: 100px; font-size: 10px; }
+            #section-operation-logs .log-table-hint { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
         }
     </style>
 </head>
@@ -740,10 +774,11 @@
         </div>
         <div class="sidebar-nav p-2 pt-5 space-y-1">
             <a href="#" class="nav-link active" data-page="dashboard">📅 <span class="nav-link-text">出愿时间轴</span></a>
-            <a href="#" class="nav-link" data-page="users">👥 <span class="nav-link-text">用户管理</span></a>
+            <a href="#" class="nav-link nav-super" data-page="users" style="display:none">👥 <span class="nav-link-text">用户管理</span></a>
             <a href="#" class="nav-link nav-super" data-page="account-mgmt" style="display:none">🔑 <span class="nav-link-text">账号管理</span></a>
             <a href="#" class="nav-link" data-page="my-students">🎓 <span class="nav-link-text">我的学生</span></a>
             <a href="#" class="nav-link" data-page="data-update">🗄️ <span class="nav-link-text">数据库更新</span></a>
+            <a href="#" class="nav-link nav-super" data-page="operation-logs" style="display:none">📋 <span class="nav-link-text">操作日志</span></a>
         </div>
         <div class="sidebar-footer mt-auto flex-shrink-0 p-4 border-t" style="border-color: var(--border-ice);">
             <p class="sidebar-footer-label">当前登录</p>
@@ -1144,6 +1179,51 @@
                 </div>
             </div>
 
+            <!-- 操作日志（仅管理员可见，按日期归档） -->
+            <section id="section-operation-logs" class="page-section">
+                <h3 class="font-semibold mb-5" style="color: var(--text);">📋 操作日志</h3>
+                <p class="text-slate-500 text-sm mb-4">记录所有管理员、班主任及学生的关键操作，按日期归档，便于安全审计。</p>
+                <p class="text-slate-500 text-xs mb-3">说明：每行 = 一次操作。同一操作人出现多行表示该人做了多次操作（如多次登录）；同一动作出现多行表示该动作发生了多次（如每次登录都会有一条「管理后台登录」）。</p>
+                <div class="card mb-4">
+                    <div class="flex flex-wrap gap-3 items-center">
+                        <label class="text-sm text-slate-600">开始日期</label>
+                        <input type="date" id="logDateFrom" class="input-field max-w-[140px]">
+                        <label class="text-sm text-slate-600">结束日期</label>
+                        <input type="date" id="logDateTo" class="input-field max-w-[140px]">
+                        <select id="logAction" class="input-field max-w-[180px]">
+                            <option value="">全部动作</option>
+                            <option value="admin_login">管理后台登录</option>
+                            <option value="user_register">用户自行注册</option>
+                            <option value="create_student_account">添加学生账号</option>
+                            <option value="create_teacher_account">添加班主任账号</option>
+                            <option value="update_user">修改用户角色/状态</option>
+                            <option value="teacher_add_student">班主任·加入学生</option>
+                            <option value="teacher_remove_student">班主任·移除学生</option>
+                            <option value="student_add_school">学生·添加学校</option>
+                            <option value="student_delete_school">学生·删除学校</option>
+                            <option value="delete_school">管理员·删除学校</option>
+                            <option value="data_update">学校总览数据更新</option>
+                            <option value="admission_score_update">合格实绩数据更新</option>
+                        </select>
+                        <input type="number" id="logOperatorId" class="input-field max-w-[100px]" placeholder="操作人ID" min="1">
+                        <button type="button" class="btn btn-primary" id="logSearchBtn">查询</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <p class="log-table-hint" aria-hidden="true">← 左右滑动可查看完整表格 →</p>
+                    <div class="table-wrap log-table-wrap overflow-x-auto">
+                        <table class="log-table">
+                            <thead><tr><th>时间</th><th>操作人</th><th>动作</th><th>描述</th><th>结果</th><th>IP</th></tr></thead>
+                            <tbody id="operationLogList"></tbody>
+                        </table>
+                    </div>
+                    <div class="flex justify-between items-center mt-3 text-sm text-slate-500">
+                        <span id="logPaginationInfo"></span>
+                        <div class="flex gap-2" id="logPagination"></div>
+                    </div>
+                </div>
+            </section>
+
             <!-- 数据库更新 -->
             <section id="section-data-update" class="page-section">
                 <!-- 学校总览数据更新 -->
@@ -1323,7 +1403,7 @@
         document.getElementById('linkToCompassScore').addEventListener('click', function(e) { e.preventDefault(); goToStudentSide('/compass_score.html?from=admin'); });
 
         // 导航
-        var titles = { dashboard: '📅 出愿时间轴', 'my-students': '🎓 我的学生', 'account-mgmt': '🔑 账号管理', users: '👥 用户管理', schools: '学校管理', 'data-update': '🗄️ 数据库更新' };
+        var titles = { dashboard: '📅 出愿时间轴', 'my-students': '🎓 我的学生', 'account-mgmt': '🔑 账号管理', users: '👥 用户管理', schools: '学校管理', 'data-update': '🗄️ 数据库更新', 'operation-logs': '📋 操作日志' };
         document.querySelectorAll('.nav-link').forEach(function(a) {
             a.onclick = function(e) {
                 e.preventDefault();
@@ -1344,6 +1424,7 @@
                 if (page === 'account-mgmt') { var r1 = document.getElementById('addTeacherResult'); var r2 = document.getElementById('createAccountResult'); if (r1) r1.classList.add('hidden'); if (r2) r2.classList.add('hidden'); }
                 if (page === 'users') loadUsers(1);
                 if (page === 'data-update') loadDataUpdateInfo();
+                if (page === 'operation-logs') loadOperationLogs(1);
             };
         });
         if (document.getElementById('section-dashboard') && document.getElementById('section-dashboard').classList.contains('active')) {
@@ -3016,6 +3097,103 @@
                     document.getElementById('admissionScoreModelInfo').textContent = '未生成';
                 });
         }
+
+        function loadOperationLogs(page) {
+            var dateFrom = document.getElementById('logDateFrom') && document.getElementById('logDateFrom').value ? document.getElementById('logDateFrom').value : '';
+            var dateTo = document.getElementById('logDateTo') && document.getElementById('logDateTo').value ? document.getElementById('logDateTo').value : '';
+            var action = document.getElementById('logAction') && document.getElementById('logAction').value ? document.getElementById('logAction').value : '';
+            var operatorId = document.getElementById('logOperatorId') && document.getElementById('logOperatorId').value.trim() ? document.getElementById('logOperatorId').value.trim() : '';
+            var q = '?page=' + (page || 1) + '&limit=50';
+            if (dateFrom) q += '&date_from=' + encodeURIComponent(dateFrom);
+            if (dateTo) q += '&date_to=' + encodeURIComponent(dateTo);
+            if (action) q += '&action=' + encodeURIComponent(action);
+            if (operatorId) q += '&operator_id=' + encodeURIComponent(operatorId);
+            fetch(apiBase + '/api/admin/operation-logs' + q, { headers: authHeaders() })
+                .then(function(r) {
+                    if (!r.ok) {
+                        return r.json().catch(function() { return {}; }).then(function(body) {
+                            throw new Error((r.status === 403 ? '无权限：' : '加载失败：') + (body.message || r.status + ' ' + r.statusText));
+                        });
+                    }
+                    return r.json();
+                })
+                .then(function(d) {
+                    var tbody = document.getElementById('operationLogList');
+                    if (!tbody) return;
+                    tbody.innerHTML = '';
+                    var list = d.list || [];
+                    var actionLabels = {
+                        admin_login: '管理后台登录',
+                        user_register: '用户自行注册',
+                        create_student_account: '添加学生账号',
+                        create_teacher_account: '添加班主任账号',
+                        update_user: '修改用户角色/状态',
+                        teacher_add_student: '班主任·加入学生',
+                        teacher_remove_student: '班主任·移除学生',
+                        student_add_school: '学生·添加学校',
+                        student_delete_school: '学生·删除学校',
+                        delete_school: '管理员·删除学校',
+                        data_update: '学校总览数据更新',
+                        admission_score_update: '合格实绩数据更新'
+                    };
+                    list.forEach(function(row) {
+                        var tr = document.createElement('tr');
+                        var createdAt = row.created_at ? new Date(row.created_at).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '-';
+                        var details = row.details || {};
+                        var desc = (details.description_zh != null ? details.description_zh : (details.error || '-'));
+                        var actionLabel = (row.action != null && row.action !== '') ? (actionLabels[row.action] || row.action) : '-';
+                        var operatorText = (row.operator_name != null && String(row.operator_name).trim() !== '') ? String(row.operator_name).trim() : (row.operator_id != null ? 'ID:' + String(row.operator_id) : '-');
+                        function cell(text, className) {
+                            var td = document.createElement('td');
+                            if (className) td.className = className;
+                            td.textContent = text == null ? '' : String(text);
+                            return td;
+                        }
+                        tr.appendChild(cell(createdAt, 'log-cell-time'));
+                        tr.appendChild(cell(operatorText, 'log-cell-operator'));
+                        tr.appendChild(cell(actionLabel, 'log-cell-action'));
+                        (function() {
+                            var td = document.createElement('td');
+                            td.className = 'log-cell-desc';
+                            var inner = document.createElement('div');
+                            inner.className = 'log-desc-inner';
+                            inner.textContent = desc == null ? '' : String(desc);
+                            td.appendChild(inner);
+                            tr.appendChild(td);
+                        })();
+                        tr.appendChild(cell(row.result || '', 'log-cell-result'));
+                        tr.appendChild(cell(row.ip || '-', 'log-cell-ip'));
+                        tbody.appendChild(tr);
+                    });
+                    var total = d.total || 0;
+                    var limit = d.limit || 50;
+                    var pageNum = d.page || 1;
+                    document.getElementById('logPaginationInfo').textContent = '共 ' + total + ' 条，第 ' + pageNum + ' 页';
+                    var pagEl = document.getElementById('logPagination');
+                    pagEl.innerHTML = '';
+                    if (pageNum > 1) {
+                        var prev = document.createElement('button');
+                        prev.type = 'button';
+                        prev.className = 'btn btn-ghost btn-sm';
+                        prev.textContent = '上一页';
+                        prev.onclick = function() { loadOperationLogs(pageNum - 1); };
+                        pagEl.appendChild(prev);
+                    }
+                    if (pageNum * limit < total) {
+                        var next = document.createElement('button');
+                        next.type = 'button';
+                        next.className = 'btn btn-ghost btn-sm';
+                        next.textContent = '下一页';
+                        next.onclick = function() { loadOperationLogs(pageNum + 1); };
+                        pagEl.appendChild(next);
+                    }
+                })
+                .catch(function(e) {
+                    var tbody = document.getElementById('operationLogList');
+                    if (tbody) tbody.innerHTML = '<tr><td colspan="6" class="text-slate-500">' + escapeHtml(e && e.message ? e.message : '加载失败或仅管理员可查看') + '</td></tr>';
+                });
+        }
+        document.getElementById('logSearchBtn').addEventListener('click', function() { loadOperationLogs(1); });
 
         // 学校总览数据上传
         var fileInput = document.getElementById('fileInput');

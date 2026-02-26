@@ -11,6 +11,7 @@ const { promisify } = require('util');
 const { pool } = require('../db.js');
 const { JWT_SECRET } = require('../middleware/auth.js');
 const { requireAdmin } = require('../middleware/adminAuth.js');
+const { writeOperationLog } = require('../lib/operationLog.js');
 
 const router = express.Router();
 
@@ -52,11 +53,8 @@ function toJsValue(v) {
   return s || null;
 }
 
-function writeOperationLog(operatorId, operatorName, action, targetType, targetId, ip, result, details) {
-  pool.query(
-    'INSERT INTO operation_logs (operator_id, operator_name, action, target_type, target_id, ip, result, details) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-    [operatorId, operatorName, action, targetType || null, targetId || null, ip || null, result || 'success', details ? JSON.stringify(details) : null]
-  ).catch((err) => console.error('operation_log write error:', err));
+function getIp(req) {
+  return req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress || null;
 }
 
 // ---------- 管理员登录（不经过 requireAdmin） ----------
@@ -97,7 +95,11 @@ router.post('/login', async (req, res) => {
       { expiresIn: '7d' }
     );
     const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket?.remoteAddress;
-    writeOperationLog(user.id, user.username, 'admin_login', 'user', String(user.id), ip, 'success', null);
+    const loginNow = new Date();
+    const loginDateStr = loginNow.toISOString().slice(0, 19).replace('T', ' ');
+    writeOperationLog(pool, user.id, user.username, 'admin_login', 'user', String(user.id), ip, 'success', {
+      description_zh: `用户 ${user.username}（${role}）于 ${loginDateStr} 登录管理后台`,
+    });
     res.json({
       token,
       user: { id: user.id, username: user.username, email: user.email, role: role },
@@ -133,6 +135,73 @@ router.get('/me', (req, res) => {
     email: req.adminUser.email,
     role: req.adminUser.role || 'admin',
   });
+});
+
+// ---------- 操作日志列表（仅最高管理员，按日期归档） ----------
+router.get('/operation-logs', requireSuperAdmin, async (req, res) => {
+  try {
+    const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+    const limit = Math.max(10, Math.min(200, parseInt(req.query.limit, 10) || 50));
+    const offset = (page - 1) * limit;
+    const operatorId = req.query.operator_id ? parseInt(req.query.operator_id, 10) : null;
+    const action = (req.query.action || '').trim() || null;
+    const dateFrom = (req.query.date_from || '').trim() || null;
+    const dateTo = (req.query.date_to || '').trim() || null;
+
+    let where = ' WHERE 1=1 ';
+    const params = [];
+    let n = 1;
+    if (operatorId && !Number.isNaN(operatorId)) {
+      where += ` AND l.operator_id = $${n} `;
+      params.push(operatorId);
+      n++;
+    }
+    if (action) {
+      where += ` AND l.action = $${n} `;
+      params.push(action);
+      n++;
+    }
+    if (dateFrom) {
+      where += ` AND l.created_at >= $${n}::date `;
+      params.push(dateFrom);
+      n++;
+    }
+    if (dateTo) {
+      where += ` AND l.created_at < ($${n}::date + interval '1 day') `;
+      params.push(dateTo);
+      n++;
+    }
+    const countRes = await pool.query(
+      'SELECT COUNT(*) AS c FROM operation_logs l' + where,
+      params
+    );
+    const total = parseInt(countRes.rows[0]?.c || 0, 10);
+    params.push(limit, offset);
+    const listRes = await pool.query(
+      `SELECT l.id, l.created_at, l.operator_id, l.operator_name, l.action, l.target_type, l.target_id, l.ip, l.result, l.details
+       FROM operation_logs l ${where} ORDER BY l.created_at DESC LIMIT $${n} OFFSET $${n + 1}`,
+      params
+    );
+    const list = (listRes.rows || []).map((r) => ({
+      id: r.id,
+      created_at: r.created_at,
+      operator_id: r.operator_id,
+      operator_name: r.operator_name != null ? String(r.operator_name) : null,
+      action: r.action != null ? String(r.action) : null,
+      target_type: r.target_type,
+      target_id: r.target_id,
+      ip: r.ip,
+      result: r.result,
+      details: r.details,
+    }));
+    res.json({ list, total, page, limit });
+  } catch (err) {
+    console.error('Admin operation-logs error:', err);
+    const hint = /relation "operation_logs" does not exist|operation_logs/i.test(err.message)
+      ? ' 请先运行：npm run migrate-admin 创建操作日志表'
+      : '';
+    res.status(500).json({ message: '服务器错误' + hint });
+  }
 });
 
 // 班主任/管理员共用「学生端预览」账号用户名（跳转学生端时统一用此账号登录）
@@ -195,7 +264,13 @@ router.post('/users/create', async (req, res) => {
       [uname, emailVal, hashed, 'user', 'active']
     );
     const user = result.rows[0];
-    writeOperationLog(req.adminUser.id, req.adminUser.username, 'create_student_account', 'user', String(user.id), req.headers['x-forwarded-for'] || req.socket?.remoteAddress, 'success', { username: user.username });
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 19).replace('T', ' ');
+    writeOperationLog(pool, req.adminUser.id, req.adminUser.username, 'create_student_account', 'user', String(user.id), getIp(req), 'success', {
+      username: user.username,
+      user_id: user.id,
+      description_zh: `新加入的学生：${user.username}（由管理员 ${req.adminUser.username} 于 ${dateStr} 生成账号，ID: ${user.id}）`,
+    });
     res.status(201).json({
       message: '账号已生成，请将用户名和密码告知学生',
       user: { id: user.id, username: user.username, email: user.email || '' },
@@ -234,7 +309,13 @@ router.post('/users/create-teacher', requireSuperAdmin, async (req, res) => {
       [uname, emailVal, hashed, 'teacher', 'active']
     );
     const user = result.rows[0];
-    writeOperationLog(req.adminUser.id, req.adminUser.username, 'create_teacher_account', 'user', String(user.id), req.headers['x-forwarded-for'] || req.socket?.remoteAddress, 'success', { username: user.username });
+    const tNow = new Date();
+    const tDateStr = tNow.toISOString().slice(0, 19).replace('T', ' ');
+    writeOperationLog(pool, req.adminUser.id, req.adminUser.username, 'create_teacher_account', 'user', String(user.id), getIp(req), 'success', {
+      username: user.username,
+      user_id: user.id,
+      description_zh: `新加入的班主任：${user.username}（由管理员 ${req.adminUser.username} 于 ${tDateStr} 添加，ID: ${user.id}）`,
+    });
     res.status(201).json({
       message: '班主任账号已创建，请将用户名和密码告知该同事',
       user: { id: user.id, username: user.username, email: user.email || '', role: 'teacher' },
@@ -347,6 +428,13 @@ router.post('/teacher/students/:id', requireTeacherOrSuper, async (req, res) => 
       [studentId]
     );
     if (u.rows.length === 0) return res.status(404).json({ message: '用户不存在或不是学生账号' });
+    const addStNow = new Date();
+    const addStDateStr = addStNow.toISOString().slice(0, 19).replace('T', ' ');
+    writeOperationLog(pool, req.adminUser.id, req.adminUser.username, 'teacher_add_student', 'user', String(studentId), getIp(req), 'success', {
+      student_id: studentId,
+      student_username: u.rows[0].username,
+      description_zh: `班主任 ${req.adminUser.username} 于 ${addStDateStr} 将学生 ${u.rows[0].username}（ID: ${studentId}）加入我的学生`,
+    });
     res.json({ message: '已加入我的学生', student: u.rows[0] });
   } catch (err) {
     if (err.code === '23503') return res.status(404).json({ message: '用户不存在' });
@@ -366,6 +454,14 @@ router.delete('/teacher/students/:id', requireTeacherOrSuper, async (req, res) =
       [teacherId, studentId]
     );
     if (result.rowCount === 0) return res.status(404).json({ message: '该学生不在你的班级中' });
+    const remSt = await pool.query('SELECT username FROM users WHERE id = $1', [studentId]);
+    const remStNow = new Date();
+    const remStDateStr = remStNow.toISOString().slice(0, 19).replace('T', ' ');
+    writeOperationLog(pool, req.adminUser.id, req.adminUser.username, 'teacher_remove_student', 'user', String(studentId), getIp(req), 'success', {
+      student_id: studentId,
+      student_username: remSt.rows[0]?.username || '',
+      description_zh: `班主任 ${req.adminUser.username} 于 ${remStDateStr} 将学生 ${remSt.rows[0]?.username || studentId}（ID: ${studentId}）从我的学生中移除`,
+    });
     res.json({ message: '已移除' });
   } catch (err) {
     console.error('Admin teacher remove student error:', err);
@@ -659,10 +755,27 @@ router.patch('/users/:id', async (req, res) => {
       n++;
     }
     if (updates.length === 0) return res.status(400).json({ message: '没有可更新字段，请至少修改角色或状态' });
+    const beforeUser = await pool.query('SELECT "role", "status" FROM users WHERE id = $1', [id]);
+    const roleBefore = beforeUser.rows[0]?.role || '';
+    const statusBefore = beforeUser.rows[0]?.status || '';
     params.push(id);
     const result = await pool.query('UPDATE users SET ' + updates.join(', ') + ' WHERE id = $' + n, params);
     if (result.rowCount === 0) return res.status(404).json({ message: '用户不存在' });
-    writeOperationLog(req.adminUser.id, req.adminUser.username, 'update_user', 'user', String(id), req.headers['x-forwarded-for'] || req.socket?.remoteAddress, 'success', { updates: Object.keys(req.body || {}) });
+    const roleAfter = roleVal ? roleVal : roleBefore;
+    const statusAfter = status === 'active' || status === 'disabled' || status === 'deleted' ? status : statusBefore;
+    const upNow = new Date();
+    const upDateStr = upNow.toISOString().slice(0, 19).replace('T', ' ');
+    const descParts = [`管理员 ${req.adminUser.username} 于 ${upDateStr} 修改用户 ID:${id}`];
+    if (roleBefore !== roleAfter) descParts.push(`角色 ${roleBefore} → ${roleAfter}`);
+    if (statusBefore !== statusAfter) descParts.push(`状态 ${statusBefore} → ${statusAfter}`);
+    writeOperationLog(pool, req.adminUser.id, req.adminUser.username, 'update_user', 'user', String(id), getIp(req), 'success', {
+      role_before: roleBefore,
+      role_after: roleAfter,
+      status_before: statusBefore,
+      status_after: statusAfter,
+      updates: Object.keys(req.body || {}),
+      description_zh: descParts.join('；'),
+    });
     res.json({ message: '已更新' });
   } catch (err) {
     if (err.code === '23505') return res.status(400).json({ message: '用户名或邮箱已被使用' });
@@ -714,7 +827,12 @@ router.delete('/schools/:id', async (req, res) => {
     if (Number.isNaN(id)) return res.status(400).json({ message: '无效ID' });
     const result = await pool.query('DELETE FROM schools WHERE id = $1 RETURNING id, school_name', [id]);
     if (result.rowCount === 0) return res.status(404).json({ message: '学校不存在' });
-    writeOperationLog(req.adminUser.id, req.adminUser.username, 'delete_school', 'school', String(id), req.headers['x-forwarded-for'] || req.socket?.remoteAddress, 'success', { school_name: result.rows[0].school_name });
+    const dNow = new Date();
+    const dDateStr = dNow.toISOString().slice(0, 19).replace('T', ' ');
+    writeOperationLog(pool, req.adminUser.id, req.adminUser.username, 'delete_school', 'school', String(id), getIp(req), 'success', {
+      school_name: result.rows[0].school_name,
+      description_zh: `管理员 ${req.adminUser.username} 于 ${dDateStr} 删除学校：${result.rows[0].school_name}（ID: ${id}）`,
+    });
     res.json({ message: '已删除' });
   } catch (err) {
     console.error('Admin school delete error:', err);
@@ -780,7 +898,13 @@ router.post('/data-update', upload.single('file'), async (req, res) => {
     });
     fs.writeFileSync(csvPath, '\uFEFF' + csvHeader + '\n' + csvRows.join('\n'), 'utf8');
 
-    writeOperationLog(req.adminUser.id, req.adminUser.username, 'data_update', 'school_master', null, req.headers['x-forwarded-for'] || req.socket?.remoteAddress, 'success', { count: rows.length, backup: `学校总览_${timestamp}.json` });
+    const dataNow = new Date();
+    const dataDateStr = dataNow.toISOString().slice(0, 19).replace('T', ' ');
+    writeOperationLog(pool, req.adminUser.id, req.adminUser.username, 'data_update', 'school_master', null, getIp(req), 'success', {
+      count: rows.length,
+      backup: `学校总览_${timestamp}.json`,
+      description_zh: `管理员 ${req.adminUser.username} 于 ${dataDateStr} 更新学校总览数据，共 ${rows.length} 条，备份：学校总览_${timestamp}.json`,
+    });
     res.json({ message: '更新成功', count: rows.length, backup: `学校总览_${timestamp}` });
   } catch (err) {
     console.error('Admin data-update error:', err);
@@ -860,15 +984,23 @@ router.post('/admission-score-update', upload.single('file'), async (req, res) =
         }
       }
 
+      const admNow = new Date();
+      const admDateStr = admNow.toISOString().slice(0, 19).replace('T', ' ');
       writeOperationLog(
+        pool,
         req.adminUser.id,
         req.adminUser.username,
         'admission_score_update',
         'admission_score_model',
         null,
-        req.headers['x-forwarded-for'] || req.socket?.remoteAddress,
+        getIp(req),
         'success',
-        { bunkaCount, rikaCount, backup: `合格实绩_${timestamp}.xlsx` }
+        {
+          bunkaCount,
+          rikaCount,
+          backup: `合格实绩_${timestamp}.xlsx`,
+          description_zh: `管理员 ${req.adminUser.username} 于 ${admDateStr} 更新合格实绩数据，文科 ${bunkaCount} 校、理科 ${rikaCount} 校，备份：合格实绩_${timestamp}.xlsx`,
+        }
       );
 
       res.json({
@@ -880,15 +1012,21 @@ router.post('/admission-score-update', upload.single('file'), async (req, res) =
     } catch (execErr) {
       console.error('Python script execution error:', execErr);
       // 即使脚本失败，也记录操作日志
+      const errNow = new Date();
+      const errDateStr = errNow.toISOString().slice(0, 19).replace('T', ' ');
       writeOperationLog(
+        pool,
         req.adminUser.id,
         req.adminUser.username,
         'admission_score_update',
         'admission_score_model',
         null,
-        req.headers['x-forwarded-for'] || req.socket?.remoteAddress,
+        getIp(req),
         'error',
-        { error: execErr.message }
+        {
+          error: execErr.message,
+          description_zh: `管理员 ${req.adminUser.username} 于 ${errDateStr} 执行合格实绩更新失败：${execErr.message}`,
+        }
       );
       res.status(500).json({
         message: '脚本执行失败：' + (execErr.message || '未知错误'),
